@@ -10,6 +10,7 @@
     <string name="action_main">Main</string>
     <string name="action_game">Game</string>
     <string name="action_tutorial">Tutorial</string>
+    <string name="action_hello">Hello</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -70,6 +71,13 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="pref_example_switch">Example Switch</string>
     <string name="pref_example_switch_summary">Example Switch Summary</string>
     <string name="pref_example_summary">Example Summary</string>
+
+    <!-- ###Hello### -->
+    <string name="title_activity_hello">Hello</string>
+    <string name="hello">Hello</string>
+    <string name="hello_text">Click the button to see the dialog. </string>
+    <string name="hello_button">HELLO WORLD </string>
+    <string name="hello_button_text">HELLO WORLD! </string>
 
     <!-- ### TUTORIAL DIALOG ### -->
     <string name="slide1_heading">Welcome!</string>
