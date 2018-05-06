@@ -45,6 +45,12 @@ import org.secuso.privacyfriendlyexample.helpers.FirstLaunchManager;
  * @author Karola Marky, Christopher Beckmann
  * @version 20161214
  */
+
+/**
+ * Created by David Meiborg on 06.05.2018
+ *
+ * This Activity sets up the tutorial that shall appear for the first start of the app.
+ */
 public class TutorialActivity extends AppCompatActivity {
 
     private ViewPager viewPager;

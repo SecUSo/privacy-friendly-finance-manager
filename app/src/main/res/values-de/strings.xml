@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Beispiel</string>
-    <string name="app_name_long">Privacy Friendly Beispiel</string>
+    <string name="app_name">Finance Manager</string>
+    <string name="app_name_long">Privacy Friendly Finance Manager</string>
 
     <!-- ###DRAWER###-->
     <string name="action_help">Hilfe</string>
@@ -68,13 +68,16 @@
 
     <!-- ### TUTORIAL DIALOG ### -->
     <string name="slide1_heading">Willkommen!</string>
-    <string name="slide1_text">Diese App soll als Anleitung zum Design von Privacy Friendly Apps dienen. Hier wird die App in ein bis zwei Sätzen vorgestellt.</string>
+    <string name="slide1_text">Willkommen in der To-Do Liste, die Ihre Privatsphäre nicht verletzt. Diese App kommt ohne Berechtigungen aus.</string>
 
-    <string name="slide2_heading">Schlüsselelements</string>
-    <string name="slide2_text">Hier können Schlüsselelemente vorgestellt werden. Achtung: Nicht zu detailliert werden.</string>
+    <string name="slide2_heading">Finanzen Manager</string>
+    <string name="slide2_text">Sie können ihre Finanzen managen, indem Sie ihre Einnahmen und Ausgaben überwachen.</string>
 
-    <string name="slide3_heading">Github und Guide</string>
-    <string name="slide3_text">Der Quellcode dieser App ist auf GitHub. Weitere Infos gibt es im Privacy Friendly App Guide.</string>
+    <string name="slide3_heading">Kategorien</string>
+    <string name="slide3_text">Sie können ihren Transaktionen Kategorien zuordnen und diese überwachen.</string>
+
+    <string name="slide4_heading">Privatsphäre</string>
+    <string name="slide4_text">Erstellen sie einen PIN-Schutz in den Einstellungen dieser App.</string>
 
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
