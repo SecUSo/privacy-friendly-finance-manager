@@ -27,12 +27,6 @@
     <string name="main_text_normalbutton_desc">Es gibt verschiedene Möglichkeiten, um einfache Buttons darzustellen. Button 1 entspricht der Basisform. Wenn Buttons visual abgetrennt werden sollen, ist Button 2 zu verwenden. Die Buttons 3&#8211;5 sind Beispiels für hevorgehobene Buttons. Je nach App können auch andere Farben zum Highlighten verwendet werden.</string>
     <string name="main_button_welcomedialog_text">Der Button in der Ecke unten links öffnet einen Beispiel-Welcome Dialog.</string>
 
-    <!-- ###GAME###-->
-    <string name="title_activity_game">Spiel</string>
-    <string name="game_button_start">Neues Spiel</string>
-    <string name="game_button_continue">Spiel fortsetzen</string>
-    <string name="game_desc">Dies ist das Standard-Menü für Spiele-Apps. Der Viewpager oben sollte verwendet werden, um zwischen verschiedenen Spielmodi zu wechseln.</string>
-
     <!--###HELP###-->
     <string name="help">Help</string>
 
