@@ -59,13 +59,6 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
-    <!-- ###SETTINGS### -->
-    <string name="title_activity_settings">Settings</string>
-    <string name="pref_header_general">General</string>
-    <string name="pref_example_switch">Example Switch</string>
-    <string name="pref_example_switch_summary">Example Switch Summary</string>
-    <string name="pref_example_summary">Example Summary</string>
-
     <!-- ###Hello### -->
     <string name="title_activity_hello">Hello</string>
     <string name="hello">Hello</string>

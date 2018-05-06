@@ -53,15 +53,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
         </activity>
-        <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
-        </activity>
 
     </application>
 
