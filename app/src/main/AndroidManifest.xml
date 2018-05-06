@@ -73,16 +73,6 @@
                 android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
         </activity>
 
-        <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.HelloActivity"
-            android:label="@string/title_activity_hello"
-            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
-        </activity>
     </application>
 
 </manifest>
