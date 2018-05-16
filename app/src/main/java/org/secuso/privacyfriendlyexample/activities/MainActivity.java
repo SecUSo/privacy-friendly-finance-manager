@@ -35,7 +35,9 @@ import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
  * @author Christopher Beckmann, Karola Marky
  * @version 20171016
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements Dialog.DialogListener {
+    private TextView textViewTransactionTitle;
+    private TextView textViewTransactionAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,11 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
-        FloatingActionButton add_expense = findViewById(R.id.add_expense);
+        textViewTransactionTitle = (TextView) findViewById(R.id.main_text_title);
+        textViewTransactionAmount = (TextView) findViewById(R.id.main_text_normalbutton_desc);
 
+
+        FloatingActionButton add_expense = findViewById(R.id.add_expense);
         add_expense.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View view){
@@ -60,6 +65,11 @@ public class MainActivity extends BaseActivity {
         dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
+    @Override
+    public void applyTexts(String transactionTitle, String transactionAmount) {
+        textViewTransactionTitle.setText(transactionTitle);
+        textViewTransactionAmount.setText(transactionAmount);
+    }
 
     /**
      * This method connects the Activity to the menu item

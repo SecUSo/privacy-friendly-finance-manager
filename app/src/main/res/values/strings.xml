@@ -59,12 +59,11 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
-    <!-- ###Hello### -->
-    <string name="title_activity_hello">Hello</string>
-    <string name="hello">Hello</string>
-    <string name="hello_text">Click the button to see the dialog. </string>
-    <string name="hello_button">HELLO WORLD </string>
-    <string name="hello_button_text">HELLO WORLD! </string>
+    <!--###dialog###-->
+    <string name="dialog_title">New Transaction</string>
+    <string name="dialog_hint_expense_name">title</string>
+    <string name="dialog_hint_expense_value">enter amount</string>
+
 
     <!-- ### TUTORIAL DIALOG ### -->
     <string name="slide1_heading">Welcome!</string>
