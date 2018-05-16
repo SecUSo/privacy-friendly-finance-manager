@@ -17,13 +17,16 @@
 
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
@@ -41,15 +44,13 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
-
-        //responds to the Add Expense Button
-
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
-        add_expense.setOnClickListener(new FloatingActionButton.OnClickListener() {
+
+        add_expense.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-        // hier muss Dialogfeld geöffnet werden
-                Log.d(null,"dwadwadawdaw");
+            public void onClick (View view){
+                TextView mainText = findViewById(R.id.main_text_title);
+                mainText.setText("HALlloooooooooooooo");
             }
         });
     }
@@ -64,6 +65,7 @@ public class MainActivity extends BaseActivity {
     protected int getNavigationDrawerID() {
         return R.id.nav_example;
     }
+
 
 
 }
