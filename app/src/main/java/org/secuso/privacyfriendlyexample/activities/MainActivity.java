@@ -49,10 +49,15 @@ public class MainActivity extends BaseActivity {
         add_expense.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View view){
-                TextView mainText = findViewById(R.id.main_text_title);
-                mainText.setText("HALlloooooooooooooo");
+                openDialog();
             }
         });
+    }
+
+    //opens the dialog for entering new transaction
+    public void openDialog(){
+        Dialog dialog = new Dialog();
+        dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
 
