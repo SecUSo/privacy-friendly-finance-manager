@@ -63,6 +63,9 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="dialog_title">New Transaction</string>
     <string name="dialog_hint_expense_name">title</string>
     <string name="dialog_hint_expense_value">enter amount</string>
+    <string name="dialog_radio_button_income">Income</string>
+    <string name="dialog_radio_button_expense">Expense</string>
+
 
 
     <!-- ### TUTORIAL DIALOG ### -->

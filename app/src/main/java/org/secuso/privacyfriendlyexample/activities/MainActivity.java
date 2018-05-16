@@ -46,8 +46,8 @@ public class MainActivity extends BaseActivity implements Dialog.DialogListener 
 
         overridePendingTransition(0, 0);
 
-        textViewTransactionTitle = (TextView) findViewById(R.id.main_text_title);
-        textViewTransactionAmount = (TextView) findViewById(R.id.main_text_normalbutton_desc);
+        textViewTransactionTitle = findViewById(R.id.main_text_title);
+        textViewTransactionAmount = findViewById(R.id.main_text_normalbutton_desc);
 
 
         FloatingActionButton add_expense = findViewById(R.id.add_expense);

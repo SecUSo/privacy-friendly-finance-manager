@@ -49,7 +49,11 @@
     <string name="more_info">Weitere Infos unter:</string>
 
     <!--###dialog###-->
+    <string name="dialog_title">Neuer Eintrag</string>
     <string name="dialog_hint_expense_name">Titel</string>
+    <string name="dialog_hint_expense_value">Betrag</string>
+    <string name="dialog_radio_button_income">Einkommen</string>
+    <string name="dialog_radio_button_expense">Ausgabe</string>
 
     <!-- ### WELCOME DIALOG ### -->
     <string name="okay">Okay</string>
