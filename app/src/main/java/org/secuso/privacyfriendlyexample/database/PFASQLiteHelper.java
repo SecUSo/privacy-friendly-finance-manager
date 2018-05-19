@@ -68,7 +68,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         String CREATE_SAMPLEDATA_TABLE = "CREATE TABLE " + TABLE_SAMPLEDATA +
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL1 + " String);";
+                COL1 + " TEXT NOT NULL" + ");";
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
     }

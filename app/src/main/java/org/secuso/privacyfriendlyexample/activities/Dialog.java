@@ -33,8 +33,6 @@ public class Dialog extends AppCompatDialogFragment {
 
     PFASQLiteHelper myDB;
     private EditText editTextTitle;
-    private EditText editTextAmount;
-    private DialogListener listener;
 
     //opens Dialog with layout defined in dialog.xml
     @Override
@@ -51,13 +49,13 @@ public class Dialog extends AppCompatDialogFragment {
 
                     }
                 })
+
                 //defines what happens when dialog is submitted
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
                         AddData(transactionName);
-                        listener.applyTexts(transactionName);
                     }
                 });
 
@@ -66,24 +64,7 @@ public class Dialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    public void AddData(String transactionName){
-        myDB.addSampleData(new PFASampleDataType(1,transactionName));
-    }
-
-    //Listener für den Dialog
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (DialogListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+"must implement DialogListener");
-        }
-    }
-
-    public interface DialogListener{
-        void applyTexts(String transactionTitle);
-
+    public void AddData(String transactionName) {
+        myDB.addSampleData(new PFASampleDataType(1, transactionName));
     }
 }

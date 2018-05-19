@@ -21,27 +21,30 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
+import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Christopher Beckmann, Karola Marky
  * @version 20171016
  */
-public class MainActivity extends BaseActivity implements Dialog.DialogListener {
-    private TextView textViewTransactionTitle;
+public class MainActivity extends BaseActivity {
     PFASQLiteHelper myDB;
 
     @Override
@@ -51,9 +54,14 @@ public class MainActivity extends BaseActivity implements Dialog.DialogListener 
 
         overridePendingTransition(0, 0);
 
+
         //fill ListView with data from database
-        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        RecyclerView transactionList = (RecyclerView) findViewById(R.id.transactionList);
         myDB = new PFASQLiteHelper(this);
+        List<PFASampleDataType> database_list = myDB.getAllSampleData();
+
+
+
 
 
 
@@ -74,10 +82,7 @@ public class MainActivity extends BaseActivity implements Dialog.DialogListener 
         dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
-    @Override
-    public void applyTexts(String transactionTitle) {
-        textViewTransactionTitle.setText(transactionTitle);
-    }
+
 
     /**
      * This method connects the Activity to the menu item
