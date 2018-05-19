@@ -45,16 +45,14 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      * Use the following pattern for the name of the database
      * PF_[Name of the app]_DB
      */
-    public static final String DATABASE_NAME = "PF_EXAMPLE_DB";
+    public static final String DATABASE_NAME = "PF_FinanceManager_DB";
 
     //Names of table in the database
-    private static final String TABLE_SAMPLEDATA = "SAMPLE_DATA";
+    private static final String TABLE_SAMPLEDATA = "FinanceData";
 
     //Names of columns in the databases in this example we only use one table
     private static final String KEY_ID = "id";
-    private static final String KEY_DOMAIN = "domain";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_LENGTH = "length";
+    private static final String COL1 = "transactionName";
 
     public PFASQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -70,9 +68,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         String CREATE_SAMPLEDATA_TABLE = "CREATE TABLE " + TABLE_SAMPLEDATA +
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                KEY_DOMAIN + " TEXT NOT NULL," +
-                KEY_USERNAME + " TEXT NOT NULL," +
-                KEY_LENGTH + " INTEGER);";
+                COL1 + " String);";
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
     }
@@ -96,9 +92,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(KEY_LENGTH, sampleData.getLENGTH());
 
         database.insert(TABLE_SAMPLEDATA, null, values);
         database.close();
@@ -117,9 +110,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
         values.put(KEY_ID, sampleData.getID());
-        values.put(KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(KEY_LENGTH, sampleData.getLENGTH());
+
 
         database.insert(TABLE_SAMPLEDATA, null, values);
 
@@ -139,16 +130,14 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         Log.d("DATABASE", Integer.toString(id));
 
         Cursor cursor = database.query(TABLE_SAMPLEDATA, new String[]{KEY_ID,
-                        KEY_DOMAIN, KEY_USERNAME, KEY_LENGTH}, KEY_ID + "=?",
+                        COL1}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         PFASampleDataType sampleData = new PFASampleDataType();
 
         if( cursor != null && cursor.moveToFirst() ){
             sampleData.setID(Integer.parseInt(cursor.getString(0)));
-            sampleData.setDOMAIN(cursor.getString(1));
-            sampleData.setUSERNAME(cursor.getString(2));
-            sampleData.setLENGTH(Integer.parseInt(cursor.getString(3)));
+
 
             Log.d("DATABASE", "Read " + cursor.getString(1) + " from DB");
 
@@ -180,9 +169,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 //be careful to use the right get-method to get the data from the cursor
                 sampleData = new PFASampleDataType();
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
-                sampleData.setDOMAIN(cursor.getString(1));
-                sampleData.setUSERNAME(cursor.getString(2));
-                sampleData.setLENGTH(Integer.parseInt(cursor.getString(3)));
+
 
                 sampleDataList.add(sampleData);
             } while (cursor.moveToNext());
@@ -201,9 +188,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(KEY_LENGTH, sampleData.getLENGTH());
+        values.put(COL1, sampleData.getTransactionName());
 
         return database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sampleData.getID()) });
