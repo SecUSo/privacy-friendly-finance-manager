@@ -5,7 +5,7 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
@@ -13,20 +13,31 @@
 
         <RadioButton
             android:id="@+id/radioButton_Income"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="@string/dialog_radio_button_income"/>
+            android:text="@string/dialog_radio_button_income" />
 
         <RadioButton
             android:id="@+id/radioButton_Expense"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/radioButton_Income"
             android:text="@string/dialog_radio_button_expense" />
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/dialog_expense_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/dialog_expense_title"
+        android:layout_alignTop="@+id/radioGroup"
+        android:ems="10"
+        android:hint="@string/dialog_hint_date"
+        android:inputType="date"
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/dialog_expense_title"
@@ -50,6 +61,18 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/dialog_hint_expense_value"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/dialog_expense_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/dialog_expense_amount"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="@string/dialog_hint_expense_account"
         android:inputType="numberDecimal" />
 
 

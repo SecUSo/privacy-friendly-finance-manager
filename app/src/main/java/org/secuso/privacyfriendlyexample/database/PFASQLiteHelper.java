@@ -92,6 +92,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
+        values.put(COL1,sampleData.getTransactionName());
 
         database.insert(TABLE_SAMPLEDATA, null, values);
         database.close();
@@ -110,6 +111,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
         values.put(KEY_ID, sampleData.getID());
+        values.put(COL1,sampleData.getTransactionName());
 
 
         database.insert(TABLE_SAMPLEDATA, null, values);

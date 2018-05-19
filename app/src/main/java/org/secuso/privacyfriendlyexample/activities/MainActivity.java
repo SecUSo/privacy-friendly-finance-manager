@@ -18,6 +18,7 @@
 package org.secuso.privacyfriendlyexample.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -26,10 +27,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
+
+import java.util.ArrayList;
 
 /**
  * @author Christopher Beckmann, Karola Marky
@@ -37,7 +42,7 @@ import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
  */
 public class MainActivity extends BaseActivity implements Dialog.DialogListener {
     private TextView textViewTransactionTitle;
-    private TextView textViewTransactionAmount;
+    PFASQLiteHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +51,14 @@ public class MainActivity extends BaseActivity implements Dialog.DialogListener 
 
         overridePendingTransition(0, 0);
 
-        textViewTransactionTitle = findViewById(R.id.main_text_title);
-        textViewTransactionAmount = findViewById(R.id.main_text_normalbutton_desc);
+        //fill ListView with data from database
+        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        myDB = new PFASQLiteHelper(this);
 
 
+
+
+        //Plus Button opens Dialog to add new Transaction
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
         add_expense.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -66,9 +75,8 @@ public class MainActivity extends BaseActivity implements Dialog.DialogListener 
     }
 
     @Override
-    public void applyTexts(String transactionTitle, String transactionAmount) {
+    public void applyTexts(String transactionTitle) {
         textViewTransactionTitle.setText(transactionTitle);
-        textViewTransactionAmount.setText(transactionAmount);
     }
 
     /**

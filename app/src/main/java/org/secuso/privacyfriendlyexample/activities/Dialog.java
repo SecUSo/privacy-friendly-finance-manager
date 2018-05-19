@@ -26,9 +26,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
+import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
 public class Dialog extends AppCompatDialogFragment {
 
+    PFASQLiteHelper myDB;
     private EditText editTextTitle;
     private EditText editTextAmount;
     private DialogListener listener;
@@ -52,16 +55,19 @@ public class Dialog extends AppCompatDialogFragment {
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        String title = editTextTitle.getText().toString();
-                        String amount = editTextAmount.getText().toString();
-                        listener.applyTexts(title, amount);
+                        String transactionName = editTextTitle.getText().toString();
+                        AddData(transactionName);
+                        listener.applyTexts(transactionName);
                     }
                 });
 
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
-        editTextAmount = view.findViewById(R.id.dialog_expense_amount);
 
         return builder.create();
+    }
+
+    public void AddData(String transactionName){
+        myDB.addSampleData(new PFASampleDataType(1,transactionName));
     }
 
     //Listener für den Dialog
@@ -77,7 +83,7 @@ public class Dialog extends AppCompatDialogFragment {
     }
 
     public interface DialogListener{
-        void applyTexts(String transactionTitle, String transactionAmount);
+        void applyTexts(String transactionTitle);
 
     }
 }

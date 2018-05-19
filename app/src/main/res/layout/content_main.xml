@@ -16,20 +16,11 @@
     android:orientation="vertical"
     style="@style/AlertDialog.AppCompat">
 
-    <TextView
-        android:id="@+id/main_text_title"
+
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="@string/main_text_title"
-        android:textColor="@color/black"/>
-
-    <TextView
-        android:id="@+id/main_text_normalbutton_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/main_text_normalbutton_desc"/>
+        android:layout_height="match_parent"
+        android:id="@+id/transactionList"/>
 
 
-
-    </LinearLayout>
+</LinearLayout>
