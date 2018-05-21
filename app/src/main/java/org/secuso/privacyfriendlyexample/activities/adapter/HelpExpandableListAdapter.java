@@ -71,7 +71,7 @@ public class HelpExpandableListAdapter extends BaseExpandableListAdapter {
                 convertView = layoutInflater.inflate(R.layout.list_item, null);
             }
             TextView expandedListTextView = (TextView) convertView
-                    .findViewById(R.id.expandedListItem);
+                    .findViewById(R.id.listItem_name);
             expandedListTextView.setText(expandedListText);
             return convertView;
         }

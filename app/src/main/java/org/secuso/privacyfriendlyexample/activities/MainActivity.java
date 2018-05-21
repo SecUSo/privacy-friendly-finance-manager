@@ -28,11 +28,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.adapter.HelpExpandableListAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
@@ -55,12 +60,18 @@ public class MainActivity extends BaseActivity {
         overridePendingTransition(0, 0);
 
 
-        //fill ListView with data from database
-        RecyclerView transactionList = (RecyclerView) findViewById(R.id.transactionList);
+        //fill ExpandableListView with data from database
+        ExpandableListView transactionList = (ExpandableListView) findViewById(R.id.transactionList);
         myDB = new PFASQLiteHelper(this);
         List<PFASampleDataType> database_list = myDB.getAllSampleData();
+        List<String> database_transactionNames = new ArrayList<String>();
 
+        for (PFASampleDataType s : database_list){
+            database_transactionNames.add(s.getTransactionName());
+        }
 
+        HelpExpandableListAdapter listAdapter = new HelpExpandableListAdapter(this,database_transactionNames,null);
+        transactionList.setAdapter(listAdapter);
 
 
 

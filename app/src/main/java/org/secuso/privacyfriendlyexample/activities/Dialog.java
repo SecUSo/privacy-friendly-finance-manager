@@ -28,11 +28,12 @@ import android.widget.EditText;
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
+import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
 public class Dialog extends AppCompatDialogFragment {
-
-    PFASQLiteHelper myDB;
     private EditText editTextTitle;
+    private PFASQLiteHelper myDB;
+
 
     //opens Dialog with layout defined in dialog.xml
     @Override
@@ -40,6 +41,7 @@ public class Dialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog, null);
+        myDB = new PFASQLiteHelper(getContext());
 
         builder.setView(view)
                 .setTitle("New Transaction")
@@ -55,7 +57,7 @@ public class Dialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
-                        AddData(transactionName);
+                        myDB.addSampleData(new PFASampleDataType(1,transactionName));
                     }
                 });
 
@@ -64,7 +66,8 @@ public class Dialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    public void AddData(String transactionName) {
+    /**public void AddData(String transactionName) {
         myDB.addSampleData(new PFASampleDataType(1, transactionName));
     }
+    **/
 }

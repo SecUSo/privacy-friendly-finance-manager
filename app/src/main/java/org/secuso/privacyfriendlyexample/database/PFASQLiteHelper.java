@@ -171,6 +171,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 //be careful to use the right get-method to get the data from the cursor
                 sampleData = new PFASampleDataType();
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
+                sampleData.setTransactionName(cursor.getString(1));
 
 
                 sampleDataList.add(sampleData);
