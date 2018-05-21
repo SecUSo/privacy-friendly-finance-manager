@@ -17,6 +17,8 @@
 
 package org.secuso.privacyfriendlyexample.database;
 
+import java.util.Date;
+
 /**
  *
  * @author Karola Marky
@@ -33,18 +35,27 @@ public class PFASampleDataType {
 
     private int ID;
     private String transactionName;
+    private Double transaction_amount;
+    private boolean transaction_type;
+    private String transaction_account;
+    private Date transaction_date;
 
     public PFASampleDataType() {    }
+
 
 
     /**
      * Always use this constructor to generate data with values.
      * @param ID The primary key for the database (will be automatically set by the DB)
      */
-    public PFASampleDataType(int ID, String transactionName) {
+    public PFASampleDataType(int ID, String transactionName, Double transaction_amount, boolean transaction_type,String transaction_account,Date transaction_date) {
 
         this.ID=ID;
         this.transactionName=transactionName;
+        this.transaction_amount=transaction_amount;
+        this.transaction_type=transaction_type;
+        this.transaction_account=transaction_account;
+        this.transaction_date=transaction_date;
     }
 
     /**
@@ -66,6 +77,38 @@ public class PFASampleDataType {
 
     public void setTransactionName(String transactionName) {
         this.transactionName = transactionName;
+    }
+
+    public Double getTransaction_amount() {
+        return transaction_amount;
+    }
+
+    public void setTransaction_amount(Double transaction_amount) {
+        this.transaction_amount = transaction_amount;
+    }
+
+    public boolean isTransaction_type() {
+        return transaction_type;
+    }
+
+    public void setTransaction_type(boolean transaction_type) {
+        this.transaction_type = transaction_type;
+    }
+
+    public String getTransaction_account() {
+        return transaction_account;
+    }
+
+    public void setTransaction_account(String transaction_account) {
+        this.transaction_account = transaction_account;
+    }
+
+    public Date getTransaction_date() {
+        return transaction_date;
+    }
+
+    public void setTransaction_date(Date transaction_date) {
+        this.transaction_date = transaction_date;
     }
 
 }

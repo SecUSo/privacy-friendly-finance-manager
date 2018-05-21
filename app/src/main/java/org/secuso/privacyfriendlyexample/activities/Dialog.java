@@ -18,6 +18,7 @@ package org.secuso.privacyfriendlyexample.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -58,6 +59,9 @@ public class Dialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
                         myDB.addSampleData(new PFASampleDataType(1,transactionName));
+
+                        Intent main = new Intent((Context)getActivity(),MainActivity.class);
+                        startActivity(main);
                     }
                 });
 
