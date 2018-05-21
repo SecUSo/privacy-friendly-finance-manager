@@ -60,9 +60,11 @@ public class MainActivity extends BaseActivity {
         overridePendingTransition(0, 0);
 
 
+
         //fill ExpandableListView with data from database
         ExpandableListView transactionList = (ExpandableListView) findViewById(R.id.transactionList);
         myDB = new PFASQLiteHelper(this);
+
         List<PFASampleDataType> database_list = myDB.getAllSampleData();
         List<String> database_transactionNames = new ArrayList<String>();
 

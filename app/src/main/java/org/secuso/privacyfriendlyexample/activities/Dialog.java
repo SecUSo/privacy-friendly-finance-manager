@@ -25,14 +25,27 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Dialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
+    private EditText editTextAmount;
+    private EditText editTextAccount;
+    private EditText editTextDate;
+    private RadioButton radioButtonIncome;
+    private RadioButton radioButtonExpense;
+
+
     private PFASQLiteHelper myDB;
 
 
@@ -58,7 +71,18 @@ public class Dialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
-                        myDB.addSampleData(new PFASampleDataType(1,transactionName));
+                        Integer transactionAmount = Integer.parseInt(editTextAmount.getText().toString());
+                        Boolean transactionType;
+                        if (radioButtonExpense.isChecked()) {
+                            transactionType = false;
+                            transactionAmount=transactionAmount*(-1);
+                        }else {
+                            transactionType = true;
+                        }
+                        String transactionAccount = editTextAccount.getText().toString();
+                        String transactionDate = editTextDate.getText().toString();
+
+                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);
@@ -66,6 +90,12 @@ public class Dialog extends AppCompatDialogFragment {
                 });
 
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
+        editTextAmount = view.findViewById(R.id.dialog_expense_amount);
+        editTextAccount = view.findViewById(R.id.dialog_expense_account);
+        editTextDate = view.findViewById(R.id.dialog_expense_date);
+        radioButtonIncome = view.findViewById(R.id.radioButton_Income);
+        radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
+
 
         return builder.create();
     }
