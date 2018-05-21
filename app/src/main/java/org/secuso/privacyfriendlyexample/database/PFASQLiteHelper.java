@@ -52,7 +52,11 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
     //Names of columns in the databases in this example we only use one table
     private static final String KEY_ID = "id";
-    private static final String COL1 = "transactionName";
+    private static final String NAME = "transactionName";
+    private static final String AMOUNT = "transactionAmount";
+    private static final String TYPE = "transactionType";
+    private static final String ACCOUNT = "transactionAccount";
+    private static final String DATE = "transactionDate";
 
     public PFASQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -68,7 +72,12 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         String CREATE_SAMPLEDATA_TABLE = "CREATE TABLE " + TABLE_SAMPLEDATA +
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL1 + " TEXT NOT NULL" + ");";
+                NAME + " TEXT NOT NULL," +
+                AMOUNT +"REAL," +
+                TYPE + "INTEGER," +
+                ACCOUNT + "TEXT NOT NULL," +
+                DATE + "TEXT NOT NULL);";
+
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
     }
@@ -92,7 +101,13 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(COL1,sampleData.getTransactionName());
+        values.put(NAME,sampleData.getTransactionName());
+        values.put(AMOUNT,sampleData.getTransaction_amount());
+        values.put(TYPE,sampleData.isTransaction_type());
+        values.put(ACCOUNT,sampleData.getTransaction_account());
+        values.put(DATE,sampleData.getTransaction_date().toString());
+
+
 
         database.insert(TABLE_SAMPLEDATA, null, values);
         database.close();
@@ -111,7 +126,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
         values.put(KEY_ID, sampleData.getID());
-        values.put(COL1,sampleData.getTransactionName());
+        values.put(NAME,sampleData.getTransactionName());
 
 
         database.insert(TABLE_SAMPLEDATA, null, values);
@@ -132,7 +147,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         Log.d("DATABASE", Integer.toString(id));
 
         Cursor cursor = database.query(TABLE_SAMPLEDATA, new String[]{KEY_ID,
-                        COL1}, KEY_ID + "=?",
+                        NAME,AMOUNT,TYPE,ACCOUNT,DATE}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         PFASampleDataType sampleData = new PFASampleDataType();
@@ -172,7 +187,9 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 sampleData = new PFASampleDataType();
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
                 sampleData.setTransactionName(cursor.getString(1));
-
+                sampleData.setTransaction_amount(cursor.getDouble(2));
+                sampleData.setTransaction_type(Boolean.parseBoolean(cursor.getString(3)));
+                sampleData.setTransaction_date(cursor.getString(4));
 
                 sampleDataList.add(sampleData);
             } while (cursor.moveToNext());
@@ -191,7 +208,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(COL1, sampleData.getTransactionName());
+        values.put(NAME, sampleData.getTransactionName());
 
         return database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sampleData.getID()) });
