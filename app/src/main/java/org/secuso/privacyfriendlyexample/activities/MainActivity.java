@@ -62,6 +62,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //myDB.deleteAllSampleData();
+
+
         overridePendingTransition(0, 0);
 
         //fill ExpandableListView with data from database

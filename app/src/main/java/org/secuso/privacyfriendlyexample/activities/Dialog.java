@@ -82,14 +82,16 @@ public class Dialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
-                        Integer transactionAmount = Integer.parseInt(editTextAmount.getText().toString());
                         Boolean transactionType;
+                        Integer transactionAmount = Integer.parseInt(editTextAmount.getText().toString());
+
                         if (radioButtonExpense.isChecked()) {
                             transactionType = false;
                             transactionAmount=transactionAmount*(-1);
                         }else {
                             transactionType = true;
                         }
+
                         String transactionAccount = editTextAccount.getText().toString();
 
 
@@ -109,8 +111,8 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
 
-        editTextDate.setOnClickListener(new View.OnClickListener(){
 
+        editTextDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
