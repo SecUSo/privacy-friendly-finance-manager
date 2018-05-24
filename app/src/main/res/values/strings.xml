@@ -53,7 +53,7 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="dialog_hint_expense_value">enter amount</string>
     <string name="dialog_radio_button_income">Income</string>
     <string name="dialog_radio_button_expense">Expense</string>
-    <string name="dialog_hint_date">date</string>
+    <string name="dialog_hint_date">enter date</string>
     <string name="dialog_hint_expense_account">account</string>
 
 

@@ -45,7 +45,7 @@
     <string name="dialog_hint_expense_account">Konto</string>
     <string name="dialog_radio_button_income">Einkommen</string>
     <string name="dialog_radio_button_expense">Ausgabe</string>
-    <string name="dialog_hint_date">Datum</string>
+    <string name="dialog_hint_date">Datum eingeben</string>
 
 
     <!-- ### WELCOME DIALOG ### -->

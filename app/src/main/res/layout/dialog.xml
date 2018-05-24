@@ -32,12 +32,15 @@
         android:id="@+id/dialog_expense_date"
         android:layout_width="186dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/dialog_expense_title"
+        android:layout_toRightOf="@+id/dialog_expense_type"
+        android:paddingLeft="60dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="33dp"
+        android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+        android:drawablePadding="5dp"
         android:ems="10"
-        android:hint="@string/dialog_hint_date"
-        android:textAlignment="center" />
+        android:gravity="center_vertical"
+        android:text="@string/dialog_hint_date"/>
 
 
     <EditText
