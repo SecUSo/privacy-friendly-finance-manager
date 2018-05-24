@@ -28,16 +28,17 @@
             android:text="@string/dialog_radio_button_expense" />
     </RadioGroup>
 
-    <EditText
+    <TextView
         android:id="@+id/dialog_expense_date"
         android:layout_width="186dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/dialog_expense_title"
-        android:layout_alignTop="@+id/dialog_expense_type"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="41dp"
         android:ems="10"
         android:hint="@string/dialog_hint_date"
-        android:inputType="text"
         android:textAlignment="center" />
+
 
     <EditText
         android:id="@+id/dialog_expense_title"
@@ -74,6 +75,7 @@
         android:ems="10"
         android:hint="@string/dialog_hint_expense_account"
         android:inputType="text" />
+
 
 
 

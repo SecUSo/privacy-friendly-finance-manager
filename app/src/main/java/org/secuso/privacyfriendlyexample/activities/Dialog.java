@@ -16,17 +16,25 @@
  */
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
@@ -35,16 +43,19 @@ import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Dialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
     private EditText editTextAmount;
     private EditText editTextAccount;
-    private EditText editTextDate;
+    private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
+    String transactionDate;
 
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     private PFASQLiteHelper myDB;
 
@@ -80,7 +91,9 @@ public class Dialog extends AppCompatDialogFragment {
                             transactionType = true;
                         }
                         String transactionAccount = editTextAccount.getText().toString();
-                        String transactionDate = editTextDate.getText().toString();
+
+
+                        transactionDate = editTextDate.getText().toString();
 
                         myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
 
@@ -96,12 +109,31 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
 
+        editTextDate.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(getContext(),android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListener,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener= new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                transactionDate=dayOfMonth+"/"+month+"/"+year;
+                editTextDate.setText(transactionDate);
+            }
+        };
 
         return builder.create();
     }
 
-    /**public void AddData(String transactionName) {
-        myDB.addSampleData(new PFASampleDataType(1, transactionName));
-    }
-    **/
 }
