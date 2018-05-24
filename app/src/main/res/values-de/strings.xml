@@ -6,26 +6,14 @@
     <string name="action_help">Hilfe</string>
     <string name="action_about">Über</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="action_main">Hauptmenü</string>
-    <string name="action_game">Spiel</string>
+    <string name="action_main">Übersicht</string>
     <string name="action_tutorial">Tutorial</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- ###MAIN### -->
-    <string name="main_button_text">Button volle Breite</string>
-    <string name="main_button_disabled_text">Inaktiver Button</string>
-    <string name="main_button_1">1</string>
-    <string name="main_button_2">2</string>
-    <string name="main_button_3">3</string>
-    <string name="main_button_4">4</string>
-    <string name="main_button_5">5</string>
-    <string name="main_text_fullwithbutton_desc">Ein Button mit voller breite sieht folgendermaßen aus:</string>
-    <string name="main_text_disabledbutton_desc">Ein inaktiver Button sieht folgendermaßen aus (jede Größe):</string>
-    <string name="main_text_title">Das hier ist eine Beispiel-App zum das Design der Privacy Friendly Apps zu demonstrieren. Weitere Infos gibt es im Privacy Friendly App Guide.</string>
-    <string name="main_text_normalbutton_desc">Es gibt verschiedene Möglichkeiten, um einfache Buttons darzustellen. Button 1 entspricht der Basisform. Wenn Buttons visual abgetrennt werden sollen, ist Button 2 zu verwenden. Die Buttons 3&#8211;5 sind Beispiels für hevorgehobene Buttons. Je nach App können auch andere Farben zum Highlighten verwendet werden.</string>
-    <string name="main_button_welcomedialog_text">Der Button in der Ecke unten links öffnet einen Beispiel-Welcome Dialog.</string>
+
 
     <!--###HELP###-->
     <string name="help">Help</string>
