@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="75dp">
+    android:layout_height="80dp">
 
     <TextView
         android:id="@+id/listItem_amount"
@@ -16,19 +16,19 @@
 
     <TextView
         android:id="@+id/listItem_name"
-        android:layout_width="125dp"
+        android:layout_width="170dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         android:layout_toRightOf="@id/listItem_amount"
+        android:gravity="center_vertical"
         android:text="Ausgabe"
         android:textAlignment="center"
         android:textSize="14sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listItem_account"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:layout_toRightOf="@id/listItem_name"
         android:gravity="center_vertical"
         android:text="account"
@@ -38,11 +38,14 @@
 
     <TextView
         android:id="@+id/listItem_date"
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/listItem_account"
+        android:layout_width="137dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
         android:text="date"
+        android:layout_toRightOf="@id/listItem_name"
+        android:layout_below="@id/listItem_account"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold" />
