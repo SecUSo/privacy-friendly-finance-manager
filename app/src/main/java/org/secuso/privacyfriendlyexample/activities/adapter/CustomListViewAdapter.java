@@ -41,7 +41,7 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
 
         TextView listItem_amount = (TextView) convertView.findViewById(R.id.listItem_amount);
         TextView listItem_name = (TextView) convertView.findViewById(R.id.listItem_name);
-        TextView listItem_account = (TextView) convertView.findViewById(R.id.listItem_account);
+        //TextView listItem_account = (TextView) convertView.findViewById(R.id.listItem_account);
         TextView listItem_date = (TextView) convertView.findViewById(R.id.listItem_date);
 
         listItem_amount.setText(String.valueOf(transaction.getTransaction_amount()));
@@ -51,7 +51,7 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
             listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
         }
         listItem_name.setText(transaction.getTransactionName());
-        listItem_account.setText(transaction.getTransaction_account());
+        //listItem_account.setText(transaction.getTransaction_account());
         listItem_date.setText(transaction.getTransaction_date());
 
         return convertView;

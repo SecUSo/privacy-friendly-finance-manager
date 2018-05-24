@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/listItem_name"
         android:layout_width="180dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_toRightOf="@id/listItem_amount"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
@@ -25,16 +25,6 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/listItem_account"
-        android:layout_width="180dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/listItem_name"
-        android:layout_toRightOf="@id/listItem_amount"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:text="account"
-        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/listItem_date"
