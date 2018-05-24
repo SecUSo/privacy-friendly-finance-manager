@@ -37,12 +37,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapter;
 import org.secuso.privacyfriendlyexample.activities.adapter.HelpExpandableListAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,7 +52,10 @@ import java.util.List;
  * @version 20171016
  */
 public class MainActivity extends BaseActivity {
-    PFASQLiteHelper myDB;
+    private PFASQLiteHelper myDB;
+    private CustomListViewAdapter adapter;
+    private List<PFASampleDataType> database_list;
+    private ArrayList<PFASampleDataType> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +64,22 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
-
-
         //fill ExpandableListView with data from database
-        ExpandableListView transactionList = (ExpandableListView) findViewById(R.id.transactionList);
         myDB = new PFASQLiteHelper(this);
 
-        List<PFASampleDataType> database_list = myDB.getAllSampleData();
-        List<String> database_transactionNames = new ArrayList<String>();
+        database_list = myDB.getAllSampleData();
+        list = new ArrayList<>();
 
         for (PFASampleDataType s : database_list){
-            database_transactionNames.add(s.getTransactionName());
+            list.add(s);;
         }
 
-        HelpExpandableListAdapter listAdapter = new HelpExpandableListAdapter(this,database_transactionNames,null);
-        transactionList.setAdapter(listAdapter);
+        //init adapter
+        adapter = new CustomListViewAdapter(this,list);
+        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        transactionList.setAdapter(adapter);
 
-
-
+        //adapter.addAll(list);
 
 
         //Plus Button opens Dialog to add new Transaction

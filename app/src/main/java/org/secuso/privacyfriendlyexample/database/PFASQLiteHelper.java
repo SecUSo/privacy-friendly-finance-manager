@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     /**
      * Use the following pattern for the name of the database
@@ -73,10 +73,10 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT NOT NULL," +
-                KEY_AMOUNT +"INTEGER," +
-                KEY_TYPE + "INTEGER," +
-                KEY_ACCOUNT + "TEXT NOT NULL," +
-                KEY_DATE + "TEXT NOT NULL);";
+                KEY_AMOUNT +" INTEGER," +
+                KEY_TYPE + " INTEGER," +
+                KEY_ACCOUNT + " TEXT NOT NULL," +
+                KEY_DATE + " TEXT NOT NULL);";
 
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);

@@ -36,7 +36,7 @@
         android:layout_alignTop="@+id/dialog_expense_type"
         android:ems="10"
         android:hint="@string/dialog_hint_date"
-        android:inputType="date"
+        android:inputType="text"
         android:textAlignment="center" />
 
     <EditText
@@ -61,7 +61,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/dialog_hint_expense_value"
-        android:inputType="numberDecimal" />
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/dialog_expense_account"
@@ -73,7 +73,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/dialog_hint_expense_account"
-        android:inputType="numberDecimal" />
+        android:inputType="text" />
 
 
 

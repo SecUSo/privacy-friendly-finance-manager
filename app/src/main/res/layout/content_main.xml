@@ -17,7 +17,7 @@
     style="@style/AlertDialog.AppCompat">
 
 
-    <ExpandableListView
+    <ListView
         android:id="@+id/transactionList"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
