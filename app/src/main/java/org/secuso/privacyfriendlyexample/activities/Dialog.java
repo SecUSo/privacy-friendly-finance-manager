@@ -69,8 +69,8 @@ public class Dialog extends AppCompatDialogFragment {
         myDB = new PFASQLiteHelper(getContext());
 
         builder.setView(view)
-                .setTitle("New Transaction")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.dialog_title)
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
@@ -78,7 +78,7 @@ public class Dialog extends AppCompatDialogFragment {
                 })
 
                 //defines what happens when dialog is submitted
-                .setPositiveButton("submit", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();

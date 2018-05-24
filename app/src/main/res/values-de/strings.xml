@@ -38,6 +38,8 @@
 
     <!--###dialog###-->
     <string name="dialog_title">Neuer Eintrag</string>
+    <string name="dialog_submit">Ok</string>
+    <string name="dialog_cancel">Abbrechen</string>
     <string name="dialog_hint_expense_name">Titel</string>
     <string name="dialog_hint_expense_value">Betrag</string>
     <string name="dialog_hint_expense_account">Konto</string>
