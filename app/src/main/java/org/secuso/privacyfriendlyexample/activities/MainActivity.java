@@ -25,11 +25,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -109,7 +111,6 @@ public class MainActivity extends BaseActivity {
 
 
 
-
     }
 
     //opens the dialog for entering new transaction
@@ -118,11 +119,27 @@ public class MainActivity extends BaseActivity {
         dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
+    //opens menu for delete or edit list items
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_click_menu,menu);
+    }
+
+    //action when menu item is selected
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()){
+            case R.id.listDeleteItem:
+                //Objekt erstellen mit den sachen die in zeile stehen, dann deleten
+
+
+            case R.id.listEditItem:
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     /**
