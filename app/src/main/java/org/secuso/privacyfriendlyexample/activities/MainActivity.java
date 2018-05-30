@@ -81,6 +81,11 @@ public class MainActivity extends BaseActivity {
         Double balance = myDB.getBalance();
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
         balanceView.setText(balance.toString());
+        if (balance<0){
+            balanceView.setTextColor(getResources().getColor(R.color.red));
+        }else{
+            balanceView.setTextColor(getResources().getColor(R.color.green));
+        }
 
         //init adapter
         adapter = new CustomListViewAdapter(this,list);

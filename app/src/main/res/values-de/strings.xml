@@ -13,7 +13,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- ###MAIN### -->
-
+    <string name="totalBalance">Kontostand</string>
 
     <!--###HELP###-->
     <string name="help">Help</string>

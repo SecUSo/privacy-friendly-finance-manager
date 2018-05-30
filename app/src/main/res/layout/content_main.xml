@@ -18,15 +18,34 @@
 
     <TextView
         android:id="@+id/totalBalance"
-        android:layout_width="match_parent"
+        android:layout_width="156dp"
         android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
         android:gravity="center"
-        android:text="TextView"
         android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/totalBalance_label"
+        android:layout_width="176dp"
+        android:layout_height="60dp"
+        android:layout_toLeftOf="@+id/totalBalance"
+        android:gravity="center"
+        android:text="@string/totalBalance"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/totalBalance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp"
+        android:background="@color/colorPrimary" />
 
     <ListView
         android:id="@+id/transactionList"
@@ -35,7 +54,6 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
         android:layout_below="@+id/totalBalance"/>
-
 
 
 </RelativeLayout>
