@@ -202,6 +202,35 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         return sampleDataList;
     }
+    /**
+     * This method returns the total balance of transactions in the DB
+     * @return Double - total balance
+     */
+    public double getBalance(){
+        PFASampleDataType sampleData = null;
+        List<PFASampleDataType> balanceList = new ArrayList<PFASampleDataType>();
+        Double balance = new Double(0);
+
+        String selectQuery = "SELECT  * FROM " + TABLE_SAMPLEDATA;
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                sampleData = new PFASampleDataType();
+                sampleData.setTransaction_amount(cursor.getDouble(2));
+
+                balanceList.add(sampleData);
+            } while (cursor.moveToNext());
+        }
+
+        for (PFASampleDataType a: balanceList){
+            balance = balance + a.getTransaction_amount();
+        }
+
+        return balance;
+    }
 
     /**
      * Updates a database entry.

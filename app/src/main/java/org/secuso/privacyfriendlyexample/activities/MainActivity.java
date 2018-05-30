@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
-        //fill ExpandableListView with data from database
+        //fill ListView with data from database
         myDB = new PFASQLiteHelper(this);
 
         database_list = myDB.getAllSampleData();
@@ -77,12 +77,15 @@ public class MainActivity extends BaseActivity {
             list.add(s);;
         }
 
+        //fill TextView with total Balance of transactions
+        Double balance = myDB.getBalance();
+        TextView balanceView = (TextView) findViewById(R.id.totalBalance);
+        balanceView.setText(balance.toString());
+
         //init adapter
         adapter = new CustomListViewAdapter(this,list);
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         transactionList.setAdapter(adapter);
-
-        //adapter.addAll(list);
 
 
         //Plus Button opens Dialog to add new Transaction

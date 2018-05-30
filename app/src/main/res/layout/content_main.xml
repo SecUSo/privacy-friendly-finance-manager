@@ -16,12 +16,26 @@
     android:orientation="vertical"
     style="@style/AlertDialog.AppCompat">
 
+    <TextView
+        android:id="@+id/totalBalance"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/transactionList"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="431dp"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" />
+        android:dividerHeight="0.5dp"
+        android:layout_below="@+id/totalBalance"/>
+
+
 
 </RelativeLayout>
