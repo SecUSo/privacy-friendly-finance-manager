@@ -44,7 +44,7 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
         //TextView listItem_account = (TextView) convertView.findViewById(R.id.listItem_account);
         TextView listItem_date = (TextView) convertView.findViewById(R.id.listItem_date);
 
-        listItem_amount.setText(String.valueOf(transaction.getTransaction_amount()));
+        listItem_amount.setText(String.valueOf(transaction.getTransaction_amount())+ "€");
         if (transaction.getTransaction_amount()<0){
             listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
         }else{

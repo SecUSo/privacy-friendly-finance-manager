@@ -73,7 +73,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT NOT NULL," +
-                KEY_AMOUNT +" INTEGER," +
+                KEY_AMOUNT +" REAL," +
                 KEY_TYPE + " INTEGER," +
                 KEY_ACCOUNT + " TEXT NOT NULL," +
                 KEY_DATE + " TEXT NOT NULL);";
@@ -191,7 +191,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 sampleData = new PFASampleDataType();
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
                 sampleData.setTransactionName(cursor.getString(1));
-                sampleData.setTransaction_amount(Integer.parseInt(cursor.getString(2)));
+                sampleData.setTransaction_amount(Double.parseDouble(cursor.getString(2)));
                 sampleData.setTransaction_type(Boolean.parseBoolean(cursor.getString(3)));
                 sampleData.setTransaction_account(cursor.getString(4));
                 sampleData.setTransaction_date(cursor.getString(5));
