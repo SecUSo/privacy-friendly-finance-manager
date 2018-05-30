@@ -1,24 +1,19 @@
 package org.secuso.privacyfriendlyexample.activities.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-import org.secuso.privacyfriendlyexample.R.color;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.R.color;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
     ArrayList<PFASampleDataType> list;
@@ -56,5 +51,7 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
 
         return convertView;
     }
+
+
 
 }

@@ -23,11 +23,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -67,6 +70,15 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
+        //Plus Button opens Dialog to add new Transaction
+        FloatingActionButton add_expense = findViewById(R.id.add_expense);
+        add_expense.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                openDialog();
+            }
+        });
+
         //fill ListView with data from database
         myDB = new PFASQLiteHelper(this);
 
@@ -80,7 +92,7 @@ public class MainActivity extends BaseActivity {
         //fill TextView with total Balance of transactions
         Double balance = myDB.getBalance();
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        balanceView.setText(balance.toString());
+        balanceView.setText(balance.toString()+"€");
         if (balance<0){
             balanceView.setTextColor(getResources().getColor(R.color.red));
         }else{
@@ -92,15 +104,12 @@ public class MainActivity extends BaseActivity {
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         transactionList.setAdapter(adapter);
 
+        //Menu for listview items
+        registerForContextMenu(transactionList);
 
-        //Plus Button opens Dialog to add new Transaction
-        FloatingActionButton add_expense = findViewById(R.id.add_expense);
-        add_expense.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View view){
-                openDialog();
-            }
-        });
+
+
+
     }
 
     //opens the dialog for entering new transaction
@@ -109,7 +118,12 @@ public class MainActivity extends BaseActivity {
         dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
-
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_click_menu,menu);
+    }
 
     /**
      * This method connects the Activity to the menu item

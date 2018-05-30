@@ -14,6 +14,8 @@
 
     <!-- ###MAIN### -->
     <string name="totalBalance">Kontostand</string>
+    <string name="deleteItem">Löschen</string>
+    <string name="editItem">Bearbeiten</string>
 
     <!--###HELP###-->
     <string name="help">Help</string>
