@@ -77,6 +77,7 @@ public class EditDialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.edit_radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.edit_radioButton_Expense);
 
+        /**
         //fill all fields with data from item which is being edited
         editTextTitle.setText("");
         editTextAmount.setText("");
@@ -84,7 +85,7 @@ public class EditDialog extends AppCompatDialogFragment {
         editTextDate.setText("");
         radioButtonIncome.isChecked();
         radioButtonExpense.isChecked();
-
+         **/
 
         builder.setView(view)
                 .setTitle(R.string.edit_dialog_title)
@@ -111,7 +112,6 @@ public class EditDialog extends AppCompatDialogFragment {
                         }
 
                         String transactionAccount = editTextAccount.getText().toString();
-
 
                         transactionDate = editTextDate.getText().toString();
 
