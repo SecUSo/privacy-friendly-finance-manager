@@ -17,6 +17,7 @@
 
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -132,11 +133,23 @@ public class MainActivity extends BaseActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()){
+            //delete Item from DB and View
             case R.id.listDeleteItem:
-                //Objekt erstellen mit den sachen die in zeile stehen, dann deleten
+                database_list = myDB.getAllSampleData();
+                list = new ArrayList<>();
 
+                for (PFASampleDataType s : database_list){
+                    list.add(s);
+                }
 
+                myDB.deleteSampleData(list.get(info.position));
+
+                Intent main = new Intent(this,MainActivity.class);
+                startActivity(main);
+
+            //edit Item in DB and View
             case R.id.listEditItem:
+
         }
 
         return super.onContextItemSelected(item);
