@@ -60,7 +60,14 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="dialog_hint_date">enter date</string>
     <string name="dialog_hint_expense_account">account</string>
 
-
+    <string name="edit_dialog_title">Edit Transaction</string>
+    <string name="edit_dialog_submit">Submit</string>
+    <string name="edit_dialog_cancel">Cancel</string>
+    <string name="edit_dialog_hint_expense_name">title</string>
+    <string name="edit_dialog_hint_expense_value">enter amount</string>
+    <string name="edit_dialog_hint_expense_account">account</string>
+    <string name="edit_dialog_radio_button_income">Income</string>
+    <string name="edit_dialog_radio_button_expense">Expense</string>
 
 
 

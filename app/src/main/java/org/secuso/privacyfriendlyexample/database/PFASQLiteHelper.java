@@ -242,7 +242,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, sampleData.getID());
         values.put(KEY_NAME,sampleData.getTransactionName());
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
         values.put(KEY_TYPE,sampleData.isTransaction_type());

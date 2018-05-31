@@ -19,20 +19,16 @@ package org.secuso.privacyfriendlyexample.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.ContextMenu;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.Menu;
+
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -149,11 +145,18 @@ public class MainActivity extends BaseActivity {
 
             //edit Item in DB and View
             case R.id.listEditItem:
+                openEditDialog();
 
         }
 
         return super.onContextItemSelected(item);
     }
+
+    public void openEditDialog(){
+        EditDialog dialog = new EditDialog();
+        dialog.show(getSupportFragmentManager(),"EditDialog");
+    }
+
 
     /**
      * This method connects the Activity to the menu item

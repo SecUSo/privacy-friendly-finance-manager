@@ -49,6 +49,15 @@
     <string name="dialog_radio_button_expense">Ausgabe</string>
     <string name="dialog_hint_date">Datum eingeben</string>
 
+    <string name="edit_dialog_title">Eintrag bearbeiten</string>
+    <string name="edit_dialog_submit">Ok</string>
+    <string name="edit_dialog_cancel">Abbrechen</string>
+    <string name="edit_dialog_hint_expense_name">Titel</string>
+    <string name="edit_dialog_hint_expense_value">Betrag</string>
+    <string name="edit_dialog_hint_expense_account">Konto</string>
+    <string name="edit_dialog_radio_button_income">Einkommen</string>
+    <string name="edit_dialog_radio_button_expense">Ausgabe</string>
+
 
     <!-- ### WELCOME DIALOG ### -->
     <string name="okay">Okay</string>
