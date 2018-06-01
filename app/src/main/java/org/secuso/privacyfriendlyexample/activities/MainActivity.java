@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     protected int getNavigationDrawerID() {
-        return R.id.nav_example;
+        return R.id.nav_main;
     }
 
 

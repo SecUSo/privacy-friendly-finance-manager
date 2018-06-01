@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Finance Manager</string>
-    <string name="app_name_long">Privacy Friendly Finance Manager</string>
+    <string name="app_name">Finanzen Manager</string>
+    <string name="app_name_long">Privacy Friendly Finanzen Manager</string>
 
     <!-- ###DRAWER###-->
     <string name="action_help">Hilfe</string>
@@ -18,16 +18,16 @@
     <string name="editItem">Bearbeiten</string>
 
     <!--###HELP###-->
-    <string name="help">Help</string>
+    <string name="help">Hilfe</string>
 
-    <string name="help_whatis">Was ist Privacy Friendly Beispiel?</string>
-    <string name="help_whatis_answer">Privacy Friendly Beispiel zeigt das Standard-Design einer Privacy Friendly App.</string>
-    <string name="help_feature_one">Feature 1</string>
-    <string name="help_feature_one_answer">Beschreibung vom 1. Feature.</string>
+    <string name="help_whatis">Allgemein</string>
+    <string name="help_whatis_answer">Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</string>
+    <string name="help_feature_one">Überwachung von Ausgaben und Einnahmen</string>
+    <string name="help_feature_one_answer">Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den + Button in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</string>
     <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="help_privacy_answer">Erklären welche Mechanismen verwendet wurden.</string>
+    <string name="help_privacy_answer">Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</string>
     <string name="help_permission">Welche Berechtigungen braucht die App?</string>
-    <string name="help_permission_answer">Privacy Friendly Beispiel benötigt keine Berechtigungen.</string>
+    <string name="help_permission_answer">Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</string>
 
     <!--###ABOUT###-->
     <string name="about">Über</string>
