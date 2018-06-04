@@ -17,6 +17,7 @@ package org.secuso.privacyfriendlyexample.activities;
  along with Privacy Friendly App Example. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -47,7 +48,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressLint("ValidFragment")
 public class EditDialog extends AppCompatDialogFragment {
+    private PFASampleDataType dataToEdit;
     private EditText editTextTitle;
     private EditText editTextAmount;
     private EditText editTextAccount;
@@ -60,6 +63,9 @@ public class EditDialog extends AppCompatDialogFragment {
 
     private PFASQLiteHelper myDB;
 
+    public EditDialog(PFASampleDataType dataToEdit) {
+        this.dataToEdit = dataToEdit;
+    }
 
     //opens Dialog with layout defined in edit_dialog.xml
     @Override
@@ -77,15 +83,16 @@ public class EditDialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.edit_radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.edit_radioButton_Expense);
 
-        /**
-        //fill all fields with data from item which is being edited
-        editTextTitle.setText("");
-        editTextAmount.setText("");
-        editTextAccount.setText("");
-        editTextDate.setText("");
-        radioButtonIncome.isChecked();
-        radioButtonExpense.isChecked();
-         **/
+        editTextTitle.setText(dataToEdit.getTransactionName());
+        editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
+        editTextAccount.setText(dataToEdit.getTransaction_account());
+        editTextDate.setText(dataToEdit.getTransaction_date());
+        if (dataToEdit.isTransaction_type()) {
+            radioButtonExpense.setChecked(true);
+        }else {
+            radioButtonIncome.setChecked(true);
+        }
+
 
         builder.setView(view)
                 .setTitle(R.string.edit_dialog_title)
@@ -115,7 +122,7 @@ public class EditDialog extends AppCompatDialogFragment {
 
                         transactionDate = editTextDate.getText().toString();
 
-                        myDB.updateSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
+                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);

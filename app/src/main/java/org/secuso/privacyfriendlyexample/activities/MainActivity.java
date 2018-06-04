@@ -145,15 +145,21 @@ public class MainActivity extends BaseActivity {
 
             //edit Item in DB and View
             case R.id.listEditItem:
-                openEditDialog();
+                database_list = myDB.getAllSampleData();
+                list = new ArrayList<>();
+
+                for (PFASampleDataType s : database_list){
+                    list.add(s);
+                }
+                openEditDialog(list.get(info.position));
 
         }
 
         return super.onContextItemSelected(item);
     }
 
-    public void openEditDialog(){
-        EditDialog dialog = new EditDialog();
+    public void openEditDialog(PFASampleDataType dataToEdit){
+        EditDialog dialog = new EditDialog(dataToEdit);
         dialog.show(getSupportFragmentManager(),"EditDialog");
     }
 
