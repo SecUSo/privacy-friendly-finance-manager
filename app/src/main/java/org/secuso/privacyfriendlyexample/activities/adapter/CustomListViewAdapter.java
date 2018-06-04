@@ -13,6 +13,8 @@ import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.R.color;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
@@ -36,17 +38,17 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
 
         TextView listItem_amount = (TextView) convertView.findViewById(R.id.listItem_amount);
         TextView listItem_name = (TextView) convertView.findViewById(R.id.listItem_name);
-        //TextView listItem_account = (TextView) convertView.findViewById(R.id.listItem_account);
         TextView listItem_date = (TextView) convertView.findViewById(R.id.listItem_date);
 
-        listItem_amount.setText(String.valueOf(transaction.getTransaction_amount())+ "€");
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        listItem_amount.setText(String.valueOf(format.format(transaction.getTransaction_amount())));
+
         if (transaction.getTransaction_amount()<0){
             listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
         }else{
             listItem_amount.setTextColor(getContext().getResources().getColor(color.green));
         }
         listItem_name.setText(transaction.getTransactionName());
-        //listItem_account.setText(transaction.getTransaction_account());
         listItem_date.setText(transaction.getTransaction_date());
 
         return convertView;

@@ -45,6 +45,7 @@ import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +92,8 @@ public class MainActivity extends BaseActivity {
         //fill TextView with total Balance of transactions
         Double balance = myDB.getBalance();
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        balanceView.setText(balance.toString()+"€");
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        balanceView.setText(format.format(balance).toString());
         if (balance<0){
             balanceView.setTextColor(getResources().getColor(R.color.red));
         }else{
