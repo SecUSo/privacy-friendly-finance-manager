@@ -84,7 +84,19 @@ public class Dialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
                         Boolean transactionType;
-                        Double transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
+                        Double transactionAmount = 0.0;
+
+
+                        if(editTextAmount.getText().toString()==null){
+
+                        }
+                        else{
+                            try {
+                                transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
                         if (radioButtonExpense.isChecked()) {
                             transactionType = false;

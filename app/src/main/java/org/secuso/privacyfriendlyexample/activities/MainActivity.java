@@ -143,6 +143,8 @@ public class MainActivity extends BaseActivity {
                 Intent main = new Intent(this,MainActivity.class);
                 startActivity(main);
 
+                break;
+
             //edit Item in DB and View
             case R.id.listEditItem:
                 database_list = myDB.getAllSampleData();
@@ -151,7 +153,11 @@ public class MainActivity extends BaseActivity {
                 for (PFASampleDataType s : database_list){
                     list.add(s);
                 }
-                openEditDialog(list.get(info.position));
+
+                EditDialog dialog = new EditDialog(list.get(info.position));
+                dialog.show(getSupportFragmentManager(),"EditDialog");
+
+                break;
 
         }
 
