@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="50dp">
 
     <TextView
         android:id="@+id/listItem_amount"
@@ -11,31 +11,31 @@
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:text="15"
-        android:textSize="10sp"
+        android:textSize="12dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listItem_name"
-        android:layout_width="164dp"
+        android:layout_width="133dp"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/listItem_amount"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="Ausgabe"
-        android:textSize="10dp"
+        android:textSize="12dp"
         android:textStyle="bold" />
 
 
     <TextView
         android:id="@+id/listItem_date"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="113dp"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/listItem_name"
+        android:layout_alignParentTop="true"
         android:gravity="center_vertical"
+        android:layout_toRightOf="@id/listItem_name"
         android:text="date"
         android:textAlignment="center"
-        android:textSize="10sp" />
+        android:textSize="12dp" />
 
 </RelativeLayout>

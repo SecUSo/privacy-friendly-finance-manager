@@ -59,6 +59,19 @@ public class MainActivity extends BaseActivity {
     private CustomListViewAdapter adapter;
     private List<PFASampleDataType> database_list;
     private ArrayList<PFASampleDataType> list;
+    private static Context context;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        TextView balanceView = (TextView) findViewById(R.id.totalBalance);
+        new AsyncQuery(transactionList,this).execute();
+    }
+
+    public static Context getContext(){
+        return MainActivity.context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +89,11 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        TextView balanceView = (TextView) findViewById(R.id.totalBalance);
+        new AsyncQuery(transactionList,this).execute();
+
+        /*
         //fill ListView with data from database
         myDB = new PFASQLiteHelper(this);
 
@@ -85,10 +103,11 @@ public class MainActivity extends BaseActivity {
         for (PFASampleDataType s : database_list){
             list.add(s);;
         }
+        */
 
         //fill TextView with total Balance of transactions
+        myDB = new PFASQLiteHelper(this);
         Double balance = myDB.getBalance();
-        TextView balanceView = (TextView) findViewById(R.id.totalBalance);
         NumberFormat format = NumberFormat.getCurrencyInstance();
         balanceView.setText(format.format(balance).toString());
         if (balance<0){
@@ -97,10 +116,12 @@ public class MainActivity extends BaseActivity {
             balanceView.setTextColor(getResources().getColor(R.color.green));
         }
 
+        /*
         //init adapter
         adapter = new CustomListViewAdapter(this,list);
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         transactionList.setAdapter(adapter);
+        */
 
         //Menu for listview items
         registerForContextMenu(transactionList);

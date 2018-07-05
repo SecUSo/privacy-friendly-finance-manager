@@ -52,7 +52,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="@string/dialog_hint_expense_value"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:singleLine="false" />
 
     <EditText
@@ -65,7 +65,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/dialog_hint_expense_name"
-        android:inputType="numberDecimal" />
+        android:inputType="text" />
 
 
 

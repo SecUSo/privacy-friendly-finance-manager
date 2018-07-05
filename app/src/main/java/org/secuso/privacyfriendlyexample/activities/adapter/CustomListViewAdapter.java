@@ -13,7 +13,6 @@ import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.R.color;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 

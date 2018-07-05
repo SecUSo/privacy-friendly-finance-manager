@@ -19,24 +19,24 @@
     <TextView
         android:id="@+id/totalBalance"
         android:layout_width="156dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="15dp"
         android:gravity="center"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/totalBalance_label"
         android:layout_width="176dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_toLeftOf="@+id/totalBalance"
         android:gravity="center"
         android:text="@string/totalBalance"
-        android:textSize="18sp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <View
