@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     /**
      * Use the following pattern for the name of the database
@@ -55,7 +55,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_NAME = "transactionName";
     private static final String KEY_AMOUNT = "transactionAmount";
     private static final String KEY_TYPE = "transactionType";
-    private static final String KEY_ACCOUNT = "transactionAccount";
     private static final String KEY_DATE = "transactionDate";
 
     public PFASQLiteHelper(Context context) {
@@ -75,7 +74,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 KEY_NAME + " TEXT NOT NULL," +
                 KEY_AMOUNT +" REAL," +
                 KEY_TYPE + " INTEGER," +
-                KEY_ACCOUNT + " TEXT NOT NULL," +
                 KEY_DATE + " TEXT NOT NULL);";
 
 
@@ -104,7 +102,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME,sampleData.getTransactionName());
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
         values.put(KEY_TYPE,sampleData.isTransaction_type());
-        values.put(KEY_ACCOUNT,sampleData.getTransaction_account());
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
 
 
@@ -129,7 +126,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME,sampleData.getTransactionName());
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
         values.put(KEY_TYPE,sampleData.isTransaction_type());
-        values.put(KEY_ACCOUNT,sampleData.getTransaction_account());
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
 
 
@@ -151,7 +147,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         Log.d("DATABASE", Integer.toString(id));
 
         Cursor cursor = database.query(TABLE_SAMPLEDATA, new String[]{KEY_ID,
-                        KEY_NAME,KEY_AMOUNT,KEY_TYPE,KEY_ACCOUNT,KEY_DATE}, KEY_ID + "=?",
+                        KEY_NAME,KEY_AMOUNT,KEY_TYPE,KEY_DATE}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         PFASampleDataType sampleData = new PFASampleDataType();
@@ -193,8 +189,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 sampleData.setTransactionName(cursor.getString(1));
                 sampleData.setTransaction_amount(Double.parseDouble(cursor.getString(2)));
                 sampleData.setTransaction_type(Boolean.parseBoolean(cursor.getString(3)));
-                sampleData.setTransaction_account(cursor.getString(4));
-                sampleData.setTransaction_date(cursor.getString(5));
+                sampleData.setTransaction_date(cursor.getString(4));
 
                 sampleDataList.add(sampleData);
             } while (cursor.moveToNext());
@@ -245,7 +240,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME,sampleData.getTransactionName());
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
         values.put(KEY_TYPE,sampleData.isTransaction_type());
-        values.put(KEY_ACCOUNT,sampleData.getTransaction_account());
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
 
         return database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",

@@ -65,9 +65,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //myDB.deleteAllSampleData();
-
-
         overridePendingTransition(0, 0);
 
         //Plus Button opens Dialog to add new Transaction
@@ -107,7 +104,6 @@ public class MainActivity extends BaseActivity {
 
         //Menu for listview items
         registerForContextMenu(transactionList);
-
 
 
     }

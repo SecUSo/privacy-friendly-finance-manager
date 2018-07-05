@@ -53,7 +53,6 @@ public class EditDialog extends AppCompatDialogFragment {
     private PFASampleDataType dataToEdit;
     private EditText editTextTitle;
     private EditText editTextAmount;
-    private EditText editTextAccount;
     private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
@@ -78,19 +77,17 @@ public class EditDialog extends AppCompatDialogFragment {
 
         editTextTitle = view.findViewById(R.id.edit_dialog_expense_title);
         editTextAmount = view.findViewById(R.id.edit_dialog_expense_amount);
-        editTextAccount = view.findViewById(R.id.edit_dialog_expense_account);
         editTextDate = view.findViewById(R.id.edit_dialog_expense_date);
         radioButtonIncome = view.findViewById(R.id.edit_radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.edit_radioButton_Expense);
 
         editTextTitle.setText(dataToEdit.getTransactionName());
         editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
-        editTextAccount.setText(dataToEdit.getTransaction_account());
         editTextDate.setText(dataToEdit.getTransaction_date());
         if (dataToEdit.isTransaction_type()) {
-            radioButtonExpense.setChecked(true);
-        }else {
             radioButtonIncome.setChecked(true);
+        }else {
+            radioButtonExpense.setChecked(true);
         }
 
 
@@ -118,11 +115,9 @@ public class EditDialog extends AppCompatDialogFragment {
                             transactionType = true;
                         }
 
-                        String transactionAccount = editTextAccount.getText().toString();
-
                         transactionDate = editTextDate.getText().toString();
 
-                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
+                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);
@@ -139,7 +134,7 @@ public class EditDialog extends AppCompatDialogFragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(getContext(),android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListener,year,month,day);
+                DatePickerDialog dialog = new DatePickerDialog(getContext(),mDateSetListener,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }

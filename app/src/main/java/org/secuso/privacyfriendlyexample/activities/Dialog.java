@@ -48,7 +48,6 @@ import java.util.Date;
 public class Dialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
     private EditText editTextAmount;
-    private EditText editTextAccount;
     private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
@@ -67,7 +66,14 @@ public class Dialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.dialog, null);
         myDB = new PFASQLiteHelper(getContext());
 
+        editTextTitle = view.findViewById(R.id.dialog_expense_title);
+        editTextAmount = view.findViewById(R.id.dialog_expense_amount);
+        editTextDate = view.findViewById(R.id.dialog_expense_date);
+        radioButtonIncome = view.findViewById(R.id.radioButton_Income);
+        radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
 
+        radioButtonExpense.setChecked(true);
+        radioButtonIncome.setChecked(false);
 
         builder.setView(view)
                 .setTitle(R.string.dialog_title)
@@ -105,24 +111,18 @@ public class Dialog extends AppCompatDialogFragment {
                             transactionType = true;
                         }
 
-                        String transactionAccount = editTextAccount.getText().toString();
 
 
                         transactionDate = editTextDate.getText().toString();
 
-                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionAccount,transactionDate));
+                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);
                     }
                 });
 
-        editTextTitle = view.findViewById(R.id.dialog_expense_title);
-        editTextAmount = view.findViewById(R.id.dialog_expense_amount);
-        editTextAccount = view.findViewById(R.id.dialog_expense_account);
-        editTextDate = view.findViewById(R.id.dialog_expense_date);
-        radioButtonIncome = view.findViewById(R.id.radioButton_Income);
-        radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
+
 
 
         editTextDate.setOnClickListener(new View.OnClickListener(){
@@ -133,7 +133,7 @@ public class Dialog extends AppCompatDialogFragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(getContext(),android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListener,year,month,day);
+                DatePickerDialog dialog = new DatePickerDialog(getContext(),mDateSetListener,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }

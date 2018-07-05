@@ -18,7 +18,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
-    ArrayList<PFASampleDataType> list;
 
 
     public CustomListViewAdapter( Context context, ArrayList<PFASampleDataType> list) {

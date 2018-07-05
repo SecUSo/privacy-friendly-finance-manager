@@ -6,23 +6,23 @@
 
     <TextView
         android:id="@+id/listItem_amount"
-        android:layout_width="120dp"
+        android:layout_width="138dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:text="15"
-        android:textSize="18sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listItem_name"
-        android:layout_width="140dp"
+        android:layout_width="164dp"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/listItem_amount"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="Ausgabe"
-        android:textSize="14sp"
+        android:textSize="10dp"
         android:textStyle="bold" />
 
 
@@ -36,6 +36,6 @@
         android:gravity="center_vertical"
         android:text="date"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="10sp" />
 
 </RelativeLayout>
