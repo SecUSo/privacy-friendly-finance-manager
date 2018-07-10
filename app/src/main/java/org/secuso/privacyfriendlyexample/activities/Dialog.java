@@ -110,7 +110,7 @@ public class Dialog extends AppCompatDialogFragment {
 
                         if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
                             transactionType = 0;
-                            transactionAmount = transactionAmount * (-1);
+                            //transactionAmount = transactionAmount * (-1);
                         }
                         else {
                             transactionType=1;

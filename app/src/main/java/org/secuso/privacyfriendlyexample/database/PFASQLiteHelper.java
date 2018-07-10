@@ -217,14 +217,13 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 sampleData = new PFASampleDataType();
-                sampleData.setTransaction_amount(cursor.getDouble(2));
-
-                balanceList.add(sampleData);
+                sampleData.setTransaction_type(cursor.getInt(3));
+                if(sampleData.isTransaction_type()==0){
+                    balance=balance + (cursor.getDouble(2))*(-1);
+                }else{
+                    balance=balance + (cursor.getDouble(2));
+                }
             } while (cursor.moveToNext());
-        }
-
-        for (PFASampleDataType a: balanceList){
-            balance = balance + a.getTransaction_amount();
         }
 
         return balance;
