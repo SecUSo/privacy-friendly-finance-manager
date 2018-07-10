@@ -22,6 +22,9 @@
 
     <!-- ###CATEGORY###-->
     <string name="category">Categories</string>
+    <string name="dialog_category_hint_name">category title</string>
+    <string name="dialog_category_title">New Category</string>
+
 
 
 

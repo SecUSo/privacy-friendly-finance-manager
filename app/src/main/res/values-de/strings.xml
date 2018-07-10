@@ -21,6 +21,8 @@
 
     <!-- ###CATEGORY###-->
     <string name="category">Kategorien</string>
+    <string name="dialog_category_hint_name">Name der Kategorie</string>
+    <string name="dialog_category_title">Neue Kategorie</string>
 
     <!--###HELP###-->
     <string name="help">Hilfe</string>
