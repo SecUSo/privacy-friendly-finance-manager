@@ -93,7 +93,7 @@ public class Dialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
-                        Boolean transactionType;
+                        Integer transactionType;
                         Double transactionAmount = 0.0;
 
 
@@ -109,11 +109,11 @@ public class Dialog extends AppCompatDialogFragment {
                         }
 
                         if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
-                            transactionType = false;
+                            transactionType = 0;
                             transactionAmount = transactionAmount * (-1);
                         }
                         else {
-                            transactionType=true;
+                            transactionType=1;
                         }
 
                         transactionDate = editTextDate.getText().toString();
