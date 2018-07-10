@@ -84,10 +84,13 @@ public class EditDialog extends AppCompatDialogFragment {
         editTextTitle.setText(dataToEdit.getTransactionName());
         editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
         editTextDate.setText(dataToEdit.getTransaction_date());
+
         if (dataToEdit.isTransaction_type()) {
             radioButtonIncome.setChecked(true);
+            radioButtonExpense.setChecked(false);
         }else {
             radioButtonExpense.setChecked(true);
+            radioButtonIncome.setChecked(false);
         }
 
 

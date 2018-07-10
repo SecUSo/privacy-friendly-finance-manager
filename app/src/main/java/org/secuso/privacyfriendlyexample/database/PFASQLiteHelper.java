@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
     /**
      * Use the following pattern for the name of the database
@@ -101,7 +101,10 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME,sampleData.getTransactionName());
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
-        values.put(KEY_TYPE,sampleData.isTransaction_type());
+        if(sampleData.isTransaction_type()){
+            values.put(KEY_TYPE,1);
+        }
+        else values.put(KEY_TYPE,0);
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
 
 

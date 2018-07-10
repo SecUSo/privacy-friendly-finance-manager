@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class Dialog extends AppCompatDialogFragment {
     private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
+    private RadioGroup radioGroupType;
     String transactionDate;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -69,8 +71,10 @@ public class Dialog extends AppCompatDialogFragment {
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
         editTextAmount = view.findViewById(R.id.dialog_expense_amount);
         editTextDate = view.findViewById(R.id.dialog_expense_date);
+
         radioButtonIncome = view.findViewById(R.id.radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
+        radioGroupType = view.findViewById(R.id.radioGroup_type);
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
@@ -104,14 +108,13 @@ public class Dialog extends AppCompatDialogFragment {
                             }
                         }
 
-                        if (radioButtonExpense.isChecked()) {
+                        if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
                             transactionType = false;
-                            transactionAmount=transactionAmount*(-1);
-                        }else {
-                            transactionType = true;
+                            transactionAmount = transactionAmount * (-1);
                         }
-
-
+                        else {
+                            transactionType=true;
+                        }
 
                         transactionDate = editTextDate.getText().toString();
 
