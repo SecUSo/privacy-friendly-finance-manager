@@ -16,11 +16,42 @@
  */
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
+import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 
 /**
  * Created by David Meiborg on 10.07.2018.
  */
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_category);
+        ActionBar ab = getSupportActionBar();
+        if(ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+        overridePendingTransition(0, 0);
+
+    }
+
+
+    /**
+     * This method connects the Activity to the menu item
+     *
+     * @return ID of the menu item it belongs to
+     */
+
+    protected int getNavigationDrawerID() {
+        return R.id.nav_category;
+    }
 }

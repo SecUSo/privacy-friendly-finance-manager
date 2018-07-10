@@ -8,6 +8,8 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_main">Transaktionsübersicht</string>
     <string name="action_tutorial">Tutorial</string>
+    <string name="action_category">Kategorien</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,6 +18,9 @@
     <string name="totalBalance">Kontostand</string>
     <string name="deleteItem">Löschen</string>
     <string name="editItem">Bearbeiten</string>
+
+    <!-- ###CATEGORY###-->
+    <string name="category">Kategorien</string>
 
     <!--###HELP###-->
     <string name="help">Hilfe</string>
@@ -59,6 +64,9 @@
     <string name="edit_dialog_radio_button_income">Einkommen</string>
     <string name="edit_dialog_radio_button_expense">Ausgabe</string>
 
+    <string name="delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
+    <string name="delete_dialog_positive">Ok</string>
+    <string name="delete_dialog_negative">Abbrechen</string>
 
     <!-- ### WELCOME DIALOG ### -->
     <string name="okay">Okay</string>

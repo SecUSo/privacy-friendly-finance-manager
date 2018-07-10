@@ -36,6 +36,15 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name="org.secuso.privacyfriendlyexample.activities.CategoryActivity"
+            android:label="@string/category"
+            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
+        </activity>
+        <activity
             android:name="org.secuso.privacyfriendlyexample.activities.AboutActivity"
             android:label="@string/about"
             android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"

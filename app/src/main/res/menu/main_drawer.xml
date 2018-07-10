@@ -8,14 +8,18 @@
             android:icon="@drawable/ic_menu_home"
             android:title="@string/action_main" />
         <item
-            android:id="@+id/nav_tutorial"
-            android:icon="@drawable/ic_menu_tutorial"
-            android:title="@string/action_tutorial" />
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_list_black_24dp"
+            android:title="@string/action_category" />
 
     </group>
 
     <group android:id="@+id/nav_group_add"
         android:checkableBehavior="all">
+        <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_menu_tutorial"
+            android:title="@string/action_tutorial" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_help"

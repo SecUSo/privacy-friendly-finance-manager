@@ -48,8 +48,8 @@ import android.content.DialogInterface;
 
 
 /**
- * @author Christopher Beckmann, Karola Marky
- * @version 20171016
+ * @author David Meiborg
+ * @version 2018
  */
 public class MainActivity extends BaseActivity {
     private PFASQLiteHelper myDB;

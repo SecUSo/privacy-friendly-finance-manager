@@ -9,6 +9,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_main">Transaction Overview</string>
     <string name="action_tutorial">Tutorial</string>
+    <string name="action_category">Categories</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,6 +19,9 @@
     <string name="totalBalance">Balance</string>
     <string name="deleteItem">delete</string>
     <string name="editItem">edit</string>
+
+    <!-- ###CATEGORY###-->
+    <string name="category">Categories</string>
 
 
 

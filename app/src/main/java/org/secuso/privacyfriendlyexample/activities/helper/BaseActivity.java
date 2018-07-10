@@ -36,6 +36,7 @@ import android.view.View;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.AboutActivity;
+import org.secuso.privacyfriendlyexample.activities.CategoryActivity;
 import org.secuso.privacyfriendlyexample.activities.HelpActivity;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 import org.secuso.privacyfriendlyexample.activities.TutorialActivity;
@@ -166,6 +167,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                break;
+            case R.id.nav_category:
+                intent = new Intent(this, CategoryActivity.class);
+                createBackStack(intent);
                 break;
             case R.id.nav_tutorial:
                 intent = new Intent(this, TutorialActivity.class);
