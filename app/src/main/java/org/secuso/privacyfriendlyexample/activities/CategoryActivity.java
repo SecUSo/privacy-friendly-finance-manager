@@ -22,15 +22,30 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ListView;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.adapter.CategoryCustomListViewAdapter;
+import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlyexample.database.CategoryDataType;
+import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
+import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
+import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by David Meiborg on 10.07.2018.
  */
 
 public class CategoryActivity extends BaseActivity {
+
+    private CategorySQLiteHelper myDB;
+    private CategoryCustomListViewAdapter adapter;
+    private List<CategoryDataType> database_list;
+    private ArrayList<CategoryDataType> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +65,19 @@ public class CategoryActivity extends BaseActivity {
                 openCategoryDialog();
             }
         });
+
+        ListView categoryList = (ListView) findViewById(R.id.categoryList);
+
+        myDB = new CategorySQLiteHelper(this);
+        database_list = myDB.getAllSampleData();
+        list = new ArrayList<>();
+
+        for (CategoryDataType s : database_list){
+            list.add(s);
+        }
+
+        adapter = new CategoryCustomListViewAdapter(this,list);
+        categoryList.setAdapter(adapter);
 
     }
 
