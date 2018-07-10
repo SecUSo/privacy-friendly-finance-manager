@@ -29,22 +29,30 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.adapter.CategoryCustomListViewAdapter;
+import org.secuso.privacyfriendlyexample.database.CategoryDataType;
+import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Dialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
@@ -53,6 +61,7 @@ public class Dialog extends AppCompatDialogFragment {
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
+    private Spinner category_spinner;
     String transactionDate;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -75,11 +84,26 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
         radioGroupType = view.findViewById(R.id.radioGroup_type);
+        category_spinner= view.findViewById(R.id.category_spinner);
+        category_spinner.setPrompt("Select category");
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
 
-        builder.setView(view)
+        CategorySQLiteHelper myDBCategory = new CategorySQLiteHelper(getActivity());
+        List<CategoryDataType> database_list = myDBCategory.getAllSampleData();
+        ArrayList<String>list = new ArrayList<>();
+
+        for (CategoryDataType s : database_list){
+            list.add(s.getCategoryName());
+        }
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String> (getActivity(),R.layout.spinner_row,R.id.spinner_content,list);
+        category_spinner.setAdapter(adapter);
+
+
+
+                builder.setView(view)
                 .setTitle(R.string.dialog_title)
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
@@ -95,6 +119,7 @@ public class Dialog extends AppCompatDialogFragment {
                         String transactionName = editTextTitle.getText().toString();
                         Integer transactionType;
                         Double transactionAmount = 0.0;
+                        String transactionCategory;
 
 
                         if(editTextAmount.getText().toString()==null){
@@ -110,7 +135,6 @@ public class Dialog extends AppCompatDialogFragment {
 
                         if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
                             transactionType = 0;
-                            //transactionAmount = transactionAmount * (-1);
                         }
                         else {
                             transactionType=1;
@@ -118,7 +142,9 @@ public class Dialog extends AppCompatDialogFragment {
 
                         transactionDate = editTextDate.getText().toString();
 
-                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate));
+                        transactionCategory = category_spinner.getSelectedItem().toString();
+
+                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);

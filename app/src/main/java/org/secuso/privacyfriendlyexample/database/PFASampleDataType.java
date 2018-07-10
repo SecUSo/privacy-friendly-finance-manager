@@ -38,7 +38,7 @@ public class PFASampleDataType {
     private Double transaction_amount;
     private Integer transaction_type;
     private String transaction_date;
-    private int transaction_category;
+    private String transaction_category;
 
     public PFASampleDataType() {    }
 
@@ -47,7 +47,7 @@ public class PFASampleDataType {
      * Always use this constructor to generate data with values.
      * @param ID The primary key for the database (will be automatically set by the DB)
      */
-    public PFASampleDataType(int ID, String transactionName, Double transaction_amount, Integer transaction_type,String transaction_date,int transaction_category) {
+    public PFASampleDataType(int ID, String transactionName, Double transaction_amount, Integer transaction_type,String transaction_date,String transaction_category) {
 
         this.ID=ID;
         this.transactionName=transactionName;
@@ -104,11 +104,11 @@ public class PFASampleDataType {
         this.transaction_date = transaction_date;
     }
 
-    public int getTransaction_category() {
+    public String getTransaction_category() {
         return transaction_category;
     }
 
-    public void setTransaction_category(int transaction_category) {
+    public void setTransaction_category(String transaction_category) {
         this.transaction_category = transaction_category;
     }
 

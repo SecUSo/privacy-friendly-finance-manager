@@ -36,6 +36,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
@@ -56,6 +57,8 @@ public class EditDialog extends AppCompatDialogFragment {
     private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
+    private Spinner category_spinner;
+
     String transactionDate;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -84,6 +87,8 @@ public class EditDialog extends AppCompatDialogFragment {
         editTextTitle.setText(dataToEdit.getTransactionName());
         editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
         editTextDate.setText(dataToEdit.getTransaction_date());
+        category_spinner= view.findViewById(R.id.category_spinner);
+
 
         if (dataToEdit.isTransaction_type()==1) {
             radioButtonIncome.setChecked(true);
@@ -109,6 +114,7 @@ public class EditDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
                         Integer transactionType;
+                        String transactionCategory;
                         Double transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
 
                         if (radioButtonExpense.isChecked()) {
@@ -120,7 +126,9 @@ public class EditDialog extends AppCompatDialogFragment {
 
                         transactionDate = editTextDate.getText().toString();
 
-                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate));
+                        transactionCategory = category_spinner.getSelectedItem().toString();
+
+                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);

@@ -5,42 +5,48 @@
 
     <RadioGroup
         android:id="@+id/radioGroup_type"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dialog_expense_title"
+        android:layout_marginTop="131dp"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="60dp"
+        >
 
         <RadioButton
             android:id="@+id/radioButton_Income"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_weight="1"
             android:layout_alignParentTop="true"
             android:text="@string/dialog_radio_button_income" />
 
         <RadioButton
             android:id="@+id/radioButton_Expense"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/radioButton_Income"
+            android:layout_weight="1"
             android:text="@string/dialog_radio_button_expense" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/dialog_expense_date"
-        android:layout_width="186dp"
+        android:layout_width="177dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/radioGroup_type"
-        android:paddingLeft="60dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="33dp"
-        android:drawableLeft="@android:drawable/ic_menu_my_calendar"
-        android:drawablePadding="5dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="145dp"
+        android:drawablePadding="6dp"
+        android:drawableStart="@android:drawable/ic_menu_my_calendar"
         android:ems="10"
         android:gravity="center_vertical"
-        android:text="@string/dialog_hint_date"/>
+        android:paddingLeft="60dp"
+        android:text="@string/dialog_hint_date" />
 
 
     <EditText
@@ -48,12 +54,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/radioGroup_type"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
         android:hint="@string/dialog_hint_expense_value"
         android:inputType="numberDecimal"
-        android:singleLine="false" />
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/dialog_expense_title"
@@ -65,9 +74,17 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/dialog_hint_expense_name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textAlignment="center" />
 
-
+    <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioGroup_type"
+        android:layout_marginRight="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="20dp"/>
 
 
 </RelativeLayout>
