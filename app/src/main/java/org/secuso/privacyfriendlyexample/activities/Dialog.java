@@ -89,12 +89,11 @@ public class Dialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String transactionName = editTextTitle.getText().toString();
-                        Boolean transactionType;
+                        String transactionType;
                         Double transactionAmount = 0.0;
 
 
                         if(editTextAmount.getText().toString()==null){
-
                         }
                         else{
                             try {
@@ -105,10 +104,9 @@ public class Dialog extends AppCompatDialogFragment {
                         }
 
                         if (radioButtonExpense.isChecked()) {
-                            transactionType = false;
-                            transactionAmount=transactionAmount*(-1);
+                            transactionType = "Expense";
                         }else {
-                            transactionType = true;
+                            transactionType = "Income";
                         }
 
 

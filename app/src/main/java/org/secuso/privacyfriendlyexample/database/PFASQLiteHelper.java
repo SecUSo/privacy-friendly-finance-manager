@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     /**
      * Use the following pattern for the name of the database
@@ -73,7 +73,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT NOT NULL," +
                 KEY_AMOUNT +" REAL," +
-                KEY_TYPE + " INTEGER," +
+                KEY_TYPE + " TEXT NOT NULL," +
                 KEY_DATE + " TEXT NOT NULL);";
 
 
@@ -188,7 +188,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
                 sampleData.setTransactionName(cursor.getString(1));
                 sampleData.setTransaction_amount(Double.parseDouble(cursor.getString(2)));
-                sampleData.setTransaction_type(Boolean.parseBoolean(cursor.getString(3)));
+                sampleData.setTransaction_type(cursor.getString(3));
                 sampleData.setTransaction_date(cursor.getString(4));
 
                 sampleDataList.add(sampleData);
@@ -214,7 +214,13 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 sampleData = new PFASampleDataType();
-                sampleData.setTransaction_amount(cursor.getDouble(2));
+                if(cursor.getString(3)=="Expense"){
+                    sampleData.setTransaction_amount(cursor.getDouble(2)*(-1));
+                }
+                else{
+                    sampleData.setTransaction_amount(cursor.getDouble(2));
+                }
+
 
                 balanceList.add(sampleData);
             } while (cursor.moveToNext());

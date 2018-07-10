@@ -17,7 +17,9 @@
 
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -30,24 +32,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapter;
-import org.secuso.privacyfriendlyexample.activities.adapter.HelpExpandableListAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQuery;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -93,17 +89,6 @@ public class MainActivity extends BaseActivity {
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
         new AsyncQuery(transactionList,this).execute();
 
-        /*
-        //fill ListView with data from database
-        myDB = new PFASQLiteHelper(this);
-
-        database_list = myDB.getAllSampleData();
-        list = new ArrayList<>();
-
-        for (PFASampleDataType s : database_list){
-            list.add(s);;
-        }
-        */
 
         //fill TextView with total Balance of transactions
         myDB = new PFASQLiteHelper(this);
@@ -116,12 +101,21 @@ public class MainActivity extends BaseActivity {
             balanceView.setTextColor(getResources().getColor(R.color.green));
         }
 
-        /*
-        //init adapter
-        adapter = new CustomListViewAdapter(this,list);
-        ListView transactionList = (ListView) findViewById(R.id.transactionList);
-        transactionList.setAdapter(adapter);
-        */
+        //Edit Transaction if click on item
+        transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                database_list = myDB.getAllSampleData();
+                list = new ArrayList<>();
+
+                for (PFASampleDataType s : database_list){
+                    list.add(s);
+                }
+
+                EditDialog dialog = new EditDialog(list.get(position));
+                dialog.show(getSupportFragmentManager(),"EditDialog");
+            }
+        });
 
         //Menu for listview items
         registerForContextMenu(transactionList);
@@ -146,21 +140,33 @@ public class MainActivity extends BaseActivity {
     //action when menu item is selected
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()){
             //delete Item from DB and View
             case R.id.listDeleteItem:
-                database_list = myDB.getAllSampleData();
-                list = new ArrayList<>();
 
-                for (PFASampleDataType s : database_list){
-                    list.add(s);
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.delete_dialog_title)
+                .setPositiveButton(R.string.delete_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        database_list = myDB.getAllSampleData();
+                        list = new ArrayList<>();
 
-                myDB.deleteSampleData(list.get(info.position));
+                        for (PFASampleDataType s : database_list){
+                            list.add(s);
+                        }
 
-                Intent main = new Intent(this,MainActivity.class);
-                startActivity(main);
+                        myDB.deleteSampleData(list.get(info.position));
+
+                        Intent main = new Intent(getBaseContext(),MainActivity.class);
+                        startActivity(main);
+                    }
+                })
+                .setNegativeButton(R.string.delete_dialog_negative, null);
+
+                AlertDialog alert = builder.create();
+                alert.show();
 
                 break;
 
