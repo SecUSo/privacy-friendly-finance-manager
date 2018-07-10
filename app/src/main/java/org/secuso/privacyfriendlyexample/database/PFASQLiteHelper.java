@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     /**
      * Use the following pattern for the name of the database
@@ -56,6 +56,8 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_AMOUNT = "transactionAmount";
     private static final String KEY_TYPE = "transactionType";
     private static final String KEY_DATE = "transactionDate";
+    private static final String KEY_CATEGORY = "transactionCategory";
+
 
     public PFASQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -74,7 +76,8 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 KEY_NAME + " TEXT NOT NULL," +
                 KEY_AMOUNT +" REAL," +
                 KEY_TYPE + " INTEGER," +
-                KEY_DATE + " TEXT NOT NULL);";
+                KEY_DATE + " TEXT NOT NULL," +
+                KEY_CATEGORY + " INTEGER);";
 
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
@@ -106,35 +109,11 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         }
         else values.put(KEY_TYPE,1);
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
+        values.put(KEY_CATEGORY,sampleData.getTransaction_category());
 
 
 
         database.insert(TABLE_SAMPLEDATA, null, values);
-        database.close();
-    }
-
-    /**
-     * Adds a single sampleData to our Table
-     * This method can be used for re-insertion for example an undo-action
-     * Therefore, the key of the sampleData will also be written into the database
-     * @param sampleData data that will be added
-     * Only use this for undo options and re-insertions
-     */
-    public void addSampleDataWithID(PFASampleDataType sampleData) {
-        SQLiteDatabase database = this.getWritableDatabase();
-
-        //To adjust this class for your own data, please add your values here.
-        ContentValues values = new ContentValues();
-        values.put(KEY_ID, sampleData.getID());
-        values.put(KEY_NAME,sampleData.getTransactionName());
-        values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
-        values.put(KEY_TYPE,sampleData.isTransaction_type());
-        values.put(KEY_DATE,sampleData.getTransaction_date().toString());
-
-
-        database.insert(TABLE_SAMPLEDATA, null, values);
-
-        //always close the database after insertion
         database.close();
     }
 
@@ -193,6 +172,8 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 sampleData.setTransaction_amount(Double.parseDouble(cursor.getString(2)));
                 sampleData.setTransaction_type(Integer.parseInt(cursor.getString(3)));
                 sampleData.setTransaction_date(cursor.getString(4));
+                sampleData.setTransaction_category(Integer.parseInt(cursor.getString(5)));
+
 
                 sampleDataList.add(sampleData);
             } while (cursor.moveToNext());
@@ -243,6 +224,8 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_AMOUNT,sampleData.getTransaction_amount());
         values.put(KEY_TYPE,sampleData.isTransaction_type());
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
+        values.put(KEY_CATEGORY,sampleData.getTransaction_category());
+
 
         return database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sampleData.getID()) });
