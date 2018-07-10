@@ -18,6 +18,7 @@ package org.secuso.privacyfriendlyexample.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -42,6 +43,19 @@ public class CategoryActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
+        FloatingActionButton add_category = findViewById(R.id.add_category);
+        add_category.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                openCategoryDialog();
+            }
+        });
+
+    }
+
+    private void openCategoryDialog() {
+        Dialog_Category dialog = new Dialog_Category();
+        dialog.show(getSupportFragmentManager(),"Dialog");
     }
 
 
