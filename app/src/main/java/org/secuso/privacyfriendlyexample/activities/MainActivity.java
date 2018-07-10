@@ -38,6 +38,7 @@ import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapte
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQuery;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

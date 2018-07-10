@@ -17,6 +17,7 @@
 
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,10 +30,11 @@ import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 
 /**
- * Created by yonjuni on 15.06.16.
+ * Created by David Meiborg on 01.06.2018.
  */
 public class AboutActivity extends AppCompatActivity {
 
+    @SuppressLint("StringFormatInvalid")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
