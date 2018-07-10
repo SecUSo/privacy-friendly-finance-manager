@@ -33,7 +33,7 @@ public class CategoryDataType {
     private int ID;
     private String categoryName;
 
-
+    public CategoryDataType() {    }
 
     /**
      * Always use this constructor to generate data with values.
@@ -45,9 +45,6 @@ public class CategoryDataType {
         this.categoryName=categoryName;
     }
 
-    /**
-     * All variables need getters and setters. because the variables are private.
-     */
 
 
     public int getID() {

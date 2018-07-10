@@ -29,8 +29,8 @@ import java.util.List;
 
 /**
  *
- * @author Karola Marky
- * @version 20161223
+ * @author David Meiborg
+ * @version 20180710
  * Structure based on http://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
  * accessed at 16th June 2016
  *
