@@ -63,12 +63,13 @@ public class EditDialog extends AppCompatDialogFragment {
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
     private Spinner category_spinner;
-
-    String transactionDate;
-
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-
     private PFASQLiteHelper myDB;
+    private String transactionName;
+    private Integer transactionType;
+    private String transactionCategory;
+    private String transactionDate;
+    private Double transactionAmount;
 
     public EditDialog(PFASampleDataType dataToEdit) {
         this.dataToEdit = dataToEdit;
@@ -134,10 +135,10 @@ public class EditDialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.edit_dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        String transactionName = editTextTitle.getText().toString();
-                        Integer transactionType;
-                        String transactionCategory;
-                        Double transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
+
+                        transactionName = editTextTitle.getText().toString();
+
+                        transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
 
                         if (radioButtonExpense.isChecked()) {
                             transactionType = 0;

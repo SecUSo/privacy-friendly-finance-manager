@@ -104,16 +104,13 @@ public class MainActivity extends BaseActivity {
         transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PFASampleDataType data = myDB.getSampleData(position);
-                EditDialog dialog = new EditDialog(data);
+                EditDialog dialog = new EditDialog(myDB.getSampleData(position));
                 dialog.show(getSupportFragmentManager(),"EditDialog");
             }
         });
 
         //Menu for listview items
         registerForContextMenu(transactionList);
-
-
     }
 
     //opens the dialog for entering new transaction
