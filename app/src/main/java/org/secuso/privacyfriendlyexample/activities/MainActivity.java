@@ -20,6 +20,7 @@ package org.secuso.privacyfriendlyexample.activities;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
@@ -31,14 +32,15 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.helpers.AsyncQuery;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryDelete;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -56,12 +58,14 @@ public class MainActivity extends BaseActivity {
     private List<PFASampleDataType> database_list;
     private ArrayList<PFASampleDataType> list;
     private static Context context;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onResume() {
         super.onResume();
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
-        new AsyncQuery(transactionList,this).execute();
+        new AsyncQuery(transactionList,this, progressBar).execute();
     }
 
     public static Context getContext(){
@@ -75,6 +79,9 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setMax(10);
+
         //Plus Button opens Dialog to add new Transaction
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
         add_expense.setOnClickListener(new View.OnClickListener(){
@@ -86,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        new AsyncQuery(transactionList,this).execute();
+        new AsyncQuery(transactionList,this,progressBar).execute();
 
 
         //fill TextView with total Balance of transactions
@@ -104,14 +111,7 @@ public class MainActivity extends BaseActivity {
         transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                database_list = myDB.getAllSampleData();
-                list = new ArrayList<>();
-
-                for (PFASampleDataType s : database_list){
-                    list.add(s);
-                }
-
-                openEditDialog(list.get(position));
+               new AsyncQueryUpdateOpenDialog(position,getApplicationContext()).execute();
             }
         });
 
@@ -146,14 +146,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                database_list = myDB.getAllSampleData();
-                                list = new ArrayList<>();
-
-                                for (PFASampleDataType s : database_list){
-                                    list.add(s);
-                                }
-
-                                myDB.deleteSampleData(list.get(info.position));
+                                new AsyncQueryDelete(info.position,MainActivity.this).execute();
 
                                 Intent main = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(main);
@@ -168,14 +161,8 @@ public class MainActivity extends BaseActivity {
 
             //edit Item in DB and View
             case R.id.listEditItem:
-                database_list = myDB.getAllSampleData();
-                list = new ArrayList<>();
 
-                for (PFASampleDataType s : database_list){
-                    list.add(s);
-                }
-
-                openEditDialog(list.get(info.position));
+                new AsyncQueryUpdateOpenDialog(info.position,MainActivity.this).execute();
 
                 break;
         }
@@ -183,10 +170,6 @@ public class MainActivity extends BaseActivity {
         return super.onContextItemSelected(item);
     }
 
-    public void openEditDialog(PFASampleDataType dataToEdit){
-        EditDialog dialog = new EditDialog(dataToEdit);
-        dialog.show(getSupportFragmentManager(),"EditDialog");
-    }
 
 
     /**
@@ -200,5 +183,51 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    /**
+     * This nested class opens the Edit Dialog with an AsyncTask
+     *
+     */
+    private class AsyncQueryUpdateOpenDialog extends AsyncTask<Void,Void,Void> {
+
+        private ArrayList<PFASampleDataType> list = new ArrayList<>();
+        int position;
+        PFASQLiteHelper myDB;
+        Context context;
+
+
+        public AsyncQueryUpdateOpenDialog(int position, Context context){
+            this.position=position;
+            this.context=context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            myDB = new PFASQLiteHelper(context);
+            List<PFASampleDataType> database_list = myDB.getAllSampleData();
+            list = new ArrayList<>();
+
+            for (PFASampleDataType s : database_list){
+                list.add(s);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            EditDialog dialog = new EditDialog(list.get(position));
+            dialog.show(getSupportFragmentManager(),"EditDialog");
+        }
+    }
 
 }

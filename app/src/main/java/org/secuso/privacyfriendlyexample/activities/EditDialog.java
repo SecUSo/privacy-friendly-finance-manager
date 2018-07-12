@@ -48,6 +48,7 @@ import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategoryDialog;
 import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategoryDialogForEdit;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryUpdate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,7 +139,7 @@ public class EditDialog extends AppCompatDialogFragment {
 
                         transactionCategory = category_spinner.getSelectedItem().toString();
 
-                        myDB.updateSampleData(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+                        new AsyncQueryUpdate(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);

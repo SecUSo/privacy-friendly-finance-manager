@@ -80,7 +80,7 @@ public class Dialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog, null);
 
-        myDB = new PFASQLiteHelper(getContext());
+        myDB = new PFASQLiteHelper(getActivity());
 
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
         editTextAmount = view.findViewById(R.id.dialog_expense_amount);

@@ -24,16 +24,22 @@ public class AsyncQuery extends AsyncTask<Void,Void,Void> {
     private ArrayList<PFASampleDataType> list = new ArrayList<>();
     private List<PFASampleDataType> database_list;
     private Context context;
+    private ProgressBar progressBar;
 
 
-    public AsyncQuery (ListView transactionList, Context context){
+
+    public AsyncQuery (ListView transactionList, Context context, ProgressBar progressBar){
         this.transactionList=transactionList;
         this.context=context;
+        this.progressBar=progressBar;
     }
 
     @Override
     protected void onPreExecute() {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setProgress(0);
     }
+
 
 
     @Override
@@ -59,5 +65,6 @@ public class AsyncQuery extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         adapter = new CustomListViewAdapter(context,list);
         transactionList.setAdapter(adapter);
+        progressBar.setVisibility(View.GONE);
     }
 }
