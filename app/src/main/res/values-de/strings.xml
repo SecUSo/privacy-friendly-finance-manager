@@ -24,6 +24,10 @@
     <string name="dialog_category_hint_name">Name der Kategorie</string>
     <string name="dialog_category_title">Neue Kategorie</string>
 
+    <string name="category_legend_balance">Bilanz</string>
+    <string name="category_legend_name">Name</string>
+
+
     <!--###HELP###-->
     <string name="help">Hilfe</string>
 

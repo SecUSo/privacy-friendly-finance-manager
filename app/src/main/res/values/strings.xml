@@ -25,7 +25,8 @@
     <string name="dialog_category_hint_name">category title</string>
     <string name="dialog_category_title">New Category</string>
 
-
+    <string name="category_legend_balance">Balance</string>
+    <string name="category_legend_name">Name</string>
 
 
     <!--###HELP###-->
