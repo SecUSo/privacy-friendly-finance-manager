@@ -19,10 +19,14 @@ package org.secuso.privacyfriendlyexample.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +43,7 @@ import java.util.List;
 
 public class CategorySQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 7;
 
     /**
      * Use the following pattern for the name of the database
@@ -70,8 +74,12 @@ public class CategorySQLiteHelper extends SQLiteOpenHelper {
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT NOT NULL);";
 
-
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
+        String categoryName = "---------";
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME,categoryName);
+        sqLiteDatabase.insert(TABLE_SAMPLEDATA,null,values);
+
     }
 
     @Override

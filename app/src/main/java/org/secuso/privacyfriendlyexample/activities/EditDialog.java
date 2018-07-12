@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,14 +41,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.database.CategoryDataType;
+import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class EditDialog extends AppCompatDialogFragment {
@@ -87,8 +92,25 @@ public class EditDialog extends AppCompatDialogFragment {
         editTextTitle.setText(dataToEdit.getTransactionName());
         editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
         editTextDate.setText(dataToEdit.getTransaction_date());
-        category_spinner= view.findViewById(R.id.category_spinner);
 
+        category_spinner= view.findViewById(R.id.edit_category_spinner);
+
+        CategorySQLiteHelper myDBCategory = new CategorySQLiteHelper(getActivity());
+        List<CategoryDataType> database_list = myDBCategory.getAllSampleData();
+        ArrayList<String> list = new ArrayList<>();
+
+        for (CategoryDataType s : database_list){
+            list.add(s.getCategoryName());
+        }
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String> (getActivity(),R.layout.spinner_row,R.id.spinner_content,list);
+        category_spinner.setAdapter(adapter);
+
+        String compareValue = dataToEdit.getTransaction_category();
+        if (compareValue != null) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            category_spinner.setSelection(spinnerPosition);
+        }
 
         if (dataToEdit.isTransaction_type()==1) {
             radioButtonIncome.setChecked(true);

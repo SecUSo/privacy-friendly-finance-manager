@@ -26,6 +26,7 @@
 
     <string name="category_legend_balance">Bilanz</string>
     <string name="category_legend_name">Name</string>
+    <string name="firstCategoryName">Keine Kategorie</string>
 
 
     <!--###HELP###-->

@@ -79,7 +79,7 @@
         android:textAlignment="center" />
 
     <Spinner
-        android:id="@+id/category_spinner"
+        android:id="@+id/edit_category_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_dialog_expense_type"

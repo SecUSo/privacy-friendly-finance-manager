@@ -85,7 +85,6 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
         radioGroupType = view.findViewById(R.id.radioGroup_type);
         category_spinner= view.findViewById(R.id.category_spinner);
-        category_spinner.setPrompt("Select category");
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
