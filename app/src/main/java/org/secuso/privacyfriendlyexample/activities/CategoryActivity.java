@@ -70,6 +70,12 @@ public class CategoryActivity extends BaseActivity {
 
     }
 
+    /**
+     * This method opens the Dialog for adding a Category
+     *
+     * @return void
+     */
+
     private void openCategoryDialog() {
         Dialog_Category dialog = new Dialog_Category();
         dialog.show(getSupportFragmentManager(),"Dialog");

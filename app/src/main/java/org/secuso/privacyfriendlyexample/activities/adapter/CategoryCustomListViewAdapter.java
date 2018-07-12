@@ -65,7 +65,7 @@ public class CategoryCustomListViewAdapter extends ArrayAdapter<CategoryDataType
 
         if (amount<0){
             category_listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
-            category_listItem_amount.setText(String.valueOf(format.format(amount)));
+            category_listItem_amount.setText(format.format(amount));
         }else{
             category_listItem_amount.setTextColor(getContext().getResources().getColor(color.green));
             category_listItem_amount.setText(format.format(amount));

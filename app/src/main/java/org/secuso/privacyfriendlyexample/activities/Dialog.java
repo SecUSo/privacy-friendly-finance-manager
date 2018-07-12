@@ -46,6 +46,8 @@ import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategory;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategoryDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,10 +64,12 @@ public class Dialog extends AppCompatDialogFragment {
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
     private Spinner category_spinner;
-    String transactionDate;
-
+    private String transactionDate;
+    private Integer transactionType;
+    private Double transactionAmount = 0.0;
+    private String transactionCategory;
+    private String transactionName;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-
     private PFASQLiteHelper myDB;
 
 
@@ -75,6 +79,7 @@ public class Dialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog, null);
+
         myDB = new PFASQLiteHelper(getContext());
 
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
@@ -89,17 +94,7 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
 
-        CategorySQLiteHelper myDBCategory = new CategorySQLiteHelper(getActivity());
-        List<CategoryDataType> database_list = myDBCategory.getAllSampleData();
-        ArrayList<String>list = new ArrayList<>();
-
-        for (CategoryDataType s : database_list){
-            list.add(s.getCategoryName());
-        }
-
-        ArrayAdapter<String> adapter=new ArrayAdapter<String> (getActivity(),R.layout.spinner_row,R.id.spinner_content,list);
-        category_spinner.setAdapter(adapter);
-
+        new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
 
 
                 builder.setView(view)
@@ -115,11 +110,7 @@ public class Dialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        String transactionName = editTextTitle.getText().toString();
-                        Integer transactionType;
-                        Double transactionAmount = 0.0;
-                        String transactionCategory;
-
+                        transactionName = editTextTitle.getText().toString();
 
                         if(editTextAmount.getText().toString()==null){
 

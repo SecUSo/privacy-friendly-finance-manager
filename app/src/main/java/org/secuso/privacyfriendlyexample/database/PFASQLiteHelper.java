@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     /**
      * Use the following pattern for the name of the database
@@ -129,7 +129,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         Log.d("DATABASE", Integer.toString(id));
 
         Cursor cursor = database.query(TABLE_SAMPLEDATA, new String[]{KEY_ID,
-                        KEY_NAME,KEY_AMOUNT,KEY_TYPE,KEY_DATE}, KEY_ID + "=?",
+                        KEY_NAME,KEY_AMOUNT,KEY_TYPE,KEY_DATE,KEY_CATEGORY}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         PFASampleDataType sampleData = new PFASampleDataType();

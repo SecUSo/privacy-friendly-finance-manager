@@ -46,6 +46,8 @@ import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategoryDialog;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategoryDialogForEdit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,11 +67,8 @@ public class EditDialog extends AppCompatDialogFragment {
     private Spinner category_spinner;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private PFASQLiteHelper myDB;
-    private String transactionName;
-    private Integer transactionType;
-    private String transactionCategory;
-    private String transactionDate;
-    private Double transactionAmount;
+    String transactionDate;
+
 
     public EditDialog(PFASampleDataType dataToEdit) {
         this.dataToEdit = dataToEdit;
@@ -89,29 +88,14 @@ public class EditDialog extends AppCompatDialogFragment {
         editTextDate = view.findViewById(R.id.edit_dialog_expense_date);
         radioButtonIncome = view.findViewById(R.id.edit_radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.edit_radioButton_Expense);
+        category_spinner = view.findViewById(R.id.edit_category_spinner);
 
         editTextTitle.setText(dataToEdit.getTransactionName());
-        editTextAmount.setText(dataToEdit.getTransaction_amount().toString());
+        editTextAmount.setText(String.valueOf(dataToEdit.getTransaction_amount()));
         editTextDate.setText(dataToEdit.getTransaction_date());
 
-        category_spinner= view.findViewById(R.id.edit_category_spinner);
+        new AsyncQueryCategoryDialogForEdit(category_spinner,dataToEdit,getContext()).execute();
 
-        CategorySQLiteHelper myDBCategory = new CategorySQLiteHelper(getActivity());
-        List<CategoryDataType> database_list = myDBCategory.getAllSampleData();
-        ArrayList<String> list = new ArrayList<>();
-
-        for (CategoryDataType s : database_list){
-            list.add(s.getCategoryName());
-        }
-
-        ArrayAdapter<String> adapter=new ArrayAdapter<String> (getActivity(),R.layout.spinner_row,R.id.spinner_content,list);
-        category_spinner.setAdapter(adapter);
-
-        String compareValue = dataToEdit.getTransaction_category();
-        if (compareValue != null) {
-            int spinnerPosition = adapter.getPosition(compareValue);
-            category_spinner.setSelection(spinnerPosition);
-        }
 
         if (dataToEdit.isTransaction_type()==1) {
             radioButtonIncome.setChecked(true);
@@ -135,6 +119,10 @@ public class EditDialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.edit_dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
+                        String transactionName;
+                        Integer transactionType;
+                        String transactionCategory;
+                        Double transactionAmount;
 
                         transactionName = editTextTitle.getText().toString();
 
@@ -142,7 +130,6 @@ public class EditDialog extends AppCompatDialogFragment {
 
                         if (radioButtonExpense.isChecked()) {
                             transactionType = 0;
-                            transactionAmount=transactionAmount*(-1);
                         }else {
                             transactionType = 1;
                         }

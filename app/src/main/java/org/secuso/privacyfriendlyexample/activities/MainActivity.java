@@ -104,8 +104,14 @@ public class MainActivity extends BaseActivity {
         transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EditDialog dialog = new EditDialog(myDB.getSampleData(position));
-                dialog.show(getSupportFragmentManager(),"EditDialog");
+                database_list = myDB.getAllSampleData();
+                list = new ArrayList<>();
+
+                for (PFASampleDataType s : database_list){
+                    list.add(s);
+                }
+
+                openEditDialog(list.get(position));
             }
         });
 
@@ -140,7 +146,14 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                myDB.deleteSampleData(myDB.getSampleData(info.position));
+                                database_list = myDB.getAllSampleData();
+                                list = new ArrayList<>();
+
+                                for (PFASampleDataType s : database_list){
+                                    list.add(s);
+                                }
+
+                                myDB.deleteSampleData(list.get(info.position));
 
                                 Intent main = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(main);
@@ -155,7 +168,15 @@ public class MainActivity extends BaseActivity {
 
             //edit Item in DB and View
             case R.id.listEditItem:
-                openEditDialog(myDB.getSampleData(info.position));
+                database_list = myDB.getAllSampleData();
+                list = new ArrayList<>();
+
+                for (PFASampleDataType s : database_list){
+                    list.add(s);
+                }
+
+                openEditDialog(list.get(info.position));
+
                 break;
         }
 
