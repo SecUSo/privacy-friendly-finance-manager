@@ -25,13 +25,10 @@ public class AsyncQuery extends AsyncTask<Void,Void,Void> {
     private List<PFASampleDataType> database_list;
     private Context context;
 
-    TextView balanceView;
-
 
     public AsyncQuery (ListView transactionList, Context context){
         this.transactionList=transactionList;
         this.context=context;
-        this.balanceView=balanceView;
     }
 
     @Override

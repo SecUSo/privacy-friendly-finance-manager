@@ -53,7 +53,6 @@ import android.content.DialogInterface;
  */
 public class MainActivity extends BaseActivity {
     private PFASQLiteHelper myDB;
-    private CustomListViewAdapter adapter;
     private List<PFASampleDataType> database_list;
     private ArrayList<PFASampleDataType> list;
     private static Context context;
@@ -62,7 +61,6 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
-        TextView balanceView = (TextView) findViewById(R.id.totalBalance);
         new AsyncQuery(transactionList,this).execute();
     }
 
@@ -106,14 +104,8 @@ public class MainActivity extends BaseActivity {
         transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                database_list = myDB.getAllSampleData();
-                list = new ArrayList<>();
-
-                for (PFASampleDataType s : database_list){
-                    list.add(s);
-                }
-
-                EditDialog dialog = new EditDialog(list.get(position));
+                PFASampleDataType data = myDB.getSampleData(position);
+                EditDialog dialog = new EditDialog(data);
                 dialog.show(getSupportFragmentManager(),"EditDialog");
             }
         });
@@ -150,14 +142,8 @@ public class MainActivity extends BaseActivity {
                         .setPositiveButton(R.string.delete_dialog_positive, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                database_list = myDB.getAllSampleData();
-                                list = new ArrayList<>();
 
-                                for (PFASampleDataType s : database_list){
-                                    list.add(s);
-                                }
-
-                                myDB.deleteSampleData(list.get(info.position));
+                                myDB.deleteSampleData(myDB.getSampleData(info.position));
 
                                 Intent main = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(main);
@@ -167,24 +153,13 @@ public class MainActivity extends BaseActivity {
 
                         AlertDialog alert = builder.create();
                         alert.show();
-
                 break;
 
 
             //edit Item in DB and View
             case R.id.listEditItem:
-                database_list = myDB.getAllSampleData();
-                list = new ArrayList<>();
-
-                for (PFASampleDataType s : database_list){
-                    list.add(s);
-                }
-
-                EditDialog dialog = new EditDialog(list.get(info.position));
-                dialog.show(getSupportFragmentManager(),"EditDialog");
-
+                openEditDialog(myDB.getSampleData(info.position));
                 break;
-
         }
 
         return super.onContextItemSelected(item);
