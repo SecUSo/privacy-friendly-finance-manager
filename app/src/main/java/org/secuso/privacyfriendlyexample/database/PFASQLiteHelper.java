@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     /**
      * Use the following pattern for the name of the database
@@ -187,7 +187,6 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      */
     public double getBalance(){
         PFASampleDataType sampleData = null;
-        List<PFASampleDataType> balanceList = new ArrayList<PFASampleDataType>();
         Double balance = new Double(0);
 
         String selectQuery = "SELECT  * FROM " + TABLE_SAMPLEDATA;
@@ -204,6 +203,39 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                 }else{
                     balance=balance + (cursor.getDouble(2));
                 }
+            } while (cursor.moveToNext());
+        }
+
+        return balance;
+    }
+
+    /**
+     * This method returns the total balance of all transactions with a specific category
+     * @return Double - balance by category
+     */
+    public double getBalanceByCategory(String category){
+        PFASampleDataType sampleData = null;
+        Double balance = new Double(0);
+
+        String selectQuery = "SELECT  * FROM " + TABLE_SAMPLEDATA;
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                sampleData = new PFASampleDataType();
+                sampleData.setTransaction_category(cursor.getString(5));
+                sampleData.setTransaction_type(cursor.getInt(3));
+                //sampleData.setTransaction_amount(cursor.getDouble(2));
+
+
+                if(sampleData.isTransaction_type()==0){
+                    if(sampleData.getTransaction_category().equals(category)) balance=balance + (cursor.getDouble(2))*(-1);
+                }else{
+                    if(sampleData.getTransaction_category().equals(category)) balance=balance + (cursor.getDouble(2));
+                }
+
             } while (cursor.moveToNext());
         }
 

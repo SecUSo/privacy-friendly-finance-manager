@@ -28,6 +28,7 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.R.color;
 import org.secuso.privacyfriendlyexample.database.CategoryDataType;
+import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
 
 import java.text.NumberFormat;
@@ -49,6 +50,8 @@ public class CategoryCustomListViewAdapter extends ArrayAdapter<CategoryDataType
             convertView = inflater.inflate(R.layout.list_item_category, parent, false);
         }
 
+        PFASQLiteHelper myDB = new PFASQLiteHelper(getContext());
+
         CategoryDataType category = getItem(position);
 
         TextView category_listItem_amount = convertView.findViewById(R.id.category_listItem_amount);
@@ -57,6 +60,16 @@ public class CategoryCustomListViewAdapter extends ArrayAdapter<CategoryDataType
         NumberFormat format = NumberFormat.getCurrencyInstance();
 
         category_listItem_name.setText(category.getCategoryName());
+
+        Double amount = myDB.getBalanceByCategory(category.getCategoryName());
+
+        if (amount<0){
+            category_listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
+            category_listItem_amount.setText(String.valueOf(format.format(amount)));
+        }else{
+            category_listItem_amount.setTextColor(getContext().getResources().getColor(color.green));
+            category_listItem_amount.setText(format.format(amount));
+        }
 
         return convertView;
     }
