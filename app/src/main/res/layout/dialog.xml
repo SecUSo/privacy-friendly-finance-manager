@@ -87,7 +87,7 @@
         android:layout_marginTop="215dp" />
 
     <TextView
-        android:id="@+id/totalBalance_label"
+        android:id="@+id/dialog_category_legend"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_marginLeft="10dp"
