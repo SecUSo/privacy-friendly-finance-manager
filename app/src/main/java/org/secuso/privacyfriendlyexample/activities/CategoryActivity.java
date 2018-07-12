@@ -20,18 +20,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.adapter.CategoryCustomListViewAdapter;
-import org.secuso.privacyfriendlyexample.activities.adapter.CustomListViewAdapter;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.database.CategoryDataType;
 import org.secuso.privacyfriendlyexample.database.CategorySQLiteHelper;
-import org.secuso.privacyfriendlyexample.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyexample.database.PFASampleDataType;
+import org.secuso.privacyfriendlyexample.helpers.AsyncQueryCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,16 +65,8 @@ public class CategoryActivity extends BaseActivity {
 
         ListView categoryList = (ListView) findViewById(R.id.categoryList);
 
-        myDB = new CategorySQLiteHelper(this);
-        database_list = myDB.getAllSampleData();
-        list = new ArrayList<>();
+        new AsyncQueryCategory(categoryList,this).execute();
 
-        for (CategoryDataType s : database_list){
-            list.add(s);
-        }
-
-        adapter = new CategoryCustomListViewAdapter(this,list);
-        categoryList.setAdapter(adapter);
 
     }
 
