@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.activities.Dialog;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 import org.secuso.privacyfriendlyexample.activities.adapter.CategoryCustomListViewAdapter;
 import org.secuso.privacyfriendlyexample.database.CategoryDataType;
@@ -19,7 +20,7 @@ public class AsyncQueryCategoryDialog extends AsyncTask<Void,Void,Void> {
 
     private Spinner category_spinner;
     private ArrayAdapter<String> adapter;
-    private ArrayList<CategoryDataType> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
     private List<CategoryDataType> database_list;
     private Context context;
 
@@ -44,10 +45,10 @@ public class AsyncQueryCategoryDialog extends AsyncTask<Void,Void,Void> {
 
         CategorySQLiteHelper myDB = new CategorySQLiteHelper(context);
         database_list = myDB.getAllSampleData();
-        list = new ArrayList<>();
+        list = new ArrayList<String>();
 
         for (CategoryDataType s : database_list){
-            list.add(s);
+            list.add(s.getCategoryName());
         }
 
         return null;

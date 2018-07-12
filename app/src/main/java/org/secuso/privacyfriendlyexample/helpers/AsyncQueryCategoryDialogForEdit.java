@@ -17,7 +17,7 @@ public class AsyncQueryCategoryDialogForEdit extends AsyncTask<Void,Void,Void> {
 
     private Spinner category_spinner;
     private ArrayAdapter<String> adapter;
-    private ArrayList<CategoryDataType> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
     private List<CategoryDataType> database_list;
     private Context context;
     private PFASampleDataType dataToEdit;
@@ -47,7 +47,7 @@ public class AsyncQueryCategoryDialogForEdit extends AsyncTask<Void,Void,Void> {
         list = new ArrayList<>();
 
         for (CategoryDataType s : database_list){
-            list.add(s);
+            list.add(s.getCategoryName());
         }
 
         return null;
