@@ -15,10 +15,11 @@ public class AsyncQueryUpdate extends AsyncTask<Void,Void,Void> {
 
     PFASampleDataType dataToUpdate;
     PFASQLiteHelper myDB;
+    Context context;
 
-
-    public AsyncQueryUpdate(PFASampleDataType dataToUpdate){
+    public AsyncQueryUpdate(PFASampleDataType dataToUpdate, Context context){
         this.dataToUpdate=dataToUpdate;
+        this.context = context;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class AsyncQueryUpdate extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-
+        myDB = new PFASQLiteHelper(context);
         myDB.updateSampleData(dataToUpdate);
 
         return null;

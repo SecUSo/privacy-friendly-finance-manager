@@ -80,12 +80,12 @@
 
     <Spinner
         android:id="@+id/edit_category_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_dialog_expense_type"
-        android:layout_marginRight="75dp"
-        android:layout_marginLeft="75dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_width="165dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="215dp" />
 
     <TextView
         android:id="@+id/dialog_category_legend"

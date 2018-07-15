@@ -139,7 +139,10 @@ public class EditDialog extends AppCompatDialogFragment {
 
                         transactionCategory = category_spinner.getSelectedItem().toString();
 
-                        new AsyncQueryUpdate(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+                        //new AsyncQueryUpdate(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory), getContext());
+
+                        PFASQLiteHelper myDB = new PFASQLiteHelper(getActivity());
+                        myDB.updateSampleData( new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
 
                         Intent main = new Intent((Context)getActivity(),MainActivity.class);
                         startActivity(main);

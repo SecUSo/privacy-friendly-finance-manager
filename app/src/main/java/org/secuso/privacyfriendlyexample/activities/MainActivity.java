@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public Context getContext(){
-        return this;
+        return MainActivity.this;
     }
 
     @Override
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity {
             //edit Item in DB and View
             case R.id.listEditItem:
 
-                new AsyncQueryUpdateOpenDialog(info.position,MainActivity.this).execute();
+                new AsyncQueryUpdateOpenDialog(info.position,getApplicationContext()).execute();
 
                 break;
         }
