@@ -57,8 +57,14 @@ public class MainActivity extends BaseActivity {
     private PFASQLiteHelper myDB;
     private List<PFASampleDataType> database_list;
     private ArrayList<PFASampleDataType> list;
-    private static Context context;
+    private Context context;
     private ProgressBar progressBar;
+    private static String defaultCategory;
+
+
+    public static String getDefaultCategory(){
+        return defaultCategory;
+    }
 
 
     @Override
@@ -68,8 +74,8 @@ public class MainActivity extends BaseActivity {
         new AsyncQuery(transactionList,this, progressBar).execute();
     }
 
-    public static Context getContext(){
-        return MainActivity.context;
+    public Context getContext(){
+        return this;
     }
 
     @Override
@@ -78,6 +84,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         overridePendingTransition(0, 0);
+
+        context=this.getApplicationContext();
+        defaultCategory = context.getResources().getString(R.string.firstCategoryName);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setMax(10);

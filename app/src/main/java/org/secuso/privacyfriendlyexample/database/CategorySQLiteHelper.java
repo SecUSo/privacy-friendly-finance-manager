@@ -43,7 +43,7 @@ import java.util.List;
 
 public class CategorySQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 12;
 
     /**
      * Use the following pattern for the name of the database
@@ -75,7 +75,8 @@ public class CategorySQLiteHelper extends SQLiteOpenHelper {
                 KEY_NAME + " TEXT NOT NULL);";
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
-        String categoryName = "No Category";
+
+        String categoryName = MainActivity.getDefaultCategory();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME,categoryName);
         sqLiteDatabase.insert(TABLE_SAMPLEDATA,null,values);
