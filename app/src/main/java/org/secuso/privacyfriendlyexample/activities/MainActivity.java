@@ -58,7 +58,6 @@ public class MainActivity extends BaseActivity {
     private List<PFASampleDataType> database_list;
     private ArrayList<PFASampleDataType> list;
     private Context context;
-    private ProgressBar progressBar;
     private static String defaultCategory;
 
 
@@ -71,7 +70,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
-        new AsyncQuery(transactionList,this, progressBar).execute();
+        new AsyncQuery(transactionList,this).execute();
     }
 
     public Context getContext(){
@@ -88,8 +87,6 @@ public class MainActivity extends BaseActivity {
         context=this.getApplicationContext();
         defaultCategory = context.getResources().getString(R.string.firstCategoryName);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setMax(10);
 
         //Plus Button opens Dialog to add new Transaction
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
@@ -102,7 +99,7 @@ public class MainActivity extends BaseActivity {
 
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        new AsyncQuery(transactionList,this,progressBar).execute();
+        new AsyncQuery(transactionList,this).execute();
 
 
         //fill TextView with total Balance of transactions

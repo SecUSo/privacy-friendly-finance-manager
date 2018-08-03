@@ -43,7 +43,7 @@ import java.util.List;
 
 public class CategorySQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
 
     /**
      * Use the following pattern for the name of the database

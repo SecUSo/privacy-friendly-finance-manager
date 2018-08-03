@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
 
     /**
      * Use the following pattern for the name of the database
