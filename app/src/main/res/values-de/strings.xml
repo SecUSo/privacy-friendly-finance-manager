@@ -18,6 +18,9 @@
     <string name="totalBalance">Kontostand</string>
     <string name="deleteItem">Löschen</string>
     <string name="editItem">Bearbeiten</string>
+    <string name="legend_amount">Betrag</string>
+    <string name="legend_name">Titel</string>
+    <string name="legend_date">Datum</string>
 
     <!-- ###CATEGORY###-->
     <string name="category">Kategorien</string>
@@ -38,6 +41,8 @@
     <string name="help_whatis_answer">Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</string>
     <string name="help_feature_one">Wie überwache ich Ausgaben und Einnahmen?</string>
     <string name="help_feature_one_answer">Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den + Button in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</string>
+    <string name="help_feature_two">Wie kann ich meine Ausgaben kategorisieren?</string>
+    <string name="help_feature_two_answer">Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</string>
     <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
     <string name="help_privacy_answer">Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</string>
     <string name="help_permission">Welche Berechtigungen braucht die App?</string>
@@ -76,6 +81,9 @@
     <string name="delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
     <string name="delete_dialog_positive">Ok</string>
     <string name="delete_dialog_negative">Abbrechen</string>
+
+    <string name="dialog_toast">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>
+
 
     <!-- ### WELCOME DIALOG ### -->
     <string name="okay">Okay</string>

@@ -19,6 +19,10 @@
     <string name="totalBalance">Balance</string>
     <string name="deleteItem">delete</string>
     <string name="editItem">edit</string>
+    <string name="legend_amount">amount</string>
+    <string name="legend_name">title</string>
+    <string name="legend_date">date</string>
+
 
     <!-- ###CATEGORY###-->
     <string name="category">Categories</string>
@@ -40,6 +44,8 @@
     <string name="help_whatis_answer">The Privacy Friendly Finance Manager is an app to monitor personal income and expenses.</string>
     <string name="help_feature_one">How do I manage my income and expenses?</string>
     <string name="help_feature_one_answer">A financial transaction, either income or expense, can be added to your financial history by using the + button in the toolbar. The list of financial transactions appears in the navigation menu and can be called there. Items inside the transaction list can be edited and deleted.</string>
+    <string name="help_feature_two">How can I categorize my expenses?</string>
+    <string name="help_feature_two_answer">If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
     <string name="help_privacy_answer">Privacy Friendly App Example does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
     <string name="help_permission">Which permissions requires the app?</string>
@@ -78,6 +84,9 @@
     <string name="delete_dialog_title">Do you want to delete this transaction?</string>
     <string name="delete_dialog_positive">Ok</string>
     <string name="delete_dialog_negative">Cancel</string>
+
+
+    <string name="dialog_toast">In order to save your transaction, please change your amount from 0 to a value.</string>
 
 
 

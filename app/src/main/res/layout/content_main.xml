@@ -40,6 +40,7 @@
         android:textStyle="bold" />
 
     <View
+        android:id="@+id/little_view"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_below="@+id/totalBalance"
@@ -47,13 +48,53 @@
         android:layout_marginTop="-20dp"
         android:background="@color/colorPrimary" />
 
+    <TextView
+        android:id="@+id/legend_name"
+        android:layout_width="146dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/little_view"
+        android:layout_toRightOf="@+id/legend_amount"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:text="@string/legend_name"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/legend_amount"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/little_view"
+        android:layout_below="@+id/little_view"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/legend_amount"
+        android:textAlignment="textStart"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/legend_date"
+        android:layout_width="146dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/little_view"
+        android:layout_toRightOf="@+id/legend_name"
+        android:gravity="center_vertical"
+        android:paddingRight="12dp"
+        android:text="@string/legend_date"
+        android:textAlignment="textEnd"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/transactionList"
         android:layout_width="match_parent"
-        android:layout_height="431dp"
+        android:layout_height="381dp"
+        android:layout_below="@+id/legend_name"
+        android:layout_centerHorizontal="true"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        android:layout_below="@+id/totalBalance"/>
+        android:dividerHeight="0.5dp" />
 
 
 </RelativeLayout>

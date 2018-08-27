@@ -38,6 +38,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
@@ -64,7 +65,6 @@ public class Dialog extends AppCompatDialogFragment {
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
     private Spinner category_spinner;
-    private String transactionDate;
     private Integer transactionType;
     private Double transactionAmount = 0.0;
     private String transactionCategory;
@@ -72,6 +72,13 @@ public class Dialog extends AppCompatDialogFragment {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private PFASQLiteHelper myDB;
 
+    Calendar cal = Calendar.getInstance();
+    int year = cal.get(Calendar.YEAR);
+    int month = cal.get(Calendar.MONTH)+1;
+    int day = cal.get(Calendar.DAY_OF_MONTH);
+    String date = day+"/"+month+"/"+year;
+
+    private String transactionDate=date;
 
     //opens Dialog with layout defined in dialog.xml
     @Override
@@ -93,6 +100,7 @@ public class Dialog extends AppCompatDialogFragment {
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
+        editTextDate.setText(transactionDate);
 
         new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
 
@@ -123,21 +131,32 @@ public class Dialog extends AppCompatDialogFragment {
                             }
                         }
 
-                        if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
-                            transactionType = 0;
+                        if (transactionAmount==0){
+                            CharSequence text = getString(R.string.dialog_toast);
+                            int duration = Toast.LENGTH_LONG;
+
+                            Toast toast = Toast.makeText(getContext(), text, duration);
+                            toast.show();
                         }
-                        else {
-                            transactionType=1;
+                        else{
+                            if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
+                                transactionType = 0;
+                            }
+                            else {
+                                transactionType=1;
+                            }
+
+                            transactionDate = editTextDate.getText().toString();
+
+                            transactionCategory = category_spinner.getSelectedItem().toString();
+
+                            myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+
+                            Intent main = new Intent((Context)getActivity(),MainActivity.class);
+                            startActivity(main);
                         }
 
-                        transactionDate = editTextDate.getText().toString();
 
-                        transactionCategory = category_spinner.getSelectedItem().toString();
-
-                        myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
-
-                        Intent main = new Intent((Context)getActivity(),MainActivity.class);
-                        startActivity(main);
                     }
                 });
 

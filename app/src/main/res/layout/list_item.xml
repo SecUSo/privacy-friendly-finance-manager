@@ -11,6 +11,8 @@
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:text="15"
+        android:textAlignment="textStart"
+        android:paddingLeft="20dp"
         android:textSize="12dp"
         android:textStyle="bold" />
 

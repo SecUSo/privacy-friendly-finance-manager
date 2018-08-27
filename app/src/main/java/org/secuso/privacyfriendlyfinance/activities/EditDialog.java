@@ -39,6 +39,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
@@ -123,29 +124,48 @@ public class EditDialog extends AppCompatDialogFragment {
                         String transactionName;
                         Integer transactionType;
                         String transactionCategory;
-                        Double transactionAmount;
+                        Double transactionAmount = 0.0;
 
                         transactionName = editTextTitle.getText().toString();
 
-                        transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
-
-                        if (radioButtonExpense.isChecked()) {
-                            transactionType = 0;
-                        }else {
-                            transactionType = 1;
+                        if(editTextAmount.getText().toString()==null){}
+                        else {
+                            try {
+                                transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
                         }
 
-                        transactionDate = editTextDate.getText().toString();
+                        if (transactionAmount==0){
+                            CharSequence text = getString(R.string.dialog_toast);
+                            int duration = Toast.LENGTH_LONG;
 
-                        transactionCategory = category_spinner.getSelectedItem().toString();
+                            Toast toast = Toast.makeText(getContext(), text, duration);
+                            toast.show();
+                        }
 
-                        //new AsyncQueryUpdate(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory), getContext());
+                        else{
+                                if (radioButtonExpense.isChecked()) {
+                                    transactionType = 0;
+                                }else {
+                                    transactionType = 1;
+                                }
 
-                        PFASQLiteHelper myDB = new PFASQLiteHelper(getActivity());
-                        myDB.updateSampleData( new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+                                transactionDate = editTextDate.getText().toString();
 
-                        Intent main = new Intent((Context)getActivity(),MainActivity.class);
-                        startActivity(main);
+                                transactionCategory = category_spinner.getSelectedItem().toString();
+
+                                //new AsyncQueryUpdate(new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory), getContext());
+
+                                PFASQLiteHelper myDB = new PFASQLiteHelper(getActivity());
+                                myDB.updateSampleData( new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+
+                                Intent main = new Intent((Context)getActivity(),MainActivity.class);
+                                startActivity(main);
+                            }
+
+
                     }
                 });
 
