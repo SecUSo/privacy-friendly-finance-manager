@@ -87,6 +87,7 @@
 
 
     <string name="dialog_toast">In order to save your transaction, please change your amount from 0 to a value.</string>
+    <string name="dialog_category_toast">The category must have a name.</string>
 
 
 

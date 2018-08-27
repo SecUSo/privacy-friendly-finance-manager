@@ -83,6 +83,7 @@
     <string name="delete_dialog_negative">Abbrechen</string>
 
     <string name="dialog_toast">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>
+    <string name="dialog_category_toast">Die Kategorie muss einen Namen haben.</string>
 
 
     <!-- ### WELCOME DIALOG ### -->

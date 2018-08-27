@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
@@ -62,12 +63,20 @@ public class Dialog_Category extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String categoryName = editTextTitle.getText().toString();
+                        if (categoryName==null){
+                            CharSequence text = getString(R.string.dialog_category_toast);
+                            int duration = Toast.LENGTH_LONG;
 
+                            Toast toast = Toast.makeText(getContext(), text, duration);
+                            toast.show();
+                        }
+                        else {
 
-                        myDB.addSampleData(new CategoryDataType(1,categoryName));
+                            myDB.addSampleData(new CategoryDataType(1, categoryName));
 
-                        Intent intent = new Intent((Context)getActivity(),CategoryActivity.class);
-                        startActivity(intent);
+                            Intent intent = new Intent((Context) getActivity(), CategoryActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 });
 
