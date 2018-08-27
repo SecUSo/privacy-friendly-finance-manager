@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.secuso.privacyfriendlyexample">
+    package="org.secuso.privacyfriendlyfinance">
 
     <supports-screens
         android:anyDensity="true"
@@ -28,39 +28,39 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.MainActivity"
+            android:name="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.CategoryActivity"
+            android:name="org.secuso.privacyfriendlyfinance.activities.CategoryActivity"
             android:label="@string/category"
-            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.AboutActivity"
+            android:name="org.secuso.privacyfriendlyfinance.activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlyexample.activities.HelpActivity"
+            android:name="org.secuso.privacyfriendlyfinance.activities.HelpActivity"
             android:label="@string/help"
-            android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlyexample.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
         </activity>
 
     </application>

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.secuso.privacyfriendlyexample.activities.MainActivity">
+        tools:context="org.secuso.privacyfriendlyfinance.activities.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -24,9 +24,10 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:layout_height="5dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                 />
+            //android:background="?attr/colorPrimary"
 
         </android.support.design.widget.AppBarLayout>
 
