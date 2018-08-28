@@ -24,7 +24,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -179,8 +184,31 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        //sorting of sampleDataList according to Date
+        Collections.sort(sampleDataList, new Comparator<PFASampleDataType>() {
+
+            @Override
+            public int compare(PFASampleDataType o1, PFASampleDataType o2) {
+                SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+                int compareResult = 0;
+
+
+                Date arg0Date = null;
+                Date arg1Date = null;
+                try {
+                    arg0Date = format.parse(o1.getTransaction_date());
+                    arg1Date = format.parse(o2.getTransaction_date());
+                    compareResult = arg1Date.compareTo(arg0Date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return compareResult;            }
+        });
+
         return sampleDataList;
     }
+
+
     /**
      * This method returns the total balance of transactions in the DB
      * @return Double - total balance

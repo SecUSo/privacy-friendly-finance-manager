@@ -71,14 +71,10 @@ public class Dialog extends AppCompatDialogFragment {
     private String transactionName;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private PFASQLiteHelper myDB;
+    private String transactionDate;
 
-    Calendar cal = Calendar.getInstance();
-    int year = cal.get(Calendar.YEAR);
-    int month = cal.get(Calendar.MONTH)+1;
-    int day = cal.get(Calendar.DAY_OF_MONTH);
-    String date = day+"/"+month+"/"+year;
 
-    private String transactionDate=date;
+
 
     //opens Dialog with layout defined in dialog.xml
     @Override
@@ -100,6 +96,25 @@ public class Dialog extends AppCompatDialogFragment {
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
+
+        //set transactionDate to current date
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        String monthString = String.valueOf(month);
+        if (monthString.length() == 1) {
+            monthString = "0" + monthString;
+        }
+
+        String dayString = String.valueOf(day);
+        if (dayString.length() == 1) {
+            dayString = "0" + dayString;
+        }
+
+        transactionDate=dayString+"/"+monthString+"/"+year;
+
         editTextDate.setText(transactionDate);
 
         new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
@@ -180,7 +195,18 @@ public class Dialog extends AppCompatDialogFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month=month+1;
-                transactionDate=dayOfMonth+"/"+month+"/"+year;
+
+                String monthString = String.valueOf(month);
+                if (monthString.length() == 1) {
+                    monthString = "0" + monthString;
+                }
+
+                String dayString = String.valueOf(dayOfMonth);
+                if (dayString.length() == 1) {
+                    dayString = "0" + dayString;
+                }
+
+                transactionDate=dayString+"/"+monthString+"/"+year;
                 editTextDate.setText(transactionDate);
             }
         };

@@ -188,7 +188,17 @@ public class EditDialog extends AppCompatDialogFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month=month+1;
-                transactionDate=dayOfMonth+"/"+month+"/"+year;
+                String monthString = String.valueOf(month);
+                if (monthString.length() == 1) {
+                    monthString = "0" + monthString;
+                }
+
+                String dayString = String.valueOf(dayOfMonth);
+                if (dayString.length() == 1) {
+                    dayString = "0" + dayString;
+                }
+
+                transactionDate=dayString+"/"+monthString+"/"+year;
                 editTextDate.setText(transactionDate);
             }
         };
