@@ -66,6 +66,8 @@ public class TutorialActivity extends AppCompatActivity {
             R.layout.tutorial_slide1,
             R.layout.tutorial_slide2,
             R.layout.tutorial_slide3,
+            R.layout.tutorial_slide4,
+            R.layout.tutorial_slide5,
     };
 
     private static final String TAG = TutorialActivity.class.getSimpleName();

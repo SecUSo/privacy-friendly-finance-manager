@@ -8,30 +8,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
         android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide3_heading"
+            android:text="@string/slide5_heading"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
             android:textStyle="bold" />
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
-            android:text="@string/slide3_text"
+            android:text="@string/slide5_text"
             android:textAlignment="center"
-            android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_desc" />
 
     </LinearLayout>
+
 
 </RelativeLayout>

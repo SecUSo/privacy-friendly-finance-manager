@@ -98,8 +98,15 @@
     <string name="slide2_heading">Finanzen Manager</string>
     <string name="slide2_text">Sie können ihre Finanzen managen, indem Sie ihre Einnahmen und Ausgaben überwachen.</string>
 
-    <string name="slide3_heading">Kategorien</string>
-    <string name="slide3_text">Sie können ihren Transaktionen Kategorien zuordnen und diese überwachen.</string>
+    <string name="slide4_heading">Neue Transaktionen</string>
+    <string name="slide4_text">Sie können neue Einträge durch das Klicken des Plus-Buttons in der Transaktionsübersicht erstellen. Nun können Sie den Wert, einen Titel, ein Datum und eine Kategorie zuordnen. Zusätzlich können Sie spezifizieren, ob es sich um eine Ausgabe oder Einnahme handelt.</string>
+
+    <string name="slide3_heading">Transaktionsübersicht</string>
+    <string name="slide3_text">Unter dem Menüpunkt Transaktionsübersicht sehen Sie die Bilanz ihrer Einträge, sowie eine Liste mit allen eingetragenen Einnahmen und Ausgaben.</string>
+
+    <string name="slide5_heading">Kategorien</string>
+    <string name="slide5_text">Unter dem Menüpunkt Kategorien sehen Sie alle erstellten Kategorien und deren Bilanzen. Durch das Klicken des Plus-Buttons können Sie eine neue Kategorie erstellen.</string>
+
 
 
     <string name="next">Weiter</string>

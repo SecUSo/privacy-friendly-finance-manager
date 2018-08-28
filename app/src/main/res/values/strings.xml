@@ -98,9 +98,14 @@
     <string name="slide2_heading">Finance Manager</string>
     <string name="slide2_text">You can manage your finances by tracking your earnings and expenses.</string>
 
-    <string name="slide3_heading">Categories</string>
-    <string name="slide3_text">You can label your transactions and monitor them by categories.</string>
+    <string name="slide4_heading">New Transactions</string>
+    <string name="slide4_text">You can create new expenses by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. </string>
 
+    <string name="slide3_heading">Transaction Overview</string>
+    <string name="slide3_text">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
+
+    <string name="slide5_heading">Categories</string>
+    <string name="slide5_text">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
 
     <string name="okay">Okay</string>
     <string name="viewhelp">View Help</string>
