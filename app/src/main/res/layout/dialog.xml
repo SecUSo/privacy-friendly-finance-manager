@@ -62,7 +62,8 @@
         android:selectAllOnFocus="false"
         android:singleLine="false"
         android:textAlignment="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLength="8"/>
 
     <EditText
         android:id="@+id/dialog_expense_title"
@@ -75,7 +76,8 @@
         android:ems="10"
         android:hint="@string/dialog_hint_expense_name"
         android:inputType="text"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:maxLength="15"/>
 
     <Spinner
         android:id="@+id/category_spinner"

@@ -6,19 +6,19 @@
 
     <TextView
         android:id="@+id/listItem_amount"
-        android:layout_width="138dp"
+        android:layout_width="114dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:gravity="center"
+        android:paddingLeft="20dp"
         android:text="15"
         android:textAlignment="textStart"
-        android:paddingLeft="20dp"
         android:textSize="12dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listItem_name"
-        android:layout_width="126dp"
+        android:layout_width="141dp"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/listItem_amount"
         android:gravity="center_vertical"

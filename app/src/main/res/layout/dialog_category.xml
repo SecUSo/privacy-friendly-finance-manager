@@ -15,7 +15,8 @@
         android:layout_marginBottom="20dp"
         android:hint="@string/dialog_category_hint_name"
         android:inputType="text"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:maxLength="15"/>
 
 
 </RelativeLayout>
