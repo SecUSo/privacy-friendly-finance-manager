@@ -24,6 +24,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.ContextMenu;
 
 import android.view.MenuInflater;
@@ -60,6 +62,15 @@ public class MainActivity extends BaseActivity {
     private Context context;
     private static String defaultCategory;
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
 
     public static String getDefaultCategory(){
         return defaultCategory;
@@ -129,6 +140,7 @@ public class MainActivity extends BaseActivity {
     public void openDialog(){
         Dialog dialog = new Dialog();
         dialog.show(getSupportFragmentManager(),"Dialog");
+
     }
 
     //opens menu for delete or edit list items

@@ -275,7 +275,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      * @param sampleData
      * @return actually makes the update
      */
-    public int updateSampleData(PFASampleDataType sampleData) {
+    public void updateSampleData(PFASampleDataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         //To adjust this class for your own data, please add your values here.
@@ -286,9 +286,11 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_DATE,sampleData.getTransaction_date().toString());
         values.put(KEY_CATEGORY,sampleData.getTransaction_category());
 
-
-        return database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
+        database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sampleData.getID()) });
+
+        database.close();
+
     }
 
     /**

@@ -19,6 +19,8 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ListView;
@@ -43,6 +45,23 @@ public class CategoryActivity extends BaseActivity {
     private CategoryCustomListViewAdapter adapter;
     private List<CategoryDataType> database_list;
     private ArrayList<CategoryDataType> list;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView categoryList = (ListView) findViewById(R.id.categoryList);
+        new AsyncQueryCategory(categoryList,this).execute();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

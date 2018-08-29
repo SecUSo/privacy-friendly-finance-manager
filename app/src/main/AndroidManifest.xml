@@ -33,11 +33,13 @@
         <activity
             android:name="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlyfinance.activities.CategoryActivity"
             android:label="@string/category"
+            android:screenOrientation="portrait"
             android:parentActivityName="org.secuso.privacyfriendlyfinance.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
