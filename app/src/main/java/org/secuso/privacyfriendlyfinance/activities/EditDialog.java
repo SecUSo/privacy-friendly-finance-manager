@@ -138,7 +138,7 @@ public class EditDialog extends AppCompatDialogFragment {
                         }
 
                         if (transactionAmount==0){
-                            CharSequence text = getString(R.string.dialog_toast);
+                            CharSequence text = getString(R.string.dialog_toast_0);
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(getContext(), text, duration);
@@ -158,6 +158,8 @@ public class EditDialog extends AppCompatDialogFragment {
 
                                 PFASQLiteHelper myDB = new PFASQLiteHelper(getActivity());
                                 myDB.updateSampleData( new PFASampleDataType(dataToEdit.getID(),transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+
+                                Toast.makeText(getContext(), R.string.toast_update, Toast.LENGTH_SHORT).show();
 
                                 Intent main = new Intent((Context)getActivity(),MainActivity.class);
                                 startActivity(main);

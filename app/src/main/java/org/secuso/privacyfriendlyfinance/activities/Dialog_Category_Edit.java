@@ -89,6 +89,8 @@ public class Dialog_Category_Edit extends AppCompatDialogFragment {
                         else {
                             new AsyncUpdateCategoryTransactions(dataToEdit,categoryName,context).execute();
 
+                            Toast.makeText(context, R.string.toast_update, Toast.LENGTH_SHORT).show();
+
                             Intent intent = new Intent((Context) getActivity(), CategoryActivity.class);
                             startActivity(intent);
                         }

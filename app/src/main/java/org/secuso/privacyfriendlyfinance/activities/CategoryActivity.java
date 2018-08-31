@@ -121,6 +121,9 @@ public class CategoryActivity extends BaseActivity {
             }
             else{
                 new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
+
+                Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
+
             }
 
             Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);

@@ -34,7 +34,6 @@
     <string name="category_legend_name">Name</string>
     <string name="firstCategoryName">Standard</string>
     <string name="category_name">Category</string>
-    <string name="category_deletion_standard">This category cannot be deleted or edited.</string>
 
 
     <!--###HELP###-->
@@ -85,10 +84,13 @@
     <string name="delete_dialog_positive">Ok</string>
     <string name="delete_dialog_negative">Cancel</string>
 
-
-    <string name="dialog_toast">In order to save your transaction, please change your amount from 0 to a value.</string>
+    <!-- ### TOASTS ### -->
+    <string name="toast_new_entry">Transaction is saved</string>
+    <string name="toast_delete">Transaction is deleted</string>
+    <string name="toast_update">Transaction is updated</string>
+    <string name="dialog_toast_0">In order to save your transaction, please change your amount from 0 to a value.</string>
     <string name="dialog_category_toast">The category must have a name.</string>
-
+    <string name="category_deletion_standard">This category cannot be deleted or edited.</string>
 
 
     <!-- ### TUTORIAL DIALOG ### -->

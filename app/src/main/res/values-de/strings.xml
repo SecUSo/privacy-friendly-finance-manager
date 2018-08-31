@@ -84,8 +84,12 @@
     <string name="delete_dialog_positive">Ok</string>
     <string name="delete_dialog_negative">Abbrechen</string>
 
-    <string name="dialog_toast">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>
+    <!-- ### TOASTS ### -->
+    <string name="dialog_toast_0">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>
     <string name="dialog_category_toast">Die Kategorie muss einen Namen haben.</string>
+    <string name="toast_new_entry">Eintrag wurde hinzugefügt</string>
+    <string name="toast_delete">Eintrag wurde gelöscht</string>
+    <string name="toast_update">Eintrag wurde bearbeitet</string>
 
 
     <!-- ### WELCOME DIALOG ### -->

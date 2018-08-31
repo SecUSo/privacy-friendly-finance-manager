@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 
 /**
@@ -165,6 +166,8 @@ public class MainActivity extends BaseActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 new AsyncQueryDelete(info.position,MainActivity.this).execute();
+
+                                Toast.makeText(context, R.string.toast_delete, Toast.LENGTH_SHORT).show();
 
                                 Intent main = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(main);

@@ -147,7 +147,7 @@ public class Dialog extends AppCompatDialogFragment {
                         }
 
                         if (transactionAmount==0){
-                            CharSequence text = getString(R.string.dialog_toast);
+                            CharSequence text = getString(R.string.dialog_toast_0);
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(getContext(), text, duration);
@@ -166,6 +166,8 @@ public class Dialog extends AppCompatDialogFragment {
                             transactionCategory = category_spinner.getSelectedItem().toString();
 
                             myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
+
+                            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 
                             Intent main = new Intent((Context)getActivity(),MainActivity.class);
                             startActivity(main);

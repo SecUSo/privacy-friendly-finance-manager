@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;

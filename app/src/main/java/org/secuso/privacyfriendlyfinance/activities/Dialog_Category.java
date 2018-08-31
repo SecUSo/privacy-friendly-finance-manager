@@ -74,6 +74,8 @@ public class Dialog_Category extends AppCompatDialogFragment {
 
                             myDB.addSampleData(new CategoryDataType(1, categoryName));
 
+                            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
+
                             Intent intent = new Intent((Context) getActivity(), CategoryActivity.class);
                             startActivity(intent);
                         }
