@@ -16,20 +16,27 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
+import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
 
 import java.util.ArrayList;
@@ -86,7 +93,38 @@ public class CategoryActivity extends BaseActivity {
 
         new AsyncQueryCategory(categoryList,this).execute();
 
+        registerForContextMenu(categoryList);
 
+    }
+
+    //opens menu for delete or edit categories
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_click_menu_category,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        if(item.getItemId()==R.id.listDeleteCategory){
+            CategorySQLiteHelper myDB = new CategorySQLiteHelper(getApplicationContext());
+            List<CategoryDataType> categoryList = myDB.getAllSampleData();
+            ArrayList<CategoryDataType> list = new ArrayList<>();
+
+            for(CategoryDataType s : categoryList){
+                list.add(s);
+            }
+            myDB.deleteSampleData(list.get(info.position));
+
+            Intent main = new Intent(getBaseContext(),MainActivity.class);
+            startActivity(main);
+
+        }
+        return super.onContextItemSelected(item);
     }
 
     /**
