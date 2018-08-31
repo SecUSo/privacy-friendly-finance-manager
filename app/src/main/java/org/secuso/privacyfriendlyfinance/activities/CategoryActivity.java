@@ -38,6 +38,7 @@ import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
+import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDeleteCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,17 +112,11 @@ public class CategoryActivity extends BaseActivity {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         if(item.getItemId()==R.id.listDeleteCategory){
-            CategorySQLiteHelper myDB = new CategorySQLiteHelper(getApplicationContext());
-            List<CategoryDataType> categoryList = myDB.getAllSampleData();
-            ArrayList<CategoryDataType> list = new ArrayList<>();
 
-            for(CategoryDataType s : categoryList){
-                list.add(s);
-            }
-            myDB.deleteSampleData(list.get(info.position));
+            new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
 
-            Intent main = new Intent(getBaseContext(),MainActivity.class);
-            startActivity(main);
+            Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);
+            startActivity(categoryActivity);
 
         }
         return super.onContextItemSelected(item);
