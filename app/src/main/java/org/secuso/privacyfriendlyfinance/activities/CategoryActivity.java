@@ -112,8 +112,12 @@ public class CategoryActivity extends BaseActivity {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         if(item.getItemId()==R.id.listDeleteCategory){
-
-            new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
+            if(info.position==0){
+                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
+            }
 
             Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);
             startActivity(categoryActivity);

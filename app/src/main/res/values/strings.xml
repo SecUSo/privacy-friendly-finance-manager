@@ -33,8 +33,7 @@
     <string name="category_legend_name">Name</string>
     <string name="firstCategoryName">Standard</string>
     <string name="category_name">Category</string>
-
-
+    <string name="category_deletion_standard">This category cannot be deleted or edited.</string>
 
 
     <!--###HELP###-->

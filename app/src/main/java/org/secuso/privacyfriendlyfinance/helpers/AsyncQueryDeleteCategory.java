@@ -2,6 +2,7 @@ package org.secuso.privacyfriendlyfinance.helpers;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
@@ -15,6 +16,7 @@ public class AsyncQueryDeleteCategory extends AsyncTask<Void,Void,Void> {
 
     private CategorySQLiteHelper myDB;
     private ArrayList<CategoryDataType> list;
+    private PFASQLiteHelper db;
     private int position;
     private Context context;
 
@@ -41,6 +43,15 @@ public class AsyncQueryDeleteCategory extends AsyncTask<Void,Void,Void> {
 
         for (CategoryDataType s : database_list){
             list.add(s);
+        }
+
+        db = new PFASQLiteHelper(context);
+        List<PFASampleDataType> db_list = db.getAllSampleData();
+
+        for (PFASampleDataType p : db_list){
+            if (p.getTransaction_category().equals(list.get(position).getCategoryName())){
+                p.setTransaction_category("Standard");
+            }
         }
 
         myDB.deleteSampleData(list.get(position));
