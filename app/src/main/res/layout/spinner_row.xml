@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:gravity="center_vertical"
+        android:paddingLeft="8dp"
         android:text="Kategorie auswählen"
         android:textStyle="bold" />
 
