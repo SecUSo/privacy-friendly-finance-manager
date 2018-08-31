@@ -43,7 +43,7 @@ import java.util.List;
 
 public class CategorySQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 15;
 
     /**
      * Use the following pattern for the name of the database
@@ -139,7 +139,24 @@ public class CategorySQLiteHelper extends SQLiteOpenHelper {
         return sampleDataList;
     }
 
+    /**
+     * Updates a database entry.
+     * @param sampleData
+     * @return actually makes the update
+     */
+    public void updateSampleData(CategoryDataType sampleData) {
+        SQLiteDatabase database = this.getWritableDatabase();
 
+        //To adjust this class for your own data, please add your values here.
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME,sampleData.getCategoryName());
+
+        database.update(TABLE_SAMPLEDATA, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(sampleData.getID()) });
+
+        database.close();
+
+    }
     /**
      * Deletes sampleData from the DB
      * This method takes the sampleData and extracts its key to build the delete-query

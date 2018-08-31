@@ -26,6 +26,7 @@
     <string name="category">Kategorien</string>
     <string name="dialog_category_hint_name">Name der Kategorie</string>
     <string name="dialog_category_title">Neue Kategorie</string>
+    <string name="dialog_category_edit">Kategorie bearbeiten</string>
 
     <string name="category_legend_balance">Bilanz</string>
     <string name="category_legend_name">Name</string>

@@ -16,7 +16,9 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -36,9 +38,11 @@ import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListVi
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
+import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDeleteCategory;
+import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryUpdateCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,8 +125,17 @@ public class CategoryActivity extends BaseActivity {
 
             Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);
             startActivity(categoryActivity);
-
         }
+        if (item.getItemId()==R.id.listEditCategory){
+            if(info.position==0){
+                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                new AsyncQueryUpdateCategoryOpenDialog(info.position,CategoryActivity.this).execute();
+            }
+        }
+
+
         return super.onContextItemSelected(item);
     }
 
@@ -146,5 +159,52 @@ public class CategoryActivity extends BaseActivity {
 
     protected int getNavigationDrawerID() {
         return R.id.nav_category;
+    }
+
+    /**
+     * This nested class opens the Edit Dialog with an AsyncTask
+     *
+     */
+    private class AsyncQueryUpdateCategoryOpenDialog extends AsyncTask<Void,Void,Void> {
+
+        private ArrayList<CategoryDataType> list = new ArrayList<>();
+        int position;
+        CategorySQLiteHelper myDB;
+        Context context;
+
+
+        public AsyncQueryUpdateCategoryOpenDialog(int position, Context context){
+            this.position=position;
+            this.context=context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            myDB = new CategorySQLiteHelper(context);
+            List<CategoryDataType> database_list = myDB.getAllSampleData();
+            list = new ArrayList<>();
+
+            for (CategoryDataType s : database_list){
+                list.add(s);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Dialog_Category_Edit dialog = new Dialog_Category_Edit(list.get(position),context);
+            dialog.show(getSupportFragmentManager(),"EditDialog");
+        }
     }
 }

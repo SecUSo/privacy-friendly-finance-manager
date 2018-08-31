@@ -51,6 +51,7 @@ public class AsyncQueryDeleteCategory extends AsyncTask<Void,Void,Void> {
         for (PFASampleDataType p : db_list){
             if (p.getTransaction_category().equals(list.get(position).getCategoryName())){
                 p.setTransaction_category("Standard");
+                db.updateSampleData(p);
             }
         }
 
