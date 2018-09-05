@@ -41,6 +41,7 @@ App-Icon: <br />
 Markus Hau<br />
 
 Github-Users: <br />
+DaCaulfield (David Meiborg)
 Yonjuni (Karola Marky)<br />
 Kamuno (Christopher Beckmann)
 
