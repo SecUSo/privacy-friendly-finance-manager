@@ -46,9 +46,9 @@
     <string name="help_feature_two">How can I categorize my expenses?</string>
     <string name="help_feature_two_answer">If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Example does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
+    <string name="help_privacy_answer">Privacy Friendly App Finance Manager does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
     <string name="help_permission">Which permissions requires the app?</string>
-    <string name="help_permission_answer">Privacy Friendly App Example does not require any permission.</string>
+    <string name="help_permission_answer">Privacy Friendly App Finance Manager does not require any permission.</string>
 
     <!--###ABOUT###-->
     <string name="about">About</string>

@@ -17,7 +17,7 @@ Target SDK: 27
 
 ## License
 
-Privacy Friendly App Example is licensed under the GPLv3.
+Privacy Friendly App Finance Manager is licensed under the GPLv3.
 Copyright (C) 2016-2018  Karola Marky
 
 This program is free software: you can redistribute it and/or modify
