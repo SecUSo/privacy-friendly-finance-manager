@@ -34,6 +34,10 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+/**
+ * @author David Meiborg
+ * Adapter for displaying the category list
+ */
 public class CategoryCustomListViewAdapter extends ArrayAdapter<CategoryDataType>{
 
 

@@ -56,7 +56,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * @author David Meiborg
+ * Dialog for editing a existing transaction
+ *
+ */
 @SuppressLint("ValidFragment")
 public class EditDialog extends AppCompatDialogFragment {
     private PFASampleDataType dataToEdit;

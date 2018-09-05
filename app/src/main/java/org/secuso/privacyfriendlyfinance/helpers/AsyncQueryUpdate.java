@@ -28,7 +28,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for updating a transaction
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryUpdate extends AsyncTask<Void,Void,Void> {
 
     PFASampleDataType dataToUpdate;

@@ -23,7 +23,11 @@ import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
-
+/**
+ * AsyncTask for updating a category
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryUpdateCategory extends AsyncTask<Void,Void,Void> {
 
     CategoryDataType dataToUpdate;

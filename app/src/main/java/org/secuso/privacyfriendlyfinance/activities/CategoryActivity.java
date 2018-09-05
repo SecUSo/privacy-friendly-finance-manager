@@ -48,7 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by David Meiborg on 10.07.2018.
+ * @author David Meiborg
+ * Activity for categories
+ *
  */
 
 public class CategoryActivity extends BaseActivity {
@@ -75,6 +77,12 @@ public class CategoryActivity extends BaseActivity {
         }
     }
 
+    /**
+     * This method creates the content for the activity
+     * FAB, the list of categories and the contextMenu for the list entries
+     *
+     * @return void
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +109,11 @@ public class CategoryActivity extends BaseActivity {
         registerForContextMenu(categoryList);
 
     }
-
-    //opens menu for delete or edit categories
+    /**
+     * opens menu for delete or edit categories
+     *
+     * @return void
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -110,7 +121,11 @@ public class CategoryActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_click_menu_category,menu);
     }
-
+    /**
+     * actions when menu item is selected for delete or edit categories
+     *
+     * @return void
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();

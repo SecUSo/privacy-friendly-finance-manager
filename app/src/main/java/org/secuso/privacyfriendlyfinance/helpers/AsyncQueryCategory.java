@@ -29,7 +29,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for creating category list
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryCategory extends AsyncTask<Void,Void,Void> {
 
     private ListView categoryList;

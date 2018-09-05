@@ -30,7 +30,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 
 /**
- * Created by David Meiborg on 01.06.2018.
+ * @author David Meiborg
+ * Activity that shows information of the app development.
  */
 public class AboutActivity extends AppCompatActivity {
 

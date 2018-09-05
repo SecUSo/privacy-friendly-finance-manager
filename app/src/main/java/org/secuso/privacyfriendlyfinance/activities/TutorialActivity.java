@@ -40,15 +40,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.helpers.FirstLaunchManager;
 
 /**
- * Class structure taken from tutorial at http://www.androidhive.info/2016/05/android-build-intro-slider-app/
- *
- * @author Karola Marky, Christopher Beckmann
- * @version 20161214
- */
-
-/**
- * Created by David Meiborg on 06.05.2018
- *
+ * @author David Meiborg
+ * @version 2018 *
  * This Activity sets up the tutorial that shall appear for the first start of the app.
  */
 public class TutorialActivity extends AppCompatActivity {

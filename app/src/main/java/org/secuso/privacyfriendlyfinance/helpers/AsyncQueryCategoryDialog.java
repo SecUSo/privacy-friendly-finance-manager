@@ -31,7 +31,11 @@ import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for creating category spinner in dialog
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryCategoryDialog extends AsyncTask<Void,Void,Void> {
 
     private Spinner category_spinner;

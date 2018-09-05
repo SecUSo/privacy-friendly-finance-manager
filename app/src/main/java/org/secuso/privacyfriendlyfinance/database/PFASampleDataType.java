@@ -21,8 +21,8 @@ import java.util.Date;
 
 /**
  *
- * @author Karola Marky
- * @version 20161223
+ * @author David Meiborg
+ * @version 20180710
  *
  * This class holds the "data type" that will be stored in the database
  * Each column of the database will be a private variable in this class.

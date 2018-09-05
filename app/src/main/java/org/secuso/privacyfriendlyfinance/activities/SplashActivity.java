@@ -24,8 +24,9 @@ import android.support.v7.app.AppCompatActivity;
 import org.secuso.privacyfriendlyfinance.helpers.FirstLaunchManager;
 
 /**
- * @author Karola Marky
- * @version 20161022
+ * This activity handles the opening of the application
+ * @author David Meiborg
+ * @version 2018
  */
 
 public class SplashActivity extends AppCompatActivity {

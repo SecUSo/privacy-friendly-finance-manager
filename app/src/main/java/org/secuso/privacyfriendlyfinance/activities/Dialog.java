@@ -56,7 +56,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * @author David Meiborg
+ * Dialog for adding a new transaction
+ *
+ */
 public class Dialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
     private EditText editTextAmount;

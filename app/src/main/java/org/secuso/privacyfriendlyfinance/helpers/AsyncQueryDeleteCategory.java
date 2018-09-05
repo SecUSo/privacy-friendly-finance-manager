@@ -28,7 +28,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for deleting category
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryDeleteCategory extends AsyncTask<Void,Void,Void> {
 
     private CategorySQLiteHelper myDB;

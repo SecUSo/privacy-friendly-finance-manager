@@ -27,7 +27,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for deleting transaction
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryDelete extends AsyncTask<Void,Void,Void> {
 
     private PFASQLiteHelper myDB;

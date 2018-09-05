@@ -39,7 +39,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author David Meiborg
+ * Dialog for editing an existing category
+ *
+ */
 @SuppressLint("ValidFragment")
 public class Dialog_Category_Edit extends AppCompatDialogFragment {
 

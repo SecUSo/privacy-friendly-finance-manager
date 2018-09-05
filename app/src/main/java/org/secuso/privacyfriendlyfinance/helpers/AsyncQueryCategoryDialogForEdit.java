@@ -28,7 +28,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for creating category spinner in edit dialog
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQueryCategoryDialogForEdit extends AsyncTask<Void,Void,Void> {
 
     private Spinner category_spinner;

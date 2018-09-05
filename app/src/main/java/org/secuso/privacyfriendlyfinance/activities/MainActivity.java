@@ -53,6 +53,7 @@ import android.widget.Toast;
 
 
 /**
+ * This Activity handles the navigation and operation on transactions.
  * @author David Meiborg
  * @version 2018
  */

@@ -31,10 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author Karola Marky
- * @version 20171016
- * Class structure taken from tutorial at http://www.journaldev.com/9942/android-expandablelistview-example-tutorial
- * last access 27th October 2016
+ * @author David Meiborg
+ * Adapter for displaying the expandable list in the help activity
  */
 
 public class HelpExpandableListAdapter extends BaseExpandableListAdapter {

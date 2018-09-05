@@ -32,7 +32,11 @@ import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * AsyncTask for creating transaction list
+ * @author David Meiborg
+ * @version 2018
+ */
 public class AsyncQuery extends AsyncTask<Void,Void,Void> {
 
     private ListView transactionList;

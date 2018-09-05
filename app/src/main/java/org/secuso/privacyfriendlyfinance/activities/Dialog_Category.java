@@ -33,7 +33,11 @@ import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
 import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
-
+/**
+ * @author David Meiborg
+ * Dialog for adding a new category
+ *
+ */
 public class Dialog_Category extends AppCompatDialogFragment {
 
     private EditText editTextTitle;
