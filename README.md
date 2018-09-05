@@ -1,10 +1,10 @@
 ﻿# Privacy Friendly Finance Manager
 
-This application contains the basic design of a Privacy Friendly App without any other functionality. It includes a Navigation Drawer, examples for buttons, a help page and the about page. It further shows an example of the main menu for a Privacy Friendly Game App. This app belongs to the group of Privacy Friendly Apps developed by the Karlsruher Institute for Technology (KIT). 
+The Privacy Friendly Finance Manager can be used to monitor and manage personal financials. This app belongs to the group of Privacy Friendly Apps developed by the Karlsruher Institute for Technology (KIT). 
 
 ## Motivation
 
-This application has been developed to be used as a basis for a Privacy Friendly App. Privacy Friendly Apps are group of Android applications which are optimized regarding privacy. Further information can be found on https://secuso.org/pfa
+Nowadays there are many apps that require many or all permissions available in Android in order to be installed. However these apps do not always need all of the permissions they ask for. With this project we want to offer an app where the user can be sure that private information are not being used by the application. Further information can be found on https://secuso.org/pfa
 
 ## Download and more Information
 
