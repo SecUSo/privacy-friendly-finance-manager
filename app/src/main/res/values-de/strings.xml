@@ -5,7 +5,6 @@
     <!-- ###DRAWER###-->
     <string name="action_help">Hilfe</string>
     <string name="action_about">Über</string>
-    <string name="action_settings">Einstellungen</string>
     <string name="action_main">Transaktionsübersicht</string>
     <string name="action_tutorial">Tutorial</string>
     <string name="action_category">Kategorien</string>
@@ -75,10 +74,6 @@
     <string name="edit_dialog_title">Eintrag bearbeiten</string>
     <string name="edit_dialog_submit">Ok</string>
     <string name="edit_dialog_cancel">Abbrechen</string>
-    <string name="edit_dialog_hint_expense_name">Titel</string>
-    <string name="edit_dialog_hint_expense_value">Betrag</string>
-    <string name="edit_dialog_radio_button_income">Einkommen</string>
-    <string name="edit_dialog_radio_button_expense">Ausgabe</string>
 
     <string name="delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
     <string name="delete_dialog_positive">Ok</string>
@@ -94,8 +89,6 @@
 
     <!-- ### WELCOME DIALOG ### -->
     <string name="okay">Okay</string>
-    <string name="viewhelp">Hilfe</string>
-    <string name="main_floating_button">Schwebender Knopf</string>
 
     <!-- ### TUTORIAL DIALOG ### -->
     <string name="slide1_heading">Willkommen!</string>

@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">Finance Manager</string>
     <string name="app_name_long">Finance Manager</string>
-    <string name="app_prefix" translatable="false">Privacy Friendly</string>
 
     <!-- ###DRAWER###-->
     <string name="action_help">Help</string>
     <string name="action_about">About</string>
-    <string name="action_settings">Settings</string>
     <string name="action_main">Transaction Overview</string>
     <string name="action_tutorial">Tutorial</string>
     <string name="action_category">Categories</string>
@@ -75,10 +73,6 @@
     <string name="edit_dialog_title">Edit Transaction</string>
     <string name="edit_dialog_submit">Submit</string>
     <string name="edit_dialog_cancel">Cancel</string>
-    <string name="edit_dialog_hint_expense_name">title</string>
-    <string name="edit_dialog_hint_expense_value">enter amount</string>
-    <string name="edit_dialog_radio_button_income">Income</string>
-    <string name="edit_dialog_radio_button_expense">Expense</string>
 
     <string name="delete_dialog_title">Do you want to delete this transaction?</string>
     <string name="delete_dialog_positive">Ok</string>
@@ -110,8 +104,6 @@
     <string name="slide5_text">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
 
     <string name="okay">Okay</string>
-    <string name="viewhelp">View Help</string>
-    <string name="main_floating_button">Floating Button</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
 
