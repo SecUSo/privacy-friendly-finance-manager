@@ -25,8 +25,8 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import org.secuso.privacyfriendlyfinance.BuildConfig;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.BuildConfig;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 
 /**
@@ -52,6 +52,9 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         overridePendingTransition(0, 0);
+
+        TextView tv =findViewById(R.id.textFieldVersion);
+        tv.setText(getString(R.string.version_number, BuildConfig.VERSION_NAME));
 
         ((TextView)findViewById(R.id.secusoWebsite)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView)findViewById(R.id.githubURL)).setMovementMethod(LinkMovementMethod.getInstance());
