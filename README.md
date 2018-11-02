@@ -38,7 +38,7 @@ The icons used in the nagivation drawer are licensed under the [CC BY 2.5](http:
 ## Contributors
 
 App-Icon: <br />
-Markus Hau<br />
+Tatjana Albrandt<br />
 
 Github-Users: <br />
 DaCaulfield (David Meiborg)<br />
