@@ -1,6 +1,7 @@
 package org.secuso.privacyfriendlyfinance.domain.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "Tranzaction")
@@ -14,24 +15,18 @@ public class Transaction {
     public Transaction() {
     }
 
+    @Ignore
     public Transaction(String name, int amount, String date) {
         this.name = name;
         this.amount = amount;
         this.date = date;
     }
-//    public Transaction(String name, int amount, String date) {
-//        this(name, amount, );
-//        this.amount = amount;
-//        this.date = date;
-//    }
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getId() {
         return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
