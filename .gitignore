@@ -36,4 +36,4 @@ Thumbs.db
 # APKs, release files
 app/release/*
 *.apk
-
+/app/src/main/gen
