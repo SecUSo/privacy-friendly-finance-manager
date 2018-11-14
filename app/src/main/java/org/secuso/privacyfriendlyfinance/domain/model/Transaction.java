@@ -7,25 +7,25 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "Tranzaction")
 public class Transaction {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String name;
-    private int amount;
+    private long amount;
     private String date;
 
     public Transaction() {
     }
 
     @Ignore
-    public Transaction(String name, int amount, String date) {
+    public Transaction(String name, long amount, String date) {
         this.name = name;
         this.amount = amount;
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -36,10 +36,10 @@ public class Transaction {
         this.name = name;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 

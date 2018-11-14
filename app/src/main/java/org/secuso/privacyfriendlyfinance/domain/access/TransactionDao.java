@@ -14,5 +14,5 @@ public interface TransactionDao {
     List<Transaction> getAll();
 
     @Insert
-    void insert(Transaction transaction);
+    long insert(Transaction transaction);
 }

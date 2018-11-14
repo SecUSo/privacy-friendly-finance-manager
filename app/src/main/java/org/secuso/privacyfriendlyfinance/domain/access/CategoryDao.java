@@ -14,5 +14,5 @@ public interface CategoryDao {
     List<Category> getAll();
 
     @Insert
-    void insert(Category category);
+    long insert(Category category);
 }
