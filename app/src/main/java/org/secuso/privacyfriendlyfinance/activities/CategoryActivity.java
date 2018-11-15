@@ -16,9 +16,7 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -36,26 +34,21 @@ import android.widget.Toast;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlyfinance.activities.tasks.OpenCategoryEditDialogTask;
 import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
-import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
 import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDeleteCategory;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryUpdateCategory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author David Meiborg
- * Activity for categories
+ * Activity for categories.
  *
+ * @author David Meiborg
  */
 
 public class CategoryActivity extends BaseActivity {
-
-    private CategorySQLiteHelper myDB;
     private CategoryCustomListViewAdapter adapter;
     private List<CategoryDataType> database_list;
     private ArrayList<CategoryDataType> list;
@@ -64,7 +57,7 @@ public class CategoryActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         ListView categoryList = (ListView) findViewById(R.id.categoryList);
-        new AsyncQueryCategory(categoryList,this).execute();
+        new AsyncQueryCategory(categoryList, this).execute();
     }
 
     @Override
@@ -80,35 +73,33 @@ public class CategoryActivity extends BaseActivity {
     /**
      * This method creates the content for the activity
      * FAB, the list of categories and the contextMenu for the list entries
-     *
-     * @return void
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         ActionBar ab = getSupportActionBar();
-        if(ab != null) {
+        if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
         overridePendingTransition(0, 0);
 
         FloatingActionButton add_category = findViewById(R.id.add_category);
-        add_category.setOnClickListener(new View.OnClickListener(){
+        add_category.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View view){
+            public void onClick(View view) {
                 openCategoryDialog();
             }
         });
 
         ListView categoryList = (ListView) findViewById(R.id.categoryList);
 
-        new AsyncQueryCategory(categoryList,this).execute();
+        new AsyncQueryCategory(categoryList, this).execute();
 
         registerForContextMenu(categoryList);
-
     }
+
     /**
      * opens menu for delete or edit categories
      *
@@ -119,8 +110,9 @@ public class CategoryActivity extends BaseActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_click_menu_category,menu);
+        inflater.inflate(R.menu.list_click_menu_category, menu);
     }
+
     /**
      * actions when menu item is selected for delete or edit categories
      *
@@ -128,31 +120,31 @@ public class CategoryActivity extends BaseActivity {
      */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        if(item.getItemId()==R.id.listDeleteCategory){
-            if(info.position==0){
-                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.listDeleteCategory) {
+            if (menuInfo.position == 0) {
+                Toast.makeText(CategoryActivity.this, R.string.category_deletion_standard, Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                new AsyncQueryDeleteCategory(menuInfo.position, CategoryActivity.this)
+                        .execute();
+                Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT)
+                        .show();
             }
-            else{
-                new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
 
-                Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
-
-            }
-
-            Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);
+            Intent categoryActivity = new Intent(getBaseContext(), CategoryActivity.class);
             startActivity(categoryActivity);
         }
-        if (item.getItemId()==R.id.listEditCategory){
-            if(info.position==0){
-                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
-            }
-            else{
-                new AsyncQueryUpdateCategoryOpenDialog(info.position,CategoryActivity.this).execute();
+        if (item.getItemId() == R.id.listEditCategory) {
+            if (menuInfo.position == 0) {
+                Toast.makeText(CategoryActivity.this, R.string.category_deletion_standard, Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                new OpenCategoryEditDialogTask(this, menuInfo.position)
+                        .execute();
             }
         }
-
 
         return super.onContextItemSelected(item);
     }
@@ -164,10 +156,9 @@ public class CategoryActivity extends BaseActivity {
      */
 
     private void openCategoryDialog() {
-        Dialog_Category dialog = new Dialog_Category();
-        dialog.show(getSupportFragmentManager(),"Dialog");
+        CategoryDialog dialog = new CategoryDialog();
+        dialog.show(getSupportFragmentManager(), "Dialog");
     }
-
 
     /**
      * This method connects the Activity to the menu item
@@ -177,52 +168,5 @@ public class CategoryActivity extends BaseActivity {
 
     protected int getNavigationDrawerID() {
         return R.id.nav_category;
-    }
-
-    /**
-     * This nested class opens the Edit Dialog with an AsyncTask
-     *
-     */
-    private class AsyncQueryUpdateCategoryOpenDialog extends AsyncTask<Void,Void,Void> {
-
-        private ArrayList<CategoryDataType> list = new ArrayList<>();
-        int position;
-        CategorySQLiteHelper myDB;
-        Context context;
-
-
-        public AsyncQueryUpdateCategoryOpenDialog(int position, Context context){
-            this.position=position;
-            this.context=context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            myDB = new CategorySQLiteHelper(context);
-            List<CategoryDataType> database_list = myDB.getAllSampleData();
-            list = new ArrayList<>();
-
-            for (CategoryDataType s : database_list){
-                list.add(s);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Dialog_Category_Edit dialog = new Dialog_Category_Edit(list.get(position),context);
-            dialog.show(getSupportFragmentManager(),"EditDialog");
-        }
     }
 }

@@ -34,11 +34,11 @@ import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 /**
- * @author David Meiborg
- * Dialog for adding a new category
+ * Dialog for adding a new category.
  *
+ * @author David Meiborg
  */
-public class Dialog_Category extends AppCompatDialogFragment {
+public class CategoryDialog extends AppCompatDialogFragment {
 
     private EditText editTextTitle;
 
@@ -61,7 +61,6 @@ public class Dialog_Category extends AppCompatDialogFragment {
 
                     }
                 })
-
                 //defines what happens when dialog is submitted
                 .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
@@ -75,7 +74,6 @@ public class Dialog_Category extends AppCompatDialogFragment {
                             toast.show();
                         }
                         else {
-
                             myDB.addSampleData(new CategoryDataType(1, categoryName));
 
                             Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
@@ -85,7 +83,6 @@ public class Dialog_Category extends AppCompatDialogFragment {
                         }
                     }
                 });
-
         return builder.create();
     }
 }
