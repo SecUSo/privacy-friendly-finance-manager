@@ -7,6 +7,7 @@ import android.content.Context;
 
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -19,6 +20,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
     private static FinanceDatabase instance;
 
     public abstract TransactionDao transactionDao();
+    public abstract CategoryDao categoryDao();
 
     public static FinanceDatabase getInstance() {
         return instance;
