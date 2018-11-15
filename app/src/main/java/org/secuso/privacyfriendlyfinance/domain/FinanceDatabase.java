@@ -9,11 +9,13 @@ import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Transaction.class}, version = 1)
+@Database(entities = {Account.class, Category.class, Transaction.class}, version = 2)
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "db";
     private static OpenDatabaseTask openTask;
@@ -46,8 +48,8 @@ public abstract class FinanceDatabase extends RoomDatabase {
         protected FinanceDatabase doInBackground(String... params) {
             publishProgress(0.0);
             if (params.length != 1) throw new IllegalArgumentException("one database name was expected");
-            for (int i = 1; i <= 5000; i += 16) {
-                publishProgress(((double) i) / 5000.0);
+            for (int i = 1; i <= 1000; i += 16) {
+                publishProgress(((double) i) / 1000.0);
                 try {
                     TimeUnit.MILLISECONDS.sleep(16);
                 } catch (InterruptedException e) {
@@ -55,7 +57,9 @@ public abstract class FinanceDatabase extends RoomDatabase {
                 }
             }
 
-            return Room.databaseBuilder(context, FinanceDatabase.class, params[0]).build();
+            return Room.databaseBuilder(context, FinanceDatabase.class, params[0])
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
 
         @Override

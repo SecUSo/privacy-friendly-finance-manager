@@ -17,10 +17,10 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -29,60 +29,68 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
-import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
+
 /**
- * Dialog for adding a new category.
+ * Dialog for adding or editing a category.
  *
- * @author David Meiborg
+ * @author Felix Hofmann, Leonard Otto
  */
 public class CategoryDialog extends AppCompatDialogFragment {
+    private final CategoryDao dao = FinanceDatabase.getInstance().categoryDao();
+    private Category category;
+    private EditText nameEditText;
 
-    private EditText editTextTitle;
 
-    private CategorySQLiteHelper myDB;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_category, null);
-        myDB = new CategorySQLiteHelper(getContext());
+        nameEditText = view.findViewById(R.id.dialog_category_name);
 
-        editTextTitle = view.findViewById(R.id.dialog_category_name);
+        builder.setView(view);
+        long id = -1L;
+        if (savedInstanceState != null) savedInstanceState.getLong("categoryId", -1L);
+        if (id == -1L) {
+             builder.setTitle(R.string.dialog_category_title);
+             category = new Category();
+        } else {
+            builder.setTitle(R.string.dialog_category_edit);
+            category = dao.get(id);
+        }
 
-        builder.setView(view)
-                .setTitle(R.string.dialog_category_title)
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
+        builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
 
-                    }
-                })
+            }
+        });
                 //defines what happens when dialog is submitted
-                .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String categoryName = editTextTitle.getText().toString();
-                        if (categoryName==null){
-                            CharSequence text = getString(R.string.dialog_category_toast);
-                            int duration = Toast.LENGTH_LONG;
+        builder.setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                String categoryName = nameEditText.getText().toString().trim();
+                if (categoryName.isEmpty()) {
+                    Toast.makeText(getContext(), getString(R.string.dialog_category_toast), Toast.LENGTH_LONG).show();
+                } else {
+                    category.setName(categoryName);
+                    dao.upsertAsync(category, null);
+                    Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 
-                            Toast toast = Toast.makeText(getContext(), text, duration);
-                            toast.show();
-                        }
-                        else {
-                            myDB.addSampleData(new CategoryDataType(1, categoryName));
+                    Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
-                            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent((Context) getActivity(), CategoryActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
         return builder.create();
     }
+
+
 }

@@ -20,18 +20,11 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -41,21 +34,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
-import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
-import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
-import org.secuso.privacyfriendlyfinance.activities.MainActivity;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategoryDialog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 /**
  * @author David Meiborg
  * Dialog for adding a new transaction
@@ -121,7 +103,7 @@ public class Dialog extends AppCompatDialogFragment {
 
         editTextDate.setText(transactionDate);
 
-        new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
+//        new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
 
 
                 builder.setView(view)

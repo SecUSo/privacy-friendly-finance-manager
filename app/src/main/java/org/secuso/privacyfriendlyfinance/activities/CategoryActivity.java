@@ -17,6 +17,7 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -32,12 +33,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
-import org.secuso.privacyfriendlyfinance.activities.tasks.OpenCategoryEditDialogTask;
-import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDeleteCategory;
+import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,21 +49,23 @@ import java.util.List;
  * @author David Meiborg
  */
 
-public class CategoryActivity extends BaseActivity {
-    private CategoryCustomListViewAdapter adapter;
-    private List<CategoryDataType> database_list;
-    private ArrayList<CategoryDataType> list;
+public class CategoryActivity extends BaseActivity implements TaskListener {
+    private final CategoryDao dao = FinanceDatabase.getInstance().categoryDao();
+    private ListView categoryList;
+    private ArrayList<Category> categories;
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        ListView categoryList = (ListView) findViewById(R.id.categoryList);
-        new AsyncQueryCategory(categoryList, this).execute();
+        categoryList = findViewById(R.id.categoryList);
+        dao.getAllAsync(this);
+//        new AsyncQueryCategory(categoryList, this).execute();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -89,14 +92,11 @@ public class CategoryActivity extends BaseActivity {
         add_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openCategoryDialog();
+                openCategoryDialog(null);
             }
         });
 
-        ListView categoryList = (ListView) findViewById(R.id.categoryList);
-
-        new AsyncQueryCategory(categoryList, this).execute();
-
+        categoryList = findViewById(R.id.categoryList);
         registerForContextMenu(categoryList);
     }
 
@@ -123,27 +123,16 @@ public class CategoryActivity extends BaseActivity {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         if (item.getItemId() == R.id.listDeleteCategory) {
-            if (menuInfo.position == 0) {
-                Toast.makeText(CategoryActivity.this, R.string.category_deletion_standard, Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                new AsyncQueryDeleteCategory(menuInfo.position, CategoryActivity.this)
-                        .execute();
-                Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT)
-                        .show();
-            }
+
+            Category category = categories.get(menuInfo.position);
+    //                TODO delete category
+            Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT)            .show();
 
             Intent categoryActivity = new Intent(getBaseContext(), CategoryActivity.class);
             startActivity(categoryActivity);
         }
         if (item.getItemId() == R.id.listEditCategory) {
-            if (menuInfo.position == 0) {
-                Toast.makeText(CategoryActivity.this, R.string.category_deletion_standard, Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                new OpenCategoryEditDialogTask(this, menuInfo.position)
-                        .execute();
-            }
+            openCategoryDialog(categories.get(menuInfo.position));
         }
 
         return super.onContextItemSelected(item);
@@ -155,8 +144,11 @@ public class CategoryActivity extends BaseActivity {
      * @return void
      */
 
-    private void openCategoryDialog() {
+    private void openCategoryDialog(Category category) {
         CategoryDialog dialog = new CategoryDialog();
+        Bundle args = new Bundle();
+        if (category != null) args.putLong("categoryId", category.getId());
+        dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "Dialog");
     }
 
@@ -168,5 +160,21 @@ public class CategoryActivity extends BaseActivity {
 
     protected int getNavigationDrawerID() {
         return R.id.nav_category;
+    }
+
+    @Override
+    public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+        categories = new ArrayList<>((List<Category>) result);
+        categoryList.setAdapter(new CategoryArrayAdapter(this, categories));
+    }
+
+    @Override
+    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
+
+    }
+
+    @Override
+    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
+
     }
 }
