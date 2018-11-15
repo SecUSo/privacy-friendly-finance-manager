@@ -21,34 +21,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import org.secuso.privacyfriendlyfinance.helpers.FirstLaunchManager;
-
 /**
  * This activity handles the opening of the application
- * @author David Meiborg
- * @version 2018
+ * @author Felix Hofmann
+ * @version 20181115
  */
 
 public class SplashActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
-
-        FirstLaunchManager firstStartPref = new FirstLaunchManager(this);
-
-        if(firstStartPref.isFirstTimeLaunch()) {
-            firstStartPref.initFirstTimeLaunch();
-            mainIntent = new Intent(this, TutorialActivity.class);
-        } else {
-            mainIntent = new Intent(this, MainActivity.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        }
-
-        startActivity(mainIntent);
+        startActivity(new Intent(this, StartupActivity.class));
         finish();
     }
-
 }
