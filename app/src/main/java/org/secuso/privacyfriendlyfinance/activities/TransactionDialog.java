@@ -17,7 +17,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,28 +37,28 @@ import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
 import java.util.Calendar;
+
 /**
- * @author David Meiborg
  * Dialog for adding a new transaction
  *
+ * @author David Meiborg
  */
-public class Dialog extends AppCompatDialogFragment {
+public class TransactionDialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
     private EditText editTextAmount;
     private TextView editTextDate;
     private RadioButton radioButtonIncome;
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
-    private Spinner category_spinner;
-    private Integer transactionType;
-    private Double transactionAmount = 0.0;
-    private String transactionCategory;
-    private String transactionName;
+    private Spinner categorySpinner;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private PFASQLiteHelper myDB;
+
+    private Double transactionAmount = 0.0;
+    private Integer transactionType;
     private String transactionDate;
-
-
+    private String transactionCategory;
+    private String transactionName;
 
 
     //opens Dialog with layout defined in dialog.xml
@@ -78,7 +77,7 @@ public class Dialog extends AppCompatDialogFragment {
         radioButtonIncome = view.findViewById(R.id.radioButton_Income);
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
         radioGroupType = view.findViewById(R.id.radioGroup_type);
-        category_spinner= view.findViewById(R.id.category_spinner);
+        categorySpinner = view.findViewById(R.id.category_spinner);
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
@@ -86,8 +85,8 @@ public class Dialog extends AppCompatDialogFragment {
         //set transactionDate to current date
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH)+1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
 
         String monthString = String.valueOf(month);
         if (monthString.length() == 1) {
@@ -99,107 +98,110 @@ public class Dialog extends AppCompatDialogFragment {
             dayString = "0" + dayString;
         }
 
-        transactionDate=dayString+"/"+monthString+"/"+year;
+        transactionDate = dayString + "/" + monthString + "/" + year;
 
         editTextDate.setText(transactionDate);
 
-//        new AsyncQueryCategoryDialog(category_spinner,getContext()).execute();
+//        new AsyncQueryCategoryDialog(categorySpinner,getContext()).execute();
 
 
-                builder.setView(view)
+        builder.setView(view)
                 .setTitle(R.string.dialog_title)
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-
+                        //Nothing to do here
                     }
                 })
-
                 //defines what happens when dialog is submitted
                 .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        transactionName = editTextTitle.getText().toString();
-
-                        if(editTextAmount.getText().toString()==null){
-
-                        }
-                        else{
-                            try {
-                                transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
-                            } catch (NumberFormatException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        if (transactionAmount==0){
-                            CharSequence text = getString(R.string.dialog_toast_0);
-                            int duration = Toast.LENGTH_LONG;
-
-                            Toast toast = Toast.makeText(getContext(), text, duration);
-                            toast.show();
-                        }
-                        else{
-                            if (radioGroupType.getCheckedRadioButtonId()==R.id.radioButton_Expense) {
-                                transactionType = 0;
-                            }
-                            else {
-                                transactionType=1;
-                            }
-
-                            transactionDate = editTextDate.getText().toString();
-
-                            transactionCategory = category_spinner.getSelectedItem().toString();
-
-                            myDB.addSampleData(new PFASampleDataType(1,transactionName,transactionAmount,transactionType,transactionDate,transactionCategory));
-
-                            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
-
-                            Intent main = new Intent((Context)getActivity(),MainActivity.class);
-                            startActivity(main);
-                        }
-
-
+                        submitTransaction();
                     }
                 });
 
 
-
-
-        editTextDate.setOnClickListener(new View.OnClickListener(){
+        editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(getContext(),mDateSetListener,year,month,day);
-                dialog.show();
+                openDatePicker();
             }
         });
-
-        mDateSetListener= new DatePickerDialog.OnDateSetListener() {
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month=month+1;
-
-                String monthString = String.valueOf(month);
-                if (monthString.length() == 1) {
-                    monthString = "0" + monthString;
-                }
-
-                String dayString = String.valueOf(dayOfMonth);
-                if (dayString.length() == 1) {
-                    dayString = "0" + dayString;
-                }
-
-                transactionDate=dayString+"/"+monthString+"/"+year;
-                editTextDate.setText(transactionDate);
+                dateSet(year, month, dayOfMonth);
             }
         };
 
         return builder.create();
     }
 
+    private void dateSet(int year, int month, int dayOfMonth) {
+        month = month + 1;
+
+        String monthString = String.valueOf(month);
+        if (monthString.length() == 1) {
+            monthString = "0" + monthString;
+        }
+
+        String dayString = String.valueOf(dayOfMonth);
+        if (dayString.length() == 1) {
+            dayString = "0" + dayString;
+        }
+
+        transactionDate = dayString + "/" + monthString + "/" + year;
+        editTextDate.setText(transactionDate);
+    }
+
+    private void openDatePicker() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), mDateSetListener, year, month, day);
+        dialog.show();
+    }
+
+    private void submitTransaction() {
+        transactionName = editTextTitle.getText().toString();
+
+        if (editTextAmount.getText().toString() == null) {
+
+        } else {
+            try {
+                transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (transactionAmount == 0) {
+            CharSequence text = getString(R.string.dialog_toast_0);
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getContext(), text, duration);
+            toast.show();
+        } else {
+            if (radioGroupType.getCheckedRadioButtonId() == R.id.radioButton_Expense) {
+                transactionType = 0;
+            } else {
+                transactionType = 1;
+            }
+
+            transactionDate = editTextDate.getText().toString();
+            transactionCategory = categorySpinner.getSelectedItem().toString();
+
+            myDB.addSampleData(new PFASampleDataType(1, transactionName, transactionAmount, transactionType, transactionDate, transactionCategory));
+
+            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
+
+//            Intent main = new Intent(getActivity(), MainActivity.class);
+//            startActivity(main);
+            System.out.println("Transaction submit");
+
+        }
+    }
 }

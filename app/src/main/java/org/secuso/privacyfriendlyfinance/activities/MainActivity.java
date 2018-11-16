@@ -82,8 +82,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -91,13 +89,12 @@ public class MainActivity extends BaseActivity {
 
         defaultCategory = getResources().getString(R.string.firstCategoryName);
 
-
         //Plus Button opens Dialog to add new Transaction
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
         add_expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialog();
+                openTransactionDialog();
             }
         });
 
@@ -130,10 +127,9 @@ public class MainActivity extends BaseActivity {
     }
 
     //opens the dialog for entering new transaction
-    public void openDialog() {
-        Dialog dialog = new Dialog();
+    public void openTransactionDialog() {
+        TransactionDialog dialog = new TransactionDialog();
         dialog.show(getSupportFragmentManager(), "Dialog");
-
     }
 
     //opens menu for delete or edit list items
