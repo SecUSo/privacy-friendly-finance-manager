@@ -17,25 +17,23 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ContextMenu;
-
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
@@ -47,26 +45,21 @@ import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDelete;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.Toast;
 
 
 /**
  * This Activity handles the navigation and operation on transactions.
+ *
  * @author David Meiborg
  * @version 2018
  */
 public class MainActivity extends BaseActivity {
     private PFASQLiteHelper myDB;
-    private List<PFASampleDataType> database_list;
-    private ArrayList<PFASampleDataType> list;
-    private Context context;
     private static String defaultCategory;
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -74,7 +67,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static String getDefaultCategory(){
+    public static String getDefaultCategory() {
         return defaultCategory;
     }
 
@@ -82,37 +75,35 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ListView transactionList = (ListView) findViewById(R.id.transactionList);
-        new AsyncQuery(transactionList,this).execute();
+        ListView transactionList = findViewById(R.id.transactionList);
+        new AsyncQuery(transactionList, this).execute();
     }
 
-    public Context getContext(){
-        return MainActivity.this;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         overridePendingTransition(0, 0);
 
-        context=this.getApplicationContext();
-        defaultCategory = context.getResources().getString(R.string.firstCategoryName);
+        defaultCategory = getResources().getString(R.string.firstCategoryName);
 
 
         //Plus Button opens Dialog to add new Transaction
         FloatingActionButton add_expense = findViewById(R.id.add_expense);
-        add_expense.setOnClickListener(new View.OnClickListener(){
+        add_expense.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View view){
+            public void onClick(View view) {
                 openDialog();
             }
         });
 
         ListView transactionList = (ListView) findViewById(R.id.transactionList);
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        new AsyncQuery(transactionList,this).execute();
+        new AsyncQuery(transactionList, this).execute();
 
 
         //fill TextView with total Balance of transactions
@@ -120,17 +111,17 @@ public class MainActivity extends BaseActivity {
         Double balance = myDB.getBalance();
         NumberFormat format = NumberFormat.getCurrencyInstance();
         balanceView.setText(format.format(balance).toString());
-        if (balance<0){
+        if (balance < 0) {
             balanceView.setTextColor(getResources().getColor(R.color.red));
-        }else{
+        } else {
             balanceView.setTextColor(getResources().getColor(R.color.green));
         }
 
         //Edit Transaction if click on item
-        transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               new AsyncQueryUpdateOpenDialog(position,getApplicationContext()).execute();
+                new AsyncQueryUpdateOpenDialog(position, getApplicationContext()).execute();
             }
         });
 
@@ -139,9 +130,9 @@ public class MainActivity extends BaseActivity {
     }
 
     //opens the dialog for entering new transaction
-    public void openDialog(){
+    public void openDialog() {
         Dialog dialog = new Dialog();
-        dialog.show(getSupportFragmentManager(),"Dialog");
+        dialog.show(getSupportFragmentManager(), "Dialog");
 
     }
 
@@ -150,14 +141,14 @@ public class MainActivity extends BaseActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_click_menu,menu);
+        inflater.inflate(R.menu.list_click_menu, menu);
     }
 
     //action when menu item is selected
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             //delete Item from DB and View
             case R.id.listDeleteItem:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -166,32 +157,31 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                new AsyncQueryDelete(info.position,MainActivity.this).execute();
+                                new AsyncQueryDelete(info.position, MainActivity.this).execute();
 
-                                Toast.makeText(context, R.string.toast_delete, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, R.string.toast_delete, Toast.LENGTH_SHORT).show();
 
-                                Intent main = new Intent(getBaseContext(),MainActivity.class);
+                                Intent main = new Intent(getBaseContext(), MainActivity.class);
                                 startActivity(main);
                             }
                         })
                         .setNegativeButton(R.string.delete_dialog_negative, null);
 
-                        AlertDialog alert = builder.create();
-                        alert.show();
+                AlertDialog alert = builder.create();
+                alert.show();
                 break;
 
 
             //edit Item in DB and View
             case R.id.listEditItem:
 
-                new AsyncQueryUpdateOpenDialog(info.position,getApplicationContext()).execute();
+                new AsyncQueryUpdateOpenDialog(info.position, getApplicationContext()).execute();
 
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
-
 
 
     /**
@@ -207,9 +197,8 @@ public class MainActivity extends BaseActivity {
 
     /**
      * This nested class opens the Edit Dialog with an AsyncTask
-     *
      */
-    private class AsyncQueryUpdateOpenDialog extends AsyncTask<Void,Void,Void> {
+    private class AsyncQueryUpdateOpenDialog extends AsyncTask<Void, Void, Void> {
 
         private ArrayList<PFASampleDataType> list = new ArrayList<>();
         int position;
@@ -217,19 +206,9 @@ public class MainActivity extends BaseActivity {
         Context context;
 
 
-        public AsyncQueryUpdateOpenDialog(int position, Context context){
-            this.position=position;
-            this.context=context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
+        public AsyncQueryUpdateOpenDialog(int position, Context context) {
+            this.position = position;
+            this.context = context;
         }
 
         @Override
@@ -238,7 +217,7 @@ public class MainActivity extends BaseActivity {
             List<PFASampleDataType> database_list = myDB.getAllSampleData();
             list = new ArrayList<>();
 
-            for (PFASampleDataType s : database_list){
+            for (PFASampleDataType s : database_list) {
                 list.add(s);
             }
 
@@ -248,7 +227,7 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             EditDialog dialog = new EditDialog(list.get(position));
-            dialog.show(getSupportFragmentManager(),"EditDialog");
+            dialog.show(getSupportFragmentManager(), "EditDialog");
         }
     }
 
