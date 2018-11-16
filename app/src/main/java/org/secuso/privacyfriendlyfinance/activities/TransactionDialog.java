@@ -19,6 +19,7 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -33,8 +34,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 
 import java.util.Calendar;
 
@@ -51,8 +56,6 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
     private Spinner categorySpinner;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private PFASQLiteHelper myDB;
 
     private Double transactionAmount = 0.0;
     private Integer transactionType;
@@ -65,10 +68,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
     @Override
     public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog, null);
-
-        myDB = new PFASQLiteHelper(getActivity());
 
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
         editTextAmount = view.findViewById(R.id.dialog_expense_amount);
@@ -81,6 +83,15 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
+
+        //Handle the arguments
+        {
+            Bundle arguments = getArguments();
+            long id = arguments.getLong("transactionId", -1L);
+            if (id == -1L) {
+                
+            }
+        }
 
         //set transactionDate to current date
         Calendar cal = Calendar.getInstance();
@@ -102,11 +113,25 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         editTextDate.setText(transactionDate);
 
-//        new AsyncQueryCategoryDialog(categorySpinner,getContext()).execute();
+        //Retrieve categories and put them in the spinner
+        {
+            CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+            categoryDao.getAllAsync(new TaskListener() {
+                @Override
+                public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+                    //TODO: FILL SPINNER
+                }
+                @Override
+                public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
+                }
+                @Override
+                public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
+                }
+            });
+        }
 
 
         builder.setView(view)
-                .setTitle(R.string.dialog_title)
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
@@ -128,12 +153,6 @@ public class TransactionDialog extends AppCompatDialogFragment {
                 openDatePicker();
             }
         });
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                dateSet(year, month, dayOfMonth);
-            }
-        };
 
         return builder.create();
     }
@@ -161,7 +180,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), mDateSetListener, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateSet(year, month, dayOfMonth);
+            }
+        }, year, month, day);
         dialog.show();
     }
 
@@ -194,7 +218,13 @@ public class TransactionDialog extends AppCompatDialogFragment {
             transactionDate = editTextDate.getText().toString();
             transactionCategory = categorySpinner.getSelectedItem().toString();
 
-            myDB.addSampleData(new PFASampleDataType(1, transactionName, transactionAmount, transactionType, transactionDate, transactionCategory));
+//            myDB.addSampleData(new PFASampleDataType(1, transactionName, transactionAmount, transactionType, transactionDate, transactionCategory));
+
+            //Save the edited/created transaction
+            {
+                TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+                transactionDao.updateOrInsertAsync(tran)
+            }
 
             Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 

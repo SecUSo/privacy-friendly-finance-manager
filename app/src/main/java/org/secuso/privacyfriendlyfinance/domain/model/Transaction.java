@@ -5,9 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "Tranzaction")
-public class Transaction {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+public class Transaction extends AbstractEntity {
     private String name;
     private long amount;
     private String date;
@@ -20,13 +18,6 @@ public class Transaction {
         this.name = name;
         this.amount = amount;
         this.date = date;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

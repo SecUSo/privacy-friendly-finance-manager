@@ -9,10 +9,12 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 @Dao
-public interface TransactionDao {
+public abstract class TransactionDao extends AbstractDao<Transaction> {
+    @Override
     @Query("SELECT * FROM Tranzaction")
-    List<Transaction> getAll();
+    public abstract List<Transaction> getAll();
 
+    @Override
     @Insert
-    long insert(Transaction transaction);
+    public abstract long insert(Transaction transaction);
 }
