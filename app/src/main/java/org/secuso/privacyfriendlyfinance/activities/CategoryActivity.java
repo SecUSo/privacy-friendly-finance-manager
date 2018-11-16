@@ -126,23 +126,18 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
 
             Category category = categories.get(menuInfo.position);
     //                TODO delete category
-            Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT)            .show();
+            Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
 
             Intent categoryActivity = new Intent(getBaseContext(), CategoryActivity.class);
             startActivity(categoryActivity);
         }
         if (item.getItemId() == R.id.listEditCategory) {
+            Category category = categories.get(menuInfo.position);
             openCategoryDialog(categories.get(menuInfo.position));
         }
 
         return super.onContextItemSelected(item);
     }
-
-    /**
-     * This method opens the Dialog for adding a Category
-     *
-     * @return void
-     */
 
     private void openCategoryDialog(Category category) {
         CategoryDialog dialog = new CategoryDialog();
