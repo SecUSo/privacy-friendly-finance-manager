@@ -1,25 +1,15 @@
 package org.secuso.privacyfriendlyfinance.domain.model;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "Category")
-public class Category {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+@Entity(tableName = "Category", inheritSuperIndices=true)
+public class Category extends AbstractEntity {
     private String name;
 
     public Category() {
     }
     public Category(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
