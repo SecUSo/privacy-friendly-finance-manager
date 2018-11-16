@@ -125,7 +125,7 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
         if (item.getItemId() == R.id.listDeleteCategory) {
 
             Category category = categories.get(menuInfo.position);
-    //                TODO delete category
+            dao.deleteAsync(category);
             Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
 
             Intent categoryActivity = new Intent(getBaseContext(), CategoryActivity.class);
