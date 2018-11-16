@@ -25,7 +25,7 @@ public abstract class AbstractDao<E extends AbstractEntity> {
         }
     }
 
-    public CommunicantAsyncTask<?, Long> updateOrInsert(final E entity, TaskListener listener) {
+    public CommunicantAsyncTask<?, Long> updateOrInsertAsync(final E entity, TaskListener listener) {
         CommunicantAsyncTask<Void, Long> task = new CommunicantAsyncTask<Void, Long>() {
             @Override
             protected Long doInBackground(Void... voids) {
