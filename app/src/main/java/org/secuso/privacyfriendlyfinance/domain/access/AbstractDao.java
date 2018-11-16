@@ -40,12 +40,13 @@ public abstract class AbstractDao<E extends AbstractEntity> {
     }
 
     public CommunicantAsyncTask<?, Long> updateOrInsertAsync(final E entity, TaskListener listener) {
-        return listenAndExec(new CommunicantAsyncTask<Void, Long>() {
+        CommunicantAsyncTask<Void, Long> task = new CommunicantAsyncTask<Void, Long>() {
             @Override
             protected Long doInBackground(Void... voids) {
                 return updateOrInsert(entity);
             }
-        }, listener);
+        };
+        return listenAndExec(task, listener);
     }
 
     public CommunicantAsyncTask<?, E> getAsync(final long id, TaskListener listener) {
@@ -66,6 +67,7 @@ public abstract class AbstractDao<E extends AbstractEntity> {
             }
         }, listener);
     }
+
     public CommunicantAsyncTask<?, Void> deleteAsync(final E entity, TaskListener listener) {
         return listenAndExec(new CommunicantAsyncTask<Void, Void>() {
             @Override
@@ -74,5 +76,8 @@ public abstract class AbstractDao<E extends AbstractEntity> {
                 return null;
             }
         }, listener);
+    }
+    public CommunicantAsyncTask<?, Void> deleteAsync(final E entity) {
+        return deleteAsync(entity, null);
     }
 }
