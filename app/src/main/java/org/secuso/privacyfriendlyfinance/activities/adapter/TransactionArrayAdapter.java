@@ -28,18 +28,21 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.R.color;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author David Meiborg
  * Adapter for displaying the transaction list
  */
-public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
+public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
 
 
-    public CustomListViewAdapter( Context context, ArrayList<PFASampleDataType> list) {
-        super(context,0,list);
+    public TransactionArrayAdapter(Context context, List<Transaction> transactions) {
+        super(context, 0, transactions);
     }
 
 
@@ -51,29 +54,27 @@ public class CustomListViewAdapter extends ArrayAdapter<PFASampleDataType>{
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
 
-        PFASampleDataType transaction = getItem(position);
+        Transaction transaction = getItem(position);
 
-        TextView listItem_amount = convertView.findViewById(R.id.listItem_amount);
-        TextView listItem_name = convertView.findViewById(R.id.listItem_name);
-        TextView listItem_date = convertView.findViewById(R.id.listItem_date);
+        TextView listItemAmount = convertView.findViewById(R.id.listItem_amount);
+        TextView listItemName = convertView.findViewById(R.id.listItem_name);
+        TextView listItemDate = convertView.findViewById(R.id.listItem_date);
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
 
-        if (transaction.isTransaction_type()==0){
-            listItem_amount.setTextColor(getContext().getResources().getColor(color.red));
-            listItem_amount.setText(format.format(transaction.getTransaction_amount()));
-        }else{
-            listItem_amount.setTextColor(getContext().getResources().getColor(color.green));
-            listItem_amount.setText(format.format(transaction.getTransaction_amount()));
+        listItemAmount.setText(format.format(transaction.getAmount()));
+        if (transaction.getAmount() < 0) {
+            listItemAmount.setTextColor(getContext().getResources().getColor(color.red));
+        } else {
+            listItemAmount.setTextColor(getContext().getResources().getColor(color.green));
         }
 
-        listItem_name.setText(transaction.getTransactionName());
+        listItemName.setText(transaction.getName());
 
-        listItem_date.setText(transaction.getTransaction_date());
+        listItemDate.setText(transaction.getDateAsString());
 
         return convertView;
     }
-
 
 
 }

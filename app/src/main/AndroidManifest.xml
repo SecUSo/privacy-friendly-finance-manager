@@ -15,7 +15,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="org.secuso.privacyfriendlyfinance.activities.MyApplication">
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">

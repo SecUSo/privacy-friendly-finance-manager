@@ -18,7 +18,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,15 +34,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
-import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQuery;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDelete;
+import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,9 +54,10 @@ import java.util.List;
  * @author David Meiborg
  * @version 2018
  */
-public class MainActivity extends BaseActivity {
-    private PFASQLiteHelper myDB;
-    private static String defaultCategory;
+public class MainActivity extends BaseActivity implements TaskListener {
+    private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private ListView transactionListView;
+    private List<Transaction> transactions;
 
     @Override
     public void onBackPressed() {
@@ -67,16 +69,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static String getDefaultCategory() {
-        return defaultCategory;
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
-        ListView transactionList = findViewById(R.id.transactionList);
-        new AsyncQuery(transactionList, this).execute();
+        transactionDao.getAllAsync(this);
     }
 
 
@@ -87,49 +83,50 @@ public class MainActivity extends BaseActivity {
 
         overridePendingTransition(0, 0);
 
-        defaultCategory = getResources().getString(R.string.firstCategoryName);
-
         //Plus Button opens Dialog to add new Transaction
-        FloatingActionButton add_expense = findViewById(R.id.add_expense);
-        add_expense.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btAddTransaction = findViewById(R.id.add_expense);
+        btAddTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openTransactionDialog();
+                openTransactionDialog(null);
             }
         });
 
-        ListView transactionList = (ListView) findViewById(R.id.transactionList);
+        transactionListView = (ListView) findViewById(R.id.transactionList);
         TextView balanceView = (TextView) findViewById(R.id.totalBalance);
-        new AsyncQuery(transactionList, this).execute();
-
-
-        //fill TextView with total Balance of transactions
-        myDB = new PFASQLiteHelper(this);
-        Double balance = myDB.getBalance();
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-        balanceView.setText(format.format(balance).toString());
-        if (balance < 0) {
-            balanceView.setTextColor(getResources().getColor(R.color.red));
-        } else {
-            balanceView.setTextColor(getResources().getColor(R.color.green));
-        }
+        //TODO: Retrieve balance and put in balanceView, also set color
+        balanceView.setText("TODO: Retrieve balance");
 
         //Edit Transaction if click on item
-        transactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        transactionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new AsyncQueryUpdateOpenDialog(position, getApplicationContext()).execute();
+                openTransactionDialog(transactions.get(position));
             }
         });
 
         //Menu for listview items
-        registerForContextMenu(transactionList);
+        registerForContextMenu(transactionListView);
     }
 
     //opens the dialog for entering new transaction
-    public void openTransactionDialog() {
-        TransactionDialog dialog = new TransactionDialog();
-        dialog.show(getSupportFragmentManager(), "Dialog");
+    public void openTransactionDialog(Transaction transactionObject) {
+        TransactionDialog transactionDialog = new TransactionDialog();
+        Bundle args = new Bundle();
+
+        if (transactionObject != null) {
+            args.putLong("transactionId", transactionObject.getId());
+            args.putLong("transactionAmount", transactionObject.getAmount());
+            args.putString("transactionName", transactionObject.getName());
+
+            DateTimeFormatter formatter = DateTimeFormat.forPattern(getResources().getString(R.string.time_format_string));
+            args.putString("transactionDate", formatter.print(transactionObject.getDate()));
+
+            args.putLong("categoryId", transactionObject.getCategoryId());
+        }
+
+        transactionDialog.setArguments(args);
+        transactionDialog.show(getSupportFragmentManager(), "TransactionDialog");
     }
 
     //opens menu for delete or edit list items
@@ -143,42 +140,42 @@ public class MainActivity extends BaseActivity {
     //action when menu item is selected
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            //delete Item from DB and View
             case R.id.listDeleteItem:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.delete_dialog_title)
-                        .setPositiveButton(R.string.delete_dialog_positive, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                new AsyncQueryDelete(info.position, MainActivity.this).execute();
-
-                                Toast.makeText(MainActivity.this, R.string.toast_delete, Toast.LENGTH_SHORT).show();
-
-                                Intent main = new Intent(getBaseContext(), MainActivity.class);
-                                startActivity(main);
-                            }
-                        })
-                        .setNegativeButton(R.string.delete_dialog_negative, null);
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                deleteItem(info.position);
                 break;
-
-
-            //edit Item in DB and View
             case R.id.listEditItem:
-
-                new AsyncQueryUpdateOpenDialog(info.position, getApplicationContext()).execute();
-
+                editItem(info.position);
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
 
+    private void editItem(int indexToEdit) {
+        openTransactionDialog(transactions.get(indexToEdit));
+    }
+
+    private void deleteItem(final int indexToDelete) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.transaction_delete_dialog_title)
+                .setPositiveButton(R.string.transaction_delete_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        transactionDao.deleteAsync(transactions.get(indexToDelete));
+
+                        Toast.makeText(MainActivity.this, R.string.toast_delete, Toast.LENGTH_SHORT).show();
+
+                        Intent main = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(main);
+                    }
+                })
+                .setNegativeButton(R.string.transaction_delete_dialog_negative, null);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     /**
      * This method connects the Activity to the menu item
@@ -190,41 +187,17 @@ public class MainActivity extends BaseActivity {
         return R.id.nav_main;
     }
 
-
-    /**
-     * This nested class opens the Edit Dialog with an AsyncTask
-     */
-    private class AsyncQueryUpdateOpenDialog extends AsyncTask<Void, Void, Void> {
-
-        private ArrayList<PFASampleDataType> list = new ArrayList<>();
-        int position;
-        PFASQLiteHelper myDB;
-        Context context;
-
-
-        public AsyncQueryUpdateOpenDialog(int position, Context context) {
-            this.position = position;
-            this.context = context;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            myDB = new PFASQLiteHelper(context);
-            List<PFASampleDataType> database_list = myDB.getAllSampleData();
-            list = new ArrayList<>();
-
-            for (PFASampleDataType s : database_list) {
-                list.add(s);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            EditDialog dialog = new EditDialog(list.get(position));
-            dialog.show(getSupportFragmentManager(), "EditDialog");
-        }
+    @Override
+    public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+        transactions = (List<Transaction>) result;
+        transactionListView.setAdapter(new TransactionArrayAdapter(this, transactions));
     }
 
+    @Override
+    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
+    }
+
+    @Override
+    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
+    }
 }

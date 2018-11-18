@@ -2,6 +2,9 @@
     <string name="app_name">Finanzen Manager</string>
     <string name="app_name_long">Finanzen Manager</string>
 
+    <!-- ###DATE AND TIME MANAGEMENT### -->
+    <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
+
     <!-- ###DRAWER###-->
     <string name="action_help">Hilfe</string>
     <string name="action_about">Über</string>
@@ -62,22 +65,23 @@
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
     <!--###dialog###-->
-    <string name="dialog_title">Neuer Eintrag</string>
-    <string name="dialog_submit">Ok</string>
-    <string name="dialog_cancel">Abbrechen</string>
-    <string name="dialog_hint_expense_name">Titel</string>
-    <string name="dialog_hint_expense_value">Betrag</string>
-    <string name="dialog_radio_button_income">Einkommen</string>
-    <string name="dialog_radio_button_expense">Ausgabe</string>
-    <string name="dialog_hint_date">Datum eingeben</string>
+    <string name="transaction_dialog_title_new">Neue Transaktion</string>
+    <string name="transaction_dialog_title_edit">Transaktion bearbeiten</string>
+    <string name="transaction_dialog_submit">Ok</string>
+    <string name="transaction_dialog_cancel">Abbrechen</string>
+    <string name="transaction_dialog_hint_expense_name">Titel</string>
+    <string name="transaction_dialog_hint_expense_value">Betrag</string>
+    <string name="transaction_dialog_radio_button_income">Einkommen</string>
+    <string name="transaction_dialog_radio_button_expense">Ausgabe</string>
+    <string name="transaction_dialog_hint_date">Datum eingeben</string>
 
     <string name="edit_dialog_title">Eintrag bearbeiten</string>
     <string name="edit_dialog_submit">Ok</string>
     <string name="edit_dialog_cancel">Abbrechen</string>
 
-    <string name="delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
-    <string name="delete_dialog_positive">Ok</string>
-    <string name="delete_dialog_negative">Abbrechen</string>
+    <string name="transaction_delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
+    <string name="transaction_delete_dialog_positive">Ok</string>
+    <string name="transaction_delete_dialog_negative">Abbrechen</string>
 
     <!-- ### TOASTS ### -->
     <string name="dialog_toast_0">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>

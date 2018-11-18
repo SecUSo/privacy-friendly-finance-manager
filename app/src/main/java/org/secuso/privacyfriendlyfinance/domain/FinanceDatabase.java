@@ -3,12 +3,14 @@ package org.secuso.privacyfriendlyfinance.domain;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
@@ -16,6 +18,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.concurrent.TimeUnit;
 
 @Database(entities = {Account.class, Category.class, Transaction.class}, version = 3)
+@TypeConverters({DateTimeConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "db";
     private static OpenDatabaseTask openTask;

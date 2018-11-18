@@ -33,15 +33,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
-import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
-import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Dialog for adding a new transaction
@@ -57,11 +62,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private RadioGroup radioGroupType;
     private Spinner categorySpinner;
 
-    private Double transactionAmount = 0.0;
-    private Integer transactionType;
-    private String transactionDate;
-    private String transactionCategory;
-    private String transactionName;
+    private Transaction transactionObject;
 
 
     //opens Dialog with layout defined in dialog.xml
@@ -70,8 +71,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog, null);
+        View view = inflater.inflate(R.layout.transaction_dialog, null);
 
+        // Create views
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
         editTextAmount = view.findViewById(R.id.dialog_expense_amount);
         editTextDate = view.findViewById(R.id.dialog_expense_date);
@@ -84,42 +86,21 @@ public class TransactionDialog extends AppCompatDialogFragment {
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
 
-        //Handle the arguments
-        {
-            Bundle arguments = getArguments();
-            long id = arguments.getLong("transactionId", -1L);
-            if (id == -1L) {
-                
-            }
-        }
-
-        //set transactionDate to current date
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        final int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        String monthString = String.valueOf(month);
-        if (monthString.length() == 1) {
-            monthString = "0" + monthString;
-        }
-
-        String dayString = String.valueOf(day);
-        if (dayString.length() == 1) {
-            dayString = "0" + dayString;
-        }
-
-        transactionDate = dayString + "/" + monthString + "/" + year;
-
-        editTextDate.setText(transactionDate);
-
         //Retrieve categories and put them in the spinner
         {
             CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
             categoryDao.getAllAsync(new TaskListener() {
                 @Override
                 public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-                    //TODO: FILL SPINNER
+                    List<Category> categories = (List<Category>) result;
+                    System.out.println("########################");
+                    System.out.println("########################");
+                    System.out.println("#########category#######");
+                    System.out.println(categories.size());
+                    System.out.println("########################");
+                    System.out.println("########################");
+                    System.out.println("########################");
+                    categorySpinner.setAdapter(new CategoryArrayAdapter(getActivity(), categories));
                 }
                 @Override
                 public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
@@ -130,23 +111,21 @@ public class TransactionDialog extends AppCompatDialogFragment {
             });
         }
 
-
+        // Create buttons
         builder.setView(view)
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         //Nothing to do here
                     }
                 })
                 //defines what happens when dialog is submitted
-                .setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         submitTransaction();
                     }
                 });
-
-
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,31 +133,77 @@ public class TransactionDialog extends AppCompatDialogFragment {
             }
         });
 
+        //Handle the arguments given to this dialog
+        boolean editingExistingTransaction = false;
+        transactionObject = new Transaction();
+        {
+            Bundle arguments = getArguments();
+            long id = arguments.getLong("transactionId", -1L);
+            if (id == -1L) {
+                editingExistingTransaction = false;
+            } else {
+                editingExistingTransaction = true;
+
+                transactionObject.setId(id);
+                transactionObject.setAmount(arguments.getLong("transactionAmount", -1L));
+                //DATE
+                {
+                    String dateArg = arguments.getString("transactionDate", "ERROR");
+                    if (dateArg.equals("ERROR")) {
+                        transactionObject.setDate(new DateTime(0L));
+                    } else {
+                        DateTimeFormatter formatter = DateTimeFormat.forPattern(getResources().getString(R.string.time_format_string));
+                        DateTime dt = formatter.parseDateTime(dateArg);
+                        transactionObject.setDate(dt);
+                    }
+                }
+                transactionObject.setName(arguments.getString("transactionName", "ERROR"));
+            }
+        }
+
+        //Do edit/setup specific things
+        if (editingExistingTransaction) {
+            setUpEditDialog(builder);
+        } else {
+            setUpCreateDialog(builder);
+        }
+
         return builder.create();
     }
 
+    private void setUpEditDialog(AlertDialog.Builder builder) {
+        builder.setTitle(R.string.transaction_dialog_title_edit);
+        editTextTitle.setText(transactionObject.getName());
+        editTextAmount.setText(String.valueOf(transactionObject.getAmount()));
+        editTextDate.setText(transactionObject.getDateAsString());
+    }
+
+    private void setUpCreateDialog(AlertDialog.Builder builder) {
+        builder.setTitle(R.string.transaction_dialog_title_new);
+
+        //Fill the date field with the date 'now'
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+
+        DateTime dt = new DateTime().withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
+        editTextDate.setText(DateTimeConverter.datetimeToString(dt));
+    }
+
     private void dateSet(int year, int month, int dayOfMonth) {
-        month = month + 1;
+        DateTime dt = new DateTime();
+        dt = dt.withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
 
-        String monthString = String.valueOf(month);
-        if (monthString.length() == 1) {
-            monthString = "0" + monthString;
-        }
-
-        String dayString = String.valueOf(dayOfMonth);
-        if (dayString.length() == 1) {
-            dayString = "0" + dayString;
-        }
-
-        transactionDate = dayString + "/" + monthString + "/" + year;
-        editTextDate.setText(transactionDate);
+        editTextDate.setText(DateTimeConverter.datetimeToString(dt));
     }
 
     private void openDatePicker() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        //Open the date picker on the day that is already set
+        DateTime dt = DateTimeConverter.fromString(editTextDate.getText().toString());
+        int year = dt.getYear();
+        int month = dt.getMonthOfYear() + 1;
+        int day = dt.getDayOfMonth();
 
         DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -190,48 +215,50 @@ public class TransactionDialog extends AppCompatDialogFragment {
     }
 
     private void submitTransaction() {
-        transactionName = editTextTitle.getText().toString();
+        String tmpName = editTextTitle.getText().toString();
 
+        long tmpAmount = -1L;
         if (editTextAmount.getText().toString() == null) {
-
+            return;
         } else {
             try {
-                transactionAmount = Double.parseDouble(editTextAmount.getText().toString());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+                double tmpDoubleAmount = Double.parseDouble(editTextAmount.getText().toString());
+                tmpAmount = (long) (tmpDoubleAmount * 100.0);
+            } catch (NumberFormatException ex) {
+                //This line should not be reachable
+                //TODO: How to handle exceptions like that?
+                System.out.println("Error parsing transaction amount. Got string: " + editTextAmount.getText().toString());
+                return;
             }
         }
 
-        if (transactionAmount == 0) {
-            CharSequence text = getString(R.string.dialog_toast_0);
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(getContext(), text, duration);
+        if (tmpAmount == 0) {
+            Toast toast = Toast.makeText(getContext(), getString(R.string.dialog_toast_0), Toast.LENGTH_LONG);
             toast.show();
         } else {
+            boolean isExpense = false;
             if (radioGroupType.getCheckedRadioButtonId() == R.id.radioButton_Expense) {
-                transactionType = 0;
+                isExpense = true;
             } else {
-                transactionType = 1;
+                isExpense = false;
             }
 
-            transactionDate = editTextDate.getText().toString();
-            transactionCategory = categorySpinner.getSelectedItem().toString();
+            String tmpDate = editTextDate.getText().toString();
+            Category tmpCategory = (Category) categorySpinner.getSelectedItem();
 
-//            myDB.addSampleData(new PFASampleDataType(1, transactionName, transactionAmount, transactionType, transactionDate, transactionCategory));
+            transactionObject.setCategoryId(tmpCategory.getId());
+            transactionObject.setAmount((isExpense ? -tmpAmount : tmpAmount));
+            transactionObject.setName(tmpName);
+            transactionObject.setDate(DateTimeConverter.fromString(tmpDate));
 
             //Save the edited/created transaction
-            {
-                TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
-                transactionDao.updateOrInsertAsync(tran)
-            }
+            FinanceDatabase.getInstance().transactionDao().updateOrInsertAsync(transactionObject, null);
 
             Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 
-//            Intent main = new Intent(getActivity(), MainActivity.class);
-//            startActivity(main);
-            System.out.println("Transaction submit");
-
+            //TODO: I don't think this should be done this way. But works for now.
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         }
     }
 }

@@ -1,23 +1,27 @@
 package org.secuso.privacyfriendlyfinance.domain.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "Tranzaction")
+import org.joda.time.DateTime;
+import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "Tranzaction",
+        foreignKeys = @ForeignKey(entity = Category.class,
+                                    parentColumns = "id",
+                                    childColumns = "categoryId",
+                                    onDelete = CASCADE))
+
 public class Transaction extends AbstractEntity {
     private String name;
     private long amount;
-    private String date;
+    private DateTime date;
+    private long categoryId;
 
     public Transaction() {
-    }
-
-    @Ignore
-    public Transaction(String name, long amount, String date) {
-        this.name = name;
-        this.amount = amount;
-        this.date = date;
     }
 
     public String getName() {
@@ -34,10 +38,15 @@ public class Transaction extends AbstractEntity {
         this.amount = amount;
     }
 
-    public String getDate() {
+    public DateTime getDate() {
         return date;
     }
-    public void setDate(String date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
+
+    public long getCategoryId() { return categoryId; }
+    public void setCategoryId(long categoryId) { this.categoryId = categoryId; }
+
+    public String getDateAsString() { return DateTimeConverter.datetimeToString(date); }
 }

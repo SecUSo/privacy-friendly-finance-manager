@@ -11,10 +11,10 @@ import java.util.List;
 @Dao
 public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Override
-    @Query("SELECT * FROM Tranzaction")
-    public abstract List<Transaction> getAll();
+    @Query("SELECT * FROM Tranzaction WHERE id=:id")
+    public abstract Transaction get(long id);
 
     @Override
-    @Insert
-    public abstract long insert(Transaction transaction);
+    @Query("SELECT * FROM Tranzaction")
+    public abstract List<Transaction> getAll();
 }

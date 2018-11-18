@@ -66,14 +66,14 @@ public class CategoryDialog extends AppCompatDialogFragment implements TaskListe
             dao.getAsync(id, this);
         }
 
-        builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
 
             }
         });
                 //defines what happens when dialog is submitted
-        builder.setPositiveButton(R.string.dialog_submit, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 String categoryName = nameEditText.getText().toString().trim();

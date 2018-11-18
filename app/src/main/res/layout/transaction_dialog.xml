@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_alignParentTop="true"
-            android:text="@string/dialog_radio_button_income" />
+            android:text="@string/transaction_dialog_radio_button_income" />
 
         <RadioButton
             android:id="@+id/radioButton_Expense"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioButton_Income"
             android:layout_weight="1"
-            android:text="@string/dialog_radio_button_expense" />
+            android:text="@string/transaction_dialog_radio_button_expense" />
     </RadioGroup>
 
     <TextView
@@ -46,7 +46,7 @@
         android:ems="10"
         android:gravity="center_vertical"
         android:paddingLeft="60dp"
-        android:text="@string/dialog_hint_date" />
+        android:text="@string/transaction_dialog_hint_date" />
 
 
     <EditText
@@ -57,7 +57,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
-        android:hint="@string/dialog_hint_expense_value"
+        android:hint="@string/transaction_dialog_hint_expense_value"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="false"
         android:singleLine="false"
@@ -74,7 +74,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:ems="10"
-        android:hint="@string/dialog_hint_expense_name"
+        android:hint="@string/transaction_dialog_hint_expense_name"
         android:inputType="text"
         android:textAlignment="center"
         android:maxLength="15"/>

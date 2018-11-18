@@ -13,11 +13,11 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 
-    public CategoryArrayAdapter(Context context, ArrayList<Category> items) {
+    public CategoryArrayAdapter(Context context, List<Category> items) {
         super(context, 0, items);
     }
 
@@ -39,17 +39,16 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
         NumberFormat format = NumberFormat.getCurrencyInstance();
 
         category_listItem_name.setText(category.getName());
-        category_listItem_amount.setText(format.format(0));
 
-//        Double amount = myDB.getBalanceByCategory(category.getCategoryName());
-//
-//        if (amount<0){
-//            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.red));
-//            category_listItem_amount.setText(format.format(amount));
-//        }else{
-//            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.green));
-//            category_listItem_amount.setText(format.format(amount));
-//        }
+        //TODO: Retrieve category balance
+        long categoryBalance = 4242L;
+
+        if (categoryBalance < 0) {
+            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.red));
+        } else {
+            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.green));
+        }
+        category_listItem_amount.setText(format.format(categoryBalance));
 
         return convertView;
     }

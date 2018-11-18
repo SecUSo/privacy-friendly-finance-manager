@@ -6,8 +6,7 @@ import android.arch.persistence.room.Entity;
 public class Category extends AbstractEntity {
     private String name;
 
-    public Category() {
-    }
+    public Category() {}
     public Category(String name) {
         this.name = name;
     }
@@ -17,5 +16,10 @@ public class Category extends AbstractEntity {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

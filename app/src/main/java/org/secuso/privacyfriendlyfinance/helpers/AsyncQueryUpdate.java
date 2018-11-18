@@ -18,16 +18,10 @@ package org.secuso.privacyfriendlyfinance.helpers;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CustomListViewAdapter;
 import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
 import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 
-import java.util.ArrayList;
-import java.util.List;
 /**
  * AsyncTask for updating a transaction
  * @author David Meiborg

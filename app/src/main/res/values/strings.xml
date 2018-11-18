@@ -2,6 +2,9 @@
     <string name="app_name">Finance Manager</string>
     <string name="app_name_long">Finance Manager</string>
 
+    <!-- ###DATE AND TIME MANAGEMENT### -->
+    <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
+
     <!-- ###DRAWER###-->
     <string name="action_help">Help</string>
     <string name="action_about">About</string>
@@ -60,23 +63,24 @@
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
-    <!--###dialog###-->
-    <string name="dialog_title">New Transaction</string>
-    <string name="dialog_submit">Submit</string>
-    <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_hint_expense_name">title</string>
-    <string name="dialog_hint_expense_value">enter amount</string>
-    <string name="dialog_radio_button_income">Income</string>
-    <string name="dialog_radio_button_expense">Expense</string>
-    <string name="dialog_hint_date">enter date</string>
+    <!--###Transaction###-->
+    <string name="transaction_dialog_title_new">New Transaction</string>
+    <string name="transaction_dialog_title_edit">Edit Transaction</string>
+    <string name="transaction_dialog_submit">Submit</string>
+    <string name="transaction_dialog_cancel">Cancel</string>
+    <string name="transaction_dialog_hint_expense_name">title</string>
+    <string name="transaction_dialog_hint_expense_value">enter amount</string>
+    <string name="transaction_dialog_radio_button_income">Income</string>
+    <string name="transaction_dialog_radio_button_expense">Expense</string>
+    <string name="transaction_dialog_hint_date">enter date</string>
 
     <string name="edit_dialog_title">Edit Transaction</string>
     <string name="edit_dialog_submit">Submit</string>
     <string name="edit_dialog_cancel">Cancel</string>
 
-    <string name="delete_dialog_title">Do you want to delete this transaction?</string>
-    <string name="delete_dialog_positive">Ok</string>
-    <string name="delete_dialog_negative">Cancel</string>
+    <string name="transaction_delete_dialog_title">Do you want to delete this transaction?</string>
+    <string name="transaction_delete_dialog_positive">Ok</string>
+    <string name="transaction_delete_dialog_negative">Cancel</string>
 
     <!-- ### TOASTS ### -->
     <string name="toast_new_entry">Transaction is saved</string>
