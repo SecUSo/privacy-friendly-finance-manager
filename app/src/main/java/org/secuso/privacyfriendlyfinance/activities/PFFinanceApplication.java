@@ -4,7 +4,7 @@ import android.app.Application;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-public class MyApplication extends Application {
+public class PFFinanceApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
