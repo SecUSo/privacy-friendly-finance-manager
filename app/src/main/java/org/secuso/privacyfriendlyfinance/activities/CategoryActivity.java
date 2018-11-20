@@ -16,16 +16,10 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,9 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Activity for categories.
+ * Activity to CRUD categories.
  *
- * @author David Meiborg
+ * @author Felix Hofmann
  */
 
 public class CategoryActivity extends BaseActivity implements TaskListener {
@@ -54,42 +48,12 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
     private ListView categoryList;
     private ArrayList<Category> categories;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        categoryList = findViewById(R.id.categoryList);
-        dao.getAllAsync(this);
-//        new AsyncQueryCategory(categoryList, this).execute();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            drawer.openDrawer(GravityCompat.START);
-        }
-    }
-
-    /**
-     * This method creates the content for the activity
-     * FAB, the list of categories and the contextMenu for the list entries
-     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
 
-        overridePendingTransition(0, 0);
-
-        FloatingActionButton add_category = findViewById(R.id.add_category);
-        add_category.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.add_category).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCategoryDialog(null);
@@ -100,42 +64,28 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
         registerForContextMenu(categoryList);
     }
 
-    /**
-     * opens menu for delete or edit categories
-     *
-     * @return void
-     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dao.getAllAsync(this);
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_click_menu_category, menu);
+        getMenuInflater().inflate(R.menu.list_click_menu_category, menu);
     }
 
-    /**
-     * actions when menu item is selected for delete or edit categories
-     *
-     * @return void
-     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
         if (item.getItemId() == R.id.listDeleteCategory) {
-
-            Category category = categories.get(menuInfo.position);
-            dao.deleteAsync(category);
+            dao.deleteAsync(categories.get(menuInfo.position));
             Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
-
-            Intent categoryActivity = new Intent(getBaseContext(), CategoryActivity.class);
-            startActivity(categoryActivity);
         }
         if (item.getItemId() == R.id.listEditCategory) {
-            Category category = categories.get(menuInfo.position);
             openCategoryDialog(categories.get(menuInfo.position));
         }
-
         return super.onContextItemSelected(item);
     }
 
@@ -147,15 +97,11 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
         dialog.show(getSupportFragmentManager(), "Dialog");
     }
 
-    /**
-     * This method connects the Activity to the menu item
-     *
-     * @return ID of the menu item it belongs to
-     */
-
+    @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_category;
     }
+
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
