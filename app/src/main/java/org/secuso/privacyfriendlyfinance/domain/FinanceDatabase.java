@@ -17,7 +17,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.concurrent.TimeUnit;
 
-@Database(entities = {Account.class, Category.class, Transaction.class}, version = 3)
+@Database(entities = {Account.class, Category.class, Transaction.class}, version = 4)
 @TypeConverters({DateTimeConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "db";

@@ -15,7 +15,7 @@
  along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.secuso.privacyfriendlyfinance.database;
+package org.secuso.privacyfriendlyfinance.domain;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

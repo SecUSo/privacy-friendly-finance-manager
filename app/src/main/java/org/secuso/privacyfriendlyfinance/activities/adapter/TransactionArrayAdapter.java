@@ -27,11 +27,9 @@ import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.R.color;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,12 +37,9 @@ import java.util.List;
  * Adapter for displaying the transaction list
  */
 public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
-
-
     public TransactionArrayAdapter(Context context, List<Transaction> transactions) {
         super(context, 0, transactions);
     }
-
 
     @NonNull
     @Override
@@ -75,6 +70,4 @@ public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
 
         return convertView;
     }
-
-
 }
