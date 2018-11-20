@@ -37,7 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.helpers.FirstLaunchManager;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * @author David Meiborg
@@ -51,7 +51,6 @@ public class TutorialActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private Button btnSkip, btnNext;
-    private FirstLaunchManager firstLaunchManager;
 
     // layouts of all welcome sliders
     // add few more layouts if you want
@@ -76,7 +75,6 @@ public class TutorialActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        firstLaunchManager = new FirstLaunchManager(this);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -140,10 +138,10 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        if(firstLaunchManager.isFirstTimeLaunch()) {
+        if(SharedPreferencesManager.isFirstTimeLaunch()) {
             Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            firstLaunchManager.setFirstTimeLaunch(false);
+            SharedPreferencesManager.setFirstTimeLaunch(false);
             startActivity(intent);
         }
         finish();
