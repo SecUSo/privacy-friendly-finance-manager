@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;

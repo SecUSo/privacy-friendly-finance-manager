@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.BuildConfig;
-import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 
 /**
  * @author David Meiborg

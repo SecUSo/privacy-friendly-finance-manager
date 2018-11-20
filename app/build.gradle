@@ -35,4 +35,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.1.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.0'
     implementation 'net.danlew:android.joda:2.10.1'
+
+    //Card view?
+    implementation 'com.android.support:cardview-v7:28.0.0'
 }
