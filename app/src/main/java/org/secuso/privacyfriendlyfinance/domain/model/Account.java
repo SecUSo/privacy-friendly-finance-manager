@@ -3,30 +3,24 @@ package org.secuso.privacyfriendlyfinance.domain.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Index;
 
-@Entity
-public class Account {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+@Entity(
+    tableName = "Account",
+    inheritSuperIndices = true,
+    indices = @Index(value = "name", unique = true)
+)
+public class Account  extends AbstractEntity {
     private String name;
-    private long initialBalance;
+    private long initialBalance = 0l;
 
     public Account() {
     }
 
     @Ignore
-    public Account(long id, String name, long initialBalance) {
-        this.id = id;
+    public Account(String name, long initialBalance) {
         this.name = name;
         this.initialBalance = initialBalance;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
