@@ -33,22 +33,22 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 
         Category category = getItem(position);
 
-        TextView category_listItem_amount = convertView.findViewById(R.id.category_listItem_amount);
-        TextView category_listItem_name = convertView.findViewById(R.id.category_listItem_name);
+        TextView listItemAmount = convertView.findViewById(R.id.category_listItem_amount);
+        TextView listItemCategoryName = convertView.findViewById(R.id.category_listItem_name);
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
 
-        category_listItem_name.setText(category.getName());
+        listItemCategoryName.setText(category.getName());
 
         //TODO: Retrieve category balance
         long categoryBalance = 4242L;
 
         if (categoryBalance < 0) {
-            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.red));
+            listItemAmount.setTextColor(getContext().getResources().getColor(R.color.red));
         } else {
-            category_listItem_amount.setTextColor(getContext().getResources().getColor(R.color.green));
+            listItemAmount.setTextColor(getContext().getResources().getColor(R.color.green));
         }
-        category_listItem_amount.setText(format.format(categoryBalance));
+        listItemAmount.setText(format.format(categoryBalance));
 
         return convertView;
     }

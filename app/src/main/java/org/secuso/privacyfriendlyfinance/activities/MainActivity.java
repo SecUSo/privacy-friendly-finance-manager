@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
@@ -43,6 +44,7 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -107,7 +109,12 @@ public class MainActivity extends BaseActivity implements TaskListener {
         registerForContextMenu(transactionListView);
     }
 
-    //opens the dialog for entering new transaction
+    /**
+     * Opens a new transaction dialog. If the given transaction object is not null
+     * the dialog is opened as a edit dialog for the object.
+     *
+     * @param transactionObject the transaction object to be edited or null in order to open a creation dialog
+     */
     public void openTransactionDialog(Transaction transactionObject) {
         TransactionDialog transactionDialog = new TransactionDialog();
         Bundle args = new Bundle();
@@ -187,7 +194,14 @@ public class MainActivity extends BaseActivity implements TaskListener {
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        transactions = (List<Transaction>) result;
+        //TODO: uncomment
+//        transactions = (List<Transaction>) result;
+
+        //TODO: remove debug code
+        transactions = new ArrayList<Transaction>();
+        transactions.add(new Transaction("Transaction1", 101, new LocalDate(42_000L), 0));
+        transactions.add(new Transaction("Transaction2", 42, new LocalDate(420_000L), 0));
+
         transactionListView.setAdapter(new TransactionArrayAdapter(this, transactions));
     }
 
