@@ -13,9 +13,11 @@ import com.commonsware.cwac.saferoom.SafeHelperFactory;
 
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 import org.secuso.privacyfriendlyfinance.domain.legacy.MigrationFromUnencrypted;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
@@ -42,7 +44,7 @@ import javax.security.auth.x500.X500Principal;
     exportSchema = false,
     version = 5
 )
-@TypeConverters({DateTimeConverter.class})
+@TypeConverters({DateTimeConverter.class, LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "encryptedDB";
     private static InitDatabaseTask initTask;
@@ -50,6 +52,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
+    public abstract AccountDao accountDao();
 
     public static FinanceDatabase getInstance() {
         return instance;
@@ -189,27 +192,30 @@ public abstract class FinanceDatabase extends RoomDatabase {
                     charPassphrase[i] = (char) (decryptedPassphrase[i] & 0xFF);
                 }
 
-                boolean dbExisted = dbFileExists();
-                if (dbExisted) {
-                    publishProgress(.8);
+                publishProgress(.6);
+                if (dbFileExists()) {
                     publishOperation("open database");
                 } else {
-                    publishProgress(.6);
-                    publishOperation("create database");
+                    publishOperation("create and open database");
                 }
                 FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
                         .openHelperFactory(new SafeHelperFactory(charPassphrase))
                         .fallbackToDestructiveMigration()
                         .build();
 
-                if (!dbExisted) {
+                if (FinanceDatabase.instance.accountDao().getAll().size() == 0) {
+                    Account defaultAccount = new Account("DefaultAccount", 0L);
+                    defaultAccount.setId(0L);
+                    FinanceDatabase.instance.accountDao().insert(defaultAccount);
+                }
+
+                if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
                     publishProgress(.8);
                     publishOperation("migrate database");
-                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
+//                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
+//                    MigrationFromUnencrypted.deleteLegacyDatabase(context);
                 }
-                MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
                 return FinanceDatabase.instance;
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
