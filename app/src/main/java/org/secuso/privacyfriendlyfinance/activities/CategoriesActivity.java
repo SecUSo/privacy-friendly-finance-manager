@@ -42,7 +42,7 @@ import java.util.List;
  * @author Felix Hofmann
  */
 
-public class CategoryActivity extends BaseActivity implements TaskListener {
+public class CategoriesActivity extends BaseActivity implements TaskListener {
     private final CategoryDao dao = FinanceDatabase.getInstance().categoryDao();
     private ListView categoryList;
     private ArrayList<Category> categories;
@@ -50,7 +50,7 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_categories);
 
         findViewById(R.id.add_category).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -162,7 +162,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 startActivity(intent);
                 break;
             case R.id.nav_category:
-                intent = new Intent(this, CategoryActivity.class);
+                intent = new Intent(this, CategoriesActivity.class);
                 createBackStack(intent);
                 break;
             case R.id.nav_tutorial:

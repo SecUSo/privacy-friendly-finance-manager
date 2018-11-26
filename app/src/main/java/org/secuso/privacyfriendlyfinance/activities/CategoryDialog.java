@@ -84,7 +84,7 @@ public class CategoryDialog extends AppCompatDialogFragment implements TaskListe
                     dao.updateOrInsertAsync(category, null);
                     Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                    Intent intent = new Intent(getActivity(), CategoriesActivity.class);
                     startActivity(intent);
                 }
             }
