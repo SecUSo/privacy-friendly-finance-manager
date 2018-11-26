@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,12 +11,13 @@ import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
+import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseActivity implements TaskListener {
     private RecyclerView recyclerView;
     private List<Account> accountList;
     private AccountsAdapter accountsAdapter;
@@ -46,16 +48,6 @@ public class AccountActivity extends BaseActivity {
 
         accountList = new ArrayList<Account>();
 
-
-        //TODO: Remove this debug code!
-        Account tmp1 = new Account("Dummy account", 42L);
-        accountList.add(tmp1);
-
-        Account tmp2 = new Account("Dummy account2", 43L);
-        accountList.add(tmp2);
-
-
-
         accountsAdapter = new AccountsAdapter(this, accountList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
@@ -72,4 +64,18 @@ public class AccountActivity extends BaseActivity {
     private void addAccount() {
     }
 
+    @Override
+    public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+
+    }
+
+    @Override
+    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
+
+    }
+
+    @Override
+    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
+
+    }
 }
