@@ -42,18 +42,17 @@ public class MigrationFromUnencrypted {
         String dbDir = context.getApplicationInfo().dataDir + "/databases/";
         DatabaseExporter categoryExporter = new DatabaseExporter(dbDir + CATEGORY_DB_NAME, "category");
         DatabaseExporter transactionExporter = new DatabaseExporter(dbDir + TRANSACTION_DB_NAME, "transaction");
-        System.out.println("categoryJson1");
         try {
             List<String> categoryNames = new ArrayList<>();
             JSONArray categories = categoryExporter.dbToJSON().getJSONObject("category").getJSONArray("CategoryData");
             for (int i = 0; i < categories.length(); ++i) {
                 String categoryName = categories.getJSONObject(i).getString("categoryName");
-                if (categoryName != "Standard") categoryNames.add(categoryName);
+                if (!categoryName.equals("Standard")) categoryNames.add(categoryName);
             }
             JSONArray transactions = transactionExporter.dbToJSON().getJSONObject("transaction").getJSONArray("FinanceData");
             for (int i = 0; i < transactions.length(); ++i) {
                 String categoryName = transactions.getJSONObject(i).getString("transactionCategory");
-                if (categoryName != "Standard") categoryNames.add(categoryName);
+                if (!categoryName.equals("Standard")) categoryNames.add(categoryName);
             }
 
             for (String categoryName : categoryNames) {
@@ -83,12 +82,6 @@ public class MigrationFromUnencrypted {
                 }
                 target.transactionDao().insert(transaction);
             }
-
-
-//
-//            JSONObject transactionJson = transactionExporter.dbToJSON();
-//            System.out.println(categoryJson.toString(1));
-            System.out.println(transactions.toString(1));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
