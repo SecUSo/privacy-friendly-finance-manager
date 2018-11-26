@@ -35,13 +35,15 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
     public void onBindViewHolder(@NonNull AccountViewHolder holder, int index) {
         Account account = accounts.get(index);
         holder.getTvAccountName().setText(account.getName());
-        holder.getTvAccountBalance().setText(String.valueOf(account.getInitialBalance()));
-        holder.getTvAccountBalance().setOnClickListener(new View.OnClickListener() {
+        holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
+        holder.getTvAccountBalanceCurrent().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDebugToast("Clicked on balance");
             }
         });
+        //TODO: Fill in the right value...
+        holder.getTvAccountBalanceMonth().setText(String.valueOf(42));
     }
 
     @Override

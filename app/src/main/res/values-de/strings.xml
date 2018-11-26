@@ -64,7 +64,7 @@
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
-    <!--###dialog###-->
+    <!--###Transaction###-->
     <string name="transaction_dialog_title_new">Neue Transaktion</string>
     <string name="transaction_dialog_title_edit">Transaktion bearbeiten</string>
     <string name="transaction_dialog_submit">Ok</string>
@@ -82,6 +82,10 @@
     <string name="transaction_delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
     <string name="transaction_delete_dialog_positive">Ok</string>
     <string name="transaction_delete_dialog_negative">Abbrechen</string>
+
+
+    <!--###Account###-->
+    <string name="account_card_balance_month">Beginning of this month:</string>
 
     <!-- ### TOASTS ### -->
     <string name="dialog_toast_0">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>

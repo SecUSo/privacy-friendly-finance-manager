@@ -82,6 +82,10 @@
     <string name="transaction_delete_dialog_positive">Ok</string>
     <string name="transaction_delete_dialog_negative">Cancel</string>
 
+
+    <!--###Account###-->
+    <string name="account_card_balance_month">Beginning of this month:</string>
+
     <!-- ### TOASTS ### -->
     <string name="toast_new_entry">Transaction is saved</string>
     <string name="toast_delete">Transaction is deleted</string>

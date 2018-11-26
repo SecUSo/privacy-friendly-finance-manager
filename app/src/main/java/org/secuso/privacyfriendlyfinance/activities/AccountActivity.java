@@ -12,12 +12,15 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountActivity extends BaseActivity implements TaskListener {
+    private AccountDao dao = FinanceDatabase.getInstance().accountDao();
     private RecyclerView recyclerView;
     private List<Account> accountList;
     private AccountsAdapter accountsAdapter;
@@ -28,6 +31,7 @@ public class AccountActivity extends BaseActivity implements TaskListener {
         setContentView(R.layout.activity_account);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        accountList = new ArrayList<Account>();
 
         makeRecyclerView();
 
@@ -46,8 +50,6 @@ public class AccountActivity extends BaseActivity implements TaskListener {
     private void makeRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        accountList = new ArrayList<Account>();
-
         accountsAdapter = new AccountsAdapter(this, accountList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
@@ -61,12 +63,19 @@ public class AccountActivity extends BaseActivity implements TaskListener {
         return R.id.nav_account;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dao.getAllAsync(this);
+    }
+
     private void addAccount() {
     }
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-
+        accountList = new ArrayList<Account>((List<Account>) result);
+        recyclerView.setAdapter(new AccountsAdapter(this, accountList));
     }
 
     @Override

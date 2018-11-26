@@ -9,12 +9,14 @@ import org.secuso.privacyfriendlyfinance.R;
 
 public class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView tvAccountName;
-    private TextView tvAccountBalance;
+    private TextView tvAccountBalanceCurrent;
+    private TextView tvAccountBalanceMonth;
 
     public AccountViewHolder(@NonNull View itemView) {
         super(itemView);
         tvAccountName = itemView.findViewById(R.id.account_card_name);
-        tvAccountBalance = itemView.findViewById(R.id.account_card_balance);
+        tvAccountBalanceCurrent = itemView.findViewById(R.id.account_card_balance_current);
+        tvAccountBalanceMonth = itemView.findViewById(R.id.acount_card_balance_month);
     }
 
     public TextView getTvAccountName() {
@@ -24,10 +26,17 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         this.tvAccountName = tvAccountName;
     }
 
-    public TextView getTvAccountBalance() {
-        return tvAccountBalance;
+    public TextView getTvAccountBalanceCurrent() {
+        return tvAccountBalanceCurrent;
     }
-    public void setTvAccountBalance(TextView tvAccountBalance) {
-        this.tvAccountBalance = tvAccountBalance;
+    public void setTvAccountBalanceCurrent(TextView tvAccountBalanceCurrent) {
+        this.tvAccountBalanceCurrent = tvAccountBalanceCurrent;
+    }
+
+    public TextView getTvAccountBalanceMonth() {
+        return tvAccountBalanceMonth;
+    }
+    public void setTvAccountBalanceMonth(TextView tvAccountBalanceMonth) {
+        this.tvAccountBalanceMonth = tvAccountBalanceMonth;
     }
 }
