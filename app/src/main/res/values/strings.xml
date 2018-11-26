@@ -116,5 +116,6 @@
     <string name="skip">Skip</string>
     <string name="title_activity_account">AccountActivity</string>
     <string name="nav_action_account">Account</string>
+    <string name="title_activity_category">CategoryActivity</string>
 
 </resources>

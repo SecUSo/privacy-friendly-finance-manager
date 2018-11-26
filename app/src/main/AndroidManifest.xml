@@ -11,12 +11,12 @@
         android:xlargeScreens="true" />
 
     <application
+        android:name=".activities.PFFinanceApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="org.secuso.privacyfriendlyfinance.activities.PFFinanceApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -75,6 +75,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:label="@string/title_activity_category"
+            android:parentActivityName=".activities.CategoriesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlyfinance.activities.CategoriesActivity" />
         </activity>
     </application>
 
