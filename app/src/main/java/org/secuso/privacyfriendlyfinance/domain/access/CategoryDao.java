@@ -13,6 +13,9 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     @Query("SELECT * FROM Category WHERE id=:id")
     public abstract Category get(long id);
 
+    @Query("SELECT * FROM Category WHERE name LIKE :name")
+    public abstract Category getByName(String name);
+
     @Override
     @Query("SELECT * FROM Category")
     public abstract List<Category> getAll();
