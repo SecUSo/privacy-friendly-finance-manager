@@ -36,7 +36,11 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
-@Database(entities = {Account.class, Category.class, Transaction.class}, version = 4)
+@Database(
+    entities = {Account.class, Category.class, Transaction.class},
+    exportSchema = false,
+    version = 5
+)
 @TypeConverters({DateTimeConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "encryptedDB";
