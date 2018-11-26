@@ -16,6 +16,7 @@ import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.secuso.privacyfriendlyfinance.domain.legacy.MigrationFromUnencrypted;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
@@ -151,11 +152,16 @@ public abstract class FinanceDatabase extends RoomDatabase {
             File[] files = databaseDir.listFiles();
             if(files != null) {
                 for(File f: files) {
-                    if(!f.isDirectory()) {
+                    if(!f.isDirectory() && f.getName().startsWith(DB_NAME)) {
                         f.delete();
                     }
                 }
             }
+        }
+
+        private boolean dbFileExists() {
+            File databaseFile = new File(context.getApplicationInfo().dataDir + "/databases/" + DB_NAME);
+            return databaseFile.exists() && databaseFile.isFile();
         }
 
         @Override
@@ -172,8 +178,8 @@ public abstract class FinanceDatabase extends RoomDatabase {
                     publishOperation("create passphrase");
                     passphrase = createPassphrase();
                     SharedPreferencesManager.setDbPassphrase(passphrase);
-
                 }
+
                 publishProgress(.4);
                 publishOperation("decrypt passphrase");
                 byte[] decryptedPassphrase = rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
@@ -183,21 +189,29 @@ public abstract class FinanceDatabase extends RoomDatabase {
                     charPassphrase[i] = (char) (decryptedPassphrase[i] & 0xFF);
                 }
 
-                publishProgress(.8);
-                publishOperation("open database");
-                return Room.databaseBuilder(context, FinanceDatabase.class, dbName)
+                boolean dbExisted = dbFileExists();
+                if (dbExisted) {
+                    publishProgress(.8);
+                    publishOperation("open database");
+                } else {
+                    publishProgress(.6);
+                    publishOperation("create database");
+                }
+                FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
                         .openHelperFactory(new SafeHelperFactory(charPassphrase))
                         .fallbackToDestructiveMigration()
                         .build();
+
+                if (!dbExisted) {
+                    publishProgress(.8);
+                    publishOperation("migrate database");
+                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance);
+                }
+                return FinanceDatabase.instance;
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }
-
-        @Override
-        protected void onPostExecute(FinanceDatabase result) {
-            FinanceDatabase.instance = result;
-            super.onPostExecute(result);
         }
     }
 }
