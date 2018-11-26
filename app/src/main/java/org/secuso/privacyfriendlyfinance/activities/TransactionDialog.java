@@ -34,14 +34,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -150,11 +150,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
                 {
                     String dateArg = arguments.getString("transactionDate", "ERROR");
                     if (dateArg.equals("ERROR")) {
-                        transactionObject.setDate(new DateTime(0L));
+                        transactionObject.setDate(LocalDate.now());
                     } else {
-                        DateTimeFormatter formatter = DateTimeFormat.forPattern(getResources().getString(R.string.time_format_string));
-                        DateTime dt = formatter.parseDateTime(dateArg);
-                        transactionObject.setDate(dt);
+                        transactionObject.setDate(LocalDateConverter.fromString(dateArg));
                     }
                 }
                 transactionObject.setName(arguments.getString("transactionName", "ERROR"));
@@ -249,7 +247,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
             transactionObject.setCategoryId(tmpCategory.getId());
             transactionObject.setAmount((isExpense ? -tmpAmount : tmpAmount));
             transactionObject.setName(tmpName);
-            transactionObject.setDate(DateTimeConverter.fromString(tmpDate));
+            transactionObject.setDate(LocalDateConverter.fromString(tmpDate));
 
             //Save the edited/created transaction
             FinanceDatabase.getInstance().transactionDao().updateOrInsertAsync(transactionObject, null);

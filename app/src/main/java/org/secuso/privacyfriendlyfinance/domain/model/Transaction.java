@@ -5,8 +5,8 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 
-import org.joda.time.DateTime;
-import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.joda.time.LocalDate;
+import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 
 @Entity(
     tableName = "Tranzaction",
@@ -34,7 +34,7 @@ import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
 public class Transaction extends AbstractEntity {
     private String name;
     private long amount;
-    private DateTime date;
+    private LocalDate date;
 
     private long accountId;
     private Long categoryId;
@@ -42,14 +42,14 @@ public class Transaction extends AbstractEntity {
     public Transaction() {
     }
     @Ignore
-    public Transaction(String name, long amount, DateTime date, long accountId) {
+    public Transaction(String name, long amount, LocalDate date, long accountId) {
         this.name = name;
         this.amount = amount;
         this.date = date;
         this.accountId = accountId;
     }
     @Ignore
-    public Transaction(String name, long amount, DateTime date, long accountId, Long categoryId) {
+    public Transaction(String name, long amount, LocalDate date, long accountId, Long categoryId) {
         this(name, amount, date, accountId);
         this.categoryId = categoryId;
     }
@@ -69,10 +69,10 @@ public class Transaction extends AbstractEntity {
         this.amount = amount;
     }
 
-    public DateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
-    public void setDate(DateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -91,6 +91,6 @@ public class Transaction extends AbstractEntity {
     }
 
     public String getDateAsString() {
-        return DateTimeConverter.datetimeToString(date);
+        return LocalDateConverter.dateToString(date);
     }
 }
