@@ -92,7 +92,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
                         .setStartDate(start.getTime())
                         .setEndDate(end.getTime())
                         .build();
-                KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, AndroidKeyStore);
+                KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
                 kpg.initialize(spec);
                 kpg.generateKeyPair();
             }
@@ -102,7 +102,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
         private byte[] rsaEncrypt(byte[] secret) throws Exception {
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEY_ALIAS, null);
             // Encrypt the text
-            Cipher inputCipher = Cipher.getInstance(RSA_MODE, "AndroidOpenSSL");
+            Cipher inputCipher = Cipher.getInstance(RSA_MODE);
             inputCipher.init(Cipher.ENCRYPT_MODE, privateKeyEntry.getCertificate().getPublicKey());
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -117,7 +117,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
         // from https://medium.com/@ericfu/securely-storing-secrets-in-an-android-application-501f030ae5a3
         private byte[] rsaDecrypt(byte[] encrypted) throws Exception {
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(KEY_ALIAS, null);
-            Cipher output = Cipher.getInstance(RSA_MODE, "AndroidOpenSSL");
+            Cipher output = Cipher.getInstance(RSA_MODE);
             output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
             CipherInputStream cipherInputStream = new CipherInputStream(
                     new ByteArrayInputStream(encrypted), output);
