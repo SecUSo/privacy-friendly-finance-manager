@@ -48,13 +48,6 @@ public class AccountActivity extends BaseActivity {
 
 
 
-        //TODO: remove this debug code
-        Account tmp = new Account();
-        tmp.setId(0);
-        tmp.setInitialBalance(42L);
-        tmp.setName("Dummy account");
-        accountList.add(tmp);
-
 
 
         accountsAdapter = new AccountsAdapter(this, accountList);
