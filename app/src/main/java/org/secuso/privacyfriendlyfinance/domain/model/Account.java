@@ -12,7 +12,7 @@ import android.arch.persistence.room.Index;
 )
 public class Account  extends AbstractEntity {
     private String name;
-    private long initialBalance = 0l;
+    private long initialBalance = 0L;
 
     public Account() {
     }
