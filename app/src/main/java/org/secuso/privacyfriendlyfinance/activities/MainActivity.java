@@ -34,12 +34,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;

@@ -110,5 +110,7 @@
     <string name="okay">Okay</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="nav_action_account">Account</string>
 
 </resources>

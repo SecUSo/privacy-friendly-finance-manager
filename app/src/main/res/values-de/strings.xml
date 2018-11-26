@@ -114,5 +114,6 @@
 
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
+    <string name="nav_action_account">Account</string>
 
 </resources>

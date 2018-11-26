@@ -22,7 +22,6 @@ import android.widget.ExpandableListView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.HelpExpandableListAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

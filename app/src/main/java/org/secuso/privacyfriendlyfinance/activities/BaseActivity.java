@@ -15,7 +15,7 @@
  along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.secuso.privacyfriendlyfinance.activities.helper;
+package org.secuso.privacyfriendlyfinance.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,28 +35,21 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.AboutActivity;
-import org.secuso.privacyfriendlyfinance.activities.CategoryActivity;
-import org.secuso.privacyfriendlyfinance.activities.HelpActivity;
-import org.secuso.privacyfriendlyfinance.activities.MainActivity;
-import org.secuso.privacyfriendlyfinance.activities.TutorialActivity;
 
 /**
  * @author Christopher Beckmann, Karola Marky
  * @version 20171017
  * This class is a parent class of all activities that can be accessed from the
  * Navigation Drawer (example see MainActivity.java)
- *
+ * <p>
  * The default NavigationDrawer functionality is implemented in this class. If you wish to inherit
  * the default behaviour, make sure the content view has a NavigationDrawer with the id 'nav_view',
  * the header should point to 'nav_header_main' and the menu should be loaded from 'main_drawer'.
- *
+ * <p>
  * Also the main layout that holds the content of the activity should have the id 'main_content'.
  * This way it will automatically fade in and out every time a transition is happening.
- *
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
-
     // delay to launch nav drawer item, to allow close animation to play
     public static final int NAVDRAWER_LAUNCH_DELAY = 250;
     // fade in and fade out durations for the main content when switching between
@@ -102,8 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     }
 
     protected boolean goToNavigationItem(final int itemId) {
-
-        if(itemId == getNavigationDrawerID()) {
+        if (itemId == getNavigationDrawerID()) {
             // just close drawer because we are already in this activity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -131,7 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     // set active navigation item
     private void selectNavigationItem(int itemId) {
-        for(int i = 0 ; i < mNavigationView.getMenu().size(); i++) {
+        for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
             boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
             mNavigationView.getMenu().getItem(i).setChecked(b);
         }
@@ -140,6 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     /**
      * Enables back navigation for activities that are launched from the NavBar. See
      * {@code AndroidManifest.xml} to find out the parent activity names for each activity.
+     *
      * @param intent
      */
     private void createBackStack(Intent intent) {
@@ -156,13 +149,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     /**
      * This method manages the behaviour of the navigation drawer
      * Add your menu items (ids) to res/menu/activity_main_drawer.xml
+     *
      * @param itemId Item that has been clicked by the user
      */
     private void callDrawerItem(final int itemId) {
-
         Intent intent;
 
-        switch(itemId) {
+        switch (itemId) {
             case R.id.nav_main:
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -184,7 +177,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 intent = new Intent(this, HelpActivity.class);
                 createBackStack(intent);
                 break;
+            case R.id.nav_account:
+                intent = new Intent(this, AccountActivity.class);
+                createBackStack(intent);
+                break;
             default:
+                throw new UnsupportedOperationException("Trying to call unkown drawer item! Id: " + itemId);
         }
     }
 
@@ -193,7 +191,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         super.onPostCreate(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(getSupportActionBar() == null) {
+        if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
         }
 
@@ -214,6 +212,4 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             mainContent.animate().alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION);
         }
     }
-
-
 }

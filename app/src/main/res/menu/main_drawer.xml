@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/nav_group_main"
+    <group
+        android:id="@+id/nav_group_views"
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_menu_home"
             android:title="@string/action_main" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_list_black_24dp"
+            android:title="@string/nav_action_account" />
         <item
             android:id="@+id/nav_category"
             android:icon="@drawable/ic_list_black_24dp"
@@ -14,7 +20,8 @@
 
     </group>
 
-    <group android:id="@+id/nav_group_add"
+    <group
+        android:id="@+id/nav_group_additional"
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_tutorial"
