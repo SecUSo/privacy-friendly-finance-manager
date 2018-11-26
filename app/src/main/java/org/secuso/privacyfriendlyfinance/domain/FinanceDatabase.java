@@ -212,8 +212,8 @@ public abstract class FinanceDatabase extends RoomDatabase {
                 if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
                     publishProgress(.8);
                     publishOperation("migrate database");
-//                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
-//                    MigrationFromUnencrypted.deleteLegacyDatabase(context);
+                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
+                    MigrationFromUnencrypted.deleteLegacyDatabase(context);
                 }
                 return FinanceDatabase.instance;
             } catch (Exception e) {
