@@ -68,7 +68,7 @@
         </activity>
         <activity android:name=".activities.StartupActivity" />
         <activity
-            android:name=".activities.AccountActivity"
+            android:name=".activities.AccountsActivity"
             android:label="@string/title_activity_account"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -16,7 +16,7 @@
 
         <include layout="@layout/toolbar" />
 
-        <include layout="@layout/content_account" />
+        <include layout="@layout/content_accounts" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_addaccount"

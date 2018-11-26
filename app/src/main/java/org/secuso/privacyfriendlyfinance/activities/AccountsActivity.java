@@ -19,7 +19,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountActivity extends BaseActivity implements TaskListener {
+public class AccountsActivity extends BaseActivity implements TaskListener {
     private AccountDao dao = FinanceDatabase.getInstance().accountDao();
     private RecyclerView recyclerView;
     private List<Account> accountList;
@@ -28,7 +28,7 @@ public class AccountActivity extends BaseActivity implements TaskListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_accounts);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         accountList = new ArrayList<Account>();

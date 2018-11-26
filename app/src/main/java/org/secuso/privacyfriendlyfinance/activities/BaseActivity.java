@@ -178,7 +178,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 createBackStack(intent);
                 break;
             case R.id.nav_account:
-                intent = new Intent(this, AccountActivity.class);
+                intent = new Intent(this, AccountsActivity.class);
                 createBackStack(intent);
                 break;
             default:
