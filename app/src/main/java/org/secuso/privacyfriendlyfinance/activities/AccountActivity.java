@@ -44,15 +44,21 @@ public class AccountActivity extends BaseActivity {
     private void makeRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        accountList = new ArrayList<>();
+        accountList = new ArrayList<Account>();
 
 
+        //TODO: Remove this debug code!
+        Account tmp1 = new Account("Dummy account", 42L);
+        accountList.add(tmp1);
+
+        Account tmp2 = new Account("Dummy account2", 43L);
+        accountList.add(tmp2);
 
 
 
         accountsAdapter = new AccountsAdapter(this, accountList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(accountsAdapter);

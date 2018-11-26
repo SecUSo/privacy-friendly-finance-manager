@@ -13,8 +13,8 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
 
     public AccountViewHolder(@NonNull View itemView) {
         super(itemView);
-        tvAccountName = itemView.findViewById(R.id.card_account_name);
-        tvAccountBalance = itemView.findViewById(R.id.card_account_balance);
+        tvAccountName = itemView.findViewById(R.id.account_card_name);
+        tvAccountBalance = itemView.findViewById(R.id.account_card_balance);
     }
 
     public TextView getTvAccountName() {

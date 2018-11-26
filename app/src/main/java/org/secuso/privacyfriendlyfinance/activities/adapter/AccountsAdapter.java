@@ -26,7 +26,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountViewHolder> {
     @Override
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View viewItem = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_account, parent, false);
+                .inflate(R.layout.layout_card_account, parent, false);
 
         return new AccountViewHolder(viewItem);
     }

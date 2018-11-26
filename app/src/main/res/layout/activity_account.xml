@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         tools:context="org.secuso.privacyfriendlyfinance.activities.MainActivity">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar" />
 
         <include layout="@layout/content_account" />
 
