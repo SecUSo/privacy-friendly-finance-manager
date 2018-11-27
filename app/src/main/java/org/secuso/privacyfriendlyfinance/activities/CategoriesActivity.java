@@ -107,14 +107,4 @@ public class CategoriesActivity extends BaseActivity implements TaskListener {
         categories = new ArrayList<>((List<Category>) result);
         categoryList.setAdapter(new CategoryArrayAdapter(this, categories));
     }
-
-    @Override
-    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-
-    }
-
-    @Override
-    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-
-    }
 }

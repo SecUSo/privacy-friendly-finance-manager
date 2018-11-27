@@ -31,13 +31,17 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
         }
 
         for (TaskListener listener : listeners) {
-            listener.onProgress(value, this);
+            if (listener instanceof FullTaskListener) {
+                ((FullTaskListener) listener).onProgress(value, this);
+            }
         }
     }
 
     protected void publishOperation(String operation) {
         for (TaskListener listener : listeners) {
-            listener.onOperation(operation, this);
+            if (listener instanceof FullTaskListener) {
+                ((FullTaskListener) listener).onOperation(operation, this);
+            }
         }
     }
 
@@ -48,7 +52,9 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
     public void addListener(TaskListener listener) {
         if (!listeners.contains(listener)) {
             if (getStatus() == Status.FINISHED) {
-                listener.onProgress(progress, this);
+                if (listener instanceof FullTaskListener) {
+                    ((FullTaskListener) listener).onProgress(progress, this);
+                }
                 listener.onDone(result, this);
             } else {
                 listeners.add(listener);

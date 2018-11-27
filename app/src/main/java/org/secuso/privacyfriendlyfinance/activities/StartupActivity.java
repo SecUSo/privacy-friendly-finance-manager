@@ -9,11 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.activities.helper.FullTaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
-public class StartupActivity extends AppCompatActivity implements TaskListener {
+public class StartupActivity extends AppCompatActivity implements FullTaskListener {
     ProgressBar progressBar;
     TextView progressText;
 

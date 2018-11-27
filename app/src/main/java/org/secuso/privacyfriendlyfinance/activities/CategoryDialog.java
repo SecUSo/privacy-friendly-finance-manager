@@ -98,14 +98,4 @@ public class CategoryDialog extends AppCompatDialogFragment implements TaskListe
         category = (Category) result;
         nameEditText.setText(category.getName());
     }
-
-    @Override
-    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-
-    }
-
-    @Override
-    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-
-    }
 }

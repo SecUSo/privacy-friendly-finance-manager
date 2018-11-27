@@ -9,8 +9,10 @@ import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 public class CategoryActivity extends BaseActivity implements TaskListener {
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +39,6 @@ public class CategoryActivity extends BaseActivity implements TaskListener {
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-
-    }
-
-    @Override
-    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-
-    }
-
-    @Override
-    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-
+        category = (Category) result;
     }
 }
