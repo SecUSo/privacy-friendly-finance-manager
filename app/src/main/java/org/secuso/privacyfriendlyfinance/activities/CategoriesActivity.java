@@ -16,6 +16,7 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,11 +90,20 @@ public class CategoriesActivity extends BaseActivity implements TaskListener {
     }
 
     private void openCategoryDialog(Category category) {
-        CategoryDialog dialog = new CategoryDialog();
+        //TODO: remove commented code
+//        CategoryDialog dialog = new CategoryDialog();
+//        Bundle args = new Bundle();
+//        if (category != null) args.putLong("categoryId", category.getId());
+//        dialog.setArguments(args);
+//        dialog.show(getSupportFragmentManager(), "Dialog");
+
         Bundle args = new Bundle();
-        if (category != null) args.putLong("categoryId", category.getId());
-        dialog.setArguments(args);
-        dialog.show(getSupportFragmentManager(), "Dialog");
+        args.putLong("categoryId", category.getId());
+        args.putString("categoryName", category.getName());
+
+        Intent intent = new Intent(this, CategoryActivity.class);
+        intent.putExtras(args);
+        startActivity(intent);
     }
 
     @Override

@@ -102,12 +102,6 @@ public class TransactionDialog extends AppCompatDialogFragment {
                     System.out.println("########################");
                     categorySpinner.setAdapter(new CategoryArrayAdapter(getActivity(), categories));
                 }
-                @Override
-                public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-                }
-                @Override
-                public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-                }
             });
         }
 

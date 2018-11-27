@@ -1,44 +1,50 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
-import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
-public class CategoryActivity extends BaseActivity implements TaskListener {
-    private Category category;
+public class CategoryActivity extends TransactionListActivity {
+    @Override
+    protected void getTransactionListAsync() {
+        /*
+         * TODO: here, the correct list of transactions should be retrieved... something like:
+         *
+         * transactionDao.getAllForCategoryAsync(categoryId); (method does not exist in transactionDao yet)
+         *
+         */
+        transactionDao.getAllAsync(this);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    protected String getTransactionListTitle() {
+        Bundle args = getIntent().getExtras();
+        String categoryName = args.getString("categoryName", null);
+        if (categoryName != null) {
+            return categoryName;
+        } else {
+            //TODO: do this with a string resource.
+            return "unknown category";
+        }
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected String getTotalBalanceText() {
+        return String.valueOf(42_000L);
+    }
+
+    @Override
+    protected long getPreselectedAccountId() {
+        return -1;
+    }
+
+    @Override
+    protected long getPreselectedCategoryId() {
+        return -1;
     }
 
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_category;
-    }
-
-    @Override
-    public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        category = (Category) result;
     }
 }
