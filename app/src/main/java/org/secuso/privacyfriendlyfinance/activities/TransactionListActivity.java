@@ -27,6 +27,14 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
 
+/**
+ * This abstract class is provided as a base class for all
+ * activities that show a list of transactions. Classes that use
+ * this class a super class are: MainActivity, AccountActivity,
+ * CategoryActivity...
+ *
+ * @author Leonard Otto, Felix Hofmann
+ */
 public abstract class TransactionListActivity extends BaseActivity implements TaskListener {
     protected TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
     private List<Transaction> transactions;
@@ -37,10 +45,65 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
     private View separator;
     private FloatingActionButton btAddTransaction;
 
+    /**
+     * <p>
+     *     This method should only do one thing: invoke the right method
+     *     in transactionDao. The rest is done by the super class.
+     *     The content of this method could look something like this:
+     * </p>
+     * <br>
+     * <code>
+     *     ...{
+     *         long categoryId = ...
+     *         transactionDao.getTransactionsForCategoryAsync(categoryId);
+     *     }
+     * </code>
+     * <br>
+     * <br>
+     * <p>
+     *     The data callback is then received by the superclass method
+     *     onDone()
+     * </p>
+     */
     protected abstract void getTransactionListAsync();
+
+    /**
+     * This method should return the title of this activity. It is
+     * the title that is shown on the very top of the screen.
+     *
+     * @return the title of this activity
+     */
     protected abstract String getTransactionListTitle();
+
+    /**
+     * This method should either return the total balance of this
+     * view or null. If a string is returned that string will then be
+     * displayed on top of the transaction list. If null is returned
+     * the balance line will be removed and the only thing shown in the
+     * activity will be the transaction list.
+     *
+     * @return the total balance text as a string or null
+     */
     protected abstract String getTotalBalanceText();
+
+    /**
+     * This method should return either -1 or the id of the account
+     * that should be preselected when the transaction creation dialog
+     * is opened. When -1 is returned no specific account will be
+     * preselected.
+     *
+     * @return the account id to be preselected or -1
+     */
     protected abstract long getPreselectedAccountId();
+
+    /**
+     * This method should return either -1 or the id of the category
+     * that should be preselected when the transaction creation dialog
+     * is opened. When -1 is returned no specific category will be
+     * preselected.
+     *
+     * @return the category id to be preselected of -1
+     */
     protected abstract long getPreselectedCategoryId();
 
     @Override
@@ -151,7 +214,7 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
      *
      * @param transactionObject the transaction object to be edited or null in order to open a creation dialog
      */
-    public void openTransactionDialog(Transaction transactionObject) {
+    protected void openTransactionDialog(Transaction transactionObject) {
         TransactionDialog transactionDialog = new TransactionDialog();
         Bundle args = new Bundle();
 
