@@ -19,6 +19,7 @@ package org.secuso.privacyfriendlyfinance.activities.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,14 @@ import java.util.List;
  * Adapter for displaying the transaction list
  */
 public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
+    private TextView tvAmount;
+    private TextView tvName;
+    private TextView tvDate;
+    private NumberFormat numberFormat;
+
     public TransactionArrayAdapter(Context context, List<Transaction> transactions) {
         super(context, 0, transactions);
+        numberFormat = NumberFormat.getCurrencyInstance();
     }
 
     @NonNull
@@ -48,26 +55,31 @@ public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
+        getViewElements(convertView);
 
-        Transaction transaction = getItem(position);
-
-        TextView listItemAmount = convertView.findViewById(R.id.listItem_amount);
-        TextView listItemName = convertView.findViewById(R.id.listItem_name);
-        TextView listItemDate = convertView.findViewById(R.id.listItem_date);
-
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-
-        listItemAmount.setText(format.format(transaction.getAmount()));
-        if (transaction.getAmount() < 0) {
-            listItemAmount.setTextColor(getContext().getResources().getColor(color.red));
-        } else {
-            listItemAmount.setTextColor(getContext().getResources().getColor(color.green));
-        }
-
-        listItemName.setText(transaction.getName());
-
-        listItemDate.setText(transaction.getDateAsString());
+        fillViewElements(getItem(position));
 
         return convertView;
+    }
+
+    private void getViewElements(View convertView) {
+        tvAmount = convertView.findViewById(R.id.listItem_amount);
+        tvName = convertView.findViewById(R.id.listItem_name);
+        tvDate = convertView.findViewById(R.id.listItem_date);
+    }
+
+    private void fillViewElements(Transaction transaction) {
+        tvAmount.setText(numberFormat.format(transaction.getAmount()));
+        if (transaction.getAmount() < 0) {
+            tvAmount.setTextColor(getContext().getResources().getColor(color.red));
+        } else {
+            tvAmount.setTextColor(getContext().getResources().getColor(color.green));
+        }
+
+        tvName.setText(transaction.getName());
+        tvName.setGravity(Gravity.CENTER);
+        tvName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        tvDate.setText(transaction.getDateAsString());
     }
 }

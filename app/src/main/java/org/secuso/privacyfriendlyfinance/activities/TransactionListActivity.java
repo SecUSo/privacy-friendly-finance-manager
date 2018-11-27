@@ -30,8 +30,11 @@ import java.util.List;
 public abstract class TransactionListActivity extends BaseActivity implements TaskListener {
     protected TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
     private List<Transaction> transactions;
+
     private ListView listViewTransactionList;
     private TextView tvBalance;
+    private TextView tvBalanceLabel;
+    private View separator;
     private FloatingActionButton btAddTransaction;
 
     protected abstract void getTransactionListAsync();
@@ -46,40 +49,48 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
         setContentView(R.layout.activity_transaction_list);
         overridePendingTransition(0, 0);
 
-        /*
-        Get all needed elements from the layout
-         */
+        getViewElements();
+
+        fillViewElements();
+    }
+
+    private void fillViewElements() {
+        setTitle(getTransactionListTitle());
+
+        //Plus Button opens Dialog to add a new Transaction
+        btAddTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTransactionDialog(null);
+            }
+        });
+
+
+        String balanceText = getTotalBalanceText();
+        if (balanceText == null) {
+            separator.setVisibility(View.GONE);
+            tvBalance.setVisibility(View.GONE);
+            tvBalanceLabel.setVisibility(View.GONE);
+        } else {
+            tvBalance.setText(balanceText);
+        }
+
+        // Open transaction edit dialog on click on list item
+        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openTransactionDialog(transactions.get(position));
+            }
+        });
+        registerForContextMenu(listViewTransactionList);
+    }
+
+    private void getViewElements() {
         btAddTransaction = findViewById(R.id.bt_addTransaction);
         listViewTransactionList = findViewById(R.id.listView_transactionList);
         tvBalance = findViewById(R.id.tv_totalBalance);
-
-
-        /*
-        Set the elements up
-         */
-        {
-            setTitle(getTransactionListTitle());
-
-            //Plus Button opens Dialog to add a new Transaction
-            btAddTransaction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openTransactionDialog(null);
-                }
-            });
-
-            tvBalance.setText(getTotalBalanceText());
-
-            // Open transaction edit dialog on click on list item
-            listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    openTransactionDialog(transactions.get(position));
-                }
-            });
-            registerForContextMenu(listViewTransactionList);
-        }
-
+        separator = findViewById(R.id.separator);
+        tvBalanceLabel = findViewById(R.id.tv_label_totalBalance);
     }
 
     @Override
