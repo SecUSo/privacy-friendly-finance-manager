@@ -77,14 +77,4 @@ public class AccountsActivity extends BaseActivity implements TaskListener {
         accountList = new ArrayList<Account>((List<Account>) result);
         recyclerView.setAdapter(new AccountsAdapter(this, accountList));
     }
-
-    @Override
-    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-
-    }
-
-    @Override
-    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-
-    }
 }

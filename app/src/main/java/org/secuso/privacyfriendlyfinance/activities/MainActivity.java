@@ -204,12 +204,4 @@ public class MainActivity extends BaseActivity implements TaskListener {
 
         transactionListView.setAdapter(new TransactionArrayAdapter(this, transactions));
     }
-
-    @Override
-    public void onProgress(Double progress, AsyncTask<?, ?, ?> task) {
-    }
-
-    @Override
-    public void onOperation(String operation, AsyncTask<?, ?, ?> task) {
-    }
 }
