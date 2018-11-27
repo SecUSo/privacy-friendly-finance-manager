@@ -1,21 +1,17 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
-import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
-
-import java.util.List;
 
 public class AccountActivity extends TransactionListActivity {
     @Override
     protected void getTransactionListAsync() {
-        CommunicantAsyncTask<Void, Long> task = new CommunicantAsyncTask<Void, List<Transaction>>() {
-            @Override
-            protected List<Transaction> doInBackground(Void... voids) {
-                 return transactionDao.getForAccount();
-            }
-        };
-        transactionDao.getAllAsync(this);
+//        CommunicantAsyncTask<Void, Long> task = new CommunicantAsyncTask<Void, List<Transaction>>() {
+//            @Override
+//            protected List<Transaction> doInBackground(Void... voids) {
+//                 return transactionDao.getForAccount();
+//            }
+//        };
+//        transactionDao.getAllAsync(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlyfinance.domain.access;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Update;
@@ -12,8 +13,8 @@ import java.util.List;
 
 
 public abstract class AbstractDao<E extends AbstractEntity> {
-    public abstract E get(long id);
-    public abstract List<E> getAll();
+    public abstract LiveData<E> get(long id);
+    public abstract LiveData<List<E>> getAll();
 
     @Insert
     public abstract long insert(E entity);
@@ -49,20 +50,20 @@ public abstract class AbstractDao<E extends AbstractEntity> {
         return listenAndExec(task, listener);
     }
 
-    public CommunicantAsyncTask<?, E> getAsync(final long id, TaskListener listener) {
+    public CommunicantAsyncTask<?, LiveData<E>> getAsync(final long id, TaskListener listener) {
         final AbstractDao<E> t = this;
-        return listenAndExec(new CommunicantAsyncTask<Void, E>() {
+        return listenAndExec(new CommunicantAsyncTask<Void, LiveData<E>>() {
             @Override
-            protected E doInBackground(Void... voids) {
+            protected LiveData<E> doInBackground(Void... voids) {
                 return t.get(id);
             }
         }, listener);
     }
 
-    public CommunicantAsyncTask<?, List<E>> getAllAsync(TaskListener listener) {
-        return listenAndExec(new CommunicantAsyncTask<Void, List<E>>() {
+    public CommunicantAsyncTask<?, LiveData<List<E>>> getAllAsync(TaskListener listener) {
+        return listenAndExec(new CommunicantAsyncTask<Void, LiveData<List<E>>>() {
             @Override
-            protected List<E> doInBackground(Void... voids) {
+            protected LiveData<List<E>> doInBackground(Void... voids) {
                 return getAll();
             }
         }, listener);

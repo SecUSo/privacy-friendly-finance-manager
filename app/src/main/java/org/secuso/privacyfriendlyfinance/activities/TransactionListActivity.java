@@ -1,6 +1,7 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.LiveData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -235,10 +237,11 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
 
     @Override
     public final void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        transactions = (List<Transaction>) result;
+        transactions = ((LiveData<List<Transaction>>) result).getValue();
 
         //TODO: remove debug code
-        if (transactions.size() == 0) {
+        if (transactions == null || transactions.size() == 0) {
+            transactions = new ArrayList<>();
             transactions.add(new Transaction("trans1", 100, new LocalDate(42_000_000_000L), 0L));
             transactions.add(new Transaction("trans2", -500, new LocalDate(420_000_000_000L), 0L));
             transactions.add(new Transaction("trans3", 42000, new LocalDate(840_000_000_000L), 0L));

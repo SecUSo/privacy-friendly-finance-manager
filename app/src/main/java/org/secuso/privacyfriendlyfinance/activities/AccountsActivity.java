@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -74,7 +75,8 @@ public class AccountsActivity extends BaseActivity implements TaskListener {
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        accountList = new ArrayList<Account>((List<Account>) result);
+        accountList = ((LiveData<List<Account>>) result).getValue();
+        if (accountList == null) accountList = new ArrayList<>();
         recyclerView.setAdapter(new AccountsAdapter(this, accountList));
     }
 }

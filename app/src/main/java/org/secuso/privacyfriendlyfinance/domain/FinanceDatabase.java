@@ -117,7 +117,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
                         .fallbackToDestructiveMigration()
                         .build();
 
-                if (FinanceDatabase.instance.accountDao().getAll().size() == 0) {
+                if (FinanceDatabase.instance.accountDao().count() == 0) {
                     Account defaultAccount = new Account("DefaultAccount", 0L);
                     defaultAccount.setId(0L);
                     FinanceDatabase.instance.accountDao().insert(defaultAccount);

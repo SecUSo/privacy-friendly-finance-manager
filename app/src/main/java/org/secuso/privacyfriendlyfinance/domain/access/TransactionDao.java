@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlyfinance.domain.access;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -11,11 +12,11 @@ import java.util.List;
 public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Override
     @Query("SELECT * FROM Tranzaction WHERE id=:id")
-    public abstract Transaction get(long id);
+    public abstract LiveData<Transaction> get(long id);
 
     @Override
     @Query("SELECT * FROM Tranzaction ORDER BY date DESC")
-    public abstract List<Transaction> getAll();
+    public abstract LiveData<List<Transaction>> getAll();
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId ORDER BY date DESC")
     public abstract List<Transaction> getForAccount(long accountId);

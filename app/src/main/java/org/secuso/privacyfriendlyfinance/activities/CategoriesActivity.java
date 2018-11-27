@@ -16,6 +16,7 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ import java.util.List;
 public class CategoriesActivity extends BaseActivity implements TaskListener {
     private final CategoryDao dao = FinanceDatabase.getInstance().categoryDao();
     private ListView categoryList;
-    private ArrayList<Category> categories;
+    private List<Category> categories;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,7 +115,8 @@ public class CategoriesActivity extends BaseActivity implements TaskListener {
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        categories = new ArrayList<>((List<Category>) result);
+        categories = ((LiveData<List<Category>>) result).getValue();
+         if (categories == null) categories = new ArrayList<>();
         categoryList.setAdapter(new CategoryArrayAdapter(this, categories));
     }
 }
