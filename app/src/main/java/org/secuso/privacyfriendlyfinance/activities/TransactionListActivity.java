@@ -2,10 +2,12 @@ package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -37,9 +39,9 @@ import java.util.List;
  *
  * @author Leonard Otto, Felix Hofmann
  */
-public abstract class TransactionListActivity extends BaseActivity implements TaskListener {
+public abstract class TransactionListActivity extends BaseActivity {
     protected TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
-    private List<Transaction> transactions;
+    private LiveData<List<Transaction>> transactions;
 
     private ListView listViewTransactionList;
     private TextView tvBalance;
@@ -47,27 +49,11 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
     private View separator;
     private FloatingActionButton btAddTransaction;
 
-    /**
-     * <p>
-     *     This method should only do one thing: invoke the right method
-     *     in transactionDao. The rest is done by the super class.
-     *     The content of this method could look something like this:
-     * </p>
-     * <br>
-     * <code>
-     *     ...{
-     *         long categoryId = ...
-     *         transactionDao.getTransactionsForCategoryAsync(categoryId);
-     *     }
-     * </code>
-     * <br>
-     * <br>
-     * <p>
-     *     The data callback is then received by the superclass method
-     *     onDone()
-     * </p>
-     */
-    protected abstract void getTransactionListAsync();
+    public TransactionListActivity(LiveData<List<Transaction>> transactions) {
+        this.transactions = transactions;
+    }
+
+
 
     /**
      * This method should return the title of this activity. It is
@@ -96,7 +82,9 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
      *
      * @return the account id to be preselected or -1
      */
-    protected abstract long getPreselectedAccountId();
+    protected long getPreselectedAccountId() {
+        return -1L;
+    }
 
     /**
      * This method should return either -1 or the id of the category
@@ -106,7 +94,9 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
      *
      * @return the category id to be preselected of -1
      */
-    protected abstract long getPreselectedCategoryId();
+    protected long getPreselectedCategoryId(){
+        return -1L;
+    }
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -233,20 +223,5 @@ public abstract class TransactionListActivity extends BaseActivity implements Ta
 
         transactionDialog.setArguments(args);
         transactionDialog.show(getSupportFragmentManager(), "TransactionDialog");
-    }
-
-    @Override
-    public final void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        transactions = ((LiveData<List<Transaction>>) result).getValue();
-
-        //TODO: remove debug code
-        if (transactions == null || transactions.size() == 0) {
-            transactions = new ArrayList<>();
-            transactions.add(new Transaction("trans1", 100, new LocalDate(42_000_000_000L), 0L));
-            transactions.add(new Transaction("trans2", -500, new LocalDate(420_000_000_000L), 0L));
-            transactions.add(new Transaction("trans3", 42000, new LocalDate(840_000_000_000L), 0L));
-        }
-
-        listViewTransactionList.setAdapter(new TransactionArrayAdapter(this, transactions));
     }
 }

@@ -48,9 +48,11 @@ public abstract class EntityListAdapter<E extends AbstractEntity, H extends Recy
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                E item = getItem(position);
-                for (OnItemClickListener<E> listener : listeners) {
-                    listener.onItemClick(item);
+                if (position != RecyclerView.NO_POSITION) {
+                    E item = getItem(position);
+                    for (OnItemClickListener<E> listener : listeners) {
+                        listener.onItemClick(item);
+                    }
                 }
             }
         });

@@ -1,12 +1,12 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
@@ -60,6 +60,8 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
     @Override
     public void onItemClick(Account item) {
-        Toast.makeText(this, "clicked account #" + item.getId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AccountActivity.class);
+        intent.putExtra(AccountActivity.EXTRA_ACCOUNT_ID, item.getId());
+        startActivity(intent);
     }
 }

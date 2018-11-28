@@ -1,17 +1,23 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.LiveData;
+
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+
+import java.util.List;
 
 public class AccountActivity extends TransactionListActivity {
+    public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
+
+    public AccountActivity(LiveData<List<Transaction>> transactions) {
+        super(transactions);
+    }
+
+
     @Override
     protected void getTransactionListAsync() {
-//        CommunicantAsyncTask<Void, Long> task = new CommunicantAsyncTask<Void, List<Transaction>>() {
-//            @Override
-//            protected List<Transaction> doInBackground(Void... voids) {
-//                 return transactionDao.getForAccount();
-//            }
-//        };
-//        transactionDao.getAllAsync(this);
+
     }
 
     @Override
@@ -26,11 +32,6 @@ public class AccountActivity extends TransactionListActivity {
 
     @Override
     protected long getPreselectedAccountId() {
-        return 0;
-    }
-
-    @Override
-    protected long getPreselectedCategoryId() {
         return 0;
     }
 
