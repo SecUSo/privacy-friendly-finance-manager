@@ -13,7 +13,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.List;
 
-public class AccountsAdapter extends ListAdapter<Account, AccountViewHolder> {
+public class AccountsAdapter extends EntityListAdapter<Account, AccountViewHolder> {
     public AccountsAdapter(BaseActivity context, LiveData<List<Account>> data) {
         super(context, data);
     }
@@ -28,8 +28,8 @@ public class AccountsAdapter extends ListAdapter<Account, AccountViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AccountViewHolder holder, int index) {
-//        super.onBindViewHolder(holder, index);
-        Account account = items.get(index);
+        super.onBindViewHolder(holder, index);
+        Account account = getItem(index);
         holder.getTvAccountName().setText(account.getName());
         holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
         holder.getTvAccountBalanceCurrent().setOnClickListener(new View.OnClickListener() {

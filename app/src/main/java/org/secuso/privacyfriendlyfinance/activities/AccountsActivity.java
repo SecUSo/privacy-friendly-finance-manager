@@ -40,8 +40,10 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
     private void makeRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
+
         accountsAdapter = new AccountsAdapter(this, dao.getAll());
         accountsAdapter.onItemClick(this);
+
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
