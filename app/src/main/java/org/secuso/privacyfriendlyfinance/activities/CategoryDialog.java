@@ -17,11 +17,12 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -30,7 +31,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
@@ -40,10 +40,13 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
  *
  * @author Felix Hofmann, Leonard Otto
  */
-public class CategoryDialog extends AppCompatDialogFragment implements TaskListener {
-    private final CategoryDao dao = FinanceDatabase.getInstance().categoryDao();
+public class CategoryDialog extends AppCompatDialogFragment {
+    public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
+
+    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+
     private Category category;
-    private EditText nameEditText;
+    private EditText editTextName;
 
     @NonNull
     @Override
@@ -52,50 +55,63 @@ public class CategoryDialog extends AppCompatDialogFragment implements TaskListe
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_category, null);
-        nameEditText = view.findViewById(R.id.dialog_category_name);
-
-        System.out.println(savedInstanceState);
         builder.setView(view);
-        long id = getArguments().getLong("categoryId", -1L);
-        System.out.println("Dialog ID: " + getArguments().getLong("categoryId", -1L));
+
+        getViewElements(view);
+
+        // Title
+        long id = getArguments().getLong(EXTRA_CATEGORY_ID, -1L);
         if (id == -1L) {
-             builder.setTitle(R.string.dialog_category_title);
-             category = new Category();
+            builder.setTitle(R.string.dialog_category_title);
         } else {
             builder.setTitle(R.string.dialog_category_edit);
-            dao.getAsync(id, this);
+            categoryDao.get(id).observe(this, new Observer<Category>() {
+                @Override
+                public void onChanged(@Nullable Category category) {
+                    CategoryDialog.this.category = category;
+                    editTextName.setText(category.getName());
+                }
+            });
         }
 
-        builder.setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
+        setUpDialogOptions(builder);
 
-            }
-        });
-                //defines what happens when dialog is submitted
-        builder.setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                String categoryName = nameEditText.getText().toString().trim();
-                if (categoryName.isEmpty()) {
-                    Toast.makeText(getContext(), getString(R.string.dialog_category_toast), Toast.LENGTH_LONG).show();
-                } else {
-                    category.setName(categoryName);
-                    dao.updateOrInsertAsync(category, null);
-                    Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(getActivity(), CategoriesActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
         return builder.create();
     }
 
+    private void getViewElements(View view) {
+        editTextName = view.findViewById(R.id.dialog_category_name);
+    }
 
-    @Override
-    public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-        category = (Category) result;
-        nameEditText.setText(category.getName());
+    private void saveCategory() {
+        String categoryName = editTextName.getText().toString().trim();
+        if (categoryName.isEmpty()) {
+            Toast.makeText(getContext(), getString(R.string.dialog_category_toast), Toast.LENGTH_LONG).show();
+        } else {
+            category.setName(categoryName);
+
+            categoryDao.updateOrInsertAsync(category, null);
+
+            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
+
+            //TODO: Is this really done like this?
+            Intent intent = new Intent(getActivity(), CategoriesActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void setUpDialogOptions(AlertDialog.Builder builder) {
+        builder.setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+            }
+        });
+
+        builder.setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                saveCategory();
+            }
+        });
     }
 }

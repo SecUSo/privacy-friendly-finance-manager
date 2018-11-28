@@ -38,9 +38,6 @@ import java.util.List;
  * Adapter for displaying the transaction list
  */
 public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
-    private TextView tvAmount;
-    private TextView tvName;
-    private TextView tvDate;
     private NumberFormat numberFormat;
 
     public TransactionArrayAdapter(Context context, List<Transaction> transactions) {
@@ -55,20 +52,16 @@ public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
-        getViewElements(convertView);
+        TextView tvAmount = convertView.findViewById(R.id.listItem_amount);
+        TextView tvName = convertView.findViewById(R.id.listItem_name);
+        TextView tvDate = convertView.findViewById(R.id.listItem_date);
 
-        fillViewElements(getItem(position));
+        fillViewElements(tvAmount, tvName, tvDate, getItem(position));
 
         return convertView;
     }
 
-    private void getViewElements(View convertView) {
-        tvAmount = convertView.findViewById(R.id.listItem_amount);
-        tvName = convertView.findViewById(R.id.listItem_name);
-        tvDate = convertView.findViewById(R.id.listItem_date);
-    }
-
-    private void fillViewElements(Transaction transaction) {
+    private void fillViewElements(TextView tvAmount, TextView tvName, TextView tvDate, Transaction transaction) {
         tvAmount.setText(numberFormat.format(transaction.getAmount()));
         if (transaction.getAmount() < 0) {
             tvAmount.setTextColor(getContext().getResources().getColor(color.red));

@@ -16,11 +16,9 @@ import java.text.NumberFormat;
 import java.util.List;
 
 public class CategoryArrayAdapter extends ArrayAdapter<Category> {
-
     public CategoryArrayAdapter(Context context, List<Category> items) {
         super(context, 0, items);
     }
-
 
     @NonNull
     @Override
