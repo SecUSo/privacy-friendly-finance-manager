@@ -6,13 +6,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
-public class AccountsActivity extends BaseActivity {
+public class AccountsActivity extends BaseActivity implements OnItemClickListener<Account> {
     private AccountDao dao = FinanceDatabase.getInstance().accountDao();
     private RecyclerView recyclerView;
     private AccountsAdapter accountsAdapter;
@@ -38,6 +41,7 @@ public class AccountsActivity extends BaseActivity {
     private void makeRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
         accountsAdapter = new AccountsAdapter(this, dao.getAll());
+        accountsAdapter.onItemClick(this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -50,5 +54,10 @@ public class AccountsActivity extends BaseActivity {
     }
 
     private void addAccount() {
+    }
+
+    @Override
+    public void onItemClick(Account item) {
+        Toast.makeText(this, "clicked account #" + item.getId(), Toast.LENGTH_SHORT).show();
     }
 }
