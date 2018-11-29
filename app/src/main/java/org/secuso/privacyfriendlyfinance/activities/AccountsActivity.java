@@ -32,7 +32,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
         accountsAdapter.onItemClick(this);
 
-        setContent(R.layout.content_accounts);
+        setContent(R.layout.content_recycler);
         addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

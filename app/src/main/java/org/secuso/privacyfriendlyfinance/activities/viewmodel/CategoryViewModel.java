@@ -32,6 +32,7 @@ public class CategoryViewModel extends TransactionListViewModel {
         return category;
     }
 
+    @Override
     protected LiveData<List<Transaction>> fetchTransactions() {
         return transactionDao.getForCategory(categoryId);
     }

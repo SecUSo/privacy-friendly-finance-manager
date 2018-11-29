@@ -10,6 +10,9 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+
+import java.util.List;
 
 public class AccountViewModel extends TransactionListViewModel {
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
@@ -26,6 +29,11 @@ public class AccountViewModel extends TransactionListViewModel {
 
     public LiveData<Account> getAccount() {
         return account;
+    }
+
+    @Override
+    protected LiveData<List<Transaction>> fetchTransactions() {
+        return transactionDao.getForAccount(accountId);
     }
 
     public static class AccountViewModelFactory implements ViewModelProvider.Factory {

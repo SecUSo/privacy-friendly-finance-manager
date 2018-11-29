@@ -19,34 +19,34 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     public abstract LiveData<List<Transaction>> getAll();
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId ORDER BY date DESC")
-    public abstract List<Transaction> getForAccount(long accountId);
+    public abstract LiveData<List<Transaction>> getForAccount(long accountId);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date>=:date ORDER BY date DESC")
-    public abstract List<Transaction> getForAccountFrom(long accountId, String date);
+    public abstract LiveData<List<Transaction>> getForAccountFrom(long accountId, String date);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date<:date ORDER BY date DESC")
-    public abstract List<Transaction> getForAccountBefore(long accountId, String date);
+    public abstract LiveData<List<Transaction>> getForAccountBefore(long accountId, String date);
 
     @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC")
     public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
-    public abstract List<Transaction> getForAccountAndCategory(long accountId, long categoryId);
+    public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId")
-    public abstract long sumForAccount(long accountId);
+    public abstract LiveData<Long> sumForAccount(long accountId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND date>=:date")
-    public abstract long sumForAccountFrom(long accountId, String date);
+    public abstract LiveData<Long> sumForAccountFrom(long accountId, String date);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND date<:date")
-    public abstract long sumForAccountBefore(long accountId, String date);
+    public abstract LiveData<Long> sumForAccountBefore(long accountId, String date);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId")
-    public abstract long sumForCategory(long categoryId);
+    public abstract LiveData<Long> sumForCategory(long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId")
-    public abstract long sumForAccountAndCategory(long accountId, long categoryId);
+    public abstract LiveData<Long> sumForAccountAndCategory(long accountId, long categoryId);
 
 
 }

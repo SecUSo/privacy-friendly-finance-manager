@@ -59,7 +59,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         categoriesAdapter = new CategoriesAdapter(this, viewModel.getCategories());
         categoriesAdapter.onItemClick(this);
 
-        setContent(R.layout.content_accounts);
+        setContent(R.layout.content_recycler);
         addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +79,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.list_click_menu_category, menu);
     }
-    
+
     private void openCategoryDialog(Category category) {
         Bundle args = new Bundle();
         if (category == null) {

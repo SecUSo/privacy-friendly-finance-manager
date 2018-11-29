@@ -8,7 +8,7 @@ import org.secuso.privacyfriendlyfinance.R;
 public class MainViewModel extends TransactionListViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
-        setTitle("MAin!");
+        setTitle("Last Transactions");
         setNavigationDrawerId(R.id.nav_main);
     }
 }

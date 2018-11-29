@@ -8,9 +8,10 @@
     android:layout_marginBottom="8dp"
     android:padding="0dp"
     android:visibility="visible"
-    android:clickable="true"
     app:cardCornerRadius="2dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
 
     <RelativeLayout

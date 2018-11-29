@@ -68,8 +68,6 @@ public abstract class TransactionListActivity extends BaseActivity {
             }
         });
 
-
-
         getViewElements();
 
         fillViewElements();

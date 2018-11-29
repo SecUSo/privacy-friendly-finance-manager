@@ -40,7 +40,7 @@
             android:textAlignment="textEnd"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="@{viewModel.title}"/>
+            android:text="@string/balance"/>
 
         <View
             android:id="@+id/separator"
