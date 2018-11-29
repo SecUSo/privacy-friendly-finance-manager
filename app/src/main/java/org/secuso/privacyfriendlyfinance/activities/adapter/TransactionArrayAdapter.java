@@ -62,7 +62,7 @@ public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
     }
 
     private void fillViewElements(TextView tvAmount, TextView tvName, TextView tvDate, Transaction transaction) {
-        tvAmount.setText(numberFormat.format(transaction.getAmount()));
+        tvAmount.setText(numberFormat.format(((double)transaction.getAmount()) / 100.0));
         if (transaction.getAmount() < 0) {
             tvAmount.setTextColor(getContext().getResources().getColor(color.red));
         } else {
