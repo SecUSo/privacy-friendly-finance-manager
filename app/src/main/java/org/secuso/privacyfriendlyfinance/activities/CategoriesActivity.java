@@ -52,7 +52,7 @@ public class CategoriesActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addContentLayout(R.layout.content_categories);
+        setContent(R.layout.content_categories);
         btAddCategory = addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

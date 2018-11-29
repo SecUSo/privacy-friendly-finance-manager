@@ -41,17 +41,11 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
- * @author Christopher Beckmann, Karola Marky
- * @version 20171017
- * This class is a parent class of all activities that can be accessed from the
- * Navigation Drawer (example see MainActivity.java)
- * <p>
- * The default NavigationDrawer functionality is implemented in this class. If you wish to inherit
- * the default behaviour, make sure the content view has a NavigationDrawer with the id 'nav_view',
- * the header should point to 'nav_header_main' and the menu should be loaded from 'main_drawer'.
- * <p>
- * Also the main layout that holds the content of the activity should have the id 'main_content'.
- * This way it will automatically fade in and out every time a transition is happening.
+ * @author Christopher Beckmann, Karola Marky, Felix Hofmann, Leonard Otto
+ * @version 20181129
+ *
+ * This class is a parent class of all activities the user can access the Navigation Drawer from.
+ * just inject your activities content via the setContent() method.
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
     // delay to launch nav drawer item, to allow close animation to play
@@ -66,6 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     private NavigationView mNavigationView;
 
     private CoordinatorLayout contentWrapper;
+    private View content;
     private LayoutInflater inflater;
 
     // Helper
@@ -85,8 +80,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         inflater = LayoutInflater.from(contentWrapper.getContext());
     }
 
-    protected final View addContentLayout(@LayoutRes int layout) {
-        return inflater.inflate(layout, contentWrapper);
+    protected final View setContent(@LayoutRes int layout) {
+        if (content != null) {
+            contentWrapper.removeView(content);
+        }
+        content = inflater.inflate(layout, contentWrapper, false);
+        contentWrapper.addView(content);
+        return content;
     }
 
     protected final FloatingActionButton addFab(@LayoutRes int layout, View.OnClickListener listener) {
@@ -141,9 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         selectNavigationItem(itemId);
 
         // fade out the active activity
-        View mainContent = findViewById(R.id.main_content);
-        if (mainContent != null) {
-            mainContent.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
+        if (contentWrapper != null) {
+            contentWrapper.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
         }
         return true;
     }
@@ -233,10 +232,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
         selectNavigationItem(getNavigationDrawerID());
 
-        View mainContent = findViewById(R.id.main_content);
-        if (mainContent != null) {
-            mainContent.setAlpha(0);
-            mainContent.animate().alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION);
+        if (contentWrapper != null) {
+            contentWrapper.setAlpha(0);
+            contentWrapper.animate().alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION);
         }
     }
 }
