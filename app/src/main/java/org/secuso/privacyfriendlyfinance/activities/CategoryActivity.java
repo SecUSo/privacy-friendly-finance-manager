@@ -5,16 +5,16 @@ import android.os.Bundle;
 import org.secuso.privacyfriendlyfinance.R;
 
 public class CategoryActivity extends TransactionListActivity {
-    @Override
-    protected void getTransactionListAsync() {
-        /*
-         * TODO: here, the correct list of transactions should be retrieved... something like:
-         *
-         * transactionDao.getAllForCategoryAsync(categoryId); (method does not exist in transactionDao yet)
-         *
-         */
-        transactionDao.getAllAsync(this);
-    }
+//    @Override
+//    protected void getTransactionListAsync() {
+//        /*
+//         * TODO: here, the correct list of transactions should be retrieved... something like:
+//         *
+//         * transactionDao.getAllForCategoryAsync(categoryId); (method does not exist in transactionDao yet)
+//         *
+//         */
+//        transactionDao.getAllAsync(this);
+//    }
 
     @Override
     protected String getTransactionListTitle() {

@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,24 +12,30 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
-import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 public class AccountsActivity extends BaseActivity implements OnItemClickListener<Account> {
-    private AccountDao dao = FinanceDatabase.getInstance().accountDao();
+    private AccountsViewModel viewModel;
     private RecyclerView recyclerView;
     private AccountsAdapter accountsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(AccountsViewModel.class);
+        accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
+        accountsAdapter.onItemClick(this);
 
         setContentView(R.layout.activity_accounts);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        makeRecyclerView();
+        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(accountsAdapter);
 
         findViewById(R.id.fab_addaccount).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,18 +43,6 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
                 addAccount();
             }
         });
-    }
-
-    private void makeRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);
-
-        accountsAdapter = new AccountsAdapter(this, dao.getAll());
-        accountsAdapter.onItemClick(this);
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(accountsAdapter);
     }
 
     @Override

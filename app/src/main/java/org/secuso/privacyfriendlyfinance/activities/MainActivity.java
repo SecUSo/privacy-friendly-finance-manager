@@ -20,10 +20,10 @@ package org.secuso.privacyfriendlyfinance.activities;
 import org.secuso.privacyfriendlyfinance.R;
 
 public class MainActivity extends TransactionListActivity {
-    @Override
-    protected void getTransactionListAsync() {
-        transactionDao.getAllAsync(this);
-    }
+//    @Override
+//    protected void getTransactionListAsync() {
+//        transactionDao.getAllAsync(this);
+//    }
 
     @Override
     protected String getTransactionListTitle() {

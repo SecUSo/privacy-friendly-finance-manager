@@ -1,13 +1,10 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -18,18 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
-import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This abstract class is provided as a base class for all
@@ -40,20 +30,11 @@ import java.util.List;
  * @author Leonard Otto, Felix Hofmann
  */
 public abstract class TransactionListActivity extends BaseActivity {
-    protected TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
-    private LiveData<List<Transaction>> transactions;
-
     private ListView listViewTransactionList;
     private TextView tvBalance;
     private TextView tvBalanceLabel;
     private View separator;
     private FloatingActionButton btAddTransaction;
-
-    public TransactionListActivity(LiveData<List<Transaction>> transactions) {
-        this.transactions = transactions;
-    }
-
-
 
     /**
      * This method should return the title of this activity. It is
@@ -98,9 +79,13 @@ public abstract class TransactionListActivity extends BaseActivity {
         return -1L;
     }
 
+    protected TransactionListViewModel viewModel;
+
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
+
         setContentView(R.layout.activity_transaction_list);
         overridePendingTransition(0, 0);
 
@@ -130,14 +115,14 @@ public abstract class TransactionListActivity extends BaseActivity {
             tvBalance.setText(balanceText);
         }
 
-        // Open transaction edit dialog on click on list item
-        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openTransactionDialog(transactions.get(position));
-            }
-        });
-        registerForContextMenu(listViewTransactionList);
+//        // Open transaction edit dialog on click on list item
+//        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                openTransactionDialog(transactions.get(position));
+//            }
+//        });
+//        registerForContextMenu(listViewTransactionList);
     }
 
     private void getViewElements() {
@@ -173,11 +158,11 @@ public abstract class TransactionListActivity extends BaseActivity {
     @Override
     protected final void onResume() {
         super.onResume();
-        getTransactionListAsync();
+//        getTransactionListAsync();
     }
 
     private void editItem(int indexToEdit) {
-        openTransactionDialog(transactions.get(indexToEdit));
+//        openTransactionDialog(transactions.get(indexToEdit));
     }
 
     private void deleteItem(final int indexToDelete) {
@@ -186,7 +171,7 @@ public abstract class TransactionListActivity extends BaseActivity {
                 .setPositiveButton(R.string.transaction_delete_dialog_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        transactionDao.deleteAsync(transactions.get(indexToDelete));
+//                        transactionDao.deleteAsync(transactions.get(indexToDelete));
 
                         Toast.makeText(TransactionListActivity.this, R.string.toast_delete, Toast.LENGTH_SHORT).show();
 
