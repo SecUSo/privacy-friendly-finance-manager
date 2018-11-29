@@ -78,7 +78,6 @@
         </activity>
         <activity
             android:name=".activities.CategoryActivity"
-            android:label="@string/title_activity_category"
             android:parentActivityName=".activities.CategoryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -87,7 +86,6 @@
         </activity>
         <activity
             android:name=".activities.AccountActivity"
-            android:label="@string/title_activity_account"
             android:parentActivityName=".activities.AccountsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

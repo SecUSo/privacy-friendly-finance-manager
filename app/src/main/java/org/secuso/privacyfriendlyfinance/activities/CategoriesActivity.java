@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
@@ -47,6 +48,12 @@ public class CategoriesActivity extends BaseActivity {
 
     private ListView listViewCategoryList;
     private FloatingActionButton btAddCategory;
+
+
+    @Override
+    protected Class<? extends BaseViewModel> getViewModelClass() {
+        return BaseViewModel.class;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,10 +116,5 @@ public class CategoriesActivity extends BaseActivity {
         categoryDialog.setArguments(args);
 
         categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
-    }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_category;
     }
 }

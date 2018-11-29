@@ -1,10 +1,12 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -18,8 +20,12 @@ import android.widget.Toast;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
+import org.secuso.privacyfriendlyfinance.databinding.ContentTransactionListBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+
+import java.util.List;
 
 /**
  * This abstract class is provided as a base class for all
@@ -35,64 +41,37 @@ public abstract class TransactionListActivity extends BaseActivity {
     private TextView tvBalanceLabel;
     private View separator;
     private FloatingActionButton btAddTransaction;
-
-    /**
-     * This method should return the title of this activity. It is
-     * the title that is shown on the very top of the screen.
-     *
-     * @return the title of this activity
-     */
-    protected abstract String getTransactionListTitle();
-
-    /**
-     * This method should either return the total balance of this
-     * view or null. If a string is returned that string will then be
-     * displayed on top of the transaction list. If null is returned
-     * the balance line will be removed and the only thing shown in the
-     * activity will be the transaction list.
-     *
-     * @return the total balance text as a string or null
-     */
-    protected abstract String getTotalBalanceText();
-
-    /**
-     * This method should return either -1 or the id of the account
-     * that should be preselected when the transaction creation dialog
-     * is opened. When -1 is returned no specific account will be
-     * preselected.
-     *
-     * @return the account id to be preselected or -1
-     */
-    protected long getPreselectedAccountId() {
-        return -1L;
-    }
-
-    /**
-     * This method should return either -1 or the id of the category
-     * that should be preselected when the transaction creation dialog
-     * is opened. When -1 is returned no specific category will be
-     * preselected.
-     *
-     * @return the category id to be preselected of -1
-     */
-    protected long getPreselectedCategoryId(){
-        return -1L;
-    }
-
     protected TransactionListViewModel viewModel;
 
-    @Override
-    protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
+    private int dbg = 0;
+    protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
 
-        setContent(R.layout.content_transaction_list);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = (TransactionListViewModel) super.viewModel;
+        ContentTransactionListBinding binding = DataBindingUtil.bind(setContent(R.layout.content_transaction_list));
+        binding.setLifecycleOwner(this);
+        binding.setViewModel(viewModel);
+
+
         btAddTransaction = addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openTransactionDialog(null);
+                dbg++;
+                viewModel.setTitle("asdf " + dbg);
+//                openTransactionDialog(null);
             }
         });
+
+        viewModel.getTransactions().observe(this, new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(@Nullable List<Transaction> transactions) {
+                listViewTransactionList.setAdapter(new TransactionArrayAdapter(TransactionListActivity.this, transactions));
+            }
+        });
+
+
 
         getViewElements();
 
@@ -100,17 +79,16 @@ public abstract class TransactionListActivity extends BaseActivity {
     }
 
     private void fillViewElements() {
-        setTitle(getTransactionListTitle());
 
 
-        String balanceText = getTotalBalanceText();
-        if (balanceText == null) {
-            separator.setVisibility(View.GONE);
-            tvBalance.setVisibility(View.GONE);
-            tvBalanceLabel.setVisibility(View.GONE);
-        } else {
-            tvBalance.setText(balanceText);
-        }
+//        String balanceText = getTotalBalanceText();
+//        if (balanceText == null) {
+//            separator.setVisibility(View.GONE);
+//            tvBalance.setVisibility(View.GONE);
+//            tvBalanceLabel.setVisibility(View.GONE);
+//        } else {
+//            tvBalance.setText(balanceText);
+//        }
     }
 
     private void getViewElements() {

@@ -17,36 +17,12 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.MainViewModel;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 
 public class MainActivity extends TransactionListActivity {
-//    @Override
-//    protected void getTransactionListAsync() {
-//        transactionDao.getAllAsync(this);
-//    }
-
     @Override
-    protected String getTransactionListTitle() {
-        return "TRANSACTION OVERVIEW";
-    }
-
-    @Override
-    protected String getTotalBalanceText() {
-        return null;
-    }
-
-    @Override
-    protected long getPreselectedAccountId() {
-        return -1;
-    }
-
-    @Override
-    protected long getPreselectedCategoryId() {
-        return -1;
-    }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_main;
+    protected Class<? extends TransactionListViewModel> getViewModelClass() {
+        return MainViewModel.class;
     }
 }
