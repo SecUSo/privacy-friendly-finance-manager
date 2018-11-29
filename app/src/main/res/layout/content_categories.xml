@@ -24,7 +24,7 @@
         android:layout_toEndOf="@+id/category_legend_name"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
-        android:text="@string/category_legend_balance"
+        android:text="@string/balance"
         android:textSize="16dp"
         android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
         android:layout_toLeftOf="@+id/totalBalance"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="@string/category_legend_name"
+        android:text="@string/name"
         android:textSize="16dp"
         android:textStyle="bold" />
 

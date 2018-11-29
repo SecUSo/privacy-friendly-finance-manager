@@ -162,7 +162,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         //Do edit/setup specific things
         if (editingExistingTransaction) {
-            builder.setTitle(R.string.transaction_dialog_title_edit);
+            builder.setTitle(R.string.dialog_transaction_edit_title);
         } else {
             setUpCreateDialog(builder);
         }
@@ -170,14 +170,14 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
     private void setUpDialogOptions(AlertDialog.Builder builder) {
         builder
-            .setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                     //Nothing to do here
                 }
             })
             //defines what happens when dialog is submitted
-            .setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int which) {
                     submitTransaction();
@@ -186,7 +186,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
     }
 
     private void setUpCreateDialog(AlertDialog.Builder builder) {
-        builder.setTitle(R.string.transaction_dialog_title_new);
+        builder.setTitle(R.string.dialog_transaction_create_title);
 
         //Fill the date field with the date 'now'
         Calendar cal = Calendar.getInstance();
@@ -243,7 +243,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
         }
 
         if (tmpAmount == 0) {
-            Toast toast = Toast.makeText(getContext(), getString(R.string.dialog_toast_0), Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getContext(), getString(R.string.dialog_transaction_zero_value_impossible_msg), Toast.LENGTH_LONG);
             toast.show();
         } else {
             boolean isExpense = false;
@@ -264,7 +264,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
             //Save the edited/created transaction
             viewModel.editOrInsertTransaction(transactionObject);
 
-            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.activity_transaction_saved_msg, Toast.LENGTH_SHORT).show();
 
             //TODO: I don't think this should be done this way. But works for now.
             Intent intent = new Intent(getActivity(), MainActivity.class);

@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/version_number" />
+                android:text="@string/activity_about_version" />
 
 
         </RelativeLayout>
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="@string/about_author" />
+            android:text="@string/activity_about_authors" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                 android:id="@+id/textFieldAuthorNames"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/about_author_names" />
+                android:text="@string/activity_about_authors_names" />
 
             <TextView
                 android:id="@+id/textFieldContributors"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_toEndOf="@+id/textFieldAuthorNames"
-                android:text="@string/about_author_contributors" />
+                android:text="@string/activity_about_authors_contributors" />
 
         </RelativeLayout>
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:text="@string/about_affiliation"
+            android:text="@string/activity_about_affiliation"
             android:textStyle="bold" />
 
         <ImageView
@@ -114,7 +114,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="@string/privacy_friendly" />
+            android:text="@string/activity_about_belongs" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:gravity="center"
-            android:text="@string/more_info" />
+            android:text="@string/activity_about_more_info" />
 
         <TextView
             android:id="@+id/secusoWebsite"
@@ -139,7 +139,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:text="@string/github" />
+            android:text="@string/activity_about_github_link" />
 
     </LinearLayout>
 

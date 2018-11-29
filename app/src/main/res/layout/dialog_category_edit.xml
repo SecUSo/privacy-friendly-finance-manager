@@ -13,7 +13,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:hint="@string/dialog_category_hint_name"
+        android:hint="@string/dialog_category_name_hint"
         android:inputType="text"
         android:singleLine="false"
         android:maxLength="15"/>

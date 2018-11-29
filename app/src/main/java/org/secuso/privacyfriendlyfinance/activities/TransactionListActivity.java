@@ -154,19 +154,19 @@ public abstract class TransactionListActivity extends BaseActivity {
 
     private void deleteItem(final int indexToDelete) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.transaction_delete_dialog_title)
-                .setPositiveButton(R.string.transaction_delete_dialog_positive, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.dialog_delete_transaction_title)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        transactionDao.deleteAsync(transactions.get(indexToDelete));
 
-                        Toast.makeText(TransactionListActivity.this, R.string.toast_delete, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
 
                         Intent main = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(main);
                     }
                 })
-                .setNegativeButton(R.string.transaction_delete_dialog_negative, null);
+                .setNegativeButton(R.string.cancel, null);
 
         AlertDialog alert = builder.create();
         alert.show();

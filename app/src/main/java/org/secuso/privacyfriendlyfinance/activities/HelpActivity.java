@@ -51,11 +51,11 @@ public class HelpActivity extends BaseActivity {
     private LinkedHashMap<String, List<String>> buildData() {
         LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<String, List<String>>();
 
-        expandableListDetail.put(getString(R.string.help_whatis), Collections.singletonList(getString(R.string.help_whatis_answer)));
-        expandableListDetail.put(getString(R.string.help_feature_one), Collections.singletonList(getString(R.string.help_feature_one_answer)));
-        expandableListDetail.put(getString(R.string.help_feature_two), Collections.singletonList(getString(R.string.help_feature_two_answer)));
-        expandableListDetail.put(getString(R.string.help_privacy), Collections.singletonList(getString(R.string.help_privacy_answer)));
-        expandableListDetail.put(getString(R.string.help_permission), Collections.singletonList(getString(R.string.help_permission_answer)));
+        expandableListDetail.put(getString(R.string.activity_help_question_whatis), Collections.singletonList(getString(R.string.activity_help_answer_whatis)));
+        expandableListDetail.put(getString(R.string.activity_help_question_one), Collections.singletonList(getString(R.string.activity_help_answer_one)));
+        expandableListDetail.put(getString(R.string.activity_help_question_two), Collections.singletonList(getString(R.string.activity_help_answer_two)));
+        expandableListDetail.put(getString(R.string.activity_help_question_privacy), Collections.singletonList(getString(R.string.activity_help_answer_privacy)));
+        expandableListDetail.put(getString(R.string.activity_help_question_permission), Collections.singletonList(getString(R.string.activity_help_answer_permission)));
 
         return expandableListDetail;
     }

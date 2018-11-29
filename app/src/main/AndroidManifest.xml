@@ -50,7 +50,7 @@
         </activity>
         <activity
             android:name=".activities.AboutActivity"
-            android:label="@string/about"
+            android:label="@string/activity_about_title"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -69,7 +69,7 @@
         <activity android:name=".activities.StartupActivity" />
         <activity
             android:name=".activities.AccountsActivity"
-            android:label="@string/title_activity_account"
+            android:label="@string/activity_accounts_label"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -78,7 +78,7 @@
         </activity>
         <activity
             android:name=".activities.CategoryActivity"
-            android:label="@string/title_activity_category"
+            android:label="@string/activity_category_label"
             android:parentActivityName=".activities.CategoryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -87,7 +87,7 @@
         </activity>
         <activity
             android:name=".activities.AccountActivity"
-            android:label="@string/title_activity_account"
+            android:label="@string/activity_account_label"
             android:parentActivityName=".activities.AccountsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

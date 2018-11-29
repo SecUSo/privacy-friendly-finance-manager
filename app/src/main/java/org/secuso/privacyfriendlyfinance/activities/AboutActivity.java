@@ -53,7 +53,7 @@ public class AboutActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
 
         TextView tv =findViewById(R.id.textFieldVersion);
-        tv.setText(getString(R.string.version_number, BuildConfig.VERSION_NAME));
+        tv.setText(getString(R.string.activity_about_version, BuildConfig.VERSION_NAME));
 
         ((TextView)findViewById(R.id.secusoWebsite)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView)findViewById(R.id.githubURL)).setMovementMethod(LinkMovementMethod.getInstance());

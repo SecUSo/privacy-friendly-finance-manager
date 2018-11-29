@@ -1,121 +1,99 @@
 <resources>
+    <!-- ### A P P ### -->
     <string name="app_name">Finance Manager</string>
     <string name="app_name_long">Finance Manager</string>
 
-    <!-- ###DATE AND TIME MANAGEMENT### -->
+    <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
     <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
 
-    <!-- ###DRAWER###-->
-    <string name="action_help">Help</string>
-    <string name="action_about">About</string>
-    <string name="action_main">Transaction Overview</string>
-    <string name="action_tutorial">Tutorial</string>
-    <string name="action_category">Categories</string>
-
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- ###MAIN### -->
-    <string name="totalBalance">Balance</string>
-    <string name="deleteItem">delete</string>
-    <string name="editItem">edit</string>
-    <string name="legend_amount">amount</string>
-    <string name="legend_name">title</string>
-    <string name="legend_date">date</string>
-
-
-    <!-- ###CATEGORY###-->
-    <string name="category">Categories</string>
-    <string name="dialog_category_hint_name">category title</string>
-    <string name="dialog_category_title">New Category</string>
-    <string name="dialog_category_edit">Edit Category</string>
-
-    <string name="category_legend_balance">Balance</string>
-    <string name="category_legend_name">Name</string>
-    <string name="firstCategoryName">Standard</string>
-    <string name="category_name">Category</string>
-
-
-    <!--###HELP###-->
+    <!-- ### G E N E R A L ### -->
+    <string name="balance">Balance</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="amount">amount</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
     <string name="help">Help</string>
-
-    <string name="help_whatis">What is Privacy Friendly Finance Manager?</string>
-    <string name="help_whatis_answer">The Privacy Friendly Finance Manager is an app to monitor personal income and expenses.</string>
-    <string name="help_feature_one">How do I manage my income and expenses?</string>
-    <string name="help_feature_one_answer">A financial transaction, either income or expense, can be added to your financial history by using the + button in the toolbar. The list of financial transactions appears in the navigation menu and can be called there. Items inside the transaction list can be edited and deleted.</string>
-    <string name="help_feature_two">How can I categorize my expenses?</string>
-    <string name="help_feature_two_answer">If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</string>
-    <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Finance Manager does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
-    <string name="help_permission">Which permissions requires the app?</string>
-    <string name="help_permission_answer">Privacy Friendly App Finance Manager does not require any permission.</string>
-
-    <!--###ABOUT###-->
-    <string name="about">About</string>
-    <string name="version_number">Version v%s</string>
-    <string name="about_author">Authors: </string>
-    <string name="about_author_names" translatable="false">David Meiborg</string>
-    <string name="about_author_contributors">and contributors.</string>
-    <string name="about_affiliation">In affiliation with</string>
-    <string name="privacy_friendly">This application belongs to the group of Privacy Friendly Apps developed by Karlsruher Institute for Technology (KIT). Sourcecode licensed under GPLv3. Images copyright KIT and Google Inc.</string>
-    <string name="more_info">More information can be found on:</string>
-    <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
-    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
-
-    <!--###Transaction###-->
-    <string name="transaction_dialog_title_new">New Transaction</string>
-    <string name="transaction_dialog_title_edit">Edit Transaction</string>
-    <string name="transaction_dialog_submit">Submit</string>
-    <string name="transaction_dialog_cancel">Cancel</string>
-    <string name="transaction_dialog_hint_expense_name">title</string>
-    <string name="transaction_dialog_hint_expense_value">enter amount</string>
-    <string name="transaction_dialog_radio_button_income">Income</string>
-    <string name="transaction_dialog_radio_button_expense">Expense</string>
-    <string name="transaction_dialog_hint_date">enter date</string>
-
-    <string name="edit_dialog_title">Edit Transaction</string>
-    <string name="edit_dialog_submit">Submit</string>
-    <string name="edit_dialog_cancel">Cancel</string>
-
-    <string name="transaction_delete_dialog_title">Do you want to delete this transaction?</string>
-    <string name="transaction_delete_dialog_positive">Ok</string>
-    <string name="transaction_delete_dialog_negative">Cancel</string>
-
-
-    <!--###Account###-->
-    <string name="account_card_balance_month">Beginning of this month:</string>
-
-    <!-- ### TOASTS ### -->
-    <string name="toast_new_entry">Transaction is saved</string>
-    <string name="toast_delete">Transaction is deleted</string>
-    <string name="toast_update">Transaction is updated</string>
-    <string name="dialog_toast_0">In order to save your transaction, please change your amount from 0 to a value.</string>
-    <string name="dialog_category_toast">The category must have a name.</string>
-    <string name="category_deletion_standard">This category cannot be deleted or edited.</string>
-
-
-    <!-- ### TUTORIAL DIALOG ### -->
-    <string name="slide1_heading">Welcome!</string>
-    <string name="slide1_text">Welcome to your privacy friendly Finance Manager. This app does not use any permissions.</string>
-
-    <string name="slide2_heading">Finance Manager</string>
-    <string name="slide2_text">You can manage your finances by tracking your earnings and expenses.</string>
-
-    <string name="slide4_heading">New Transactions</string>
-    <string name="slide4_text">You can create new expenses by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. </string>
-
-    <string name="slide3_heading">Transaction Overview</string>
-    <string name="slide3_text">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
-
-    <string name="slide5_heading">Categories</string>
-    <string name="slide5_text">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
-
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
     <string name="okay">Okay</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
-    <string name="title_activity_account">AccountActivity</string>
+
+    <!-- ### N A V _ B A R ###-->
+    <string name="nav_help_action">Help</string>
+    <string name="nav_about_action">About</string>
+    <string name="nav_main_action">Transaction Overview</string>
+    <string name="nav_tutorial_action">Tutorial</string>
+    <string name="nav_category_action">Categories</string>
+    <string name="nav_drawer_toggle_open_desc">Open navigation drawer</string>
+    <string name="nav_drawer_toggle_close_desc">Close navigation drawer</string>
+
+
+    <!--### H E L P ###-->
+    <string name="activity_help_question_whatis">What is Privacy Friendly Finance Manager?</string>
+    <string name="activity_help_answer_whatis">The Privacy Friendly Finance Manager is an app to monitor personal income and expenses.</string>
+    <string name="activity_help_question_one">How do I manage my income and expenses?</string>
+    <string name="activity_help_answer_one">A financial transaction, either income or expense, can be added to your financial history by using the + button in the toolbar. The list of financial transactions appears in the navigation menu and can be called there. Items inside the transaction list can be edited and deleted.</string>
+    <string name="activity_help_question_two">How can I categorize my expenses?</string>
+    <string name="activity_help_answer_two">If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</string>
+    <string name="activity_help_question_privacy">What makes the app privacy-friendly?</string>
+    <string name="activity_help_answer_privacy">Privacy Friendly App Finance Manager does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
+    <string name="activity_help_question_permission">Which permissions requires the app?</string>
+    <string name="activity_help_answer_permission">Privacy Friendly App Finance Manager does not require any permission.</string>
+
+    <!--### A B O U T ###-->
+    <string name="activity_about_title">About</string>
+    <string name="activity_about_version">Version v%s</string>
+    <string name="activity_about_authors">Authors: </string>
+    <string name="activity_about_authors_names" translatable="false">David Meiborg</string>
+    <string name="activity_about_authors_contributors">and contributors.</string>
+    <string name="activity_about_affiliation">In affiliation with</string>
+    <string name="activity_about_belongs">This application belongs to the group of Privacy Friendly Apps developed by Karlsruher Institute for Technology (KIT). Sourcecode licensed under GPLv3. Images copyright KIT and Google Inc.</string>
+    <string name="activity_about_more_info">More information can be found on:</string>
+    <string name="activity_about_github_link" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
+    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+
+    <!-- ### C A T E G O R Y ###-->
+    <string name="category">Category</string>
+    <string name="category_plural">Categories</string>
+    <string name="dialog_category_name_hint">Category name</string>
+    <string name="dialog_category_create_title">New Category</string>
+    <string name="dialog_category_edit_title">Edit Category</string>
+    <string name="dialog_category_empty_name_impossible_msg">The category must have a name.</string>
+    <string name="category_default_category_name">Default</string>
+    <string name="activity_category_label">Category activity</string>
+
+    <!--### T R A N S A C T I O N ###-->
+    <string name="activity_transaction_saved_msg">Transaction saved</string>
+    <string name="activity_transaction_deleted_msg">Transaction deleted</string>
+    <string name="activity_transaction_updated_msg">Transaction updated</string>
+    <string name="dialog_transaction_create_title">New Transaction</string>
+    <string name="dialog_transaction_edit_title">Edit Transaction</string>
+    <string name="dialog_transaction_name_hint">Title</string>
+    <string name="dialog_transaction_value_hint">Enter amount</string>
+    <string name="dialog_transaction_radio_button_income_action">Income</string>
+    <string name="dialog_transaction_radio_button_expense_action">Expense</string>
+    <string name="dialog_transaction_date_hint">Enter date</string>
+    <string name="dialog_transaction_zero_value_impossible_msg">In order to save your transaction, please change your amount from 0 to a value.</string>
+    <string name="dialog_delete_transaction_title">Do you want to delete this transaction?</string>
+
+    <!--### A C C O U N T ###-->
+    <string name="activity_account_beginning_month">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
-    <string name="title_activity_category">CategoryActivity</string>
+    <string name="activity_account_label">Account activity</string>
+    <string name="activity_accounts_label">Accounts activity</string>
+
+    <!-- ### T U T O R I A L ### -->
+    <string name="activity_tutorial_slide1_title">Welcome!</string>
+    <string name="activity_tutorial_slide1_msg">Welcome to your privacy friendly Finance Manager. This app does not use any permissions.</string>
+    <string name="activity_tutorial_slide2_title">Finance Manager</string>
+    <string name="activity_tutorial_slide2_msg">You can manage your finances by tracking your earnings and expenses.</string>
+    <string name="activity_tutorial_slide3_title">New Transactions</string>
+    <string name="activity_tutorial_slide3_msg">You can create new expenses by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. </string>
+    <string name="activity_tutorial_slide4_title">Transaction Overview</string>
+    <string name="activity_tutorial_slide4_msg">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
+    <string name="activity_tutorial_slide5_title">Categories</string>
+    <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
 
 </resources>

@@ -90,7 +90,7 @@ public class CategoriesActivity extends BaseActivity {
         Category tmp = categoriesViewModel.getAllCategories().getValue().get(menuInfo.position);
         if (item.getItemId() == R.id.menuItem_deleteCategory) {
             categoriesViewModel.deleteCategory(tmp);
-            Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.menuItem_editCategory) {
             openCategoryDialog(tmp);

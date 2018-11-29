@@ -223,7 +223,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, toolbar, R.string.nav_drawer_toggle_open_desc, R.string.nav_drawer_toggle_close_desc);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 

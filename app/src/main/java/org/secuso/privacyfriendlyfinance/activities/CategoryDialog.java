@@ -62,10 +62,10 @@ public class CategoryDialog extends AppCompatDialogFragment {
         // Title
         long id = getArguments().getLong(EXTRA_CATEGORY_ID, -1L);
         if (id == -1L) {
-            builder.setTitle(R.string.dialog_category_title);
+            builder.setTitle(R.string.dialog_category_create_title);
             category = new Category();
         } else {
-            builder.setTitle(R.string.dialog_category_edit);
+            builder.setTitle(R.string.dialog_category_edit_title);
             categoryDao.get(id).observe(this, new Observer<Category>() {
                 @Override
                 public void onChanged(@Nullable Category category) {
@@ -94,13 +94,13 @@ public class CategoryDialog extends AppCompatDialogFragment {
     private void saveCategory() {
         String categoryName = editTextName.getText().toString().trim();
         if (categoryName.isEmpty()) {
-            Toast.makeText(getContext(), getString(R.string.dialog_category_toast), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.dialog_category_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
         } else {
             category.setName(categoryName);
 
             categoryDao.updateOrInsertAsync(category, null);
 
-            Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.activity_transaction_saved_msg, Toast.LENGTH_SHORT).show();
 
             //TODO: Is this really done like this?
             Intent intent = new Intent(getActivity(), CategoriesActivity.class);
@@ -109,13 +109,13 @@ public class CategoryDialog extends AppCompatDialogFragment {
     }
 
     private void setUpDialogOptions(AlertDialog.Builder builder) {
-        builder.setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
             }
         });
 
-        builder.setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 saveCategory();
