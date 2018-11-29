@@ -17,8 +17,11 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +42,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
+import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
 
 /**
  * @author Christopher Beckmann, Karola Marky, Felix Hofmann, Leonard Otto
@@ -66,16 +71,41 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     // Helper
     private Handler mHandler;
     protected SharedPreferences mSharedPreferences;
+    protected BaseViewModel viewModel;
+
+
+    protected abstract Class<? extends BaseViewModel> getViewModelClass();
+
+    protected BaseViewModel getViewModel() {
+        return ViewModelProviders.of(this).get(getViewModelClass());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler();
-
         overridePendingTransition(0, 0);
 
-        setContentView(R.layout.activity_base);
+        viewModel = getViewModel();
+        ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
+        binding.setViewModel(viewModel);
+
+       viewModel.getTitle().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String title) {
+                BaseActivity.this.setTitle(title);
+            }
+        });
+
+       viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer navigationDrawerId) {
+                if (navigationDrawerId == null) navigationDrawerId = -1;
+                selectNavigationItem(navigationDrawerId);
+            }
+        });
+
         contentWrapper = findViewById(R.id.content_wrapper);
         inflater = LayoutInflater.from(contentWrapper.getContext());
     }
@@ -112,8 +142,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         }
     }
 
-    protected abstract int getNavigationDrawerID();
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         final int itemId = item.getItemId();
@@ -122,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     }
 
     protected boolean goToNavigationItem(final int itemId) {
-        if (itemId == getNavigationDrawerID()) {
+        if (itemId == viewModel.getNavigationDrawerId().getValue()) {
             // just close drawer because we are already in this activity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -229,8 +257,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        selectNavigationItem(getNavigationDrawerID());
 
         if (contentWrapper != null) {
             contentWrapper.setAlpha(0);

@@ -12,12 +12,18 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 public class AccountsActivity extends BaseActivity implements OnItemClickListener<Account> {
     private AccountsViewModel viewModel;
     private RecyclerView recyclerView;
     private AccountsAdapter accountsAdapter;
+
+    @Override
+    protected Class<? extends BaseViewModel> getViewModelClass() {
+        return BaseViewModel.class;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +46,6 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(accountsAdapter);
-    }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_account;
     }
 
     private void addAccount() {

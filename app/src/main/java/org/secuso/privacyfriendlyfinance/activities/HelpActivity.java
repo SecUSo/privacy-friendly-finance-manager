@@ -22,6 +22,7 @@ import android.widget.ExpandableListView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.HelpExpandableListAdapter;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,11 @@ import java.util.List;
  *
  */
 public class HelpActivity extends BaseActivity {
+
+    @Override
+    protected Class<? extends BaseViewModel> getViewModelClass() {
+        return BaseViewModel.class;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
