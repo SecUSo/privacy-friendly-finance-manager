@@ -14,7 +14,6 @@ import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
-import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
 import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 import org.secuso.privacyfriendlyfinance.domain.legacy.MigrationFromUnencrypted;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
@@ -30,7 +29,7 @@ import java.io.File;
     exportSchema = false,
     version = 5
 )
-@TypeConverters({DateTimeConverter.class, LocalDateConverter.class})
+@TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "encryptedDB";
     private static InitDatabaseTask initTask;

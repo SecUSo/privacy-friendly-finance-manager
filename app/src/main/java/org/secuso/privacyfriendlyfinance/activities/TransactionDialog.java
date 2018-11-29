@@ -17,14 +17,17 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -33,15 +36,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
-import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
-import org.secuso.privacyfriendlyfinance.domain.convert.DateTimeConverter;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel;
 import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -54,6 +53,10 @@ import java.util.List;
  * @author David Meiborg
  */
 public class TransactionDialog extends AppCompatDialogFragment {
+    public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
+    public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
+    public static final String EXTRA_TRANSACTION_ID = "org.secuso.privacyfriendlyfinance.EXTRA_TRANSACTION_ID";
+
     private EditText editTextTitle;
     private EditText editTextAmount;
     private TextView editTextDate;
@@ -62,7 +65,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private RadioGroup radioGroupType;
     private Spinner categorySpinner;
 
+    private TransactionDialogViewModel viewModel;
+
     private Transaction transactionObject;
+    private long transactionId = -1L;
+    private long preselectedAccountId = -1L;
+    private long preselectedCategoryId = -1L;
 
 
     //opens Dialog with layout defined in dialog.xml
@@ -72,8 +80,65 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.transaction_dialog, null);
+        builder.setView(view);
 
-        // Create views
+        getViewElements(view);
+
+        //Handle the arguments given to this dialog
+        boolean editingExistingTransaction = false;
+        transactionObject = new Transaction();
+        {
+            Bundle arguments = getArguments();
+            transactionId = arguments.getLong(EXTRA_TRANSACTION_ID, -1L);
+            if (transactionId == -1L) {
+                editingExistingTransaction = false;
+            } else {
+                editingExistingTransaction = true;
+            }
+            preselectedAccountId = arguments.getLong(EXTRA_ACCOUNT_ID, -1L);
+            preselectedCategoryId = arguments.getLong(EXTRA_CATEGORY_ID, -1L);
+        }
+
+        setUpViewElements(builder, editingExistingTransaction);
+
+        setUpDialogOptions(builder);
+
+        return builder.create();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
+        viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
+            @Override
+            public void onChanged(@Nullable List<Account> accounts) {
+                //TODO: account spinner
+            }
+        });
+        viewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+                categorySpinner.setAdapter(new ArrayAdapter<Category>(getActivity(),
+                        R.layout.support_simple_spinner_dropdown_item, categories));
+            }
+        });
+        if (transactionId != -1L) {
+            viewModel.getTransactionById(transactionId).observe(this, new Observer<Transaction>() {
+                @Override
+                public void onChanged(@Nullable Transaction transaction) {
+                    TransactionDialog.this.transactionObject = transaction;
+
+                    editTextTitle.setText(transaction.getName());
+                    editTextAmount.setText(String.valueOf(transaction.getAmount()));
+                    editTextDate.setText(transaction.getDateAsString());
+                }
+            });
+        }
+    }
+
+    private void getViewElements(View view) {
         editTextTitle = view.findViewById(R.id.dialog_expense_title);
         editTextAmount = view.findViewById(R.id.dialog_expense_amount);
         editTextDate = view.findViewById(R.id.dialog_expense_date);
@@ -82,44 +147,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
         radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
         radioGroupType = view.findViewById(R.id.radioGroup_type);
         categorySpinner = view.findViewById(R.id.category_spinner);
+    }
 
+    private void setUpViewElements(AlertDialog.Builder builder, boolean editingExistingTransaction) {
         radioButtonExpense.setChecked(true);
         radioButtonIncome.setChecked(false);
 
-        //Retrieve categories and put them in the spinner
-        {
-            CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
-            categoryDao.getAllAsync(new TaskListener() {
-                @Override
-                public void onDone(Object result, AsyncTask<?, ?, ?> task) {
-                    List<Category> categories = (List<Category>) result;
-                    System.out.println("########################");
-                    System.out.println("########################");
-                    System.out.println("#########category#######");
-                    System.out.println(categories.size());
-                    System.out.println("########################");
-                    System.out.println("########################");
-                    System.out.println("########################");
-                    categorySpinner.setAdapter(new CategoryArrayAdapter(getActivity(), categories));
-                }
-            });
-        }
-
-        // Create buttons
-        builder.setView(view)
-                .setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        //Nothing to do here
-                    }
-                })
-                //defines what happens when dialog is submitted
-                .setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        submitTransaction();
-                    }
-                });
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,47 +160,29 @@ public class TransactionDialog extends AppCompatDialogFragment {
             }
         });
 
-        //Handle the arguments given to this dialog
-        boolean editingExistingTransaction = false;
-        transactionObject = new Transaction();
-        {
-            Bundle arguments = getArguments();
-            long id = arguments.getLong("transactionId", -1L);
-            if (id == -1L) {
-                editingExistingTransaction = false;
-            } else {
-                editingExistingTransaction = true;
-
-                transactionObject.setId(id);
-                transactionObject.setAmount(arguments.getLong("transactionAmount", -1L));
-                //DATE
-                {
-                    String dateArg = arguments.getString("transactionDate", "ERROR");
-                    if (dateArg.equals("ERROR")) {
-                        transactionObject.setDate(LocalDate.now());
-                    } else {
-                        transactionObject.setDate(LocalDateConverter.fromString(dateArg));
-                    }
-                }
-                transactionObject.setName(arguments.getString("transactionName", "ERROR"));
-            }
-        }
-
         //Do edit/setup specific things
         if (editingExistingTransaction) {
-            setUpEditDialog(builder);
+            builder.setTitle(R.string.transaction_dialog_title_edit);
         } else {
             setUpCreateDialog(builder);
         }
-
-        return builder.create();
     }
 
-    private void setUpEditDialog(AlertDialog.Builder builder) {
-        builder.setTitle(R.string.transaction_dialog_title_edit);
-        editTextTitle.setText(transactionObject.getName());
-        editTextAmount.setText(String.valueOf(transactionObject.getAmount()));
-        editTextDate.setText(transactionObject.getDateAsString());
+    private void setUpDialogOptions(AlertDialog.Builder builder) {
+        builder
+            .setNegativeButton(R.string.transaction_dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                    //Nothing to do here
+                }
+            })
+            //defines what happens when dialog is submitted
+            .setPositiveButton(R.string.transaction_dialog_submit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int which) {
+                    submitTransaction();
+                }
+            });
     }
 
     private void setUpCreateDialog(AlertDialog.Builder builder) {
@@ -179,23 +194,25 @@ public class TransactionDialog extends AppCompatDialogFragment {
         int month = cal.get(Calendar.MONTH) + 1;
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-        DateTime dt = new DateTime().withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
-        editTextDate.setText(DateTimeConverter.datetimeToString(dt));
+//        DateTime dt = new DateTime().withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
+        LocalDate ld = new LocalDate(year, month, dayOfMonth);
+        editTextDate.setText(LocalDateConverter.dateToString(ld));
     }
 
     private void dateSet(int year, int month, int dayOfMonth) {
-        DateTime dt = new DateTime();
-        dt = dt.withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
+//        DateTime dt = new DateTime();
+//        dt = dt.withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
+        LocalDate ld = new LocalDate(year, month, dayOfMonth);
 
-        editTextDate.setText(DateTimeConverter.datetimeToString(dt));
+        editTextDate.setText(LocalDateConverter.dateToString(ld));
     }
 
     private void openDatePicker() {
         //Open the date picker on the day that is already set
-        DateTime dt = DateTimeConverter.fromString(editTextDate.getText().toString());
-        int year = dt.getYear();
-        int month = dt.getMonthOfYear() + 1;
-        int day = dt.getDayOfMonth();
+        LocalDate ld = LocalDateConverter.fromString(editTextDate.getText().toString());
+        int year = ld.getYear();
+        int month = ld.getMonthOfYear() + 1;
+        int day = ld.getDayOfMonth();
 
         DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -211,6 +228,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         long tmpAmount = -1L;
         if (editTextAmount.getText().toString() == null) {
+            //TODO: error message?
             return;
         } else {
             try {
@@ -244,7 +262,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
             transactionObject.setDate(LocalDateConverter.fromString(tmpDate));
 
             //Save the edited/created transaction
-            FinanceDatabase.getInstance().transactionDao().updateOrInsertAsync(transactionObject, null);
+            viewModel.editOrInsertTransaction(transactionObject);
 
             Toast.makeText(getContext(), R.string.toast_new_entry, Toast.LENGTH_SHORT).show();
 

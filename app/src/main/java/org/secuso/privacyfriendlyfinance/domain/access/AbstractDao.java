@@ -49,6 +49,9 @@ public abstract class AbstractDao<E extends AbstractEntity> {
         };
         return listenAndExec(task, listener);
     }
+    public CommunicantAsyncTask<?, Long> updateOrInsertAsync(final E entity) {
+        return updateOrInsertAsync(entity, null);
+    }
 
     public CommunicantAsyncTask<?, LiveData<E>> getAsync(final long id, TaskListener listener) {
         final AbstractDao<E> t = this;

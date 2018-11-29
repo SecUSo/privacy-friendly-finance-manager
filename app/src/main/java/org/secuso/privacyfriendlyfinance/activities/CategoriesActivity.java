@@ -70,7 +70,7 @@ public class CategoriesActivity extends BaseActivity {
 
     private void setUpViewModel() {
         categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
-        categoriesViewModel.getCategories().observe(this, new Observer<List<Category>>() {
+        categoriesViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(@Nullable List<Category> categories) {
                 listViewCategoryList.setAdapter(new CategoryArrayAdapter(CategoriesActivity.this, categories));
@@ -87,7 +87,7 @@ public class CategoriesActivity extends BaseActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Category tmp = categoriesViewModel.getCategories().getValue().get(menuInfo.position);
+        Category tmp = categoriesViewModel.getAllCategories().getValue().get(menuInfo.position);
         if (item.getItemId() == R.id.menuItem_deleteCategory) {
             categoriesViewModel.deleteCategory(tmp);
             Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();

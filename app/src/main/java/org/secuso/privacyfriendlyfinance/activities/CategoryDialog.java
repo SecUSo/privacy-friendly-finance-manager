@@ -63,6 +63,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
         long id = getArguments().getLong(EXTRA_CATEGORY_ID, -1L);
         if (id == -1L) {
             builder.setTitle(R.string.dialog_category_title);
+            category = new Category();
         } else {
             builder.setTitle(R.string.dialog_category_edit);
             categoryDao.get(id).observe(this, new Observer<Category>() {
@@ -77,6 +78,13 @@ public class CategoryDialog extends AppCompatDialogFragment {
         setUpDialogOptions(builder);
 
         return builder.create();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
     }
 
     private void getViewElements(View view) {

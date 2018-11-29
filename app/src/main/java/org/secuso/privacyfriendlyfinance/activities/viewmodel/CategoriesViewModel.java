@@ -1,26 +1,34 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 import java.util.List;
 
-public class CategoriesViewModel extends ViewModel {
-    private LiveData<List<Category>> categories = FinanceDatabase.getInstance().categoryDao().getAll();
+public class CategoriesViewModel extends AndroidViewModel {
+    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
 
-    public LiveData<List<Category>> getCategories() {
+    private LiveData<List<Category>> categories = categoryDao.getAll();
+
+    public CategoriesViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
         return categories;
     }
 
     public void deleteCategory(Category category) {
-        categories.getValue().remove(category);
-        //TODO: notify someone?
+        categoryDao.deleteAsync(category);
     }
 
     public void updateOrInsertCategory(Category category) {
-        //TODO: how?
+        categoryDao.updateOrInsertAsync(category);
     }
 }
