@@ -23,6 +23,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.TaskStackBuilder;
@@ -31,6 +34,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -61,6 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
+    private CoordinatorLayout contentWrapper;
+    private LayoutInflater inflater;
+
     // Helper
     private Handler mHandler;
     protected SharedPreferences mSharedPreferences;
@@ -68,16 +75,36 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler();
 
         overridePendingTransition(0, 0);
+
+        setContentView(R.layout.activity_base);
+        contentWrapper = findViewById(R.id.content_wrapper);
+        inflater = LayoutInflater.from(contentWrapper.getContext());
+    }
+
+    protected final View addContentLayout(@LayoutRes int layout) {
+        return inflater.inflate(layout, contentWrapper);
+    }
+
+    protected final FloatingActionButton addFab(@LayoutRes int layout, View.OnClickListener listener) {
+        FloatingActionButton fab = (FloatingActionButton) inflater.inflate(layout, contentWrapper, false);
+        contentWrapper.addView(fab);
+        if (listener != null) {
+            fab.setOnClickListener(listener);
+        }
+        return fab;
+    }
+
+    protected final FloatingActionButton addFab(@LayoutRes int layout) {
+        return addFab(layout, null);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -190,18 +217,18 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
         }
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         selectNavigationItem(getNavigationDrawerID());

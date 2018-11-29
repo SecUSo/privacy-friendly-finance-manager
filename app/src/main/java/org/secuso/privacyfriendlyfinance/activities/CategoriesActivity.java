@@ -51,31 +51,21 @@ public class CategoriesActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
 
-        findViewElements();
-
-        setUpViewElements();
-
-        setUpViewModel();
-    }
-
-    private void findViewElements() {
-        btAddCategory = findViewById(R.id.add_category);
-        listViewCategoryList = findViewById(R.id.categoryList);
-    }
-
-    private void setUpViewElements() {
-        btAddCategory.setOnClickListener(new View.OnClickListener() {
+        addContentLayout(R.layout.content_categories);
+        btAddCategory = addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCategoryDialog(null);
             }
         });
 
+        listViewCategoryList = findViewById(R.id.categoryList);
         listViewCategoryList.setAdapter(new CategoryArrayAdapter(CategoriesActivity.this,
                 new ArrayList<Category>()));
         registerForContextMenu(listViewCategoryList);
+
+        setUpViewModel();
     }
 
     private void setUpViewModel() {

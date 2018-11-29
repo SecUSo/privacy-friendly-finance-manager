@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
@@ -23,26 +22,24 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         viewModel = ViewModelProviders.of(this).get(AccountsViewModel.class);
         accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
         accountsAdapter.onItemClick(this);
 
-        setContentView(R.layout.activity_accounts);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        addContentLayout(R.layout.content_accounts);
+        addFab(R.layout.fab_add, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAccount();
+            }
+        });
 
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(accountsAdapter);
-
-        findViewById(R.id.fab_addaccount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addAccount();
-            }
-        });
     }
 
     @Override

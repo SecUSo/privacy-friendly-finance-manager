@@ -86,8 +86,13 @@ public abstract class TransactionListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
 
-        setContentView(R.layout.activity_transaction_list);
-        overridePendingTransition(0, 0);
+        addContentLayout(R.layout.content_transaction_list);
+        btAddTransaction = addFab(R.layout.fab_add, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTransactionDialog(null);
+            }
+        });
 
         getViewElements();
 
@@ -96,14 +101,6 @@ public abstract class TransactionListActivity extends BaseActivity {
 
     private void fillViewElements() {
         setTitle(getTransactionListTitle());
-
-        //Plus Button opens Dialog to add a new Transaction
-        btAddTransaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openTransactionDialog(null);
-            }
-        });
 
 
         String balanceText = getTotalBalanceText();
@@ -114,19 +111,9 @@ public abstract class TransactionListActivity extends BaseActivity {
         } else {
             tvBalance.setText(balanceText);
         }
-
-//        // Open transaction edit dialog on click on list item
-//        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                openTransactionDialog(transactions.get(position));
-//            }
-//        });
-//        registerForContextMenu(listViewTransactionList);
     }
 
     private void getViewElements() {
-        btAddTransaction = findViewById(R.id.bt_addTransaction);
         listViewTransactionList = findViewById(R.id.listView_transactionList);
         tvBalance = findViewById(R.id.tv_totalBalance);
         separator = findViewById(R.id.separator);
