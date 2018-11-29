@@ -86,7 +86,7 @@ public abstract class TransactionListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
 
-        addContentLayout(R.layout.content_transaction_list);
+        setContent(R.layout.content_transaction_list);
         btAddTransaction = addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
