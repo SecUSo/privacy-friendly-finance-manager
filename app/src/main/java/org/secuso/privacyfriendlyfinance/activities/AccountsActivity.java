@@ -1,6 +1,5 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,14 +21,14 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
     @Override
     protected Class<? extends BaseViewModel> getViewModelClass() {
-        return BaseViewModel.class;
+        return AccountsViewModel.class;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(AccountsViewModel.class);
+        viewModel = (AccountsViewModel) super.viewModel;
         accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
         accountsAdapter.onItemClick(this);
 

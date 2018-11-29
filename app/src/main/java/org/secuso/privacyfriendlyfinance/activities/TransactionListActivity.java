@@ -54,13 +54,10 @@ public abstract class TransactionListActivity extends BaseActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
 
-
         btAddTransaction = addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbg++;
-                viewModel.setTitle("asdf " + dbg);
-//                openTransactionDialog(null);
+                openTransactionDialog(null);
             }
         });
 

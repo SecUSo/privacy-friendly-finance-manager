@@ -11,7 +11,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 public class TransactionListViewModel extends BaseViewModel {
-    private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    protected final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
     private LiveData<Long> balance;
     private LiveData<List<Transaction>> transactions;
     private long preselectedCategoryId = -1L;

@@ -21,7 +21,7 @@ public class CategoriesViewModel extends BaseViewModel {
         setNavigationDrawerId(R.id.nav_category);
     }
 
-    public LiveData<List<Category>> getAllCategories() {
+    public LiveData<List<Category>> getCategories() {
         return categories;
     }
 

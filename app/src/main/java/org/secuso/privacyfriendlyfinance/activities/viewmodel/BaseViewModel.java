@@ -27,6 +27,6 @@ public class BaseViewModel extends AndroidViewModel {
     }
 
     public void setNavigationDrawerId(Integer navigationDrawerId) {
-        this.navigationDrawerId.postValue(navigationDrawerId);
+        this.navigationDrawerId.setValue(navigationDrawerId);
     }
 }

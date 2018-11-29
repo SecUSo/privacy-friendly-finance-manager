@@ -17,6 +17,7 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -105,6 +106,9 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 selectNavigationItem(navigationDrawerId);
             }
         });
+
+        mNavigationView = findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         contentWrapper = findViewById(R.id.content_wrapper);
         inflater = LayoutInflater.from(contentWrapper.getContext());
@@ -255,8 +259,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        mNavigationView = findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
+
 
         if (contentWrapper != null) {
             contentWrapper.setAlpha(0);

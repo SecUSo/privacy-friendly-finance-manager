@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
@@ -32,17 +31,6 @@ public class AccountsAdapter extends EntityListAdapter<Account, AccountViewHolde
         Account account = getItem(index);
         holder.getTvAccountName().setText(account.getName());
         holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
-        holder.getTvAccountBalanceCurrent().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDebugToast("Clicked on balance");
-            }
-        });
-        //TODO: Fill in the right value...
         holder.getTvAccountBalanceMonth().setText(String.valueOf(42));
-    }
-
-    private void showDebugToast(String text) {
-        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 }

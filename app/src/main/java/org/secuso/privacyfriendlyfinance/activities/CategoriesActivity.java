@@ -16,26 +16,21 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryArrayAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.CategoriesAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity to CRUD categories.
@@ -43,46 +38,40 @@ import java.util.List;
  * @author Felix Hofmann
  */
 
-public class CategoriesActivity extends BaseActivity {
-    private CategoriesViewModel categoriesViewModel;
-
-    private ListView listViewCategoryList;
-    private FloatingActionButton btAddCategory;
+public class CategoriesActivity extends BaseActivity implements OnItemClickListener<Category> {
+    private CategoriesAdapter categoriesAdapter;
+    private RecyclerView recyclerView;
+    private CategoriesViewModel viewModel;
 
 
     @Override
     protected Class<? extends BaseViewModel> getViewModelClass() {
-        return BaseViewModel.class;
+        return CategoriesViewModel.class;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContent(R.layout.content_categories);
-        btAddCategory = addFab(R.layout.fab_add, new View.OnClickListener() {
+        setContent(R.layout.content_recycler);
+
+        viewModel = (CategoriesViewModel) super.viewModel;
+        categoriesAdapter = new CategoriesAdapter(this, viewModel.getCategories());
+        categoriesAdapter.onItemClick(this);
+
+        setContent(R.layout.content_accounts);
+        addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCategoryDialog(null);
             }
         });
 
-        listViewCategoryList = findViewById(R.id.categoryList);
-        listViewCategoryList.setAdapter(new CategoryArrayAdapter(CategoriesActivity.this,
-                new ArrayList<Category>()));
-        registerForContextMenu(listViewCategoryList);
-
-        setUpViewModel();
-    }
-
-    private void setUpViewModel() {
-        categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
-        categoriesViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(@Nullable List<Category> categories) {
-                listViewCategoryList.setAdapter(new CategoryArrayAdapter(CategoriesActivity.this, categories));
-            }
-        });
+        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(categoriesAdapter);
     }
 
     @Override
@@ -90,21 +79,7 @@ public class CategoriesActivity extends BaseActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.list_click_menu_category, menu);
     }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Category tmp = categoriesViewModel.getAllCategories().getValue().get(menuInfo.position);
-        if (item.getItemId() == R.id.menuItem_deleteCategory) {
-            categoriesViewModel.deleteCategory(tmp);
-            Toast.makeText(getApplicationContext(), R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.menuItem_editCategory) {
-            openCategoryDialog(tmp);
-        }
-        return super.onContextItemSelected(item);
-    }
-
+    
     private void openCategoryDialog(Category category) {
         Bundle args = new Bundle();
         if (category == null) {
@@ -116,5 +91,12 @@ public class CategoriesActivity extends BaseActivity {
         categoryDialog.setArguments(args);
 
         categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
+    }
+
+    @Override
+    public void onItemClick(Category item) {
+        Intent intent = new Intent(this, CategoryActivity.class);
+        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID, item.getId());
+        startActivity(intent);
     }
 }

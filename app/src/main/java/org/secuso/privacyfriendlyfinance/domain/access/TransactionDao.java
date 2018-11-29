@@ -28,7 +28,7 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     public abstract List<Transaction> getForAccountBefore(long accountId, String date);
 
     @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC")
-    public abstract List<Transaction> getForCategory(long categoryId);
+    public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
     public abstract List<Transaction> getForAccountAndCategory(long accountId, long categoryId);
