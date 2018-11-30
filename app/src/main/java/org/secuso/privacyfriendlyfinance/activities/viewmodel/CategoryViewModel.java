@@ -26,6 +26,7 @@ public class CategoryViewModel extends TransactionListViewModel {
         category = categoryDao.get(categoryId);
         setNavigationDrawerId(R.id.nav_category);
         setPreselectedCategoryId(categoryId);
+        setShowEditMenu(true);
     }
 
     public LiveData<Category> getCategory() {

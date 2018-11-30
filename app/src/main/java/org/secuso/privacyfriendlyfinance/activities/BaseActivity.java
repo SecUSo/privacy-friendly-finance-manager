@@ -17,7 +17,6 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -39,6 +38,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -46,10 +46,13 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Christopher Beckmann, Karola Marky, Felix Hofmann, Leonard Otto
  * @version 20181129
- *
+ * <p>
  * This class is a parent class of all activities the user can access the Navigation Drawer from.
  * just inject your activities content via the setContent() method.
  */
@@ -74,6 +77,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     protected SharedPreferences mSharedPreferences;
     protected BaseViewModel viewModel;
 
+    private List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
+
 
     protected abstract Class<? extends BaseViewModel> getViewModelClass();
 
@@ -92,14 +97,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
         binding.setViewModel(viewModel);
 
-       viewModel.getTitle().observe(this, new Observer<String>() {
+        viewModel.getTitle().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String title) {
                 BaseActivity.this.setTitle(title);
             }
         });
 
-       viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
+        viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer navigationDrawerId) {
                 if (navigationDrawerId == null) navigationDrawerId = -1;
@@ -112,6 +117,31 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
         contentWrapper = findViewById(R.id.content_wrapper);
         inflater = LayoutInflater.from(contentWrapper.getContext());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        MenuItem menuItemEdit = menu.findItem(R.id.toolbar_action_edit);
+        menuItemEdit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                menuItemEditClicked(item);
+                return true;
+            }
+        });
+
+        return viewModel.doShowEditMenu();
+    }
+
+    private void menuItemEditClicked(MenuItem item) {
+        for (int i = 0; i < editMenuClickListeners.size(); i++) {
+            editMenuClickListeners.get(i).onMenuItemClick(item);
+        }
+    }
+
+    protected void addEditMenuClickListener(MenuItem.OnMenuItemClickListener listener) {
+        editMenuClickListeners.add(listener);
     }
 
     protected final View setContent(@LayoutRes int layout) {
@@ -240,7 +270,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 createBackStack(intent);
                 break;
             default:
-                throw new UnsupportedOperationException("Trying to call unkown drawer item! Id: " + itemId);
+                throw new UnsupportedOperationException("Trying to call unknown drawer item! Id: " + itemId);
         }
     }
 
@@ -258,8 +288,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 this, mDrawerLayout, toolbar, R.string.nav_drawer_toggle_open_desc, R.string.nav_drawer_toggle_close_desc);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
 
         if (contentWrapper != null) {
             contentWrapper.setAlpha(0);

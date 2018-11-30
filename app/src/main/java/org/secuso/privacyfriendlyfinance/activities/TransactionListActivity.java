@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * This abstract class is provided as a base class for all
  * activities that show a list of transactions. Classes that use
- * this class a super class are: MainActivity, AccountActivity,
+ * this class as a super class are: MainActivity, AccountActivity,
  * CategoryActivity...
  *
  * @author Leonard Otto, Felix Hofmann

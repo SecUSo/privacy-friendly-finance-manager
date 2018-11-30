@@ -9,6 +9,14 @@ import android.support.annotation.NonNull;
 public class BaseViewModel extends AndroidViewModel {
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<Integer> navigationDrawerId = new MutableLiveData<>();
+    private boolean showEditMenu;
+
+    public void setShowEditMenu(boolean showEditMenu) {
+        this.showEditMenu = showEditMenu;
+    }
+    public boolean doShowEditMenu() {
+        return showEditMenu;
+    }
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
@@ -20,7 +28,6 @@ public class BaseViewModel extends AndroidViewModel {
     public void setTitle(String title) {
         this.title.postValue(title);
     }
-
 
     public LiveData<Integer> getNavigationDrawerId() {
         return navigationDrawerId;

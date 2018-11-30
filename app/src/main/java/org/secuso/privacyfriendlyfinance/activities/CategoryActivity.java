@@ -3,6 +3,7 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
@@ -22,6 +23,30 @@ public class CategoryActivity extends TransactionListActivity {
                 viewModel.setTitle(category.getName());
             }
         });
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        addEditMenuClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                openCategoryDialog();
+
+                return true;
+            }
+        });
+    }
+
+    private void openCategoryDialog() {
+        CategoryDialog categoryDialog = new CategoryDialog();
+
+        Bundle args = new Bundle();
+        args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, viewModel.getCategory().getValue().getId());
+        categoryDialog.setArguments(args);
+
+        categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
     }
 
     @Override
