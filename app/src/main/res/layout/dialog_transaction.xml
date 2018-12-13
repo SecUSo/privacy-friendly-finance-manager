@@ -4,12 +4,12 @@
     android:layout_width="match_parent">
 
     <RadioGroup
-        android:id="@+id/radioGroup_type"
+        android:id="@+id/radioGroup_transaction_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/dialog_expense_title"
+        android:layout_below="@+id/dialog_transaction_title"
         android:layout_marginTop="131dp"
         android:orientation="vertical"
         android:paddingLeft="30dp"
@@ -17,7 +17,7 @@
         >
 
         <RadioButton
-            android:id="@+id/radioButton_Income"
+            android:id="@+id/radioButton_transaction_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -25,32 +25,17 @@
             android:text="@string/dialog_transaction_radio_button_income_action" />
 
         <RadioButton
-            android:id="@+id/radioButton_Expense"
+            android:id="@+id/radioButton_transaction_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton_Income"
+            android:layout_below="@+id/radioButton_transaction_income"
             android:layout_weight="1"
             android:text="@string/dialog_transaction_radio_button_expense_action" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/dialog_expense_date"
-        android:layout_width="177dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="145dp"
-        android:drawablePadding="6dp"
-        android:drawableStart="@android:drawable/ic_menu_my_calendar"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:paddingLeft="60dp"
-        android:text="@string/dialog_transaction_date_hint" />
-
 
     <EditText
-        android:id="@+id/dialog_expense_amount"
+        android:id="@+id/dialog_transaction_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -62,15 +47,14 @@
         android:selectAllOnFocus="false"
         android:singleLine="false"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:maxLength="8"/>
 
     <EditText
-        android:id="@+id/dialog_expense_title"
+        android:id="@+id/dialog_transaction_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/dialog_expense_amount"
+        android:layout_below="@+id/dialog_transaction_amount"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:ems="10"
@@ -78,6 +62,31 @@
         android:inputType="text"
         android:textAlignment="center"
         android:maxLength="15"/>
+
+    <TextView
+        android:id="@+id/dialog_transaction_date"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="145dp"
+        android:drawablePadding="6dp"
+        android:drawableStart="@android:drawable/ic_menu_my_calendar"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:paddingStart="60dp"
+        android:text="@string/dialog_transaction_date_hint" />
+
+    <TextView
+        android:id="@+id/dialog_category_legend"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/category_spinner"
+        android:gravity="center"
+        android:text="@string/category" />
 
     <Spinner
         android:id="@+id/category_spinner"
@@ -88,15 +97,25 @@
         android:layout_marginEnd="30dp"
         android:layout_marginTop="215dp" />
 
+
     <TextView
-        android:id="@+id/dialog_category_legend"
+        android:id="@+id/dialog_account_legend"
         android:layout_width="120dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/account_spinner"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/category_spinner"
+        android:layout_marginStart="10dp"
         android:gravity="center"
-        android:text="@string/name" />
+        android:text="@string/account" />
+
+    <Spinner
+        android:id="@+id/account_spinner"
+        android:layout_width="165dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="266dp"
+        android:layout_marginEnd="30dp" />
 
 
 </RelativeLayout>

@@ -20,7 +20,6 @@ import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -48,9 +47,9 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Dialog for adding a new transaction
+ * Dialog for adding new transactions and for editing existing transactions.
  *
- * @author David Meiborg
+ * @author Leonard Otto, Felix Hofmann
  */
 public class TransactionDialog extends AppCompatDialogFragment {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
@@ -64,6 +63,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private RadioButton radioButtonExpense;
     private RadioGroup radioGroupType;
     private Spinner categorySpinner;
+    private Spinner accountSpinner;
 
     private TransactionDialogViewModel viewModel;
 
@@ -73,13 +73,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private long preselectedCategoryId = -1L;
 
 
-    //opens Dialog with layout defined in dialog.xml
     @Override
     public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.transaction_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_transaction, null);
         builder.setView(view);
 
         getViewElements(view);
@@ -111,19 +110,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
-        viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
-            @Override
-            public void onChanged(@Nullable List<Account> accounts) {
-                //TODO: account spinner
-            }
-        });
-        viewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(@Nullable List<Category> categories) {
-                categorySpinner.setAdapter(new ArrayAdapter<Category>(getActivity(),
-                        R.layout.support_simple_spinner_dropdown_item, categories));
-            }
-        });
+
         if (transactionId != -1L) {
             viewModel.getTransactionById(transactionId).observe(this, new Observer<Transaction>() {
                 @Override
@@ -136,17 +123,49 @@ public class TransactionDialog extends AppCompatDialogFragment {
                 }
             });
         }
+
+        viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
+            @Override
+            public void onChanged(@Nullable List<Account> accounts) {
+                accountSpinner.setAdapter(new ArrayAdapter<Account>(getActivity(),
+                        R.layout.support_simple_spinner_dropdown_item, accounts));
+                if (preselectedAccountId != -1L) {
+                    for (int i = 0; i < accounts.size(); i++) {
+                        if (accounts.get(i).getId() == preselectedAccountId) {
+                            accountSpinner.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        viewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+                categorySpinner.setAdapter(new ArrayAdapter<Category>(getActivity(),
+                        R.layout.support_simple_spinner_dropdown_item, categories));
+                if (preselectedCategoryId != -1L) {
+                    for (int i = 0; i < categories.size(); i++) {
+                        if (categories.get(i).getId() == preselectedCategoryId) {
+                            categorySpinner.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void getViewElements(View view) {
-        editTextTitle = view.findViewById(R.id.dialog_expense_title);
-        editTextAmount = view.findViewById(R.id.dialog_expense_amount);
-        editTextDate = view.findViewById(R.id.dialog_expense_date);
+        editTextTitle = view.findViewById(R.id.dialog_transaction_title);
+        editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
+        editTextDate = view.findViewById(R.id.dialog_transaction_date);
 
-        radioButtonIncome = view.findViewById(R.id.radioButton_Income);
-        radioButtonExpense = view.findViewById(R.id.radioButton_Expense);
-        radioGroupType = view.findViewById(R.id.radioGroup_type);
+        radioButtonIncome = view.findViewById(R.id.radioButton_transaction_income);
+        radioButtonExpense = view.findViewById(R.id.radioButton_transaction_expense);
+        radioGroupType = view.findViewById(R.id.radioGroup_transaction_type);
         categorySpinner = view.findViewById(R.id.category_spinner);
+        accountSpinner = view.findViewById(R.id.account_spinner);
     }
 
     private void setUpViewElements(AlertDialog.Builder builder, boolean editingExistingTransaction) {
@@ -194,15 +213,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
         int month = cal.get(Calendar.MONTH) + 1;
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-//        DateTime dt = new DateTime().withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
         LocalDate ld = new LocalDate(year, month, dayOfMonth);
         editTextDate.setText(LocalDateConverter.dateToString(ld));
     }
 
     private void dateSet(int year, int month, int dayOfMonth) {
-//        DateTime dt = new DateTime();
-//        dt = dt.withYear(year).withMonthOfYear(month).withDayOfMonth(dayOfMonth);
-        LocalDate ld = new LocalDate(year, month, dayOfMonth);
+        LocalDate ld = new LocalDate(year, month + 1, dayOfMonth);
 
         editTextDate.setText(LocalDateConverter.dateToString(ld));
     }
@@ -247,7 +263,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
             toast.show();
         } else {
             boolean isExpense = false;
-            if (radioGroupType.getCheckedRadioButtonId() == R.id.radioButton_Expense) {
+            if (radioGroupType.getCheckedRadioButtonId() == R.id.radioButton_transaction_expense) {
                 isExpense = true;
             } else {
                 isExpense = false;
@@ -255,8 +271,10 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
             String tmpDate = editTextDate.getText().toString();
             Category tmpCategory = (Category) categorySpinner.getSelectedItem();
+            Account tmpAccount = (Account) accountSpinner.getSelectedItem();
 
             transactionObject.setCategoryId(tmpCategory.getId());
+            transactionObject.setAccountId(tmpAccount.getId());
             transactionObject.setAmount((isExpense ? -tmpAmount : tmpAmount));
             transactionObject.setName(tmpName);
             transactionObject.setDate(LocalDateConverter.fromString(tmpDate));
@@ -266,9 +284,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
             Toast.makeText(getContext(), R.string.activity_transaction_saved_msg, Toast.LENGTH_SHORT).show();
 
-            //TODO: I don't think this should be done this way. But works for now.
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
+            dismiss();
         }
     }
 }

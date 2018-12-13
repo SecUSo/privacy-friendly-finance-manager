@@ -10,15 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
@@ -42,6 +39,7 @@ public abstract class TransactionListActivity extends BaseActivity {
     private View separator;
     private FloatingActionButton btAddTransaction;
     protected TransactionListViewModel viewModel;
+    private TransactionArrayAdapter transactionArrayAdapter;
 
     private int dbg = 0;
     protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
@@ -64,26 +62,24 @@ public abstract class TransactionListActivity extends BaseActivity {
         viewModel.getTransactions().observe(this, new Observer<List<Transaction>>() {
             @Override
             public void onChanged(@Nullable List<Transaction> transactions) {
-                listViewTransactionList.setAdapter(new TransactionArrayAdapter(TransactionListActivity.this, transactions));
+                listViewTransactionList.setAdapter(
+                        transactionArrayAdapter = new TransactionArrayAdapter(TransactionListActivity.this, transactions));
             }
         });
 
         getViewElements();
 
-        fillViewElements();
+        setUpViewElements();
     }
 
-    private void fillViewElements() {
-
-
-//        String balanceText = getTotalBalanceText();
-//        if (balanceText == null) {
-//            separator.setVisibility(View.GONE);
-//            tvBalance.setVisibility(View.GONE);
-//            tvBalanceLabel.setVisibility(View.GONE);
-//        } else {
-//            tvBalance.setText(balanceText);
-//        }
+    private void setUpViewElements() {
+        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("position " + position + " id " + id);
+                openTransactionDialog(transactionArrayAdapter.getItem(position));
+            }
+        });
     }
 
     private void getViewElements() {
@@ -91,21 +87,6 @@ public abstract class TransactionListActivity extends BaseActivity {
         tvBalance = findViewById(R.id.tv_totalBalance);
         separator = findViewById(R.id.separator);
         tvBalanceLabel = findViewById(R.id.tv_label_totalBalance);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.listDeleteItem:
-                deleteItem(info.position);
-                break;
-            case R.id.listEditItem:
-                editItem(info.position);
-                break;
-        }
-
-        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -118,11 +99,6 @@ public abstract class TransactionListActivity extends BaseActivity {
     @Override
     protected final void onResume() {
         super.onResume();
-//        getTransactionListAsync();
-    }
-
-    private void editItem(int indexToEdit) {
-//        openTransactionDialog(transactions.get(indexToEdit));
     }
 
     private void deleteItem(final int indexToDelete) {
@@ -156,14 +132,12 @@ public abstract class TransactionListActivity extends BaseActivity {
         Bundle args = new Bundle();
 
         if (transactionObject != null) {
-            args.putLong("transactionId", transactionObject.getId());
-            args.putLong("transactionAmount", transactionObject.getAmount());
-            args.putString("transactionName", transactionObject.getName());
-
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(getResources().getString(R.string.time_format_string));
-            args.putString("transactionDate", formatter.print(transactionObject.getDate()));
-
-            args.putLong("categoryId", transactionObject.getCategoryId());
+            args.putLong(TransactionDialog.EXTRA_TRANSACTION_ID, transactionObject.getId());
+            args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, transactionObject.getCategoryId());
+            args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, transactionObject.getAccountId());
+        } else {
+            args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, viewModel.getPreselectedCategoryId());
+            args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, viewModel.getPreselectedAccountId());
         }
 
         transactionDialog.setArguments(args);

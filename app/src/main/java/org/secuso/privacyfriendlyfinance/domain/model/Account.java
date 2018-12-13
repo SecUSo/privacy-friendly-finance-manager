@@ -30,6 +30,11 @@ public class Account  extends AbstractEntity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public long getInitialBalance() {
         return initialBalance;
     }

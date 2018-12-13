@@ -79,6 +79,7 @@
     <string name="dialog_delete_transaction_title">Do you want to delete this transaction?</string>
 
     <!--### A C C O U N T ###-->
+    <string name="account">Account</string>
     <string name="activity_account_beginning_month">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
     <string name="activity_account_label">Account activity</string>
