@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.util.Base64;
+import android.util.Log;
 
 import com.commonsware.cwac.saferoom.SafeHelperFactory;
 
@@ -83,12 +84,22 @@ public abstract class FinanceDatabase extends RoomDatabase {
         @Override
         protected FinanceDatabase doInBackground(Void... voids) {
             try {
+
                 publishProgress(0.0);
                 publishOperation("init key store");
-                KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS, context);
+                KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
+                String passphrase = SharedPreferencesManager.getDbPassphrase();
+
+                if (!keystore.keyExists()) {
+                    keystore.generateKey(context);
+                    if (passphrase != null) {
+                        Log.w("OpenDatabase", "database passphrase could not be recovered");
+                        SharedPreferencesManager.removeDbPassphrase();
+                    }
+                }
 
                 publishProgress(.2);
-                String passphrase = SharedPreferencesManager.getDbPassphrase();
+
                 if (passphrase == null) {
                     deleteDatabaseFile();
                     publishOperation("create passphrase");

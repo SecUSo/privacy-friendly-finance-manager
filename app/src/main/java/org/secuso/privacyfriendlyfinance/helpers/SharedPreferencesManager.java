@@ -30,6 +30,10 @@ public class SharedPreferencesManager {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
 
+    public static void removeDbPassphrase() {
+        editor.remove(DB_PASSPHRASE);
+        editor.commit();
+    }
     public static void setDbPassphrase(String passphrase) {
         editor.putString(DB_PASSPHRASE, passphrase);
         editor.commit();
