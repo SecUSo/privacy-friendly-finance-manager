@@ -25,6 +25,7 @@ public class AccountViewModel extends TransactionListViewModel {
         account = accountDao.get(accountId);
         setNavigationDrawerId(R.id.nav_account);
         setPreselectedAccountId(accountId);
+        setShowEditMenu(true);
     }
 
     public LiveData<Account> getAccount() {
