@@ -16,23 +16,14 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.app.Dialog;
 import android.arch.lifecycle.Observer;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryDialogViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 /**
@@ -40,86 +31,46 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
  *
  * @author Felix Hofmann, Leonard Otto
  */
-public class CategoryDialog extends AppCompatDialogFragment {
+public class CategoryDialog extends SimpleTextInputDialog {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
 
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+    private CategoryDialogViewModel viewModel;
 
-    private Category category;
-    private EditText editTextName;
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    protected void retrieveData() {
+        viewModel = ViewModelProviders.of(this).get(CategoryDialogViewModel.class);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_category, null);
-        builder.setView(view);
-
-        getViewElements(view);
-
-        // Title
-        long id = getArguments().getLong(EXTRA_CATEGORY_ID, -1L);
-        if (id == -1L) {
-            builder.setTitle(R.string.dialog_category_create_title);
-            category = new Category();
+        Bundle args = getArguments();
+        long categoryId = args.getLong(EXTRA_CATEGORY_ID, -1L);
+        if (categoryId == -1L) {
         } else {
-            builder.setTitle(R.string.dialog_category_edit_title);
-            categoryDao.get(id).observe(this, new Observer<Category>() {
+            viewModel.getCategoryById(categoryId).observe(this, new Observer<Category>() {
                 @Override
                 public void onChanged(@Nullable Category category) {
-                    CategoryDialog.this.category = category;
-                    editTextName.setText(category.getName());
+                    editTextInput.setText(category.getName());
                 }
             });
         }
-
-        setUpDialogOptions(builder);
-
-        return builder.create();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-    }
-
-    private void getViewElements(View view) {
-        editTextName = view.findViewById(R.id.dialog_category_name);
-    }
-
-    private void saveCategory() {
-        String categoryName = editTextName.getText().toString().trim();
+    protected void onClickPositive(String textFromTextInput) {
+        String categoryName = textFromTextInput.trim();
         if (categoryName.isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.dialog_category_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
         } else {
-            category.setName(categoryName);
+            Category tmpCategory = new Category(categoryName);
 
-            categoryDao.updateOrInsertAsync(category, null);
+            viewModel.updateOrInsert(tmpCategory);
 
             Toast.makeText(getContext(), R.string.activity_transaction_saved_msg, Toast.LENGTH_SHORT).show();
 
-            //TODO: Is this really done like this?
-            Intent intent = new Intent(getActivity(), CategoriesActivity.class);
-            startActivity(intent);
+            dismiss();
         }
     }
 
-    private void setUpDialogOptions(AlertDialog.Builder builder) {
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-            }
-        });
-
-        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                saveCategory();
-            }
-        });
+    @Override
+    protected String getTextInputHint() {
+        return getResources().getString(R.string.dialog_category_name_hint);
     }
 }

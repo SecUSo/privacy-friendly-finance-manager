@@ -36,7 +36,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addAccount();
+                openAccountDialog(null);
             }
         });
 
@@ -47,7 +47,17 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         recyclerView.setAdapter(accountsAdapter);
     }
 
-    private void addAccount() {
+    private void openAccountDialog(Account account) {
+        Bundle args = new Bundle();
+        if (account == null) {
+        } else {
+            args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, account.getId());
+        }
+
+        AccountDialog accountDialog = new AccountDialog();
+        accountDialog.setArguments(args);
+
+        accountDialog.show(getSupportFragmentManager(), "CategoryDialog");
     }
 
     @Override
