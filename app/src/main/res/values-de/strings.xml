@@ -63,6 +63,8 @@
     <string name="dialog_category_empty_name_impossible_msg">The category must have a name.</string>
     <string name="category_default_category_name">Default</string>
     <string name="activity_category_label">Category activity</string>
+    <string name="category_saved_msg">Category saved.</string>
+    <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
 
     <!--### T R A N S A C T I O N ###-->
     <string name="activity_transaction_saved_msg">Transaction saved</string>
@@ -85,6 +87,9 @@
     <string name="activity_account_label">Account activity</string>
     <string name="activity_accounts_label">Accounts activity</string>
     <string name="dialog_account_name_hint">Enter account name</string>
+    <string name="account_saved_msg">Account saved.</string>
+    <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible.</string>
+    <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Welcome!</string>
@@ -100,7 +105,7 @@
     <string name="category_delete_action">Kategorie löschen</string>
     <string name="category_deleted">Kategorie gelöscht.</string>
     <string name="account_delete_action">Account löschen</string>
-    <string name="account_deleted">Account gelöscht.</string>
+    <string name="account_deleted_msg">Account gelöscht.</string>
     <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass sie die Kategorie &lt;b>%1$s&lt;/b> löschen möchten?</string>
 
 </resources>

@@ -64,6 +64,8 @@
     <string name="dialog_category_empty_name_impossible_msg">The category must have a name.</string>
     <string name="category_default_category_name">Default</string>
     <string name="activity_category_label">Category activity</string>
+    <string name="category_saved_msg">Category saved.</string>
+    <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
 
     <!--### T R A N S A C T I O N ###-->
     <string name="activity_transaction_saved_msg">Transaction saved</string>
@@ -82,12 +84,16 @@
     <!--### A C C O U N T ###-->
     <string name="account">Account</string>
     <string name="account_delete_action">Delete Account</string>
-    <string name="account_deleted">Account deleted.</string>
+    <string name="account_deleted_msg">Account deleted.</string>
     <string name="activity_account_beginning_month">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
     <string name="activity_account_label">Account activity</string>
     <string name="activity_accounts_label">Accounts activity</string>
     <string name="dialog_account_name_hint">Enter account name</string>
+    <string name="account_saved_msg">Account saved.</string>
+    <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible.</string>
+    <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
+
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Welcome!</string>

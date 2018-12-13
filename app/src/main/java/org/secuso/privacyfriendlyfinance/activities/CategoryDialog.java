@@ -26,6 +26,9 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryDialogViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Dialog for adding or editing a category.
  *
@@ -35,6 +38,8 @@ public class CategoryDialog extends SimpleTextInputDialog {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
 
     private CategoryDialogViewModel viewModel;
+    private Category categoryObject;
+    private List<Category> allCategories = new ArrayList<Category>();
 
     @Override
     protected void retrieveData() {
@@ -48,9 +53,18 @@ public class CategoryDialog extends SimpleTextInputDialog {
                 @Override
                 public void onChanged(@Nullable Category category) {
                     editTextInput.setText(category.getName());
+                    categoryObject = category;
                 }
             });
         }
+        viewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+                synchronized (allCategories) {
+                    allCategories = categories;
+                }
+            }
+        });
     }
 
     @Override
@@ -58,14 +72,34 @@ public class CategoryDialog extends SimpleTextInputDialog {
         String categoryName = textFromTextInput.trim();
         if (categoryName.isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.dialog_category_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
+        } else if (isCategoryNameTaken(categoryName)) {
+            Toast.makeText(getContext(), getString(R.string.dialog_category_name_taken_msg), Toast.LENGTH_LONG).show();
         } else {
-            Category tmpCategory = new Category(categoryName);
+            if (categoryObject == null) {
+                //We are working on a new category object and are NOT editing an existing one
+                categoryObject = new Category(categoryName);
+            } else {
+                categoryObject.setName(categoryName);
+            }
+            viewModel.updateOrInsert(categoryObject);
 
-            viewModel.updateOrInsert(tmpCategory);
-
-            Toast.makeText(getContext(), R.string.activity_transaction_saved_msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.category_saved_msg, Toast.LENGTH_SHORT).show();
 
             dismiss();
+        }
+    }
+
+    private boolean isCategoryNameTaken(String categoryName) {
+        synchronized (allCategories) {
+            if (allCategories == null || allCategories.isEmpty()) {
+                return false;
+            }
+            for (int i = 0; i < allCategories.size(); i++) {
+                if (allCategories.get(i).getName().toLowerCase().equals(categoryName.toLowerCase())) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

@@ -8,6 +8,8 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
+import java.util.List;
+
 public class AccountDialogViewModel extends BaseViewModel {
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
 
@@ -17,6 +19,10 @@ public class AccountDialogViewModel extends BaseViewModel {
 
     public LiveData<Account> getAccountById(long accountId) {
         return accountDao.get(accountId);
+    }
+
+    public LiveData<List<Account>> getAllAccounts() {
+        return accountDao.getAll();
     }
 
     public void updateOrInsert(Account account) {
