@@ -28,7 +28,7 @@ import java.io.File;
 @Database(
     entities = {Account.class, Category.class, Transaction.class},
     exportSchema = false,
-    version = 5
+    version = 6
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
@@ -128,7 +128,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
                         .build();
 
                 if (FinanceDatabase.instance.accountDao().count() == 0) {
-                    Account defaultAccount = new Account("DefaultAccount", 0L);
+                    Account defaultAccount = new Account("DefaultAccount");
                     defaultAccount.setId(0L);
                     FinanceDatabase.instance.accountDao().insert(defaultAccount);
                 }

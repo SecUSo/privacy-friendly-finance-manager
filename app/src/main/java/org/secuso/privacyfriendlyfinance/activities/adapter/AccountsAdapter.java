@@ -30,7 +30,7 @@ public class AccountsAdapter extends EntityListAdapter<Account, AccountViewHolde
         super.onBindViewHolder(holder, index);
         Account account = getItem(index);
         holder.getTvAccountName().setText(account.getName());
-        holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
+//        holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
         holder.getTvAccountBalanceMonth().setText(String.valueOf(42));
     }
 }

@@ -10,17 +10,15 @@ import android.arch.persistence.room.Index;
     inheritSuperIndices = true,
     indices = @Index(value = "name", unique = true)
 )
-public class Account  extends AbstractEntity {
+public class Account extends AbstractEntity {
     private String name;
-    private long initialBalance = 0L;
 
     public Account() {
     }
 
     @Ignore
-    public Account(String name, long initialBalance) {
+    public Account(String name) {
         this.name = name;
-        this.initialBalance = initialBalance;
     }
 
     public String getName() {
@@ -33,12 +31,5 @@ public class Account  extends AbstractEntity {
     @Override
     public String toString() {
         return name;
-    }
-
-    public long getInitialBalance() {
-        return initialBalance;
-    }
-    public void setInitialBalance(long initialBalance) {
-        this.initialBalance = initialBalance;
     }
 }

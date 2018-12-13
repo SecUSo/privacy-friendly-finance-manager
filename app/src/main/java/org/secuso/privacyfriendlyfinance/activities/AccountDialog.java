@@ -57,7 +57,7 @@ public class AccountDialog extends SimpleTextInputDialog {
         } else {
             if (accountObject == null) {
                 //We are working on a new account object and are NOT editing an existing one
-                accountObject = new Account(accountName, 0L);
+                accountObject = new Account(accountName);
             } else {
                 accountObject.setName(accountName);
             }

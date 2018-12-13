@@ -1,18 +1,25 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.AccountWrapper;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountsActivity extends BaseActivity implements OnItemClickListener<Account> {
     private AccountsViewModel viewModel;
@@ -29,7 +36,28 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         super.onCreate(savedInstanceState);
 
         viewModel = (AccountsViewModel) super.viewModel;
-        accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
+
+
+        final MutableLiveData<List<AccountWrapper>> accountWrappers = new MutableLiveData<>();
+
+        accountsAdapter = new AccountsAdapter(this, accountWrappers);
+        viewModel.getAccounts().observe(this, new Observer<List<Account>>() {
+            @Override
+            public void onChanged(@Nullable List<Account> accounts) {
+
+                List<AccountWrapper> wrappers = new ArrayList<AccountWrapper>();
+                for (int i = 0; i < accounts.size(); i++) {
+                    AccountWrapper wrapper = new AccountWrapper();
+                    wrapper.setCurrentBalance(viewModel.getCurrentBalanceForAccount(account.getId()));
+                }
+                accountWrappers.postValue(wrappers);
+            }
+        });
+        viewModel.getCurrentBalanceForAccount()
+
+
+
+
         accountsAdapter.onItemClick(this);
 
         setContent(R.layout.content_recycler);
