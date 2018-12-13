@@ -84,6 +84,7 @@
     <string name="nav_action_account">Account</string>
     <string name="activity_account_label">Account activity</string>
     <string name="activity_accounts_label">Accounts activity</string>
+    <string name="dialog_account_name_hint">Enter account name</string>
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Welcome!</string>
