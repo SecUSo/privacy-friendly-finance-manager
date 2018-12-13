@@ -17,17 +17,23 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.View;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoriesAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
+import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
@@ -42,6 +48,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView recyclerView;
     private CategoriesViewModel viewModel;
+    private SwipeController swipeController = null;
 
 
     @Override
@@ -72,6 +79,30 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(categoriesAdapter);
+
+        SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
+            @Override
+            public void onClick(int position) {
+                Toast.makeText(getBaseContext(), "delete clicked", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public Drawable getIcon() {
+                return ContextCompat.getDrawable(CategoriesActivity.this, R.drawable.ic_delete_red_24dp);
+            }
+        };
+
+        swipeController = new SwipeController(this, deleteAction, deleteAction);
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
+
     }
 
     @Override
