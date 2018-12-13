@@ -97,5 +97,10 @@
     <string name="activity_tutorial_slide4_msg">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
     <string name="activity_tutorial_slide5_title">Categories</string>
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
+    <string name="category_delete_action">Kategorie löschen</string>
+    <string name="category_deleted">Kategorie gelöscht.</string>
+    <string name="account_delete_action">Account löschen</string>
+    <string name="account_deleted">Account gelöscht.</string>
+    <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass sie die Kategorie &lt;b>%1$s&lt;/b> löschen möchten?</string>
 
 </resources>

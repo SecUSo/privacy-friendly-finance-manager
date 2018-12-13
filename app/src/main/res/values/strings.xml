@@ -46,7 +46,6 @@
     <string name="activity_about_title">About</string>
     <string name="activity_about_version">Version v%s</string>
     <string name="activity_about_authors">Authors: </string>
-    <string name="activity_about_authors_names" translatable="false">David Meiborg</string>
     <string name="activity_about_authors_contributors">and contributors.</string>
     <string name="activity_about_affiliation">In affiliation with</string>
     <string name="activity_about_belongs">This application belongs to the group of Privacy Friendly Apps developed by Karlsruher Institute for Technology (KIT). Sourcecode licensed under GPLv3. Images copyright KIT and Google Inc.</string>
@@ -57,6 +56,8 @@
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>
     <string name="category_plural">Categories</string>
+    <string name="category_delete_action">Delete Category</string>
+    <string name="category_deleted">Category deleted.</string>
     <string name="dialog_category_name_hint">Enter category name</string>
     <string name="dialog_category_create_title">New Category</string>
     <string name="dialog_category_edit_title">Edit Category</string>
@@ -80,6 +81,8 @@
 
     <!--### A C C O U N T ###-->
     <string name="account">Account</string>
+    <string name="account_delete_action">Delete Account</string>
+    <string name="account_deleted">Account deleted.</string>
     <string name="activity_account_beginning_month">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
     <string name="activity_account_label">Account activity</string>
@@ -97,5 +100,7 @@
     <string name="activity_tutorial_slide4_msg">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
     <string name="activity_tutorial_slide5_title">Categories</string>
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
+    <string name="category_delete_question">All assigned transactions will be without category afterwards.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete category &lt;b>%1$s&lt;/b>?</string>
+    <string name="activity_about_authors_names" translatable="false">David Meiborg</string>
 
 </resources>

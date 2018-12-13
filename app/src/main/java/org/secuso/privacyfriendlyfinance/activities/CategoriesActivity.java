@@ -16,6 +16,8 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -26,6 +28,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Html;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.Toast;
@@ -36,6 +39,7 @@ import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewModel;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 /**
@@ -83,7 +87,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
             public void onClick(int position) {
-                Toast.makeText(getBaseContext(), "delete clicked", Toast.LENGTH_SHORT).show();
+                deleteCategory(viewModel.getCategories().getValue().get(position));
             }
             @Override
             public Drawable getIcon() {
@@ -109,6 +113,23 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.list_click_menu_category, menu);
+    }
+
+    public void deleteCategory(final Category category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.category_delete_action);
+        builder.setMessage(Html.fromHtml(getResources().getString(R.string.category_delete_question, category.getName())));
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                FinanceDatabase.getInstance().categoryDao().deleteAsync(category);
+                Toast.makeText(getBaseContext(), R.string.category_deleted, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.create().show();
     }
 
     private void openCategoryDialog(Category category) {
