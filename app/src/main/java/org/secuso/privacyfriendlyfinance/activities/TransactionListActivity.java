@@ -130,16 +130,12 @@ public abstract class TransactionListActivity extends BaseActivity {
     protected void openTransactionDialog(Transaction transactionObject) {
         TransactionDialog transactionDialog = new TransactionDialog();
         Bundle args = new Bundle();
-
         if (transactionObject != null) {
             args.putLong(TransactionDialog.EXTRA_TRANSACTION_ID, transactionObject.getId());
-            args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, transactionObject.getCategoryId());
-            args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, transactionObject.getAccountId());
         } else {
             args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, viewModel.getPreselectedCategoryId());
             args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, viewModel.getPreselectedAccountId());
         }
-
         transactionDialog.setArguments(args);
         transactionDialog.show(getSupportFragmentManager(), "TransactionDialog");
     }

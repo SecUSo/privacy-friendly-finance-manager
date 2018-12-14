@@ -17,6 +17,7 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -24,7 +25,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -37,12 +37,15 @@ import android.widget.Toast;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.NullableArrayAdapter;
+import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyTextWatcher;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel;
 import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -56,6 +59,8 @@ public class TransactionDialog extends AppCompatDialogFragment {
     public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
     public static final String EXTRA_TRANSACTION_ID = "org.secuso.privacyfriendlyfinance.EXTRA_TRANSACTION_ID";
 
+    private AlertDialog dialog;
+    private View view;
     private EditText editTextTitle;
     private EditText editTextAmount;
     private TextView editTextDate;
@@ -68,67 +73,92 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private TransactionDialogViewModel viewModel;
 
     private Transaction transactionObject;
-    private long transactionId = -1L;
     private long preselectedAccountId = -1L;
     private long preselectedCategoryId = -1L;
 
 
     @Override
-    public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_transaction, null);
+        viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
+        viewModel.setTransactionId(getArguments().getLong(EXTRA_TRANSACTION_ID, -1L));
+
+        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_transaction, null);
         builder.setView(view);
 
-        getViewElements(view);
+        editTextTitle = view.findViewById(R.id.dialog_transaction_title);
+        editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
+        editTextDate = view.findViewById(R.id.dialog_transaction_date);
+        radioButtonIncome = view.findViewById(R.id.radioButton_transaction_income);
+        radioButtonExpense = view.findViewById(R.id.radioButton_transaction_expense);
+        radioGroupType = view.findViewById(R.id.radioGroup_transaction_type);
+        categorySpinner = view.findViewById(R.id.category_spinner);
+        accountSpinner = view.findViewById(R.id.account_spinner);
 
-        //Handle the arguments given to this dialog
-        boolean editingExistingTransaction = false;
-        transactionObject = new Transaction();
-        {
-            Bundle arguments = getArguments();
-            transactionId = arguments.getLong(EXTRA_TRANSACTION_ID, -1L);
-            if (transactionId == -1L) {
-                editingExistingTransaction = false;
-            } else {
-                editingExistingTransaction = true;
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {}
+        });
+
+        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+//                submitTransaction();
             }
-            preselectedAccountId = arguments.getLong(EXTRA_ACCOUNT_ID, -1L);
-            preselectedCategoryId = arguments.getLong(EXTRA_CATEGORY_ID, -1L);
-        }
+        });
 
-        setUpViewElements(builder, editingExistingTransaction);
+        editTextAmount.addTextChangedListener(new CurrencyTextWatcher(editTextAmount, "#,###"));
 
-        setUpDialogOptions(builder);
+        editTextDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePicker();
+            }
+        });
 
-        return builder.create();
+        dialog = builder.create();
+
+
+        viewModel.getTransaction().observe(this, new Observer<Transaction>() {
+            @Override
+            public void onChanged(@Nullable Transaction transaction) {
+                TransactionDialog.this.transactionObject = transaction;
+                if (transaction.getId() == null) {
+                    transaction.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
+                    transaction.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
+                    dialog.setTitle(R.string.dialog_transaction_create_title);
+                } else {
+                    dialog.setTitle(R.string.dialog_transaction_edit_title);
+                }
+
+                editTextTitle.setText(transaction.getName());
+                editTextDate.setText(transaction.getDateAsString());
+                setAmount(transaction.getAmount());
+            }
+        });
+
+        return dialog;
+    }
+
+
+
+    private void setAmount(long amount) {
+        editTextAmount.setText(String.valueOf((float) Math.abs(amount) / 100.0));
+        radioButtonExpense.setChecked(amount <= 0);
+        radioButtonIncome.setChecked(amount > 0);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
-
-        if (transactionId != -1L) {
-            viewModel.getTransactionById(transactionId).observe(this, new Observer<Transaction>() {
-                @Override
-                public void onChanged(@Nullable Transaction transaction) {
-                    TransactionDialog.this.transactionObject = transaction;
-
-                    editTextTitle.setText(transaction.getName());
-                    editTextAmount.setText(String.valueOf(transaction.getAmount()));
-                    editTextDate.setText(transaction.getDateAsString());
-                }
-            });
-        }
 
         viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable List<Account> accounts) {
-                accountSpinner.setAdapter(new ArrayAdapter<Account>(getActivity(),
-                        R.layout.support_simple_spinner_dropdown_item, accounts));
+                accountSpinner.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, accounts));
                 if (preselectedAccountId != -1L) {
                     for (int i = 0; i < accounts.size(); i++) {
                         if (accounts.get(i).getId() == preselectedAccountId) {
@@ -139,11 +169,14 @@ public class TransactionDialog extends AppCompatDialogFragment {
                 }
             }
         });
+
         viewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(@Nullable List<Category> categories) {
-                categorySpinner.setAdapter(new ArrayAdapter<Category>(getActivity(),
-                        R.layout.support_simple_spinner_dropdown_item, categories));
+                List<Category> categoriesAndVoid = new ArrayList<>();
+                categoriesAndVoid.add(null);
+                categoriesAndVoid.addAll(categories);
+                categorySpinner.setAdapter(new NullableArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, categoriesAndVoid));
                 if (preselectedCategoryId != -1L) {
                     for (int i = 0; i < categories.size(); i++) {
                         if (categories.get(i).getId() == preselectedCategoryId) {
@@ -156,53 +189,6 @@ public class TransactionDialog extends AppCompatDialogFragment {
         });
     }
 
-    private void getViewElements(View view) {
-        editTextTitle = view.findViewById(R.id.dialog_transaction_title);
-        editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
-        editTextDate = view.findViewById(R.id.dialog_transaction_date);
-
-        radioButtonIncome = view.findViewById(R.id.radioButton_transaction_income);
-        radioButtonExpense = view.findViewById(R.id.radioButton_transaction_expense);
-        radioGroupType = view.findViewById(R.id.radioGroup_transaction_type);
-        categorySpinner = view.findViewById(R.id.category_spinner);
-        accountSpinner = view.findViewById(R.id.account_spinner);
-    }
-
-    private void setUpViewElements(AlertDialog.Builder builder, boolean editingExistingTransaction) {
-        radioButtonExpense.setChecked(true);
-        radioButtonIncome.setChecked(false);
-
-        editTextDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDatePicker();
-            }
-        });
-
-        //Do edit/setup specific things
-        if (editingExistingTransaction) {
-            builder.setTitle(R.string.dialog_transaction_edit_title);
-        } else {
-            setUpCreateDialog(builder);
-        }
-    }
-
-    private void setUpDialogOptions(AlertDialog.Builder builder) {
-        builder
-            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                    //Nothing to do here
-                }
-            })
-            //defines what happens when dialog is submitted
-            .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int which) {
-                    submitTransaction();
-                }
-            });
-    }
 
     private void setUpCreateDialog(AlertDialog.Builder builder) {
         builder.setTitle(R.string.dialog_transaction_create_title);
