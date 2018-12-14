@@ -16,10 +16,10 @@
  */
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
-import android.content.Context;
+import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,22 +27,26 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.R.color;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
- * @author David Meiborg
+ * @author Felix Hofmann, Leonard Otto
  * Adapter for displaying the transaction list
  */
 public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
-    private NumberFormat numberFormat;
+    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+    private AppCompatActivity context;
 
-    public TransactionArrayAdapter(Context context, List<Transaction> transactions) {
+    public TransactionArrayAdapter(AppCompatActivity context, List<Transaction> transactions) {
         super(context, 0, transactions);
-        numberFormat = NumberFormat.getCurrencyInstance();
+        this.context = context;
     }
 
     @NonNull
@@ -50,29 +54,58 @@ public class TransactionArrayAdapter extends ArrayAdapter<Transaction> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_transaction, parent, false);
         }
-        TextView tvAmount = convertView.findViewById(R.id.listItem_amount);
-        TextView tvName = convertView.findViewById(R.id.listItem_name);
-        TextView tvDate = convertView.findViewById(R.id.listItem_date);
+        final TextView tvName = convertView.findViewById(R.id.textview_transaction_name);
+        final TextView tvAmount = convertView.findViewById(R.id.textView_amount);
+        final TextView tvAccount = convertView.findViewById(R.id.textView_account);
+        final TextView tvCategory = convertView.findViewById(R.id.textView_category);
+        final TextView tvMonth = convertView.findViewById(R.id.textView_month);
+        final TextView tvDay = convertView.findViewById(R.id.textView_day_of_month);
 
-        fillViewElements(tvAmount, tvName, tvDate, getItem(position));
-
-        return convertView;
-    }
-
-    private void fillViewElements(TextView tvAmount, TextView tvName, TextView tvDate, Transaction transaction) {
-        tvAmount.setText(numberFormat.format(((double)transaction.getAmount()) / 100.0));
-        if (transaction.getAmount() < 0) {
-            tvAmount.setTextColor(getContext().getResources().getColor(color.red));
-        } else {
-            tvAmount.setTextColor(getContext().getResources().getColor(color.green));
-        }
+        Transaction transaction = getItem(position);
 
         tvName.setText(transaction.getName());
-        tvName.setGravity(Gravity.CENTER);
-        tvName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tvMonth.setText(transaction.getDate().toString("MMM", Locale.getDefault()));
+        tvDay.setText(transaction.getDate().toString("dd"));
+        tvAccount.setText("#" + transaction.getAccountId() + " (TODO)");
 
-        tvDate.setText(transaction.getDateAsString());
+        FinanceDatabase.getInstance().accountDao().get(transaction.getAccountId()).observe(context,  new Observer<Account>() {
+            @Override
+            public void onChanged(@Nullable Account account) {
+                if (account != null) {
+                    tvAccount.setText(account.getName());
+                } else {
+                    tvAccount.setText(R.string.not_found_error);
+                    tvAccount.setTextColor(getContext().getResources().getColor(R.color.red));
+                }
+            }
+        });
+
+        if (transaction.getCategoryId() != null) {
+            FinanceDatabase.getInstance().categoryDao().get(transaction.getCategoryId()).observe(context,  new Observer<Category>() {
+                @Override
+                public void onChanged(@Nullable Category category) {
+                    if (category != null) {
+                        tvCategory.setText(category.getName());
+                    } else {
+                        tvCategory.setText(R.string.not_found_error);
+                        tvCategory.setTextColor(getContext().getResources().getColor(R.color.red));
+                    }
+                }
+            });
+        } else {
+            tvCategory.setVisibility(View.INVISIBLE);
+            convertView.findViewById(R.id.imageView_category).setVisibility(View.INVISIBLE);
+        }
+
+
+        tvAmount.setText(currencyFormat.format(((double) transaction.getAmount()) / 100.0));
+        if (transaction.getAmount() < 0) {
+            tvAmount.setTextColor(getContext().getResources().getColor(R.color.red));
+        } else {
+            tvAmount.setTextColor(getContext().getResources().getColor(R.color.green));
+        }
+        return convertView;
     }
 }

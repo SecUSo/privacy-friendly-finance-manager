@@ -107,5 +107,8 @@
     <string name="account_delete_action">Account löschen</string>
     <string name="account_deleted_msg">Account gelöscht.</string>
     <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass sie die Kategorie &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="none">Keine</string>
+    <string name="not_found">Not found</string>
+    <string name="not_found_error">ERROR: Not found</string>
 
 </resources>
