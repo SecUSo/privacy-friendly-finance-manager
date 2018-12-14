@@ -21,7 +21,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountsActivity extends BaseActivity implements OnItemClickListener<Account> {
+public class AccountsActivity extends BaseActivity implements OnItemClickListener<AccountWrapper> {
     private AccountsViewModel viewModel;
     private RecyclerView recyclerView;
     private AccountsAdapter accountsAdapter;
@@ -44,19 +44,13 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         viewModel.getAccounts().observe(this, new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable List<Account> accounts) {
-
-                List<AccountWrapper> wrappers = new ArrayList<AccountWrapper>();
-                for (int i = 0; i < accounts.size(); i++) {
-                    AccountWrapper wrapper = new AccountWrapper();
-                    wrapper.setCurrentBalance(viewModel.getCurrentBalanceForAccount(account.getId()));
+                List<AccountWrapper> wrappers = new ArrayList<>();
+                for (Account account : accounts) {
+                    wrappers.add(new AccountWrapper(account));
                 }
                 accountWrappers.postValue(wrappers);
             }
         });
-        viewModel.getCurrentBalanceForAccount()
-
-
-
 
         accountsAdapter.onItemClick(this);
 
@@ -89,7 +83,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
     }
 
     @Override
-    public void onItemClick(Account item) {
+    public void onItemClick(AccountWrapper item) {
         Intent intent = new Intent(this, AccountActivity.class);
         intent.putExtra(AccountActivity.EXTRA_ACCOUNT_ID, item.getId());
         startActivity(intent);

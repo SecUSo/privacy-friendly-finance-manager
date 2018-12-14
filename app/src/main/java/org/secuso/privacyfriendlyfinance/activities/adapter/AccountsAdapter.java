@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
-import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.List;
 
-public class AccountsAdapter extends EntityListAdapter<Account, AccountViewHolder> {
-    public AccountsAdapter(BaseActivity context, LiveData<List<Account>> data) {
+public class AccountsAdapter extends EntityListAdapter<AccountWrapper, AccountViewHolder> {
+    public AccountsAdapter(BaseActivity context, LiveData<List<AccountWrapper>> data) {
         super(context, data);
     }
 
@@ -28,8 +27,8 @@ public class AccountsAdapter extends EntityListAdapter<Account, AccountViewHolde
     @Override
     public void onBindViewHolder(@NonNull AccountViewHolder holder, int index) {
         super.onBindViewHolder(holder, index);
-        Account account = getItem(index);
-        holder.getTvAccountName().setText(account.getName());
+        AccountWrapper wrapper = getItem(index);
+        holder.getTvAccountName().setText(wrapper.getAccount().getName());
 //        holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
         holder.getTvAccountBalanceMonth().setText(String.valueOf(42));
     }
