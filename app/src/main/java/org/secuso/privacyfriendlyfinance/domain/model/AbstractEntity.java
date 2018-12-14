@@ -2,7 +2,9 @@ package org.secuso.privacyfriendlyfinance.domain.model;
 
 import android.arch.persistence.room.PrimaryKey;
 
-public abstract class AbstractEntity {
+import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
+
+public abstract class AbstractEntity implements IdProvider {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 

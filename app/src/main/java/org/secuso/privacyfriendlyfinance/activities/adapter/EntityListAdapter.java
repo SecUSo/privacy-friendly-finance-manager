@@ -11,12 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
-import org.secuso.privacyfriendlyfinance.domain.model.AbstractEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class EntityListAdapter<E extends AbstractEntity, H extends RecyclerView.ViewHolder> extends ListAdapter<E, H> {
+public abstract class EntityListAdapter<E extends IdProvider, H extends RecyclerView.ViewHolder> extends ListAdapter<E, H> {
     protected final Context context;
     private List<OnItemClickListener<E>> listeners = new ArrayList<>();
 
