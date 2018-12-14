@@ -6,7 +6,6 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 
 import org.joda.time.LocalDate;
-import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 
 @Entity(
     tableName = "Tranzaction",
@@ -34,7 +33,7 @@ import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 public class Transaction extends AbstractEntity {
     private String name;
     private long amount;
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
     private long accountId;
     private Long categoryId;
@@ -73,7 +72,7 @@ public class Transaction extends AbstractEntity {
         return date;
     }
     public void setDate(LocalDate date) {
-        this.date = date;
+        if (date != null) this.date = date;
     }
 
     public long getAccountId() {
@@ -88,9 +87,6 @@ public class Transaction extends AbstractEntity {
     }
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public String getDateAsString() {
-        return LocalDateConverter.dateToString(date);
+        if (this.categoryId == null || this.categoryId < 0) this.categoryId = null;
     }
 }
