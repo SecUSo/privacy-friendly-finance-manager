@@ -11,11 +11,11 @@
             android:title="@string/nav_main_action" />
         <item
             android:id="@+id/nav_account"
-            android:icon="@drawable/ic_list_black_24dp"
+            android:icon="@drawable/ic_account_black_24dp"
             android:title="@string/nav_action_account" />
         <item
             android:id="@+id/nav_category"
-            android:icon="@drawable/ic_list_black_24dp"
+            android:icon="@drawable/ic_category_gray_24dp"
             android:title="@string/nav_category_action" />
 
     </group>
