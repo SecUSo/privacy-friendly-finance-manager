@@ -39,10 +39,6 @@ public class TransactionListViewModel extends BaseViewModel {
         return transactions;
     }
 
-    public LiveData<Transaction> getTransactionById(long id) {
-        return transactionDao.get(id);
-    }
-
     public long getPreselectedCategoryId() {
         return preselectedCategoryId;
     }
