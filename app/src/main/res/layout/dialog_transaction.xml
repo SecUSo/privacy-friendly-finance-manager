@@ -1,121 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel" type="org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel"/>
+    </data>
 
-    <RadioGroup
-        android:id="@+id/radioGroup_transaction_type"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/dialog_transaction_title"
-        android:layout_marginTop="131dp"
-        android:orientation="vertical"
-        android:paddingLeft="30dp"
-        android:paddingRight="60dp"
-        >
+        android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/radioButton_transaction_income"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radioGroup_transaction_type"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_alignParentTop="true"
-            android:text="@string/dialog_transaction_radio_button_income_action" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name">
 
-        <RadioButton
-            android:id="@+id/radioButton_transaction_expense"
-            android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/radioButton_transaction_expense"
+                android:checked="@={viewModel.expense}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dialog_transaction_radio_button_expense_action" />
+
+            <RadioButton
+                android:id="@+id/radioButton_transaction_income"
+                android:checked="@{!viewModel.expense}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dialog_transaction_radio_button_income_action" />
+
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/dialog_transaction_amount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton_transaction_income"
-            android:layout_weight="1"
-            android:text="@string/dialog_transaction_radio_button_expense_action" />
-    </RadioGroup>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/dialog_transaction_value_hint"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:selectAllOnFocus="false"
+            android:singleLine="false"
+            android:text="@={viewModel.amount}"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/radioGroup_transaction_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/radioGroup_transaction_type"
+            app:layout_constraintTop_toTopOf="@+id/radioGroup_transaction_type" />
+
+        <EditText
+            android:id="@+id/editText_transaction_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="@string/dialog_transaction_name_hint"
+            android:inputType="text"
+            android:maxLength="32"
+            android:text="@={viewModel.name}"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_transaction_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:drawableStart="@android:drawable/ic_menu_my_calendar"
+            android:drawablePadding="6dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:text="@{viewModel.dateString}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup_transaction_type" />
+
+        <TextView
+            android:id="@+id/dialog_category_legend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/category"
+            app:layout_constraintStart_toStartOf="@+id/dialog_account_legend"
+            app:layout_constraintTop_toBottomOf="@+id/account_spinner" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:selectedItemPosition="@={viewModel.categoryIndex}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_category_legend" />
 
 
-    <EditText
-        android:id="@+id/dialog_transaction_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="25dp"
-        android:hint="@string/dialog_transaction_value_hint"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="false"
-        android:singleLine="false"
-        android:textAlignment="center"
-        android:maxLength="8"/>
+        <TextView
+            android:id="@+id/dialog_account_legend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_transaction_date" />
 
-    <EditText
-        android:id="@+id/dialog_transaction_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/dialog_transaction_amount"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:hint="@string/dialog_transaction_name_hint"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:maxLength="15"/>
-
-    <TextView
-        android:id="@+id/dialog_transaction_date"
-        android:layout_width="177dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="145dp"
-        android:drawablePadding="6dp"
-        android:drawableStart="@android:drawable/ic_menu_my_calendar"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:paddingStart="60dp"
-        android:text="@string/dialog_transaction_date_hint" />
-
-    <TextView
-        android:id="@+id/dialog_category_legend"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/category_spinner"
-        android:gravity="center"
-        android:text="@string/category" />
-
-    <Spinner
-        android:id="@+id/category_spinner"
-        android:layout_width="165dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="215dp" />
+        <Spinner
+            android:id="@+id/account_spinner"
+            android:selectedItemPosition="@={viewModel.accountIndex}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
 
 
-    <TextView
-        android:id="@+id/dialog_account_legend"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/account_spinner"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:gravity="center"
-        android:text="@string/account" />
-
-    <Spinner
-        android:id="@+id/account_spinner"
-        android:layout_width="165dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="266dp"
-        android:layout_marginEnd="30dp" />
-
-
-</RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
