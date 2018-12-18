@@ -86,9 +86,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
         viewModel.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                if (propertyId == BR.expense) {
-                    editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
-                }
+            if (propertyId == BR.expense) {
+                editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
+            }
             }
         });
 
@@ -110,6 +110,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
                     }
                     viewModel.setTransaction(transaction);
                     binding.setViewModel(viewModel);
+                    editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
                 }
             });
         } else {

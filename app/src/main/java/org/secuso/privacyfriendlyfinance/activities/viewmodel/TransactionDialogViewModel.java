@@ -120,7 +120,8 @@ public class TransactionDialogViewModel extends AndroidViewModel implements Obse
         if (amount == null) amount = "";
         Long number = CurrencyTextWatcher.convertToLong(amount);
         if (number == null) number = 0L;
-        if (transaction.getAmount() != number){
+        if (getExpense()) number = -number;
+        if (transaction.getAmount() != number) {
             transaction.setAmount(number);
             notifyPropertyChanged(BR.amount);
         }
