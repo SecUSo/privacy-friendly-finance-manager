@@ -1,29 +1,27 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
-public class CategoryViewHolder extends RecyclerView.ViewHolder {
+public class CategoryViewHolder extends AbstractRecyclerViewHolder {
     private TextView textViewName;
-    private TextView textViewAmount;
-    private Category category;
+    private TextView textViewBalance;
 
-    public CategoryViewHolder(@NonNull View itemView) {
-        super(itemView);
-        textViewName = itemView.findViewById(R.id.category_card_name);
-        textViewAmount = itemView.findViewById(R.id.textView_balance);
+    public CategoryViewHolder(@NonNull View itemView, Context context) {
+        super(itemView, context);
+        textViewName = itemView.findViewById(R.id.textView_category_name);
+        textViewBalance = itemView.findViewById(R.id.textView_balance);
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-        textViewName.setText(category.getName());
+    public void setCategoryName(String name) {
+        textViewName.setText(name);
     }
-    public Category getCategory() {
-        return category;
+
+    public void setBalance(Long balance) {
+        setBalance(balance, textViewBalance);
     }
 }

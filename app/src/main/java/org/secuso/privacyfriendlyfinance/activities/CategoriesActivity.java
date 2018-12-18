@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoriesAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryWrapper;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
@@ -48,7 +49,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
  * @author Felix Hofmann
  */
 
-public class CategoriesActivity extends BaseActivity implements OnItemClickListener<Category> {
+public class CategoriesActivity extends BaseActivity implements OnItemClickListener<CategoryWrapper> {
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView recyclerView;
     private CategoriesViewModel viewModel;
@@ -87,7 +88,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
             public void onClick(int position) {
-                deleteCategory(viewModel.getCategories().getValue().get(position));
+                deleteCategory(viewModel.getCategories().getValue().get(position).getCategory());
             }
             @Override
             public Drawable getIcon() {
@@ -146,7 +147,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     }
 
     @Override
-    public void onItemClick(Category item) {
+    public void onItemClick(CategoryWrapper item) {
         Intent intent = new Intent(this, CategoryActivity.class);
         intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID, item.getId());
         startActivity(intent);
