@@ -85,7 +85,8 @@
     <string name="account">Account</string>
     <string name="account_delete_action">Delete Account</string>
     <string name="account_deleted_msg">Account deleted.</string>
-    <string name="activity_account_beginning_month">at the beginning of this month</string>
+    <string name="activity_account_beginning_month_suffix">at the beginning of this month</string>
+    <string name="activity_account_beginning_month_prefix">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
     <string name="activity_account_label" translatable="false">Account activity</string>
     <string name="activity_accounts_label" translatable="false">Accounts activity</string>

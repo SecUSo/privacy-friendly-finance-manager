@@ -3,8 +3,12 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
@@ -42,6 +46,24 @@ public class AccountActivity extends TransactionListActivity {
                 openAccountDialog();
 
                 return true;
+            }
+        });
+
+        View view = setHeaderLayout(R.layout.header_account_balance);
+        final TextView tvTotalBalance = view.findViewById(R.id.tv_totalBalance);
+        final TextView tvMonthBalance = view.findViewById(R.id.tv_monthBalance);
+
+        viewModel.getTotalBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long aLong) {
+                //TODO:
+            }
+        });
+
+        viewModel.getMonthBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long aLong) {
+                //TODO:
             }
         });
     }

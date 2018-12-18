@@ -71,7 +71,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
             android:gravity="center"
-            android:text="@string/activity_account_beginning_month"
+            android:text="@string/activity_account_beginning_month_suffix"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView_balance_month_start"
             app:layout_constraintStart_toEndOf="@+id/textView_balance_month_start"

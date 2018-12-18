@@ -81,7 +81,8 @@
 
     <!--### A C C O U N T ###-->
     <string name="account">Konto</string>
-    <string name="activity_account_beginning_month">zu Beginn dieses Monats</string>
+    <string name="activity_account_beginning_month_suffix">zu Beginn dieses Monats</string>
+    <string name="activity_account_beginning_month_prefix">Beginn des Monats:</string>
     <string name="nav_action_account">Konto</string>
     <string name="activity_account_label">Account activity</string>
     <string name="activity_accounts_label">Accounts activity</string>
@@ -108,7 +109,7 @@
     <string name="not_found">Nicht gefunden</string>
     <string name="not_found_error">Fehler: Nicht gefunden</string>
     <string name="dialog_transaction_zero_value_impossible_msg">Bitte geben Sie einen Betrag größer Null ein, um Ihre Transaktion zu speichern</string>
-    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Hauptansicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
+    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
     <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
     <string name="account_delete_question">Alle zugewiesenen Transaktionen werden ebenfalls gelöscht.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie den Account &lt;b>%1$s&lt;/b> löschen möchten?</string>
 

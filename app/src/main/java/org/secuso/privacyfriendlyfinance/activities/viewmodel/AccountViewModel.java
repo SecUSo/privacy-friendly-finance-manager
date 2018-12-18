@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
@@ -18,14 +19,32 @@ public class AccountViewModel extends TransactionListViewModel {
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
     private long accountId;
     private LiveData<Account> account;
+    private LiveData<Long> totalBalance;
+    private LiveData<Long> monthBalance;
 
     public AccountViewModel(@NonNull Application application, long accountId) {
         super(application);
         this.accountId = accountId;
         account = accountDao.get(accountId);
+        totalBalance = FinanceDatabase.getInstance().transactionDao().sumForAccount(accountId);
+        monthBalance = FinanceDatabase.getInstance().transactionDao().sumForAccountBefore(accountId, LocalDate.now().withDayOfMonth(1).toString());
         setNavigationDrawerId(R.id.nav_account);
         setPreselectedAccountId(accountId);
         setShowEditMenu(true);
+    }
+
+    public LiveData<Long> getTotalBalance() {
+        return totalBalance;
+    }
+    public void setTotalBalance(LiveData<Long> totalBalance) {
+        this.totalBalance = totalBalance;
+    }
+
+    public LiveData<Long> getMonthBalance() {
+        return monthBalance;
+    }
+    public void setMonthBalance(LiveData<Long> monthBalance) {
+        this.monthBalance = monthBalance;
     }
 
     public LiveData<Account> getAccount() {

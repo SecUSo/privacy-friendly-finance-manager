@@ -6,14 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
@@ -34,9 +37,6 @@ import java.util.List;
  */
 public abstract class TransactionListActivity extends BaseActivity {
     private ListView listViewTransactionList;
-    private TextView tvBalance;
-    private TextView tvBalanceLabel;
-    private View separator;
     private FloatingActionButton btAddTransaction;
     protected TransactionListViewModel viewModel;
     private TransactionArrayAdapter transactionArrayAdapter;
@@ -72,11 +72,26 @@ public abstract class TransactionListActivity extends BaseActivity {
         setUpViewElements();
     }
 
+    protected View setHeaderLayout(@LayoutRes int layoutResId) {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout_root);
+
+        View view = getLayoutInflater().inflate(layoutResId, null, false);
+        linearLayout.addView(view, 0);
+
+        RelativeLayout separator = new RelativeLayout(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        separator.setLayoutParams(params);
+        separator.setMinimumHeight(5);
+        separator.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        linearLayout.addView(separator, 1);
+
+        return view;
+    }
+
     private void setUpViewElements() {
         listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("position " + position + " id " + id);
                 openTransactionDialog(transactionArrayAdapter.getItem(position));
             }
         });
@@ -84,9 +99,6 @@ public abstract class TransactionListActivity extends BaseActivity {
 
     private void getViewElements() {
         listViewTransactionList = findViewById(R.id.listView_transactionList);
-        tvBalance = findViewById(R.id.tv_totalBalance);
-        separator = findViewById(R.id.separator);
-        tvBalanceLabel = findViewById(R.id.tv_label_totalBalance);
     }
 
     @Override

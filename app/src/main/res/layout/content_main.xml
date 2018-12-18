@@ -39,7 +39,7 @@
         android:textStyle="bold" />
 
     <View
-        android:id="@+id/little_view"
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_below="@+id/totalBalance"
@@ -51,7 +51,7 @@
         android:id="@+id/legend_name"
         android:layout_width="146dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/little_view"
+        android:layout_below="@+id/separator"
         android:layout_toRightOf="@+id/legend_amount"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
@@ -64,8 +64,8 @@
         android:id="@+id/legend_amount"
         android:layout_width="85dp"
         android:layout_height="50dp"
-        android:layout_alignStart="@+id/little_view"
-        android:layout_below="@+id/little_view"
+        android:layout_alignStart="@+id/separator"
+        android:layout_below="@+id/separator"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:text="@string/amount"
@@ -77,7 +77,7 @@
         android:id="@+id/legend_date"
         android:layout_width="146dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/little_view"
+        android:layout_below="@+id/separator"
         android:layout_toRightOf="@+id/legend_name"
         android:gravity="center_vertical"
         android:paddingRight="12dp"

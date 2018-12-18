@@ -13,7 +13,7 @@ Suffixes:
 	hint (Used for hints, e.g. hints in text input fields)
 	title (Used for titles of e.g. activities)
 	desc (Used for textual descriptions of actions)
-	label (Used only in Android Manifest)
+	label
 	<empty>
 
 Prefixes:
