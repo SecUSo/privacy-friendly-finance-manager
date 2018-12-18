@@ -11,7 +11,6 @@ import org.secuso.privacyfriendlyfinance.R;
 import java.text.NumberFormat;
 
 public abstract class AbstractRecyclerViewHolder extends RecyclerView.ViewHolder {
-    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
     protected final Context context;
 
     public AbstractRecyclerViewHolder(@NonNull View itemView, Context context) {
@@ -19,9 +18,10 @@ public abstract class AbstractRecyclerViewHolder extends RecyclerView.ViewHolder
         this.context = context;
     }
 
-    protected void setBalance(Long balance, TextView textView) {
+    public static void setBalance(Long balance, TextView textView) {
+        Context context = textView.getContext();
         if (balance == null)  balance = 0L;
-        textView.setText(currencyFormat.format(balance.doubleValue() / 100.0));
+        textView.setText(NumberFormat.getCurrencyInstance().format(balance.doubleValue() / 100.0));
         if (balance < 0) {
             textView.setTextColor(context.getResources().getColor(R.color.red));
         } else if (balance > 0) {
