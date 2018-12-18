@@ -111,5 +111,6 @@
     <string name="none">none</string>
     <string name="not_found">Not found</string>
     <string name="not_found_error">ERROR: Not found</string>
+    <string name="account_delete_question">All assigned transactions will be deleted.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete account &lt;b>%1$s&lt;/b>?</string>
 
 </resources>
