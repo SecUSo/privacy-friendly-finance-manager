@@ -2,13 +2,11 @@ package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,7 +26,6 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccountsActivity extends BaseActivity implements OnItemClickListener<AccountWrapper> {
@@ -50,17 +47,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
         final MutableLiveData<List<AccountWrapper>> accountWrappers = new MutableLiveData<>();
 
-        accountsAdapter = new AccountsAdapter(this, accountWrappers);
-        viewModel.getAccounts().observe(this, new Observer<List<Account>>() {
-            @Override
-            public void onChanged(@Nullable List<Account> accounts) {
-                List<AccountWrapper> wrappers = new ArrayList<>();
-                for (Account account : accounts) {
-                    wrappers.add(new AccountWrapper(account));
-                }
-                accountWrappers.postValue(wrappers);
-            }
-        });
+        accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
 
         accountsAdapter.onItemClick(this);
 
@@ -81,7 +68,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
             public void onClick(int position) {
-                deleteAccount(viewModel.getAccounts().getValue().get(position));
+                deleteAccount(viewModel.getAccounts().getValue().get(position).getAccount());
             }
             @Override
             public Drawable getIcon() {
