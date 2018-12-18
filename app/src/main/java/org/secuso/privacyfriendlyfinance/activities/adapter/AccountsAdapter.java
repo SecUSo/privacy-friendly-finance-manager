@@ -23,7 +23,7 @@ public class AccountsAdapter extends EntityListAdapter<AccountWrapper, AccountVi
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View viewItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_card_account, parent, false);
-        return new AccountViewHolder(context, viewItem);
+        return new AccountViewHolder(viewItem, context);
     }
 
     @Override

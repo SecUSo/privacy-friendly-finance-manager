@@ -1,7 +1,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -26,8 +25,6 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
-import java.util.List;
-
 public class AccountsActivity extends BaseActivity implements OnItemClickListener<AccountWrapper> {
     private AccountsViewModel viewModel;
     private RecyclerView recyclerView;
@@ -43,9 +40,6 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         super.onCreate(savedInstanceState);
 
         viewModel = (AccountsViewModel) super.viewModel;
-
-
-        final MutableLiveData<List<AccountWrapper>> accountWrappers = new MutableLiveData<>();
 
         accountsAdapter = new AccountsAdapter(this, viewModel.getAccounts());
 
