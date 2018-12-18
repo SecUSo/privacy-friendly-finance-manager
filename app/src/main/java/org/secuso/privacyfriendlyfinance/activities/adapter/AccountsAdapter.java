@@ -1,7 +1,9 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +23,27 @@ public class AccountsAdapter extends EntityListAdapter<AccountWrapper, AccountVi
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View viewItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_card_account, parent, false);
-        return new AccountViewHolder(viewItem);
+        return new AccountViewHolder(context, viewItem);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AccountViewHolder holder, int index) {
+    public void onBindViewHolder(@NonNull final AccountViewHolder holder, int index) {
         super.onBindViewHolder(holder, index);
         AccountWrapper wrapper = getItem(index);
-        holder.getTvAccountName().setText(wrapper.getAccount().getName());
-//        holder.getTvAccountBalanceCurrent().setText(String.valueOf(account.getInitialBalance()));
-        holder.getTvAccountBalanceMonth().setText(String.valueOf(42));
+        holder.setAccountName(wrapper.getAccount().getName());
+
+        wrapper.getCurrentBalance().observe(context, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long balance) {
+                holder.setBalance(balance);
+            }
+        });
+
+        wrapper.getStartOfMonthBalance().observe(context, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long balance) {
+                holder.setBalanceMonthStart(balance);
+            }
+        });
     }
 }

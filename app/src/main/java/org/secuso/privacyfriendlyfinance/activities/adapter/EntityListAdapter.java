@@ -2,7 +2,6 @@ package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.ListAdapter;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class EntityListAdapter<E extends IdProvider, H extends RecyclerView.ViewHolder> extends ListAdapter<E, H> {
-    protected final Context context;
+    protected final BaseActivity context;
     private List<OnItemClickListener<E>> listeners = new ArrayList<>();
 
     public EntityListAdapter(BaseActivity context, LiveData<List<E>> data) {
@@ -28,6 +27,7 @@ public abstract class EntityListAdapter<E extends IdProvider, H extends Recycler
 
             @Override
             public boolean areContentsTheSame(E oldItem, E newItem) {
+                // TODO: implement equals for entities and AccountWrapper
                 return oldItem.equals(newItem);
             }
         });

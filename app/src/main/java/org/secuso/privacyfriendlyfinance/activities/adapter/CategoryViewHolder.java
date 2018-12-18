@@ -16,7 +16,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     public CategoryViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewName = itemView.findViewById(R.id.category_card_name);
-        textViewAmount = itemView.findViewById(R.id.account_card_balance_current);
+        textViewAmount = itemView.findViewById(R.id.textView_balance);
     }
 
     public void setCategory(Category category) {

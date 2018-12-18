@@ -33,7 +33,6 @@ public class TransactionDialogViewModel extends AndroidViewModel implements Obse
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
     private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
 
-//    private List<Category> categories;
     private LiveData<List<Category>> categories;
     private LiveData<List<Account>> accounts = accountDao.getAll();
 
