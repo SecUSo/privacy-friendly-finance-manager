@@ -8,10 +8,12 @@ Convention:
 
 
 Suffixes:
-	action
-	msg
-	hint
-	title
+	action (Used for buttons and other things that trigger actions)
+	msg (Used for messages that will be displayed to the user)
+	hint (Used for hints, e.g. hints in text input fields)
+	title (Used for titles of e.g. activities)
+	desc (Used for textual descriptions of actions)
+	label (Used only in Android Manifest)
 	<empty>
 
 Prefixes:

@@ -1,7 +1,7 @@
 <resources>
     <!-- ### A P P ### -->
-    <string name="app_name">Finance Manager</string>
-    <string name="app_name_long">Finance Manager</string>
+    <string name="app_name" translatable="false">Finance Manager</string>
+    <string name="app_name_long" translatable="false">Finance Manager</string>
 
     <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
     <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
@@ -10,7 +10,7 @@
     <string name="balance">Balance</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string name="amount">amount</string>
+    <string name="amount">Amount</string>
     <string name="name">Name</string>
     <string name="date">Date</string>
     <string name="help">Help</string>
@@ -56,15 +56,15 @@
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>
     <string name="category_plural">Categories</string>
-    <string name="category_delete_action">Delete Category</string>
-    <string name="category_deleted">Category deleted.</string>
+    <string name="category_delete_dialog_title">Delete Category</string>
+    <string name="category_deleted">Category deleted</string>
     <string name="dialog_category_name_hint">Enter category name</string>
     <string name="dialog_category_create_title">New Category</string>
     <string name="dialog_category_edit_title">Edit Category</string>
-    <string name="dialog_category_empty_name_impossible_msg">The category must have a name.</string>
+    <string name="dialog_category_empty_name_impossible_msg">The category must have a name</string>
     <string name="category_default_category_name">Default</string>
-    <string name="activity_category_label">Category activity</string>
-    <string name="category_saved_msg">Category saved.</string>
+    <string name="activity_category_label" translatable="false">Category activity</string>
+    <string name="category_saved_msg">Category saved</string>
     <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
 
     <!--### T R A N S A C T I O N ###-->
@@ -85,13 +85,13 @@
     <string name="account">Account</string>
     <string name="account_delete_action">Delete Account</string>
     <string name="account_deleted_msg">Account deleted.</string>
-    <string name="activity_account_beginning_month">Beginning of this month:</string>
+    <string name="activity_account_beginning_month">at the beginning of this month</string>
     <string name="nav_action_account">Account</string>
-    <string name="activity_account_label">Account activity</string>
-    <string name="activity_accounts_label">Accounts activity</string>
+    <string name="activity_account_label" translatable="false">Account activity</string>
+    <string name="activity_accounts_label" translatable="false">Accounts activity</string>
     <string name="dialog_account_name_hint">Enter account name</string>
-    <string name="account_saved_msg">Account saved.</string>
-    <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible.</string>
+    <string name="account_saved_msg">Account saved</string>
+    <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible</string>
     <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
 
 
@@ -101,8 +101,8 @@
     <string name="activity_tutorial_slide2_title">Finance Manager</string>
     <string name="activity_tutorial_slide2_msg">You can manage your finances by tracking your earnings and expenses.</string>
     <string name="activity_tutorial_slide3_title">New Transactions</string>
-    <string name="activity_tutorial_slide3_msg">You can create new expenses by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. </string>
-    <string name="activity_tutorial_slide4_title">Transaction Overview</string>
+    <string name="activity_tutorial_slide3_msg">"You can create new transactions by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. "</string>
+    <string name="activity_tutorial_slide4_title">Transaction overview</string>
     <string name="activity_tutorial_slide4_msg">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
     <string name="activity_tutorial_slide5_title">Categories</string>
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>

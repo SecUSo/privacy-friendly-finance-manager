@@ -117,7 +117,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
 
     public void deleteCategory(final Category category) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.category_delete_action);
+        builder.setTitle(R.string.category_delete_dialog_title);
         builder.setMessage(Html.fromHtml(getResources().getString(R.string.category_delete_question, category.getName())));
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
