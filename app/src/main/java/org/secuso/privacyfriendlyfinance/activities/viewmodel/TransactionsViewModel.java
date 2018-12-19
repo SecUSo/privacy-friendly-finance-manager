@@ -8,8 +8,7 @@ import org.secuso.privacyfriendlyfinance.R;
 public class TransactionsViewModel extends TransactionListViewModel {
     public TransactionsViewModel(@NonNull Application application) {
         super(application);
-//        TODO
-//        setTitle(R.string.activity_transaction_latest_title);
+        setTitle(R.string.activity_transactions_title);
         setNavigationDrawerId(R.id.nav_main);
     }
 }

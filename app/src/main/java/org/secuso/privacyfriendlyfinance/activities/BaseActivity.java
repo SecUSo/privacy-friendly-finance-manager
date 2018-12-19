@@ -104,6 +104,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             }
         });
 
+        viewModel.getTitleId().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer titleId) {
+                viewModel.setTitle(getString(titleId));
+            }
+        });
+
         viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer navigationDrawerId) {
