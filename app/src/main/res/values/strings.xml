@@ -119,6 +119,8 @@
     <string name="dialog_account_balance_beginning_month_label">Balance at the beginning of this month:</string>
     <string name="dialog_account_balance_change_desc">Changing the balance at the beginning of the month will result in the automatic creation of a transaction in the previous month. This transaction will add or subtract the difference so that your desired balance for the current month is achieved.</string>
     <string name="compensation_transaction_default_name">Compensation transaction</string>
+    <string name="dialog_account_positive_label">Positive</string>
+    <string name="dialog_account_negative_label">Negative</string>
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Welcome!</string>

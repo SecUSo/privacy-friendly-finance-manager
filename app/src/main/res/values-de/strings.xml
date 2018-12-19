@@ -116,6 +116,8 @@
     <string name="dialog_account_balance_beginning_month_label">Bilanz zum Beginn dieses Monats:</string>
     <string name="dialog_account_balance_change_desc">Das Ändern der Bilanz zum Anfang des Monats hat die automatische Erstellung einer Ausgleichstransaktion am Ende des Vormonats zur Folge. Diese Ausgleichstransaktion addiert bzw. subtrahiert einen entsprechenden Betrag um die von Ihnen gewünschte Bilanz für diesen Monat herzustellen.</string>
     <string name="compensation_transaction_default_name">Ausgleichstransaktion</string>
+    <string name="dialog_account_positive_label">Positiv</string>
+    <string name="dialog_account_negative_label">Negativ</string>
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Willkommen!</string>
