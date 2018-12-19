@@ -11,29 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <RelativeLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="org.secuso.privacyfriendlyfinance.activities.MainActivity"
-            android:orientation="vertical"
-            style="@style/AlertDialog.AppCompat">
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+        <!--<RelativeLayout-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--xmlns:tools="http://schemas.android.com/tools"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
+            <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
+            <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
+            <!--android:paddingTop="@dimen/activity_vertical_margin"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+            <!--tools:context="org.secuso.privacyfriendlyfinance.activities.MainActivity"-->
+            <!--android:orientation="vertical"-->
+            <!--style="@style/AlertDialog.AppCompat">-->
 
-            <ListView
-                android:id="@+id/listView_transactionList"
-                android:layout_width="match_parent"
-                android:layout_height="381dp"
-                android:layout_centerHorizontal="true"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="0.5dp" />
+            <!--<ListView-->
+                <!--android:id="@+id/listView_transactionList"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="381dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:divider="@android:color/darker_gray"-->
+                <!--android:dividerHeight="0.5dp" />-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
 
     </LinearLayout>
 </layout>

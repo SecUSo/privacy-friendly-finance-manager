@@ -12,7 +12,8 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="4dp"
     android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -76,42 +77,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView_balance_month_start"
             app:layout_constraintStart_toEndOf="@+id/textView_balance_month_start"
             app:layout_constraintTop_toTopOf="@+id/textView_balance_month_start" />
-
-        <!--
-        <TextView
-            android:id="@+id/exercise_none_available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/set_contains_no_exercises"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_set_name" />-->
-
-        <!--
-        <LinearLayout
-            android:id="@+id/exercise_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_set_name"
-            app:layout_constraintRight_toLeftOf="@+id/delete_check_box"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.521">
-        </LinearLayout>-->
 
 
     </android.support.constraint.ConstraintLayout>

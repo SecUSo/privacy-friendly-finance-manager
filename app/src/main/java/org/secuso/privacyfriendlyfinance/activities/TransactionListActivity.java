@@ -1,31 +1,33 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionArrayAdapter;
+import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
+import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionsAdapter;
+import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ContentTransactionListBinding;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
-
-import java.util.List;
 
 /**
  * This abstract class is provided as a base class for all
@@ -35,13 +37,10 @@ import java.util.List;
  *
  * @author Leonard Otto, Felix Hofmann
  */
-public abstract class TransactionListActivity extends BaseActivity {
-    private ListView listViewTransactionList;
-    private FloatingActionButton btAddTransaction;
+public abstract class TransactionListActivity extends BaseActivity implements OnItemClickListener<Transaction> {
+    private RecyclerView recyclerView;
     protected TransactionListViewModel viewModel;
-    private TransactionArrayAdapter transactionArrayAdapter;
 
-    private int dbg = 0;
     protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
 
     @Override
@@ -52,28 +51,47 @@ public abstract class TransactionListActivity extends BaseActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
 
-        btAddTransaction = addFab(R.layout.fab_add, new View.OnClickListener() {
+        addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openTransactionDialog(null);
+                onItemClick(null);
             }
         });
 
-        viewModel.getTransactions().observe(this, new Observer<List<Transaction>>() {
+        recyclerView = binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        TransactionsAdapter adapter = new TransactionsAdapter(this, viewModel.getTransactions());
+        adapter.onItemClick(this);
+        recyclerView.setAdapter(adapter);
+
+
+        SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
-            public void onChanged(@Nullable List<Transaction> transactions) {
-                listViewTransactionList.setAdapter(
-                        transactionArrayAdapter = new TransactionArrayAdapter(TransactionListActivity.this, transactions));
+            public void onClick(int position) {
+                deleteTransaction(viewModel.getTransactions().getValue().get(position));
+            }
+            @Override
+            public Drawable getIcon() {
+                return ContextCompat.getDrawable(TransactionListActivity.this, R.drawable.ic_delete_red_24dp);
+            }
+        };
+
+        final SwipeController swipeController = new SwipeController(this, deleteAction, deleteAction);
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
             }
         });
-
-        getViewElements();
-
-        setUpViewElements();
     }
 
     protected View setHeaderLayout(@LayoutRes int layoutResId) {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout_root);
+        LinearLayout linearLayout = findViewById(R.id.linear_layout_root);
 
         View view = getLayoutInflater().inflate(layoutResId, null, false);
         linearLayout.addView(view, 0);
@@ -88,18 +106,18 @@ public abstract class TransactionListActivity extends BaseActivity {
         return view;
     }
 
-    private void setUpViewElements() {
-        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openTransactionDialog(transactionArrayAdapter.getItem(position));
-            }
-        });
-    }
-
-    private void getViewElements() {
-        listViewTransactionList = findViewById(R.id.listView_transactionList);
-    }
+//    private void setUpViewElements() {
+//        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                openTransactionDialog(transactionArrayAdapter.getItem(position));
+//            }
+//        });
+//    }
+//
+//    private void getViewElements() {
+//        listViewTransactionList = findViewById(R.id.listView_transactionList);
+//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -113,13 +131,13 @@ public abstract class TransactionListActivity extends BaseActivity {
         super.onResume();
     }
 
-    private void deleteItem(final int indexToDelete) {
+    private void deleteTransaction(final Transaction transaction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_delete_transaction_title)
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        transactionDao.deleteAsync(transactions.get(indexToDelete));
+                        FinanceDatabase.getInstance().transactionDao().deleteAsync(transaction);
 
                         Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
 
@@ -133,17 +151,12 @@ public abstract class TransactionListActivity extends BaseActivity {
         alert.show();
     }
 
-    /**
-     * Opens a new transaction dialog. If the given transaction object is not null
-     * the dialog is opened as a edit dialog for the object.
-     *
-     * @param transactionObject the transaction object to be edited or null in order to open a creation dialog
-     */
-    protected void openTransactionDialog(Transaction transactionObject) {
+    @Override
+    public void onItemClick(Transaction item) {
         TransactionDialog transactionDialog = new TransactionDialog();
         Bundle args = new Bundle();
-        if (transactionObject != null) {
-            args.putLong(TransactionDialog.EXTRA_TRANSACTION_ID, transactionObject.getId());
+        if (item != null) {
+            args.putLong(TransactionDialog.EXTRA_TRANSACTION_ID, item.getId());
         } else {
             args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, viewModel.getPreselectedCategoryId());
             args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, viewModel.getPreselectedAccountId());
