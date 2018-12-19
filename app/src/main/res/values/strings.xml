@@ -117,5 +117,6 @@
     <string name="none">none</string>
     <string name="not_found">Not found</string>
     <string name="not_found_error">ERROR: Not found</string>
+    <string name="activity_transaction_latest_title">Latest Transactions</string>
 
 </resources>

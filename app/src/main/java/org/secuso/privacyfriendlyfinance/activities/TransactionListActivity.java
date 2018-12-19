@@ -32,7 +32,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 /**
  * This abstract class is provided as a base class for all
  * activities that show a list of transactions. Classes that use
- * this class as a super class are: MainActivity, AccountActivity,
+ * this class as a super class are: TransactionsActivity, AccountActivity,
  * CategoryActivity...
  *
  * @author Leonard Otto, Felix Hofmann
@@ -141,7 +141,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
 
                         Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
 
-                        Intent main = new Intent(getBaseContext(), MainActivity.class);
+                        Intent main = new Intent(getBaseContext(), TransactionsActivity.class);
                         startActivity(main);
                     }
                 })

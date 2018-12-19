@@ -17,12 +17,12 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import org.secuso.privacyfriendlyfinance.activities.viewmodel.MainViewModel;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 
-public class MainActivity extends TransactionListActivity {
+public class TransactionsActivity extends TransactionListActivity {
     @Override
     protected Class<? extends TransactionListViewModel> getViewModelClass() {
-        return MainViewModel.class;
+        return TransactionsViewModel.class;
     }
 }

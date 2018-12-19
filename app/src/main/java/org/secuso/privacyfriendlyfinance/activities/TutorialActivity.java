@@ -139,7 +139,7 @@ public class TutorialActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         if(SharedPreferencesManager.isFirstTimeLaunch()) {
-            Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
+            Intent intent = new Intent(TutorialActivity.this, TransactionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             SharedPreferencesManager.setFirstTimeLaunch(false);
             startActivity(intent);

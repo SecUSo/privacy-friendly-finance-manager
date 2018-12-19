@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 
 import org.secuso.privacyfriendlyfinance.R;
 
-public class MainViewModel extends TransactionListViewModel {
-    public MainViewModel(@NonNull Application application) {
+public class TransactionsViewModel extends TransactionListViewModel {
+    public TransactionsViewModel(@NonNull Application application) {
         super(application);
-        setTitle("Last Transactions");
+//        TODO
+//        setTitle(R.string.activity_transaction_latest_title);
         setNavigationDrawerId(R.id.nav_main);
     }
 }

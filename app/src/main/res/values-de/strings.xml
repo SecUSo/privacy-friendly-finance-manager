@@ -116,5 +116,6 @@
     <string name="dialog_transaction_zero_value_impossible_msg">Bitte geben Sie einen Betrag größer Null ein, um Ihre Transaktion zu speichern</string>
     <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
     <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
+    <string name="activity_transaction_latest_title">Neueste Transaktionen</string>
 
 </resources>

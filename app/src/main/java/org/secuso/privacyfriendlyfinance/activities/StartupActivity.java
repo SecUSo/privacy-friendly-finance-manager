@@ -39,7 +39,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         if(SharedPreferencesManager.isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
-            mainIntent = new Intent(this, MainActivity.class);
+            mainIntent = new Intent(this, TransactionsActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 
