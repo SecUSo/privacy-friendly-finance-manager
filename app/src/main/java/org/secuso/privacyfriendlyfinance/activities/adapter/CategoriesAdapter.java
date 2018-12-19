@@ -23,7 +23,7 @@ public class CategoriesAdapter extends EntityListAdapter<CategoryWrapper, Catego
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View viewItem = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_card_category, parent, false);
+                .inflate(R.layout.card_category, parent, false);
         return new CategoryViewHolder(viewItem, context);
     }
 

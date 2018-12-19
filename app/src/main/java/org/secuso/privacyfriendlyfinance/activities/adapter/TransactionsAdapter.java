@@ -30,7 +30,7 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View viewItem = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_transaction, parent, false);
+                .inflate(R.layout.card_transaction, parent, false);
         return new TransactionViewHolder(viewItem, context);
     }
 
