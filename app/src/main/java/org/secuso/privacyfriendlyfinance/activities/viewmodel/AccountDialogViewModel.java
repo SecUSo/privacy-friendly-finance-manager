@@ -10,7 +10,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.List;
 
-public class AccountDialogViewModel extends BaseViewModel {
+public class AccountDialogViewModel extends BindableViewModel {
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
 
     public AccountDialogViewModel(@NonNull Application application) {

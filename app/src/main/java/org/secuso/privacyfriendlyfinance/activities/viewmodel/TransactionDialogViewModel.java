@@ -2,13 +2,10 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
 import android.arch.core.util.Function;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.databinding.Bindable;
-import android.databinding.Observable;
-import android.databinding.PropertyChangeRegistry;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -28,7 +25,7 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionDialogViewModel extends AndroidViewModel implements Observable {
+public class TransactionDialogViewModel extends BindableViewModel {
     private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
     private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
@@ -207,43 +204,4 @@ public class TransactionDialogViewModel extends AndroidViewModel implements Obse
     public void submit() {
         transactionDao.updateOrInsertAsync(transaction);
     }
-
-    // The following is just the BaseObservalbe implementation.
-    private transient PropertyChangeRegistry mCallbacks;
-    @Override
-    public synchronized void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        if (mCallbacks == null) {
-            mCallbacks = new PropertyChangeRegistry();
-        }
-        mCallbacks.add(callback);
-        Log.w("transDilg", "callback added");
-    }
-    @Override
-    public synchronized void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        if (mCallbacks != null) {
-            mCallbacks.remove(callback);
-        }
-    }
-    /**
-     * Notifies listeners that all properties of this instance have changed.
-     */
-    public synchronized void notifyChange() {
-        if (mCallbacks != null) {
-            mCallbacks.notifyCallbacks(this, 0, null);
-        }
-    }
-    /**
-     * Notifies listeners that a specific property has changed. The getter for the property
-     * that changes should be marked with {@link Bindable} to generate a field in
-     * <code>BR</code> to be used as <code>fieldId</code>.
-     *
-     * @param fieldId The generated BR id for the Bindable field.
-     */
-    public void notifyPropertyChanged(int fieldId) {
-        if (mCallbacks != null) {
-            mCallbacks.notifyCallbacks(this, fieldId, null);
-        }
-    }
-
-
 }
