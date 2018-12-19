@@ -19,6 +19,7 @@
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
+    <string name="please_note">Bitte beachten Sie:</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initialisiere Keystore...</string>
@@ -111,8 +112,9 @@
     <string name="dialog_account_empty_name_impossible_msg">Ein leerer Kontoname ist nicht möglich</string>
     <string name="dialog_account_name_taken_msg">Ein Konto mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
     <string name="account_activity_balance_label">Bilanz für dieses Konto:</string>
+    <string name="dialog_account_balance_hint">Bilanz eingeben</string>
     <string name="dialog_account_balance_beginning_month_label">Bilanz zum Beginn dieses Monats:</string>
-    <string name="dialog_account_balance_change_desc">Bitte beachten Sie:&lt;br /&gt;Das Ändern der Bilanz zum Anfang des Monats hat die automatische Erstellung einer Ausgleichstransaktion am Ende des Vormonats zur Folge. Diese Ausgleichstransaktion addiert bzw. subtrahiert einen entsprechenden Betrag um die von Ihnen gewünschte Bilanz für diesen Monat herzustellen.</string>
+    <string name="dialog_account_balance_change_desc">Das Ändern der Bilanz zum Anfang des Monats hat die automatische Erstellung einer Ausgleichstransaktion am Ende des Vormonats zur Folge. Diese Ausgleichstransaktion addiert bzw. subtrahiert einen entsprechenden Betrag um die von Ihnen gewünschte Bilanz für diesen Monat herzustellen.</string>
     <string name="compensation_transaction_default_name">Ausgleichstransaktion</string>
 
     <!-- ### T U T O R I A L ### -->

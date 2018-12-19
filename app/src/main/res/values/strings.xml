@@ -19,6 +19,7 @@
     <string name="okay">Okay</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="please_note">Please note:</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initializing key store...</string>
@@ -114,8 +115,9 @@
     <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible</string>
     <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
     <string name="account_activity_balance_label">Balance for this account:</string>
+    <string name="dialog_account_balance_hint">Enter balance</string>
     <string name="dialog_account_balance_beginning_month_label">Balance at the beginning of this month:</string>
-    <string name="dialog_account_balance_change_desc">Please note:&lt;br /&gt;Changing the balance at the beginning of the month will result in the automatic creation of a transaction in the previos month. This transaction will add or subtract the difference so that your desired balance for the current month is achieved.</string>
+    <string name="dialog_account_balance_change_desc">Changing the balance at the beginning of the month will result in the automatic creation of a transaction in the previous month. This transaction will add or subtract the difference so that your desired balance for the current month is achieved.</string>
     <string name="compensation_transaction_default_name">Compensation transaction</string>
 
     <!-- ### T U T O R I A L ### -->
