@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 import java.util.Locale;
 
@@ -38,7 +39,7 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
     }
 
     public void setAmount(Long amount) {
-        setBalance(amount, tvAmount);
+        CurrencyHelper.setBalance(amount, tvAmount);
     }
 
     public void setAccountName(String name) {
