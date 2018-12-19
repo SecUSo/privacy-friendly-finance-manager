@@ -6,9 +6,10 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="horizontal"
+    android:background="@color/white"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/imageView_category"
@@ -103,6 +104,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textview_transaction_name"
         app:srcCompat="@drawable/ic_account_gray_24dp" />
-
 
 </android.support.constraint.ConstraintLayout>
