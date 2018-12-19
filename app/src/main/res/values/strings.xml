@@ -101,6 +101,8 @@
     <string name="activity_account_manifest_label" translatable="false">Account activity</string>
     <string name="activity_accounts_manifest_label" translatable="false">Accounts activity</string>
     <string name="dialog_account_name_hint">Enter account name</string>
+    <string name="dialog_account_create_title">New account</string>
+    <string name="dialog_account_edit_title">Edit account</string>
     <string name="account_delete_question">All assigned transactions will be deleted.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete account &lt;b>%1$s&lt;/b>?</string>
     <string name="account_saved_msg">Account saved</string>
     <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible</string>

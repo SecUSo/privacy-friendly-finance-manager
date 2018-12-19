@@ -37,6 +37,7 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoriesAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryWrapper;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
+import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewModel;

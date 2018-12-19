@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.dialog.AccountDialog;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;

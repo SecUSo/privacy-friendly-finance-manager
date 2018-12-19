@@ -1,4 +1,4 @@
-package org.secuso.privacyfriendlyfinance.activities;
+package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -32,16 +32,19 @@ public abstract class SimpleTextInputDialog extends AppCompatDialogFragment {
 
         retrieveData();
 
+        // This line must be at the end in order for data retrieval to be finished at this point
+        builder.setTitle(getTitleResourceId());
+
         return builder.create();
     }
 
+    protected abstract int getTitleResourceId();
     protected abstract void retrieveData();
     protected abstract void onClickPositive(String textFromTextInput);
     protected void onClickNegative() {}
     protected abstract String getTextInputHint();
 
-    private void setUpViewElements() {
-        editTextInput.setHint(getTextInputHint());
+    private void setUpViewElements() { editTextInput.setHint(getTextInputHint());
     }
 
     private void getViewElements(View view) {

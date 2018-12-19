@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.secuso.privacyfriendlyfinance.activities;
+package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -40,6 +40,16 @@ public class CategoryDialog extends SimpleTextInputDialog {
     private CategoryDialogViewModel viewModel;
     private Category categoryObject;
     private List<Category> allCategories = new ArrayList<Category>();
+    private boolean editingExistingCategory;
+
+    @Override
+    protected int getTitleResourceId() {
+        if (editingExistingCategory) {
+            return R.string.dialog_category_edit_title;
+        } else {
+            return R.string.dialog_category_create_title;
+        }
+    }
 
     @Override
     protected void retrieveData() {
@@ -48,7 +58,9 @@ public class CategoryDialog extends SimpleTextInputDialog {
         Bundle args = getArguments();
         long categoryId = args.getLong(EXTRA_CATEGORY_ID, -1L);
         if (categoryId == -1L) {
+            editingExistingCategory = false;
         } else {
+            editingExistingCategory = true;
             viewModel.getCategoryById(categoryId).observe(this, new Observer<Category>() {
                 @Override
                 public void onChanged(@Nullable Category category) {

@@ -19,6 +19,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountWrapper;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
+import org.secuso.privacyfriendlyfinance.activities.dialog.AccountDialog;
+import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;

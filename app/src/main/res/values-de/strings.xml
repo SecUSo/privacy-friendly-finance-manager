@@ -97,6 +97,8 @@
     <string name="activity_account_manifest_label">Account activity</string>
     <string name="activity_accounts_manifest_label">Accounts activity</string>
     <string name="dialog_account_name_hint">Name des Kontos</string>
+    <string name="dialog_account_create_title">Konto erstellen</string>
+    <string name="dialog_account_edit_title">Konto bearbeiten</string>
     <string name="account_saved_msg">Konto gespeichert</string>
     <string name="dialog_account_empty_name_impossible_msg">Ein leerer Kontoname ist nicht möglich</string>
     <string name="dialog_account_name_taken_msg">Ein Konto mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>

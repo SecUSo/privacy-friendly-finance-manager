@@ -24,6 +24,7 @@ import android.widget.Toast;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.adapter.TransactionsAdapter;
+import org.secuso.privacyfriendlyfinance.activities.dialog.TransactionDialog;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ContentTransactionListBinding;

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;

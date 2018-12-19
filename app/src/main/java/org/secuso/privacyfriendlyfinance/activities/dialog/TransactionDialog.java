@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.secuso.privacyfriendlyfinance.activities;
+package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

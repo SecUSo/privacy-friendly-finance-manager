@@ -1,4 +1,4 @@
-package org.secuso.privacyfriendlyfinance.activities;
+package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 
 import android.arch.lifecycle.Observer;
@@ -20,6 +20,16 @@ public class AccountDialog extends SimpleTextInputDialog {
     private AccountDialogViewModel viewModel;
     private Account accountObject;
     private List<Account> allAccounts = new ArrayList<Account>();
+    private boolean editingExistingAccount;
+
+    @Override
+    protected int getTitleResourceId() {
+        if (editingExistingAccount) {
+            return R.string.dialog_account_edit_title;
+        } else {
+            return R.string.dialog_account_create_title;
+        }
+    }
 
     @Override
     protected void retrieveData() {
@@ -28,7 +38,9 @@ public class AccountDialog extends SimpleTextInputDialog {
         Bundle args = getArguments();
         long accountId = args.getLong(EXTRA_ACCOUNT_ID, -1L);
         if (accountId == -1L) {
+            editingExistingAccount = false;
         } else {
+            editingExistingAccount = true;
             viewModel.getAccountById(accountId).observe(this, new Observer<Account>() {
                 @Override
                 public void onChanged(@Nullable Account account) {
