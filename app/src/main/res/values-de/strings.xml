@@ -31,16 +31,22 @@
 
 
     <!--### H E L P ###-->
-    <string name="activity_help_question_whatis">Was ist der Privacy Friendly Finanzen Manager?</string>
-    <string name="activity_help_answer_whatis">Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</string>
-    <string name="activity_help_question_one">Wie überwache ich Ausgaben und Einnahmen?</string>
-    <string name="activity_help_answer_one">Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den Plus-Knopf in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</string>
-    <string name="activity_help_question_two">Wie kann ich meine Ausgaben kategorisieren?</string>
-    <string name="activity_help_answer_two">Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</string>
-    <string name="activity_help_question_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="activity_help_answer_privacy">Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</string>
-    <string name="activity_help_question_permission">Welche Berechtigungen braucht die App?</string>
-    <string name="activity_help_answer_permission">Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</string>
+    <string-array
+        name="activity_help_questions">
+        <item>Was ist der Privacy Friendly Finanzen Manager?</item>
+        <item>Wie überwache ich Ausgaben und Einnahmen?</item>
+        <item>Wie kann ich meine Ausgaben kategorisieren?</item>
+        <item>Was macht die App privatsphäre-freundlich?</item>
+        <item>Welche Berechtigungen braucht die App?</item>
+    </string-array>
+    <string-array
+        name="activity_help_answers">
+        <item>Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</item>
+        <item>Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den Plus-Knopf in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</item>
+        <item>Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</item>
+        <item>Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</item>
+        <item>Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</item>
+    </string-array>
 
     <!--### A B O U T ###-->
     <string name="activity_about_title">Über</string>

@@ -18,7 +18,10 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.os.Bundle;
+import android.widget.ExpandableListView;
 
+import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.adapter.HelpListExpandableListAdapter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 
 public class HelpActivity extends BaseActivity {
@@ -30,6 +33,15 @@ public class HelpActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContent(R.layout.activity_help);
 
+        getViewModel().setNavigationDrawerId(R.id.nav_help);
+
+        String[] questions = getResources().getStringArray(R.array.activity_help_questions);
+        String[] answers = getResources().getStringArray(R.array.activity_help_answers);
+
+        ExpandableListView expandableListView = findViewById(R.id.expandableListView_questionList);
+        HelpListExpandableListAdapter expandableListAdapter = new HelpListExpandableListAdapter(this, questions, answers);
+        expandableListView.setAdapter(expandableListAdapter);
     }
 }
