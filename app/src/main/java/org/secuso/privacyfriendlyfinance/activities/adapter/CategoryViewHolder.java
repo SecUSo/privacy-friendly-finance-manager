@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 public class CategoryViewHolder extends AbstractRecyclerViewHolder {
     private TextView textViewName;
@@ -22,6 +23,6 @@ public class CategoryViewHolder extends AbstractRecyclerViewHolder {
     }
 
     public void setBalance(Long balance) {
-        setBalance(balance, textViewBalance);
+        CurrencyHelper.setBalance(balance, textViewBalance);
     }
 }

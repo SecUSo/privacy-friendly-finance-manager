@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 public class AccountViewHolder extends AbstractRecyclerViewHolder {
     private TextView tvAccountName;
@@ -23,9 +24,9 @@ public class AccountViewHolder extends AbstractRecyclerViewHolder {
         tvAccountName.setText(name);
     }
     public void setBalance(Long balance) {
-        setBalance(balance, tvAccountBalance);
+        CurrencyHelper.setBalance(balance, tvAccountBalance);
     }
     public void setBalanceMonthStart(Long balance) {
-        setBalance(balance, tvAccountBalanceMonth);
+        CurrencyHelper.setBalance(balance, tvAccountBalanceMonth);
     }
 }

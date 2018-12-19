@@ -12,6 +12,7 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 public class AccountActivity extends TransactionListActivity {
     public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
@@ -55,15 +56,15 @@ public class AccountActivity extends TransactionListActivity {
 
         viewModel.getTotalBalance().observe(this, new Observer<Long>() {
             @Override
-            public void onChanged(@Nullable Long aLong) {
-                //TODO:
+            public void onChanged(@Nullable Long totalBalance) {
+                CurrencyHelper.setBalance(totalBalance, tvTotalBalance);
             }
         });
 
         viewModel.getMonthBalance().observe(this, new Observer<Long>() {
             @Override
-            public void onChanged(@Nullable Long aLong) {
-                //TODO:
+            public void onChanged(@Nullable Long monthBalance) {
+                CurrencyHelper.setBalance(monthBalance, tvMonthBalance);
             }
         });
     }
