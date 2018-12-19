@@ -10,52 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RadioGroup
-            android:id="@+id/radioGroup_transaction_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name">
-
-            <RadioButton
-                android:id="@+id/radioButton_transaction_expense"
-                android:checked="@={viewModel.expense}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dialog_transaction_radio_button_expense_action" />
-
-            <RadioButton
-                android:id="@+id/radioButton_transaction_income"
-                android:checked="@{!viewModel.expense}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dialog_transaction_radio_button_income_action" />
-
-        </RadioGroup>
-
-
-        <EditText
-            android:id="@+id/dialog_transaction_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/dialog_transaction_value_hint"
-            android:inputType="numberDecimal"
-            android:maxLength="10"
-            android:selectAllOnFocus="false"
-            android:singleLine="false"
-            android:text="@={viewModel.amount}"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/radioGroup_transaction_type"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/radioGroup_transaction_type"
-            app:layout_constraintTop_toTopOf="@+id/radioGroup_transaction_type" />
-
         <EditText
             android:id="@+id/editText_transaction_name"
             android:layout_width="0dp"
@@ -73,6 +27,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/fragment_currency_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name"
+            app:viewModel="@{viewModel}"
+            app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
+            app:negativeLabel="@{@string/dialog_transaction_radio_button_expense_action}"
+            />
+
         <TextView
             android:id="@+id/dialog_transaction_date"
             android:layout_width="wrap_content"
@@ -85,7 +55,7 @@
             android:gravity="center_vertical"
             android:text="@{viewModel.dateString}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup_transaction_type" />
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
         <TextView
             android:id="@+id/dialog_category_legend"

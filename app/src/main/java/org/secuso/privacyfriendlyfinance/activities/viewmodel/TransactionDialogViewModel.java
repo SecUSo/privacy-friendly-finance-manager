@@ -11,7 +11,6 @@ import android.util.Log;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
@@ -20,12 +19,11 @@ import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
-import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionDialogViewModel extends BindableViewModel {
+public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
     private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
@@ -60,6 +58,16 @@ public class TransactionDialogViewModel extends BindableViewModel {
         });
 
         setTransactionDummy();
+    }
+
+    @Override
+    protected Long getNumericAmount() {
+        return transaction.getAmount();
+    }
+
+    @Override
+    protected void setNumericAmount(Long amount) {
+        transaction.setAmount(amount);
     }
 
     public LiveData<List<Category>> getAllCategories() {
@@ -106,39 +114,6 @@ public class TransactionDialogViewModel extends BindableViewModel {
         if (!transaction.getName().equals(name)) {
             transaction.setName(name);
             notifyPropertyChanged(BR.name);
-        }
-    }
-
-    @Bindable
-    public String getAmount() {
-        return CurrencyHelper.convertToString(transaction.getAmount());
-    }
-    public void setAmount(String amount) {
-        if (amount == null) amount = "";
-        Long number = CurrencyHelper.convertToLong(amount);
-        if (number == null) number = 0L;
-        if (getExpense()) number = -number;
-        if (transaction.getAmount() != number) {
-            transaction.setAmount(number);
-            notifyPropertyChanged(BR.amount);
-        }
-    }
-
-    @Bindable
-    public int getAmountColor() {
-        return getExpense() ? R.color.red : R.color.green;
-    }
-
-    @Bindable
-    public boolean getExpense() {
-        return transaction.getAmount() <= 0;
-    }
-    public void setExpense(boolean checked) {
-        if ((transaction.getAmount() > 0 && checked) || (transaction.getAmount() < 0 && !checked)) {
-            transaction.setAmount(transaction.getAmount() * -1);
-            Log.d("amount", "" + transaction.getAmount());
-            notifyPropertyChanged(BR.expense);
-            notifyPropertyChanged(BR.amountColor);
         }
     }
 
