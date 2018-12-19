@@ -128,7 +128,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_pencil, menu);
         MenuItem menuItemEdit = menu.findItem(R.id.toolbar_action_edit);
         menuItemEdit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
