@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.commonsware.cwac.saferoom.SafeHelperFactory;
 
+import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
@@ -86,7 +87,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
             try {
 
                 publishProgress(0.0);
-                publishOperation("init key store");
+                publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
                 KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
                 String passphrase = SharedPreferencesManager.getDbPassphrase();
 
@@ -102,13 +103,13 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
                 if (passphrase == null) {
                     deleteDatabaseFile();
-                    publishOperation("create passphrase");
+                    publishOperation(context.getResources().getString(R.string.activity_startup_create_passphrase_msg));
                     passphrase = keystore.createPassphrase();
                     SharedPreferencesManager.setDbPassphrase(passphrase);
                 }
 
                 publishProgress(.4);
-                publishOperation("decrypt passphrase");
+                publishOperation(context.getResources().getString(R.string.activity_startup_decrypt_phassphrase_msg));
                 byte[] decryptedPassphrase = keystore.rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
 
                 char[] charPassphrase = new char[decryptedPassphrase.length];
@@ -118,9 +119,9 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
                 publishProgress(.6);
                 if (dbFileExists()) {
-                    publishOperation("open database");
+                    publishOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
                 } else {
-                    publishOperation("create and open database");
+                    publishOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
                 }
                 FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
                         .openHelperFactory(new SafeHelperFactory(charPassphrase))
@@ -135,7 +136,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
                 if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
                     publishProgress(.8);
-                    publishOperation("migrate database");
+                    publishOperation(context.getResources().getString(R.string.activity_startup_migrate_database_msg));
                     MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
                     MigrationFromUnencrypted.deleteLegacyDatabase(context);
                 }

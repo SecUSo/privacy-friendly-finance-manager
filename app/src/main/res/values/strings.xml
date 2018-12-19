@@ -20,6 +20,14 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
 
+    <!-- ### S T A R T _ U P ###-->
+    <string name="activity_startup_init_key_store_msg">Initializing key store...</string>
+    <string name="activity_startup_create_passphrase_msg">Creating passphrase...</string>
+    <string name="activity_startup_decrypt_phassphrase_msg">Decrypting passphrase...</string>
+    <string name="activity_startup_open_database_msg">Opening database...</string>
+    <string name="activity_startup_create_and_open_database_msg">Creating and opening database...</string>
+    <string name="activity_startup_migrate_database_msg">Migrating database...</string>
+
     <!-- ### N A V _ B A R ###-->
     <string name="nav_help_action">Help</string>
     <string name="nav_about_action">About</string>
@@ -28,7 +36,6 @@
     <string name="nav_category_action">Categories</string>
     <string name="nav_drawer_toggle_open_desc">Open navigation drawer</string>
     <string name="nav_drawer_toggle_close_desc">Close navigation drawer</string>
-
 
     <!--### H E L P ###-->
     <string-array
@@ -47,7 +54,6 @@
         <item>Privacy Friendly App Finance Manager does not require any permission. It further does not include any tracking mechanisms or advertisement.</item>
         <item>Privacy Friendly App Finance Manager does not require any permission.</item>
     </string-array>
-
 
     <!--### A B O U T ###-->
     <string name="activity_about_title">About</string>
@@ -108,7 +114,9 @@
     <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible</string>
     <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
     <string name="account_activity_balance_label">Balance for this account:</string>
-
+    <string name="dialog_account_balance_beginning_month_label">Balance at the beginning of this month:</string>
+    <string name="dialog_account_balance_change_desc">Please note:&lt;br /&gt;Changing the balance at the beginning of the month will result in the automatic creation of a transaction in the previos month. This transaction will add or subtract the difference so that your desired balance for the current month is achieved.</string>
+    <string name="compensation_transaction_default_name">Compensation transaction</string>
 
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Welcome!</string>
