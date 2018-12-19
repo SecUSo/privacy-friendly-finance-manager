@@ -29,7 +29,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Html;
-import android.view.ContextMenu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -109,12 +108,6 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
             }
         });
 
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.list_click_menu_category, menu);
     }
 
     public void deleteCategory(final Category category) {

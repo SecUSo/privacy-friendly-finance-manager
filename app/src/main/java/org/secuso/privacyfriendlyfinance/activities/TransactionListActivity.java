@@ -13,8 +13,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -107,26 +105,6 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         linearLayout.addView(separator, 1);
 
         return view;
-    }
-
-//    private void setUpViewElements() {
-//        listViewTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                openTransactionDialog(transactionArrayAdapter.getItem(position));
-//            }
-//        });
-//    }
-//
-//    private void getViewElements() {
-//        listViewTransactionList = findViewById(R.id.listView_transactionList);
-//    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_click_menu, menu);
     }
 
     @Override
