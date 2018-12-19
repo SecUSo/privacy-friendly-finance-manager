@@ -36,13 +36,11 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CategoriesActivity"
             android:label="@string/category"
             android:parentActivityName=".activities.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -51,8 +49,7 @@
         <activity
             android:name=".activities.AboutActivity"
             android:label="@string/activity_about_title"
-            android:parentActivityName=".activities.MainActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.MainActivity" />
