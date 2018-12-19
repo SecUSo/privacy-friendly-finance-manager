@@ -41,6 +41,8 @@ App-Icon: <br />
 Tatjana Albrandt<br />
 
 Github-Users: <br />
+fxhm (Felix Hofmann)<br />
+ScopedLeo (Leonard Otto)<br />
 DaCaulfield (David Meiborg)<br />
 Yonjuni (Karola Marky)<br />
 Kamuno (Christopher Beckmann)

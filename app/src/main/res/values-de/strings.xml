@@ -61,7 +61,6 @@
     <string name="activity_about_title">Über</string>
     <string name="activity_about_version">Version v%s</string>
     <string name="activity_about_authors">Autoren:</string>
-    <string name="activity_about_authors_names" translatable="false">David Meiborg</string>
     <string name="activity_about_authors_contributors">und Mitwirkende</string>
     <string name="activity_about_affiliation">In Zusammenarbeit mit</string>
     <string name="activity_about_more_info">Weitere Informationen finden Sie unter:</string>
@@ -141,7 +140,7 @@
     <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
     <string name="activity_transactions_title">Neueste Transaktionen</string>
     <string name="account_plural">Konten</string>
-    <string name="activity_accounts_title">\@string/account_plural</string>
-    <string name="activity_categories_title">\@string/category_plural</string>
+    <string name="activity_accounts_title">@string/account_plural</string>
+    <string name="activity_categories_title">@string/category_plural</string>
 
 </resources>

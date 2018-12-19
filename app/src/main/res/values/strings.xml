@@ -134,7 +134,7 @@
     <string name="activity_tutorial_slide5_title">Categories</string>
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
     <string name="category_delete_question">All assigned transactions will be without category afterwards.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete category &lt;b>%1$s&lt;/b>?</string>
-    <string name="activity_about_authors_names" translatable="false">David Meiborg</string>
+    <string name="activity_about_authors_names" translatable="false">Felix Hofmann, Leonard Otto</string>
     <string name="none">none</string>
     <string name="not_found">Not found</string>
     <string name="not_found_error">ERROR: Not found</string>
