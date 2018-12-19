@@ -36,15 +36,8 @@ public class AccountViewModel extends TransactionListViewModel {
     public LiveData<Long> getTotalBalance() {
         return totalBalance;
     }
-    public void setTotalBalance(LiveData<Long> totalBalance) {
-        this.totalBalance = totalBalance;
-    }
-
     public LiveData<Long> getMonthBalance() {
         return monthBalance;
-    }
-    public void setMonthBalance(LiveData<Long> monthBalance) {
-        this.monthBalance = monthBalance;
     }
 
     public LiveData<Account> getAccount() {

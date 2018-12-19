@@ -30,6 +30,12 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC")
     public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
 
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount>0")
+    public abstract LiveData<Long> sumIncomeForCategory(long categoryId);
+
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount<0")
+    public abstract LiveData<Long> sumExpensesForCategory(long categoryId);
+
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
     public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 

@@ -3,11 +3,16 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 public class CategoryActivity extends TransactionListActivity {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
@@ -35,6 +40,31 @@ public class CategoryActivity extends TransactionListActivity {
                 openCategoryDialog();
 
                 return true;
+            }
+        });
+
+        View view = setHeaderLayout(R.layout.header_category_balance);
+
+        final TextView tvCategoryBalance = view.findViewById(R.id.tv_categoryBalance);
+        final TextView tvCategoryIncome = view.findViewById(R.id.tv_categoryIncome);
+        final TextView tvCategoryExpenses = view.findViewById(R.id.tv_categoryExpenses);
+
+        viewModel.getCategoryBalance().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long currencyBalance) {
+                CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance);
+            }
+        });
+        viewModel.getCategoryIncome().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long categoryIncome) {
+                CurrencyHelper.setBalance(categoryIncome, tvCategoryIncome);
+            }
+        });
+        viewModel.getCategoryExpenses().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long categoryExpenses) {
+                CurrencyHelper.setBalance(categoryExpenses, tvCategoryExpenses);
             }
         });
     }

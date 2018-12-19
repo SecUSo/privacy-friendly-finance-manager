@@ -69,7 +69,7 @@
         <activity android:name=".activities.StartupActivity" />
         <activity
             android:name=".activities.AccountsActivity"
-            android:label="@string/activity_accounts_label"
+            android:label="@string/activity_accounts_manifest_label"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

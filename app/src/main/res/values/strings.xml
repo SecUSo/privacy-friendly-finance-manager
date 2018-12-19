@@ -63,7 +63,10 @@
     <string name="dialog_category_edit_title">Edit Category</string>
     <string name="dialog_category_empty_name_impossible_msg">The category must have a name</string>
     <string name="category_default_category_name">Default</string>
-    <string name="activity_category_label" translatable="false">Category activity</string>
+    <string name="activity_category_category_balance_label">Balance for this category:</string>
+    <string name="activity_category_manifest_label" translatable="false">Category activity</string>
+    <string name="activity_category_income_label">Income:</string>
+    <string name="activity_category_expenses_label">Expenses:</string>
     <string name="category_saved_msg">Category saved</string>
     <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
 
@@ -88,12 +91,14 @@
     <string name="activity_account_beginning_month_suffix">at the beginning of this month</string>
     <string name="activity_account_beginning_month_prefix">Beginning of this month:</string>
     <string name="nav_action_account">Account</string>
-    <string name="activity_account_label" translatable="false">Account activity</string>
-    <string name="activity_accounts_label" translatable="false">Accounts activity</string>
+    <string name="activity_account_manifest_label" translatable="false">Account activity</string>
+    <string name="activity_accounts_manifest_label" translatable="false">Accounts activity</string>
     <string name="dialog_account_name_hint">Enter account name</string>
+    <string name="account_delete_question">All assigned transactions will be deleted.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete account &lt;b>%1$s&lt;/b>?</string>
     <string name="account_saved_msg">Account saved</string>
     <string name="dialog_account_empty_name_impossible_msg">An empty account name is not possible</string>
     <string name="dialog_account_name_taken_msg">An account with this name already exists. Please choose a different one.</string>
+    <string name="account_activity_balance_label">Balance for this account:</string>
 
 
     <!-- ### T U T O R I A L ### -->
@@ -112,6 +117,5 @@
     <string name="none">none</string>
     <string name="not_found">Not found</string>
     <string name="not_found_error">ERROR: Not found</string>
-    <string name="account_delete_question">All assigned transactions will be deleted.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete account &lt;b>%1$s&lt;/b>?</string>
 
 </resources>
