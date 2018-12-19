@@ -16,7 +16,6 @@ import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
-import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyTextWatcher;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
@@ -24,6 +23,7 @@ import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,11 +114,11 @@ public class TransactionDialogViewModel extends AndroidViewModel implements Obse
 
     @Bindable
     public String getAmount() {
-        return CurrencyTextWatcher.convertToString(transaction.getAmount());
+        return CurrencyHelper.convertToString(transaction.getAmount());
     }
     public void setAmount(String amount) {
         if (amount == null) amount = "";
-        Long number = CurrencyTextWatcher.convertToLong(amount);
+        Long number = CurrencyHelper.convertToLong(amount);
         if (number == null) number = 0L;
         if (getExpense()) number = -number;
         if (transaction.getAmount() != number) {
