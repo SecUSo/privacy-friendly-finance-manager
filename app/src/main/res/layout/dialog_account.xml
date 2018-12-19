@@ -9,21 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/editText_balance_month"
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/fragment_currency_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:hint="@string/dialog_account_balance_hint"
-            android:inputType="numberDecimal"
-            android:maxLength="10"
-            android:selectAllOnFocus="false"
-            android:singleLine="false"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_balance_month_description" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_balance_month_description"
+            app:viewModel="@{viewModel}"
+            app:positiveLabel="@{@string/dialog_account_positive_label}"
+            app:negativeLabel="@{@string/dialog_account_negative_label}"
+            />
 
         <EditText
             android:id="@+id/editText_account_name"
@@ -38,6 +39,7 @@
             android:maxLength="128"
             android:singleLine="false"
             android:textAlignment="center"
+            android:text="@={viewModel.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +74,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/please_note"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_balance_month" />
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

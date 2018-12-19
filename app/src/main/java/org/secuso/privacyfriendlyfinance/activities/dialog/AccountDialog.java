@@ -1,65 +1,69 @@
 package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 
-import android.arch.lifecycle.Observer;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountDialogViewModel;
+import org.secuso.privacyfriendlyfinance.databinding.DialogAccountBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDialog extends SimpleTextInputDialog {
+public class AccountDialog extends AppCompatDialogFragment {
     public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
+    public static final String EXTRA_ACCOUNT_MONTH_BALANCE = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_MONTH_BALANCE";
 
     private AccountDialogViewModel viewModel;
     private Account accountObject;
     private List<Account> allAccounts = new ArrayList<Account>();
     private boolean editingExistingAccount;
 
-    @Override
-    protected int getTitleResourceId() {
-        if (editingExistingAccount) {
-            return R.string.dialog_account_edit_title;
-        } else {
-            return R.string.dialog_account_create_title;
-        }
-    }
 
+    @NonNull
     @Override
-    protected void retrieveData() {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(AccountDialogViewModel.class);
+        viewModel.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
+        viewModel.setInitialMonthBalance(getArguments().getLong(EXTRA_ACCOUNT_MONTH_BALANCE, 0L));
 
-        Bundle args = getArguments();
-        long accountId = args.getLong(EXTRA_ACCOUNT_ID, -1L);
-        if (accountId == -1L) {
-            editingExistingAccount = false;
-        } else {
-            editingExistingAccount = true;
-            viewModel.getAccountById(accountId).observe(this, new Observer<Account>() {
-                @Override
-                public void onChanged(@Nullable Account account) {
-                    editTextInput.setText(account.getName());
-                    accountObject = account;
-                }
-            });
-        }
-        viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        final DialogAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_account, null, false);
+        View view = binding.getRoot();
+        binding.setViewModel(viewModel);
+        builder.setView(view);
+
+        builder.setTitle(viewModel.isNewAccount() ? R.string.dialog_account_create_title : R.string.dialog_account_edit_title);
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
-            public void onChanged(@Nullable List<Account> accounts) {
-                synchronized (allAccounts) {
-                    allAccounts = accounts;
-                }
+            public void onClick(DialogInterface dialogInterface, int which) {}
+        });
+
+        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                viewModel.submit(getString(R.string.compensation_transaction_default_name));
             }
         });
+
+        return builder.create();
     }
 
-    @Override
+
+
     protected void onClickPositive(String textFromTextInput) {
         String accountName = textFromTextInput.trim();
         if (accountName.isEmpty()) {
@@ -94,10 +98,5 @@ public class AccountDialog extends SimpleTextInputDialog {
             }
             return false;
         }
-    }
-
-    @Override
-    protected String getTextInputHint() {
-        return getResources().getString(R.string.dialog_account_name_hint);
     }
 }

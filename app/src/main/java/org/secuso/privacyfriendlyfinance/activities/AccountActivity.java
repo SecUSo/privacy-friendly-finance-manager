@@ -75,6 +75,9 @@ public class AccountActivity extends TransactionListActivity {
 
         Bundle args = new Bundle();
         args.putLong(AccountDialog.EXTRA_ACCOUNT_ID, viewModel.getAccount().getValue().getId());
+        Long monthBalance = viewModel.getMonthBalance().getValue();
+        if (monthBalance == null) monthBalance = 0L;
+        args.putLong(AccountDialog.EXTRA_ACCOUNT_MONTH_BALANCE, monthBalance);
         accountDialog.setArguments(args);
 
         accountDialog.show(getSupportFragmentManager(), "AccountDialog");

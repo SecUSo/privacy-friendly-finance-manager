@@ -2,7 +2,6 @@ package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -119,11 +118,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FinanceDatabase.getInstance().transactionDao().deleteAsync(transaction);
-
                         Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
-
-                        Intent main = new Intent(getBaseContext(), TransactionsActivity.class);
-                        startActivity(main);
                     }
                 })
                 .setNegativeButton(R.string.cancel, null);
