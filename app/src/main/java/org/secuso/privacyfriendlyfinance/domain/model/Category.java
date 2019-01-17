@@ -11,6 +11,8 @@ import android.arch.persistence.room.Index;
 )
 public class Category extends AbstractEntity {
     private String name;
+    private Long budget;
+    private Integer color;
 
     public Category() {}
     @Ignore
@@ -23,6 +25,20 @@ public class Category extends AbstractEntity {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Long budget) {
+        this.budget = budget;
+    }
+    public Integer getColor() {
+        return color;
+    }
+    public void setColor(Integer color) {
+        this.color = color;
     }
 
     @Override

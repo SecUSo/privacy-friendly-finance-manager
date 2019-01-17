@@ -29,7 +29,7 @@ import java.io.File;
 @Database(
     entities = {Account.class, Category.class, Transaction.class},
     exportSchema = false,
-    version = 6
+    version = 7
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
