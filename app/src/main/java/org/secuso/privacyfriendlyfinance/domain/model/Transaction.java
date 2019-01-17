@@ -37,6 +37,10 @@ public class Transaction extends AbstractEntity {
 
     private long accountId;
     private Long categoryId;
+    private Long parentId;
+    private Long repeatInterval;
+    private Boolean repeatWeek;
+    private LocalDate repeatEnd;
 
     public Transaction() {
     }
@@ -88,5 +92,33 @@ public class Transaction extends AbstractEntity {
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
         if (this.categoryId == null || this.categoryId < 0) this.categoryId = null;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Long getRepeatInterval() {
+        return repeatInterval;
+    }
+    public void setRepeatInterval(Long repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
+    public Boolean getRepeatWeek() {
+        return repeatWeek;
+    }
+    public void setRepeatWeek(Boolean repeatWeek) {
+        this.repeatWeek = repeatWeek;
+    }
+
+    public LocalDate getRepeatEnd() {
+        return repeatEnd;
+    }
+    public void setRepeatEnd(LocalDate repeatEnd) {
+        this.repeatEnd = repeatEnd;
     }
 }
