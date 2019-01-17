@@ -16,6 +16,8 @@ public class CategoryDialogViewModel extends BindableViewModel {
     private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private Category category;
     private String originalName;
+    private Integer originalColor;
+    private Long originalBudget;
 
     public CategoryDialogViewModel(@NonNull Application application) {
         super(application);
@@ -29,7 +31,8 @@ public class CategoryDialogViewModel extends BindableViewModel {
     public void setCategoryId(long categoryId) {
         category = categoryId == -1 ? new Category() : categoryDao.getCached(categoryId);
         originalName = category.getName();
-
+        originalColor = category.getColor();
+        originalBudget = category.getBudget();
     }
 
     public boolean isNewCategory() {
@@ -66,6 +69,8 @@ public class CategoryDialogViewModel extends BindableViewModel {
 
     public void cancel() {
         category.setName(originalName);
+        category.setColor(originalColor);
+        category.setBudget(originalBudget);
     }
 
     public Category getCategory() {
