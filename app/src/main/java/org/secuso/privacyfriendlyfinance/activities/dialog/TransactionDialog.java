@@ -133,7 +133,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int which) {}
+            public void onClick(DialogInterface dialogInterface, int which) {
+                viewModel.cancel();
+            }
         });
 
         builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {

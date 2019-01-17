@@ -24,7 +24,7 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     private LiveData<Long> monthBalanceLive;
     private long initialMonthBalance = 0;
     private Long monthBalance;
-    private boolean setup = false;
+    private String originalName;
 
     public AccountDialogViewModel(@NonNull Application application) {
         super(application);
@@ -50,6 +50,7 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
 
     public void setAccountId(long accountId) {
         account = accountId == -1 ? new Account() : accountDao.getCached(accountId);
+        originalName = account.getName();
     }
 
     public boolean isNewAccount() {
@@ -88,6 +89,9 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
                 }
             }
         });
+    }
 
+    public void cancel() {
+        account.setName(originalName);
     }
 }

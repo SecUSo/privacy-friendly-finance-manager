@@ -95,11 +95,22 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         transactionLive = mutableTransaction;
     }
 
+
+    private String originalName;
+    private Long originalAccountId;
+    private Long originalCategoryId;
+    private Long originalAmount;
+    private LocalDate originalDate;
     public Transaction getTransaction() {
         return transaction;
     }
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+        originalName = transaction.getName();
+        originalAccountId = transaction.getAccountId();
+        originalCategoryId = transaction.getCategoryId();
+        originalAmount = transaction.getAmount();
+        originalDate = transaction.getDate();
         notifyChange();
     }
 
@@ -178,5 +189,13 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
     public void submit() {
         transactionDao.updateOrInsertAsync(transaction);
+    }
+
+    public void cancel() {
+        transaction.setName(originalName);
+        transaction.setAccountId(originalAccountId);
+        transaction.setCategoryId(originalCategoryId);
+        transaction.setAmount(originalAmount);
+        transaction.setDate(originalDate);
     }
 }
