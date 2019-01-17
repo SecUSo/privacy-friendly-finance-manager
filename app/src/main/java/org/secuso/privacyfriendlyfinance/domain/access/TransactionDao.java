@@ -30,14 +30,16 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC")
     public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
 
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
+    public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
+
+
+
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount>0")
     public abstract LiveData<Long> sumIncomeForCategory(long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount<0")
     public abstract LiveData<Long> sumExpensesForCategory(long categoryId);
-
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
-    public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId")
     public abstract LiveData<Long> sumForAccount(long accountId);
@@ -54,5 +56,12 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId")
     public abstract LiveData<Long> sumForAccountAndCategory(long accountId, long categoryId);
 
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:date")
+    public abstract LiveData<Long> sumForCategoryFrom(long categoryId, String date);
 
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount > 0 AND date>=:date")
+    public abstract LiveData<Long> sumIncomeForCategoryFrom(long categoryId, String date);
+
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount < 0 AND date>=:date")
+    public abstract LiveData<Long> sumExpensesForCategoryFrom(long categoryId, String date);
 }

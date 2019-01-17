@@ -10,12 +10,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/tv_categoryBalance_label"
+        android:id="@+id/tv_categoryBalanceMonth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/tv_totalBalance"
         android:gravity="center"
-        android:text="@string/activity_category_category_balance_label"
+        android:text="@string/activity_category_category_balance_month_label"
         android:textAlignment="textStart"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_categoryBalance"
+        android:id="@+id/tv_categoryBalanceMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -39,47 +39,47 @@
         tools:text="$50.00" />
 
     <TextView
-        android:id="@+id/tv_categoryIncome_label"
+        android:id="@+id/tv_categoryIncomeMonth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="6dp"
-        android:text="@string/activity_category_income_label"
+        android:text="@string/activity_category_income_month_label"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_categoryBalance_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_categoryBalance_label" />
+        app:layout_constraintStart_toStartOf="@+id/tv_categoryBalanceMonth_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_categoryBalanceMonth_label" />
 
     <TextView
-        android:id="@+id/tv_categoryExpenses_label"
+        android:id="@+id/tv_categoryExpensesMonth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:text="@string/activity_category_expenses_label"
+        android:text="@string/activity_category_expenses_month_label"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_categoryIncome_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_categoryIncome_label" />
+        app:layout_constraintStart_toStartOf="@+id/tv_categoryIncomeMonth_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_categoryIncomeMonth_label" />
 
     <TextView
-        android:id="@+id/tv_categoryIncome"
+        android:id="@+id/tv_categoryIncomeMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryIncome_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryIncomeMonth_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_categoryIncome_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_categoryIncomeMonth_label"
         app:layout_constraintVertical_bias="1.0"
         tools:text="$50.00" />
 
     <TextView
-        android:id="@+id/tv_categoryExpenses"
+        android:id="@+id/tv_categoryExpensesMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryExpenses_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryExpensesMonth_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_categoryExpenses_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_categoryExpensesMonth_label"
         tools:text="$50.00" />
 
 </android.support.constraint.ConstraintLayout>

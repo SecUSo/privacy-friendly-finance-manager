@@ -46,23 +46,23 @@ public class CategoryActivity extends TransactionListActivity {
 
         View view = setHeaderLayout(R.layout.header_category_balance);
 
-        final TextView tvCategoryBalance = view.findViewById(R.id.tv_categoryBalance);
-        final TextView tvCategoryIncome = view.findViewById(R.id.tv_categoryIncome);
-        final TextView tvCategoryExpenses = view.findViewById(R.id.tv_categoryExpenses);
+        final TextView tvCategoryBalance = view.findViewById(R.id.tv_categoryBalanceMonth);
+        final TextView tvCategoryIncome = view.findViewById(R.id.tv_categoryIncomeMonth);
+        final TextView tvCategoryExpenses = view.findViewById(R.id.tv_categoryExpensesMonth);
 
-        viewModel.getCategoryBalance().observe(this, new Observer<Long>() {
+        viewModel.getCategoryBalanceMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long currencyBalance) {
                 CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance);
             }
         });
-        viewModel.getCategoryIncome().observe(this, new Observer<Long>() {
+        viewModel.getCategoryIncomeMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long categoryIncome) {
                 CurrencyHelper.setBalance(categoryIncome, tvCategoryIncome);
             }
         });
-        viewModel.getCategoryExpenses().observe(this, new Observer<Long>() {
+        viewModel.getCategoryExpensesMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long categoryExpenses) {
                 CurrencyHelper.setBalance(categoryExpenses, tvCategoryExpenses);

@@ -22,12 +22,12 @@
     <string name="please_note">Bitte beachten Sie:</string>
 
     <!-- ### S T A R T _ U P ###-->
-    <string name="activity_startup_init_key_store_msg">Initialisiere Keystore...</string>
-    <string name="activity_startup_create_passphrase_msg">Generiere Passphrase...</string>
-    <string name="activity_startup_decrypt_phassphrase_msg">Entschlüssele Passphrase...</string>
-    <string name="activity_startup_open_database_msg">Öffne Datenbank...</string>
-    <string name="activity_startup_create_and_open_database_msg">Erstelle und öffne Datenbank...</string>
-    <string name="activity_startup_migrate_database_msg">Migriere Datenbank...</string>
+    <string name="activity_startup_init_key_store_msg">Initialisiere Keystore&#8230;</string>
+    <string name="activity_startup_create_passphrase_msg">Generiere Passphrase&#8230;</string>
+    <string name="activity_startup_decrypt_phassphrase_msg">Entschlüssele Passphrase&#8230;</string>
+    <string name="activity_startup_open_database_msg">Öffne Datenbank&#8230;</string>
+    <string name="activity_startup_create_and_open_database_msg">Erstelle und öffne Datenbank&#8230;</string>
+    <string name="activity_startup_migrate_database_msg">Migriere Datenbank&#8230;</string>
 
     <!-- ### N A V _ B A R ###-->
     <string name="nav_help_action">Hilfe</string>
@@ -77,9 +77,9 @@
     <string name="dialog_category_empty_name_impossible_msg">Die Kategorie muss einen Namen haben.</string>
     <string name="category_default_category_name">Standard</string>
     <string name="activity_category_manifest_label">Category activity</string>
-    <string name="activity_category_category_balance_label">Bilanz für diese Kategorie:</string>
-    <string name="activity_category_income_label">Einkommen:</string>
-    <string name="activity_category_expenses_label">Ausgaben:</string>
+    <string name="activity_category_category_balance_month_label">Kategoriebilanz diesen Monat:</string>
+    <string name="activity_category_income_month_label">Einkommen diesen Monat:</string>
+    <string name="activity_category_expenses_month_label">Ausgaben diesen Monat:</string>
     <string name="category_saved_msg">Kategorie gespeichert</string>
     <string name="dialog_category_name_taken_msg">Eine Kategorie mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
 

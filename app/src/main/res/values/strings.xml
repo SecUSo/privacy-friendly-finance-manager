@@ -22,12 +22,12 @@
     <string name="please_note">Please note:</string>
 
     <!-- ### S T A R T _ U P ###-->
-    <string name="activity_startup_init_key_store_msg">Initializing key store...</string>
-    <string name="activity_startup_create_passphrase_msg">Creating passphrase...</string>
-    <string name="activity_startup_decrypt_phassphrase_msg">Decrypting passphrase...</string>
-    <string name="activity_startup_open_database_msg">Opening database...</string>
-    <string name="activity_startup_create_and_open_database_msg">Creating and opening database...</string>
-    <string name="activity_startup_migrate_database_msg">Migrating database...</string>
+    <string name="activity_startup_init_key_store_msg">Initializing key store&#8230;</string>
+    <string name="activity_startup_create_passphrase_msg">Creating passphrase&#8230;</string>
+    <string name="activity_startup_decrypt_phassphrase_msg">Decrypting passphrase&#8230;</string>
+    <string name="activity_startup_open_database_msg">Opening database&#8230;</string>
+    <string name="activity_startup_create_and_open_database_msg">Creating and opening database&#8230;</string>
+    <string name="activity_startup_migrate_database_msg">Migrating database&#8230;</string>
 
     <!-- ### N A V _ B A R ###-->
     <string name="nav_help_action">Help</string>
@@ -77,10 +77,10 @@
     <string name="dialog_category_edit_title">Edit Category</string>
     <string name="dialog_category_empty_name_impossible_msg">The category must have a name</string>
     <string name="category_default_category_name">Default</string>
-    <string name="activity_category_category_balance_label">Balance for this category:</string>
     <string name="activity_category_manifest_label" translatable="false">Category activity</string>
-    <string name="activity_category_income_label">Income:</string>
-    <string name="activity_category_expenses_label">Expenses:</string>
+    <string name="activity_category_category_balance_month_label">Category balance of this month:</string>
+    <string name="activity_category_income_month_label">Income of this month:</string>
+    <string name="activity_category_expenses_month_label">Expenses of this month:</string>
     <string name="category_saved_msg">Category saved</string>
     <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
 
