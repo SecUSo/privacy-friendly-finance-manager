@@ -14,6 +14,7 @@ import org.joda.time.LocalDate;
             @Index(value = "date"),
             @Index(value = "categoryId"),
             @Index(value = "accountId"),
+            @Index(value = "parentId"),
     },
     foreignKeys = {
         @ForeignKey(
@@ -26,6 +27,12 @@ import org.joda.time.LocalDate;
             entity = Account.class,
             parentColumns = "id",
             childColumns = "accountId",
+            onDelete = ForeignKey.CASCADE
+        ),
+        @ForeignKey(
+            entity = Transaction.class,
+            parentColumns = "id",
+            childColumns = "parentId",
             onDelete = ForeignKey.CASCADE
         ),
     }
