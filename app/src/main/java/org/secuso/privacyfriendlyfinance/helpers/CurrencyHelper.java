@@ -12,17 +12,24 @@ public final class CurrencyHelper {
     public static final DecimalFormat format = new DecimalFormat("#0.00");
     private CurrencyHelper() {}
 
-    public static void setBalance(Long balance, TextView textView) {
+    public static void setBalance(Long balance, TextView textView, boolean setColor) {
         Context context = textView.getContext();
         if (balance == null)  balance = 0L;
-        textView.setText(NumberFormat.getCurrencyInstance().format(balance.doubleValue() / 100.0));
-        if (balance < 0) {
-            textView.setTextColor(context.getResources().getColor(R.color.red));
-        } else if (balance > 0) {
-            textView.setTextColor(context.getResources().getColor(R.color.green));
-        } else {
-            textView.setTextColor(context.getResources().getColor(android.R.color.tab_indicator_text));
+        String prefix = setColor && balance > 0 ? "+" : "";
+        textView.setText(prefix + NumberFormat.getCurrencyInstance().format(balance.doubleValue() / 100.0));
+        if (setColor) {
+            if (balance < 0) {
+                textView.setTextColor(context.getResources().getColor(R.color.red));
+            } else if (balance > 0) {
+                textView.setTextColor(context.getResources().getColor(R.color.green));
+            } else {
+                textView.setTextColor(context.getResources().getColor(android.R.color.tab_indicator_text));
+            }
         }
+    }
+
+    public static void setBalance(Long balance, TextView textView) {
+        setBalance(balance, textView, true);
     }
 
     public static String convertToString(Long value) {
@@ -39,7 +46,7 @@ public final class CurrencyHelper {
 
     public static Long convertToLong(String text) {
         try {
-            return Long.parseLong(digitsOf(text));
+            return ((Double) (Double.parseDouble(text) * 100)).longValue();
         } catch (NumberFormatException e) {
             return null;
         }
@@ -50,5 +57,9 @@ public final class CurrencyHelper {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public static String convertToCurrencyString(Long amount) {
+        return NumberFormat.getCurrencyInstance().format(amount.doubleValue() / 100.0);
     }
 }

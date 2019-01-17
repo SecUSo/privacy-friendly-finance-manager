@@ -2,6 +2,7 @@ package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.arch.lifecycle.LiveData;
 
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
@@ -11,7 +12,7 @@ public class CategoryWrapper implements IdProvider {
 
     public CategoryWrapper(Category category) {
         this.category = category;
-        balance = FinanceDatabase.getInstance().transactionDao().sumForCategory(category.getId());
+        balance = FinanceDatabase.getInstance().transactionDao().sumForCategoryFrom(category.getId(), LocalDate.now().withDayOfMonth(1).toString());
     }
 
     public LiveData<Long> getBalance() {

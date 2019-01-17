@@ -33,12 +33,12 @@ public class CategoriesAdapter extends EntityListAdapter<CategoryWrapper, Catego
         Category category = getItem(index).getCategory();
         holder.setCategoryName(category.getName());
         holder.setCategoryColor(category.getColor());
+        holder.setBudget(getItem(index).getCategory().getBudget());
         getItem(index).getBalance().observe(context, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long balance) {
                 holder.setBalance(balance);
             }
         });
-
     }
 }

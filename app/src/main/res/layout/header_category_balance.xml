@@ -10,13 +10,45 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
+        android:id="@+id/tv_categoryBudgetMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryBudgetMonth_label"
+        app:layout_constraintEnd_toStartOf="@+id/tv_categoryBudget"
+        app:layout_constraintTop_toBottomOf="@+id/tv_categoryExpensesMonth"
+        app:layout_constraintTop_toTopOf="@+id/tv_categoryBudgetMonth_label"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="$50.00" />
+
+    <TextView
+        android:id="@+id/tv_categoryBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_categoryBudgetMonth_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_categoryBudgetMonth_label"
+        tools:text="/ $50.00" />
+
+    <TextView
+        android:id="@+id/tv_categoryBudgetMonth_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/activity_category_budget_month_left"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_categoryIncomeMonth_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_categoryExpensesMonth_label" />
+
+    <TextView
         android:id="@+id/tv_categoryBalanceMonth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/tv_totalBalance"
         android:gravity="center"
         android:text="@string/activity_category_category_balance_month_label"
-        android:textAlignment="textStart"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,14 +60,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:text="@string/balance"
-        android:textAlignment="textEnd"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_totalBalance_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_totalBalance_label"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="$50.00" />
 
     <TextView
@@ -63,7 +94,6 @@
         android:id="@+id/tv_categoryIncomeMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_categoryIncomeMonth_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +105,6 @@
         android:id="@+id/tv_categoryExpensesMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_categoryExpensesMonth_label"
         app:layout_constraintEnd_toEndOf="parent"

@@ -18,6 +18,12 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 public class CategoryActivity extends TransactionListActivity {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
     protected CategoryViewModel viewModel;
+    private TextView tvCategoryBudgetLabel;
+    private TextView tvCategoryBudget;
+    private TextView tvCategoryBudgetMonth;
+    private Long budget = null;
+    private Long balance = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,23 @@ public class CategoryActivity extends TransactionListActivity {
                 viewModel.setTitle(category.getName());
             }
         });
+    }
+
+    private void updateBudgetMonth() {
+        if (budget == null) {
+            tvCategoryBudgetLabel.setVisibility(View.INVISIBLE);
+            tvCategoryBudget.setVisibility(View.INVISIBLE);
+            tvCategoryBudgetMonth.setVisibility(View.INVISIBLE);
+        } else {
+            if (balance == null) balance = 0L;
+
+            CurrencyHelper.setBalance(budget + balance, tvCategoryBudgetMonth);
+            tvCategoryBudget.setText("/ " + CurrencyHelper.convertToCurrencyString(budget));
+            tvCategoryBudgetLabel.setVisibility(View.VISIBLE);
+            tvCategoryBudget.setVisibility(View.VISIBLE);
+            tvCategoryBudgetMonth.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -46,14 +69,29 @@ public class CategoryActivity extends TransactionListActivity {
 
         View view = setHeaderLayout(R.layout.header_category_balance);
 
+        tvCategoryBudgetLabel = view.findViewById(R.id.tv_categoryBudgetMonth_label);
+        tvCategoryBudget = view.findViewById(R.id.tv_categoryBudget);
+        tvCategoryBudgetMonth = view.findViewById(R.id.tv_categoryBudgetMonth);
+
         final TextView tvCategoryBalance = view.findViewById(R.id.tv_categoryBalanceMonth);
         final TextView tvCategoryIncome = view.findViewById(R.id.tv_categoryIncomeMonth);
         final TextView tvCategoryExpenses = view.findViewById(R.id.tv_categoryExpensesMonth);
+
+        viewModel.getCategory().observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(@Nullable Category category) {
+                budget = category.getBudget();
+                updateBudgetMonth();
+            }
+        });
 
         viewModel.getCategoryBalanceMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long currencyBalance) {
                 CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance);
+                balance = currencyBalance;
+                updateBudgetMonth();
+
             }
         });
         viewModel.getCategoryIncomeMonth().observe(this, new Observer<Long>() {

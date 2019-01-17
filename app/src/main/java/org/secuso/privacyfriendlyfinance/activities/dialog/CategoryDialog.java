@@ -26,14 +26,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyInputFilter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogCategoryBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
@@ -52,6 +55,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
     private CategoryDialogViewModel viewModel;
     private List<Category> allCategories = new ArrayList<>();
     private ColorPickerView colorPicker;
+    private EditText editTextBudget;
 
     @NonNull
     @Override
@@ -91,6 +95,9 @@ public class CategoryDialog extends AppCompatDialogFragment {
 
 
         colorPicker = view.findViewById(R.id.color_picker_view);
+        editTextBudget = view.findViewById(R.id.editText_budget);
+
+        editTextBudget.setFilters(new InputFilter[] {new CurrencyInputFilter(0.0, null)});
 
         if (viewModel.getColor() != null) colorPicker.setInitialColor(viewModel.getColor(), false);
         colorPicker.addOnColorChangedListener(new OnColorChangedListener() {

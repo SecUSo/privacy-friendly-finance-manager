@@ -9,6 +9,7 @@ import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 import java.util.List;
 
@@ -50,6 +51,15 @@ public class CategoryDialogViewModel extends BindableViewModel {
             category.setName(name);
             notifyPropertyChanged(BR.name);
         }
+    }
+
+    @Bindable
+    public String getBudget() {
+        return  CurrencyHelper.convertToString(category.getBudget());
+    }
+    public void setBudget(String budget) {
+        if (budget == null) budget = "";
+        category.setBudget(CurrencyHelper.convertToLong(budget));
     }
 
     @Bindable

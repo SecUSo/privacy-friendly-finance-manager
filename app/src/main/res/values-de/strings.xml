@@ -149,5 +149,8 @@
     <string name="account_plural">Konten</string>
     <string name="activity_accounts_title">@string/account_plural</string>
     <string name="activity_categories_title">@string/category_plural</string>
+    <string name="category_budget">Budget</string>
+    <string name="this_month">Diesen Monat</string>
+    <string name="activity_category_budget_month_left">Budget Bilanz diesen Monat:</string>
 
 </resources>

@@ -40,5 +40,31 @@
             app:layout_constraintTop_toBottomOf="@+id/editText_account_name"
             app:wheelType="FLOWER" />
 
+        <EditText
+            android:id="@+id/editText_budget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="@string/category_budget"
+            android:inputType="numberSigned|numberDecimal"
+            android:textAlignment="center"
+            android:text="@={viewModel.budget}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/color_picker_view" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/category_budget"
+            app:layout_constraintBottom_toBottomOf="@+id/editText_budget"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText_budget" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>
