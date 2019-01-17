@@ -32,6 +32,7 @@ public class CategoriesAdapter extends EntityListAdapter<CategoryWrapper, Catego
         super.onBindViewHolder(holder, index);
         Category category = getItem(index).getCategory();
         holder.setCategoryName(category.getName());
+        holder.setCategoryColor(category.getColor());
         getItem(index).getBalance().observe(context, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long balance) {

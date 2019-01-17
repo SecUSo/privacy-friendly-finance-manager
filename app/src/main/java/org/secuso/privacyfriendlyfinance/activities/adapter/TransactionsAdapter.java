@@ -53,9 +53,12 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
             @Override
             public void onChanged(@Nullable Map<Long, Category> map) {
                 if (transaction.getCategoryId() != null) {
-                    holder.setCategoryName(map.get(transaction.getCategoryId()).getName());
+                    Category category = map.get(transaction.getCategoryId());
+                    holder.setCategoryName(category.getName());
+                    holder.setCategoryColor(category.getColor());
                 } else {
                     holder.setCategoryName(null);
+                    holder.setCategoryColor(null);
                 }
             }
         });

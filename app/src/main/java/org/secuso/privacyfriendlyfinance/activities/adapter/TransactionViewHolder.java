@@ -56,6 +56,13 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
         }
         tvCategory.setText(name);
     }
+    public void setCategoryColor(Integer color) {
+        if (color != null) {
+            ivCategory.setColorFilter(color);
+        } else {
+            ivCategory.clearColorFilter();
+        }
+    }
 
     public void setDate(LocalDate date) {
         tvMonth.setText(date.toString("MMM", Locale.getDefault()));
