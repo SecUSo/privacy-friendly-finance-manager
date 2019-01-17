@@ -44,6 +44,7 @@ public class Transaction extends AbstractEntity {
 
     private long accountId;
     private Long categoryId;
+
     private Long parentId;
     private Long repeatInterval;
     private Boolean repeatWeek;

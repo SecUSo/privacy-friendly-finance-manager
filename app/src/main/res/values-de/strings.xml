@@ -20,6 +20,11 @@
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
     <string name="please_note">Bitte beachten Sie:</string>
+    <string name="weeks">Wochen</string>
+    <string name="months">Monate</string>
+    <string name="every">Alle</string>
+    <string name="until">bis</string>
+    <string name="forever">für immer</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initialisiere Keystore&#8230;</string>
@@ -93,6 +98,8 @@
     <string name="dialog_transaction_value_hint">Betrag der Transaktion</string>
     <string name="dialog_transaction_radio_button_income_action">Einnahme</string>
     <string name="dialog_transaction_radio_button_expense_action">Ausgabe</string>
+    <string name="dialog_transaction_repeating_label">Transaktion wiederholen:</string>
+    <string name="dialog_transaction_no_repetition">Keine Wiederholung</string>
     <string name="dialog_transaction_date_hint">Datum der Transaktion</string>
     <string name="dialog_delete_transaction_title">Wollen Sie diese Transaktion löschen?</string>
 

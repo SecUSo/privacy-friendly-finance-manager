@@ -18,6 +18,7 @@ public class NullableArrayAdapter<T> extends ArrayAdapter<T> {
     private int resource;
     private int fieldId = 0;
     private LayoutInflater inflater;
+    private String nullPlaceholderString;
 
     public NullableArrayAdapter(Context context, int resource) {
         super(context, resource);
@@ -51,6 +52,11 @@ public class NullableArrayAdapter<T> extends ArrayAdapter<T> {
         this.resource = resource;
         fieldId = textViewResourceId;
         inflater = LayoutInflater.from(context);
+    }
+
+    public NullableArrayAdapter<T> setNullPlaceholderString(String nullPlaceholderString) {
+        this.nullPlaceholderString = nullPlaceholderString;
+        return this;
     }
 
     @NonNull
@@ -90,7 +96,10 @@ public class NullableArrayAdapter<T> extends ArrayAdapter<T> {
         final T item = getItem(position);
         text.setTextColor(getContext().getResources().getColor(android.R.color.primary_text_light));
         if (item == null) {
-            text.setText(getContext().getResources().getString(R.string.none));
+            if (nullPlaceholderString == null) {
+                nullPlaceholderString = getContext().getResources().getString(R.string.none);
+            }
+            text.setText(nullPlaceholderString);
             text.setTextColor(getContext().getResources().getColor(android.R.color.tertiary_text_light));
         } else if (item instanceof CharSequence) {
             text.setText((CharSequence) item);

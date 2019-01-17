@@ -62,9 +62,11 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private AlertDialog dialog;
     private View view;
     private EditText editTextAmount;
+    private TextView editTextRepeatEndDate;
     private TextView editTextDate;
     private Spinner categorySpinner;
     private Spinner accountSpinner;
+    private Spinner repeatingSpinner;
 
     private TransactionDialogViewModel viewModel;
 
@@ -80,8 +82,10 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
+        editTextRepeatEndDate = view.findViewById(R.id.input_repeating_date);
         categorySpinner = view.findViewById(R.id.category_spinner);
         accountSpinner = view.findViewById(R.id.account_spinner);
+        repeatingSpinner = view.findViewById(R.id.repeat_unit_spinner);
 
         viewModel.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -103,11 +107,22 @@ public class TransactionDialog extends AppCompatDialogFragment {
             viewModel.setTransactionId(transactionId).observe(this, new Observer<Transaction>() {
                 @Override
                 public void onChanged(@Nullable Transaction transaction) {
+                    // Is it a transaction dummy?
                     if (transaction.getId() == null) {
                         Log.d("acc id", getArguments().getLong(EXTRA_ACCOUNT_ID, -1L) + "");
                         transaction.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
                         transaction.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
                     }
+                    String[] repeatingOptions = {
+                            null,
+                            getResources().getString(R.string.weeks),
+                            getResources().getString(R.string.months)
+                    };
+                    repeatingSpinner.setAdapter(
+                            new NullableArrayAdapter<>(getActivity(),
+                                                        R.layout.support_simple_spinner_dropdown_item,
+                                                        repeatingOptions)
+                                .setNullPlaceholderString(getString(R.string.dialog_transaction_no_repetition)));
                     viewModel.setTransaction(transaction);
                     binding.setViewModel(viewModel);
                     editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
@@ -150,7 +165,14 @@ public class TransactionDialog extends AppCompatDialogFragment {
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDatePicker();
+                openDatePickerTransactionDate();
+            }
+        });
+
+        editTextRepeatEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePickerRepeatEndDate();
             }
         });
 
@@ -159,14 +181,27 @@ public class TransactionDialog extends AppCompatDialogFragment {
     }
 
 
-    private void openDatePicker() {
-        LocalDate date = viewModel.getDate();
-        new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+    private void openDatePickerTransactionDate() {
+        openDatePicker(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 viewModel.setDate(new LocalDate(year, month + 1, dayOfMonth));
             }
-        }, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth()).show();
+        });
+    }
+
+    private void openDatePickerRepeatEndDate() {
+        openDatePicker(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                viewModel.setRepeatEndDate(new LocalDate(year, month + 1, dayOfMonth));
+            }
+        });
+    }
+
+    private void openDatePicker(DatePickerDialog.OnDateSetListener listener) {
+        LocalDate date = viewModel.getDate();
+        new DatePickerDialog(getContext(), listener, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth()).show();
         dialog.show();
     }
 }

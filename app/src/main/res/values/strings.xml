@@ -20,6 +20,11 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="please_note">Please note:</string>
+    <string name="weeks">Weeks</string>
+    <string name="months">Months</string>
+    <string name="every">Every</string>
+    <string name="until">until</string>
+    <string name="forever">forever</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initializing key store&#8230;</string>
@@ -95,6 +100,8 @@
     <string name="dialog_transaction_radio_button_income_action">Income</string>
     <string name="dialog_transaction_radio_button_expense_action">Expense</string>
     <string name="dialog_transaction_date_hint">Enter date</string>
+    <string name="dialog_transaction_repeating_label">Repeat transaction:</string>
+    <string name="dialog_transaction_no_repetition">No repetition</string>
     <string name="dialog_transaction_zero_value_impossible_msg">In order to save your transaction, please change your amount from 0 to a value.</string>
     <string name="dialog_delete_transaction_title">Do you want to delete this transaction?</string>
 

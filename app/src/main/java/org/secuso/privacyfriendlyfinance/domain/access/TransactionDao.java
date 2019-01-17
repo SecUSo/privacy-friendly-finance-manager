@@ -10,6 +10,9 @@ import java.util.List;
 
 @Dao
 public abstract class TransactionDao extends AbstractDao<Transaction> {
+    /*
+     * L I S T S _ O F _ T R A N S A C T I O N S
+     */
     @Override
     @Query("SELECT * FROM Tranzaction WHERE id=:id")
     public abstract LiveData<Transaction> get(long id);
@@ -34,7 +37,28 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 
 
+    /*
+     * R E P E A T I N G _ T R A N S A C T I O N S
+     */
+    @Query("SELECT * FROM Tranzaction WHERE parentId=:parentId")
+    public abstract LiveData<List<Transaction>> getByParentId(long parentId);
 
+    @Query("SELECT * FROM Tranzaction WHERE parentId=:parentId AND date>=:date")
+    public abstract LiveData<List<Transaction>> getByParentIdFrom(long parentId, String date);
+
+    @Query("SELECT * FROM Tranzaction WHERE parentId=:parentId AND date<:date")
+    public abstract LiveData<List<Transaction>> getByParentIdBefore(long parentId, String date);
+
+    @Query("SELECT * FROM Tranzaction WHERE repeatInterval!=null AND repeatEnd<=:dateNow")
+    public abstract LiveData<List<Transaction>> getAllActiveRepeatingTransactions(String dateNow);
+
+    @Query("SELECT * FROM Tranzaction WHERE repeatInterval!=null")
+    public abstract LiveData<List<Transaction>> getAllRepeatingTransactions();
+
+
+    /*
+     * S U M S
+     */
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount>0")
     public abstract LiveData<Long> sumIncomeForCategory(long categoryId);
 
