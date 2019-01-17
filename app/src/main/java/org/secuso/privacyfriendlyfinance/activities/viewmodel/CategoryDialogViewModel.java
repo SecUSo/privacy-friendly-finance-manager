@@ -49,11 +49,26 @@ public class CategoryDialogViewModel extends BindableViewModel {
         }
     }
 
+    @Bindable
+    public Integer getColor() {
+        return category.getColor();
+    }
+    public void setColor(Integer color) {
+        if (category.getColor() != color) {
+            category.setColor(color);
+            notifyPropertyChanged(BR.color);
+        }
+    }
+
     public void submit() {
         categoryDao.updateOrInsertAsync(category);
     }
 
     public void cancel() {
         category.setName(originalName);
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }

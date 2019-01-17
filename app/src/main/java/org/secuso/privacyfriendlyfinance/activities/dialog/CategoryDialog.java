@@ -30,6 +30,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorChangedListener;
+
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogCategoryBinding;
@@ -48,6 +51,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
 
     private CategoryDialogViewModel viewModel;
     private List<Category> allCategories = new ArrayList<>();
+    private ColorPickerView colorPicker;
 
     @NonNull
     @Override
@@ -85,7 +89,23 @@ public class CategoryDialog extends AppCompatDialogFragment {
             }
         });
 
-        AlertDialog dialog  = builder.create();
+
+        colorPicker = view.findViewById(R.id.color_picker_view);
+
+        if (viewModel.getColor() != null) colorPicker.setInitialColor(viewModel.getColor(), false);
+        colorPicker.addOnColorChangedListener(new OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int i) {
+                if (i == -1) {
+                    viewModel.setColor(null);
+                } else {
+                    viewModel.setColor(i);
+                }
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,52 +130,6 @@ public class CategoryDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-
-
-//
-//    @Override
-//    protected void retrieveData() {
-//        viewModel = ViewModelProviders.of(this).get(CategoryDialogViewModel.class);
-//
-//        Bundle args = getArguments();
-//        long categoryId = args.getLong(EXTRA_CATEGORY_ID, -1L);
-//        if (categoryId == -1L) {
-//            editingExistingCategory = false;
-//        } else {
-//            editingExistingCategory = true;
-//            viewModel.getCategoryById(categoryId).observe(this, new Observer<Category>() {
-//                @Override
-//                public void onChanged(@Nullable Category category) {
-//                    editTextInput.setText(category.getName());
-//                    categoryObject = category;
-//                }
-//            });
-//        }
-
-//    }
-
-//    @Override
-//    protected void onClickPositive(String textFromTextInput) {
-//        String categoryName = textFromTextInput.trim();
-//        if (categoryName.isEmpty()) {
-//            Toast.makeText(getContext(), getString(R.string.dialog_category_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
-//        } else if (isCategoryNameTaken(categoryName)) {
-//            Toast.makeText(getContext(), getString(R.string.dialog_category_name_taken_msg), Toast.LENGTH_LONG).show();
-//        } else {
-//            if (categoryObject == null) {
-//                //We are working on a new category object and are NOT editing an existing one
-//                categoryObject = new Category(categoryName);
-//            } else {
-//                categoryObject.setName(categoryName);
-//            }
-//            viewModel.updateOrInsert(categoryObject);
-//
-//            Toast.makeText(getContext(), R.string.category_saved_msg, Toast.LENGTH_SHORT).show();
-//
-//            dismiss();
-//        }
-//    }
-
     private boolean validateCategoryName() {
         synchronized (allCategories) {
             if (viewModel.getName() == null || viewModel.getName().isEmpty()) {
@@ -167,7 +141,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
                 return true;
             }
             for (int i = 0; i < allCategories.size(); i++) {
-                if (allCategories.get(i).getName().toLowerCase().equals(viewModel.getName().toLowerCase())) {
+                if (allCategories.get(i).getName().toLowerCase().equals(viewModel.getName().toLowerCase()) && allCategories.get(i).getId() != viewModel.getCategory().getId()) {
                     Toast.makeText(getContext(), getString(R.string.dialog_category_name_taken_msg), Toast.LENGTH_LONG).show();
                     return false;
                 }
