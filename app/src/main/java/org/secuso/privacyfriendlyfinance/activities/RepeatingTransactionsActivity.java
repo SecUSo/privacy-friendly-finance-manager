@@ -9,6 +9,7 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.adapter.RepeatingTransactionsAdapter;
+import org.secuso.privacyfriendlyfinance.activities.dialog.RepeatingTransactionDialog;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
@@ -45,8 +46,19 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         recyclerView.setAdapter(repeatingTransactionsAdapter);
     }
 
-    private void openRepeatingTransactionDialog(RepeatingTransaction item) {
-        //TODO
+    private void openRepeatingTransactionDialog(RepeatingTransaction repeatingTransaction) {
+        Bundle args = new Bundle();
+        if (repeatingTransaction == null) {
+
+        } else {
+            args.putLong(RepeatingTransactionDialog.EXTRA_ACCOUNT_ID, repeatingTransaction.getAccountId());
+            args.putLong(RepeatingTransactionDialog.EXTRA_CATEGORY_ID, repeatingTransaction.getCategoryId());
+            args.putLong(RepeatingTransactionDialog.EXTRA_TRANSACTION_ID, repeatingTransaction.getId());
+        }
+
+        RepeatingTransactionDialog dialog = new RepeatingTransactionDialog();
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), "RepeatingTransactionDialog");
     }
 
     @Override
