@@ -37,8 +37,8 @@ public class RepeatingTransaction extends AbstractEntity {
     private long accountId;
     private Long categoryId;
 
-    private Long interval;
-    private Boolean weekly;
+    private long interval = 1L;
+    private boolean weekly = false;
 
     public String getName() {
         return name;
@@ -88,19 +88,19 @@ public class RepeatingTransaction extends AbstractEntity {
         this.categoryId = categoryId;
     }
 
-    public Long getInterval() {
+    public long getInterval() {
         return interval;
     }
 
-    public void setInterval(Long interval) {
+    public void setInterval(long interval) {
         this.interval = interval;
     }
 
-    public Boolean getWeekly() {
+    public boolean isWeekly() {
         return weekly;
     }
 
-    public void setWeekly(Boolean weekly) {
+    public void setWeekly(boolean weekly) {
         this.weekly = weekly;
     }
 }

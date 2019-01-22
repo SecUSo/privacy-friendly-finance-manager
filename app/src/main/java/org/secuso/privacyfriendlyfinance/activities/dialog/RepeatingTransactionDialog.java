@@ -162,8 +162,9 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         openDatePicker(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            viewModel.setEnd(new LocalDate(year, month + 1, dayOfMonth));
+                viewModel.setEnd(new LocalDate(year, month + 1, dayOfMonth));
             }
+
         });
     }
 
@@ -178,6 +179,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
 
     private void openDatePicker(DatePickerDialog.OnDateSetListener listener) {
         LocalDate date = viewModel.getEnd();
+        if (date == null) date = LocalDate.now();
         new DatePickerDialog(getContext(), listener, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth()).show();
         dialog.show();
     }

@@ -122,12 +122,13 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="number"
-                    android:text="1"
+                    android:text="@={viewModel.interval}"
                     android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dialog_repeat_legend" />
 
                 <RadioGroup
+                    android:id="@+id/radioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -141,14 +142,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:checked="true"
+                        android:checked="@{!viewModel.weekly}"
                         android:text="@string/months" />
 
                     <RadioButton
                         android:id="@+id/radioButton_weeks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="false"
+                        android:checked="@={viewModel.weekly}"
                         android:text="@string/weeks"
                         tools:layout_editor_absoluteX="219dp"
                         tools:layout_editor_absoluteY="286dp" />
@@ -172,6 +173,17 @@
                     app:layout_constraintBottom_toBottomOf="@+id/dialog_transaction_date"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    
+                    app:layout_constraintBottom_toBottomOf="@+id/dialog_transaction_date"
+                    app:layout_constraintStart_toEndOf="@+id/dialog_transaction_date"
+                    app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date"
+                    app:srcCompat="@drawable/ic_delete_red_24dp" />
             </android.support.constraint.ConstraintLayout>
 
             <!--<Spinner-->

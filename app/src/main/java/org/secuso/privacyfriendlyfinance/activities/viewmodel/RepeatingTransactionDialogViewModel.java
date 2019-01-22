@@ -104,6 +104,8 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     private Long originalCategoryId;
     private Long originalAmount;
     private LocalDate originalEnd;
+    private boolean originalWeelky;
+    private Long originalInterval;
     public RepeatingTransaction getTransaction() {
         return transaction;
     }
@@ -114,6 +116,8 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         originalCategoryId = transaction.getCategoryId();
         originalAmount = transaction.getAmount();
         originalEnd = transaction.getEnd();
+        originalWeelky = transaction.isWeekly();
+        originalInterval = transaction.getInterval();
         notifyChange();
     }
 
@@ -132,14 +136,23 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
 
     @Bindable
     public String getEndString() {
+        if (transaction.getEnd() == null)  return null;
         return transaction.getEnd().toString();
     }
     public LocalDate getEnd() {
         return transaction.getEnd();
     }
+    public void clearEnd() {
+        setEnd(null);
+    }
     public void setEnd(LocalDate date) {
-        if (date != null && !transaction.getEnd().equals(date)){
-            transaction.setEnd(date);
+        if (date != null) {
+            if (transaction.getEnd() == null || !transaction.getEnd().equals(date)) {
+                transaction.setEnd(date);
+                notifyPropertyChanged(BR.dateString);
+            }
+        } else if (transaction.getEnd() != null) {
+            transaction.setEnd(null);
             notifyPropertyChanged(BR.dateString);
         }
     }
@@ -169,76 +182,28 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         }
     }
 
-//    @Bindable
-//    public int getRepeatUnitIndex() {
-//        if (transaction == null || transaction.getRepeatInterval() == null) {
-//            Log.d("getRepeatingIndex", "null");
-//            return 0;
-//        } else {
-//            Log.d("getRepeatingIndex", "" + transaction.getRepeatWeek());
-//            return transaction.getRepeatWeek() ? 1 : 2;
-//        }
-//    }
-//
-//    public void setRepeatUnitIndex(int repeatingIndex) {
-//        Log.d("repeatingIndex", "" + repeatingIndex);
-//        switch (repeatingIndex) {
-//            case 0:
-//                transaction.setRepeatInterval(null);
-//                notifyPropertyChanged(BR.repeatUnitIndex);
-//                break;
-//            case 1:
-//                transaction.setRepeatWeek(true);
-//                notifyPropertyChanged(BR.repeatUnitIndex);
-//                break;
-//            case 2:
-//                transaction.setRepeatWeek(false);
-//                notifyPropertyChanged(BR.repeatUnitIndex);
-//                break;
-//            default:
-//                Log.e("repeatingIndex", "Illegal repeating index: " + repeatingIndex);
-//                break;
-//        }
-//    }
-//
-//    @Bindable
-//    public String getRepeatInterval() {
-//        if (transaction == null || transaction.getRepeatInterval() == null) {
-//            return "0";
-//        } else {
-//            return String.valueOf(transaction.getRepeatInterval());
-//        }
-//    }
-//    public void setRepeatInterval(String repeatInterval) {
-//        Log.d("repeatInterval", "" + repeatInterval);
-//        if (transaction != null) {
-//            try {
-//                long value = Long.parseLong(repeatInterval);
-//                transaction.setRepeatInterval(value);
-//                notifyPropertyChanged(BR.repeatInterval);
-//            } catch (NumberFormatException ex) {
-//                Log.e("repeatInterval", "Error parsing number! " + repeatInterval);
-//            }
-//        }
-//    }
-//
-//    @Bindable
-//    public String getRepeatEndDateString() {
-//        if (transaction == null) {
-//            return "-";
-//        }
-//        if (transaction.getRepeatEnd() == null) {
-//            return application.getResources().getString(R.string.forever);
-//        } else {
-//            return transaction.getRepeatEnd().toString();
-//        }
-//    }
-//    public void setRepeatEndDate(LocalDate endDate) {
-//        if (endDate != null) {
-//            transaction.setRepeatEnd(endDate);
-//            notifyPropertyChanged(BR.repeatEndDateString);
-//        }
-//    }
+    @Bindable
+    public boolean getWeekly() {
+        return transaction.isWeekly();
+    }
+    public void setWeekly(boolean checked) {
+        if (transaction.isWeekly() != checked) {
+            transaction.setWeekly(checked);
+            notifyPropertyChanged(BR.weekly);
+        }
+    }
+
+    @Bindable
+    public String getInterval() {
+        return String.valueOf(transaction.getInterval());
+    }
+    public void setInterval(String str) {
+        long interval = Long.parseLong(str);
+        if (transaction.getInterval() != interval) {
+            transaction.setInterval(interval);
+            notifyPropertyChanged(BR.interval);
+        }
+    }
 
     @Bindable
     public int getCategoryIndex() {
@@ -270,5 +235,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         transaction.setCategoryId(originalCategoryId);
         transaction.setAmount(originalAmount);
         transaction.setEnd(originalEnd);
+        transaction.setWeekly(originalWeelky);
+        transaction.setInterval(originalInterval);
     }
 }
