@@ -71,7 +71,6 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         categoriesAdapter = new CategoriesAdapter(this, viewModel.getCategories());
         categoriesAdapter.onItemClick(this);
 
-        setContent(R.layout.content_recycler);
         addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

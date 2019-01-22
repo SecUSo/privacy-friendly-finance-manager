@@ -89,6 +89,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.AccountsActivity" />
         </activity>
+        <activity
+            android:name=".activities.RepeatingTransactionsActivity"
+            android:parentActivityName=".activities.TransactionsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlyfinance.activities.TransactionsActivity" />
+        </activity>
     </application>
 
 </manifest>

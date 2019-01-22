@@ -276,6 +276,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 intent = new Intent(this, AccountsActivity.class);
                 createBackStack(intent);
                 break;
+            case R.id.nav_repeating_transactions:
+                intent = new Intent(this, RepeatingTransactionsActivity.class);
+                createBackStack(intent);
+                break;
             default:
                 throw new UnsupportedOperationException("Trying to call unknown drawer item! Id: " + itemId);
         }

@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_menu_home"
             android:title="@string/activity_transactions_title" />
         <item
+            android:id="@+id/nav_repeating_transactions"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/activity_repeating_transactions_title" />
+        <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_account_gray_24dp"
             android:title="@string/activity_accounts_title" />

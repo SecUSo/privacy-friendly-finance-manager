@@ -44,16 +44,14 @@
     <string name="nav_drawer_toggle_close_desc">Close navigation drawer</string>
 
     <!--### H E L P ###-->
-    <string-array
-        name="activity_help_questions">
+    <string-array name="activity_help_questions">
         <item>What is Privacy Friendly Finance Manager?</item>
         <item>How do I manage my income and expenses?</item>
         <item>How can I categorize my expenses?</item>
         <item>What makes the app privacy-friendly?</item>
         <item>Which permissions requires the app?</item>
     </string-array>
-    <string-array
-        name="activity_help_answers">
+    <string-array name="activity_help_answers">
         <item>The Privacy Friendly Finance Manager is an app to monitor personal income and expenses.</item>
         <item>A financial transaction, either income or expense, can be added to your financial history by using the + button in the toolbar. The list of financial transactions appears in the navigation menu and can be called there. Items inside the transaction list can be edited and deleted.</item>
         <item>If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</item>
@@ -71,6 +69,9 @@
     <string name="activity_about_more_info">More information can be found on:</string>
     <string name="activity_about_github_link" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+
+    <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
+    <string name="activity_repeating_transactions_title">Repeating transactions</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>

@@ -45,16 +45,14 @@
 
 
     <!--### H E L P ###-->
-    <string-array
-        name="activity_help_questions">
+    <string-array name="activity_help_questions">
         <item>Was ist der Privacy Friendly Finanzen Manager?</item>
         <item>Wie überwache ich Ausgaben und Einnahmen?</item>
         <item>Wie kann ich meine Ausgaben kategorisieren?</item>
         <item>Was macht die App privatsphäre-freundlich?</item>
         <item>Welche Berechtigungen braucht die App?</item>
     </string-array>
-    <string-array
-        name="activity_help_answers">
+    <string-array name="activity_help_answers">
         <item>Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</item>
         <item>Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den Plus-Knopf in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</item>
         <item>Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</item>
@@ -72,6 +70,9 @@
     <string name="activity_about_belongs">Diese Applikation gehört zur Gruppe der Privacy Friendly Apps und wurde am Karlsruher Institut für Technologie (KIT) entwickelt. Der Quellcode ist unter der GPLv3-Lizenz lizenziert. Bilder sind urheberrechtlich geschützt (KIT und Goolge Inc.)</string>
     <string name="activity_about_github_link" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+
+    <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
+    <string name="activity_repeating_transactions_title">Wiederkehrende Transaktionen</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Kategorie</string>

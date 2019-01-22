@@ -11,7 +11,6 @@ import android.util.Log;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
@@ -172,72 +171,72 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
     @Bindable
     public int getRepeatUnitIndex() {
-        if (transaction == null || transaction.getRepeatInterval() == null) {
-            Log.d("getRepeatingIndex", "null");
+//        if (transaction == null || transaction.getRepeatInterval() == null) {
+//            Log.d("getRepeatingIndex", "null");
             return 0;
-        } else {
-            Log.d("getRepeatingIndex", "" + transaction.getRepeatWeek());
-            return transaction.getRepeatWeek() ? 1 : 2;
-        }
+//        } else {
+//            Log.d("getRepeatingIndex", "" + transaction.getRepeatWeek());
+//            return transaction.getRepeatWeek() ? 1 : 2;
+//        }
     }
     public void setRepeatUnitIndex(int repeatingIndex) {
-        Log.d("repeatingIndex", "" + repeatingIndex);
-        switch (repeatingIndex) {
-            case 0:
-                transaction.setRepeatInterval(null);
-                notifyPropertyChanged(BR.repeatUnitIndex);
-                break;
-            case 1:
-                transaction.setRepeatWeek(true);
-                notifyPropertyChanged(BR.repeatUnitIndex);
-                break;
-            case 2:
-                transaction.setRepeatWeek(false);
-                notifyPropertyChanged(BR.repeatUnitIndex);
-                break;
-            default:
-                Log.e("repeatingIndex", "Illegal repeating index: " + repeatingIndex);
-                break;
-        }
+//        Log.d("repeatingIndex", "" + repeatingIndex);
+//        switch (repeatingIndex) {
+//            case 0:
+//                transaction.setRepeatInterval(null);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            case 1:
+//                transaction.setRepeatWeek(true);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            case 2:
+//                transaction.setRepeatWeek(false);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            default:
+//                Log.e("repeatingIndex", "Illegal repeating index: " + repeatingIndex);
+//                break;
+//        }
     }
 
     @Bindable
     public String getRepeatInterval() {
-        if (transaction == null || transaction.getRepeatInterval() == null) {
+//        if (transaction == null || transaction.getRepeatInterval() == null) {
             return "0";
-        } else {
-            return String.valueOf(transaction.getRepeatInterval());
-        }
+//        } else {
+//            return String.valueOf(transaction.getRepeatInterval());
+//        }
     }
     public void setRepeatInterval(String repeatInterval) {
-        Log.d("repeatInterval", "" + repeatInterval);
-        if (transaction != null) {
-            try {
-                long value = Long.parseLong(repeatInterval);
-                transaction.setRepeatInterval(value);
-                notifyPropertyChanged(BR.repeatInterval);
-            } catch (NumberFormatException ex) {
-                Log.e("repeatInterval", "Error parsing number! " + repeatInterval);
-            }
-        }
+//        Log.d("repeatInterval", "" + repeatInterval);
+//        if (transaction != null) {
+//            try {
+//                long value = Long.parseLong(repeatInterval);
+//                transaction.setRepeatInterval(value);
+//                notifyPropertyChanged(BR.repeatInterval);
+//            } catch (NumberFormatException ex) {
+//                Log.e("repeatInterval", "Error parsing number! " + repeatInterval);
+//            }
+//        }
     }
 
     @Bindable
     public String getRepeatEndDateString() {
-        if (transaction == null) {
+//        if (transaction == null) {
             return "-";
-        }
-        if (transaction.getRepeatEnd() == null) {
-            return application.getResources().getString(R.string.forever);
-        } else {
-            return transaction.getRepeatEnd().toString();
-        }
+//        }
+//        if (transaction.getRepeatEnd() == null) {
+//            return application.getResources().getString(R.string.forever);
+//        } else {
+//            return transaction.getRepeatEnd().toString();
+//        }
     }
     public void setRepeatEndDate(LocalDate endDate) {
-        if (endDate != null) {
-            transaction.setRepeatEnd(endDate);
-            notifyPropertyChanged(BR.repeatEndDateString);
-        }
+//        if (endDate != null) {
+//            transaction.setRepeatEnd(endDate);
+//            notifyPropertyChanged(BR.repeatEndDateString);
+//        }
     }
 
     @Bindable
