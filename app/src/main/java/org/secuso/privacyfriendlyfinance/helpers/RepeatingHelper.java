@@ -24,7 +24,7 @@ public final class RepeatingHelper {
                 template = template.replace("%UNIT%", context.getString(R.string.repeat_unit_every_first_week));
             } else {
                 String week = context.getString(R.string.repeat_unit_every_n_week);
-                week = week.replace("%N%", String.valueOf(repeatingTransaction.getInterval()));
+                week = week.replace("%N%", String.valueOf(repeatingTransaction.getInterval()) + ".");
                 template = template.replace("%UNIT%", week);
             }
         } else {
@@ -32,7 +32,7 @@ public final class RepeatingHelper {
                 template = template.replace("%UNIT%", context.getString(R.string.repeat_unit_every_first_month));
             } else {
                 String month = context.getString(R.string.repeat_unit_every_n_month);
-                month = month.replace("%N%", String.valueOf(repeatingTransaction.getInterval()));
+                month = month.replace("%N%", String.valueOf(repeatingTransaction.getInterval()) + ".");
                 template = template.replace("%UNIT%", month);
             }
         }
