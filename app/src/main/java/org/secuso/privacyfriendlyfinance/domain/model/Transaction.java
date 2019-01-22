@@ -14,7 +14,7 @@ import org.joda.time.LocalDate;
             @Index(value = "date"),
             @Index(value = "categoryId"),
             @Index(value = "accountId"),
-            @Index(value = "parentId"),
+            @Index(value = "repeatingId"),
     },
     foreignKeys = {
         @ForeignKey(
@@ -30,10 +30,10 @@ import org.joda.time.LocalDate;
             onDelete = ForeignKey.CASCADE
         ),
         @ForeignKey(
-            entity = Transaction.class,
+            entity = RepeatingTransaction.class,
             parentColumns = "id",
-            childColumns = "parentId",
-            onDelete = ForeignKey.CASCADE
+            childColumns = "repeatingId",
+            onDelete = ForeignKey.SET_NULL
         ),
     }
 )
@@ -45,10 +45,7 @@ public class Transaction extends AbstractEntity {
     private long accountId;
     private Long categoryId;
 
-    private Long parentId;
-    private Long repeatInterval;
-    private Boolean repeatWeek;
-    private LocalDate repeatEnd;
+    private Long repeatingId;
 
     public Transaction() {
     }
@@ -102,31 +99,11 @@ public class Transaction extends AbstractEntity {
         if (this.categoryId == null || this.categoryId < 0) this.categoryId = null;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public Long getRepeatingId() {
+        return repeatingId;
     }
 
-    public Long getRepeatInterval() {
-        return repeatInterval;
-    }
-    public void setRepeatInterval(Long repeatInterval) {
-        this.repeatInterval = repeatInterval;
-    }
-
-    public Boolean getRepeatWeek() {
-        return repeatWeek;
-    }
-    public void setRepeatWeek(Boolean repeatWeek) {
-        this.repeatWeek = repeatWeek;
-    }
-
-    public LocalDate getRepeatEnd() {
-        return repeatEnd;
-    }
-    public void setRepeatEnd(LocalDate repeatEnd) {
-        this.repeatEnd = repeatEnd;
+    public void setRepeatingId(Long repeatingId) {
+        this.repeatingId = repeatingId;
     }
 }

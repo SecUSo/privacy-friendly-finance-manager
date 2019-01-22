@@ -15,11 +15,13 @@ import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
 import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.convert.LocalDateConverter;
 import org.secuso.privacyfriendlyfinance.domain.legacy.MigrationFromUnencrypted;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelper;
 import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
@@ -27,9 +29,9 @@ import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 import java.io.File;
 
 @Database(
-    entities = {Account.class, Category.class, Transaction.class},
+    entities = {Account.class, Category.class, Transaction.class, RepeatingTransaction.class},
     exportSchema = false,
-    version = 7
+    version = 8
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
@@ -40,6 +42,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
     public abstract AccountDao accountDao();
+    public abstract RepeatingTransactionDao repeatingTransactionDao();
 
     public static FinanceDatabase getInstance() {
         return instance;
