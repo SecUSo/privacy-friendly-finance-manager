@@ -11,7 +11,7 @@
             android:title="@string/activity_transactions_title" />
         <item
             android:id="@+id/nav_repeating_transactions"
-            android:icon="@drawable/ic_menu_home"
+            android:icon="@drawable/ic_autorenew_black_24dp"
             android:title="@string/activity_repeating_transactions_title" />
         <item
             android:id="@+id/nav_account"
