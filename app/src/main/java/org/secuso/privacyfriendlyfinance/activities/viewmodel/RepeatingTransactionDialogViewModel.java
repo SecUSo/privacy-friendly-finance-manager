@@ -11,36 +11,35 @@ import android.util.Log;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
-import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
+import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
-import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
+public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableViewModel {
     private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private RepeatingTransactionDao transactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
 
     private LiveData<List<Category>> categories;
     private LiveData<List<Account>> accounts = accountDao.getAll();
 
-    private LiveData<Transaction> transactionLive;
-    private Transaction transaction;
+    private LiveData<RepeatingTransaction> transactionLive;
+    private RepeatingTransaction transaction;
 
     private Application application;
 
 
     private long transactionId = -1;
 
-    public TransactionDialogViewModel(@NonNull Application application) {
+    public RepeatingTransactionDialogViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
         categories = Transformations.map(categoryDao.getAll(), new Function<List<Category>, List<Category>>() {
@@ -81,7 +80,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         return accounts;
     }
 
-    public LiveData<Transaction> setTransactionId(long transactionId) {
+    public LiveData<RepeatingTransaction> setTransactionId(long transactionId) {
         if (this.transactionId != transactionId) {
             this.transactionId = transactionId;
             if (transactionId == -1) {
@@ -94,8 +93,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     }
 
     private void setTransactionDummy() {
-        MutableLiveData<Transaction> mutableTransaction = new MutableLiveData<>();
-        mutableTransaction.postValue(new Transaction());
+        MutableLiveData<RepeatingTransaction> mutableTransaction = new MutableLiveData<>();
+        mutableTransaction.postValue(new RepeatingTransaction());
         transactionLive = mutableTransaction;
     }
 
@@ -104,17 +103,17 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     private Long originalAccountId;
     private Long originalCategoryId;
     private Long originalAmount;
-    private LocalDate originalDate;
-    public Transaction getTransaction() {
+    private LocalDate originalEnd;
+    public RepeatingTransaction getTransaction() {
         return transaction;
     }
-    public void setTransaction(Transaction transaction) {
+    public void setTransaction(RepeatingTransaction transaction) {
         this.transaction = transaction;
         originalName = transaction.getName();
         originalAccountId = transaction.getAccountId();
         originalCategoryId = transaction.getCategoryId();
         originalAmount = transaction.getAmount();
-        originalDate = transaction.getDate();
+        originalEnd = transaction.getEnd();
         notifyChange();
     }
 
@@ -132,15 +131,15 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     }
 
     @Bindable
-    public String getDateString() {
-        return transaction.getDate().toString();
+    public String getEndString() {
+        return transaction.getEnd().toString();
     }
-    public LocalDate getDate() {
-        return transaction.getDate();
+    public LocalDate getEnd() {
+        return transaction.getEnd();
     }
-    public void setDate(LocalDate date) {
-        if (date != null && !transaction.getDate().equals(date)){
-            transaction.setDate(date);
+    public void setEnd(LocalDate date) {
+        if (date != null && !transaction.getEnd().equals(date)){
+            transaction.setEnd(date);
             notifyPropertyChanged(BR.dateString);
         }
     }
@@ -169,6 +168,77 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
             notifyPropertyChanged(BR.accountIndex);
         }
     }
+
+//    @Bindable
+//    public int getRepeatUnitIndex() {
+//        if (transaction == null || transaction.getRepeatInterval() == null) {
+//            Log.d("getRepeatingIndex", "null");
+//            return 0;
+//        } else {
+//            Log.d("getRepeatingIndex", "" + transaction.getRepeatWeek());
+//            return transaction.getRepeatWeek() ? 1 : 2;
+//        }
+//    }
+//
+//    public void setRepeatUnitIndex(int repeatingIndex) {
+//        Log.d("repeatingIndex", "" + repeatingIndex);
+//        switch (repeatingIndex) {
+//            case 0:
+//                transaction.setRepeatInterval(null);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            case 1:
+//                transaction.setRepeatWeek(true);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            case 2:
+//                transaction.setRepeatWeek(false);
+//                notifyPropertyChanged(BR.repeatUnitIndex);
+//                break;
+//            default:
+//                Log.e("repeatingIndex", "Illegal repeating index: " + repeatingIndex);
+//                break;
+//        }
+//    }
+//
+//    @Bindable
+//    public String getRepeatInterval() {
+//        if (transaction == null || transaction.getRepeatInterval() == null) {
+//            return "0";
+//        } else {
+//            return String.valueOf(transaction.getRepeatInterval());
+//        }
+//    }
+//    public void setRepeatInterval(String repeatInterval) {
+//        Log.d("repeatInterval", "" + repeatInterval);
+//        if (transaction != null) {
+//            try {
+//                long value = Long.parseLong(repeatInterval);
+//                transaction.setRepeatInterval(value);
+//                notifyPropertyChanged(BR.repeatInterval);
+//            } catch (NumberFormatException ex) {
+//                Log.e("repeatInterval", "Error parsing number! " + repeatInterval);
+//            }
+//        }
+//    }
+//
+//    @Bindable
+//    public String getRepeatEndDateString() {
+//        if (transaction == null) {
+//            return "-";
+//        }
+//        if (transaction.getRepeatEnd() == null) {
+//            return application.getResources().getString(R.string.forever);
+//        } else {
+//            return transaction.getRepeatEnd().toString();
+//        }
+//    }
+//    public void setRepeatEndDate(LocalDate endDate) {
+//        if (endDate != null) {
+//            transaction.setRepeatEnd(endDate);
+//            notifyPropertyChanged(BR.repeatEndDateString);
+//        }
+//    }
 
     @Bindable
     public int getCategoryIndex() {
@@ -199,6 +269,6 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         transaction.setAccountId(originalAccountId);
         transaction.setCategoryId(originalCategoryId);
         transaction.setAmount(originalAmount);
-        transaction.setDate(originalDate);
+        transaction.setEnd(originalEnd);
     }
 }

@@ -1,19 +1,3 @@
-/*
- This file is part of Privacy Friendly App Finance Manager.
-
- Privacy Friendly App Finance Manager is free software:
- you can redistribute it and/or modify it under the terms of the
- GNU General Public License as published by the Free Software Foundation,
- either version 3 of the License, or any later version.
-
- Privacy Friendly App Finance Manager is distributed in the hope
- that it will be useful, but WITHOUT ANY WARRANTY; without even
- the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
- */
 package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 import android.app.DatePickerDialog;
@@ -41,20 +25,15 @@ import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.NullableArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyTextWatcher;
-import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel;
-import org.secuso.privacyfriendlyfinance.databinding.DialogTransactionBinding;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionDialogViewModel;
+import org.secuso.privacyfriendlyfinance.databinding.DialogRepeatingTransactionBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
-import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
 import java.util.List;
 
-/**
- * Dialog for adding new transactions and for editing existing transactions.
- *
- * @author Felix Hofmann, Leonard Otto
- */
-public class TransactionDialog extends AppCompatDialogFragment {
+public class RepeatingTransactionDialog extends AppCompatDialogFragment {
     public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
     public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
     public static final String EXTRA_TRANSACTION_ID = "org.secuso.privacyfriendlyfinance.EXTRA_TRANSACTION_ID";
@@ -68,15 +47,15 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private Spinner accountSpinner;
     private Spinner repeatingSpinner;
 
-    private TransactionDialogViewModel viewModel;
+    private RepeatingTransactionDialogViewModel viewModel;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(RepeatingTransactionDialogViewModel.class);
 
-        final DialogTransactionBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_transaction, null, false);
+        final DialogRepeatingTransactionBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_repeating_transaction, null, false);
         view = binding.getRoot();
         builder.setView(view);
 
@@ -102,9 +81,9 @@ public class TransactionDialog extends AppCompatDialogFragment {
             builder.setTitle(R.string.dialog_transaction_create_title);
         }
         if (viewModel.getTransaction() == null) {
-            viewModel.setTransactionId(transactionId).observe(this, new Observer<Transaction>() {
+            viewModel.setTransactionId(transactionId).observe(this, new Observer<RepeatingTransaction>() {
                 @Override
-                public void onChanged(@Nullable Transaction transaction) {
+                public void onChanged(@Nullable RepeatingTransaction transaction) {
                     // Is it a transaction dummy?
                     if (transaction.getId() == null) {
                         Log.d("acc id", getArguments().getLong(EXTRA_ACCOUNT_ID, -1L) + "");
@@ -183,7 +162,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
         openDatePicker(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                viewModel.setDate(new LocalDate(year, month + 1, dayOfMonth));
+            viewModel.setEnd(new LocalDate(year, month + 1, dayOfMonth));
             }
         });
     }
@@ -198,7 +177,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
 //    }
 
     private void openDatePicker(DatePickerDialog.OnDateSetListener listener) {
-        LocalDate date = viewModel.getDate();
+        LocalDate date = viewModel.getEnd();
         new DatePickerDialog(getContext(), listener, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth()).show();
         dialog.show();
     }

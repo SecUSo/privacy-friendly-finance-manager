@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="viewModel" type="org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel"/>
+        <variable name="viewModel" type="org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionDialogViewModel"/>
     </data>
 
     <ScrollView
@@ -56,7 +56,7 @@
                 android:drawablePadding="6dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:text="@{viewModel.dateString}"
+                android:text="@{viewModel.endString}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/include" />
 
@@ -81,6 +81,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_category_legend" />
 
+
             <TextView
                 android:id="@+id/dialog_account_legend"
                 android:layout_width="wrap_content"
@@ -103,6 +104,80 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
+
+            <TextView
+                android:id="@+id/dialog_repeat_legend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/dialog_transaction_repeating_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
+
+            <!--<Spinner-->
+                <!--android:id="@+id/repeat_unit_spinner"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:selectedItemPosition="@={viewModel.repeatUnitIndex}"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/input_repeat_interval"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toEndOf="@+id/input_repeat_interval"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/input_repeat_interval" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/input_repeat_interval"-->
+                <!--android:layout_width="102dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="number"-->
+                <!--android:singleLine="false"-->
+                <!--android:text="@={viewModel.repeatInterval}"-->
+                <!--android:textAlignment="center"-->
+                <!--app:layout_constraintStart_toEndOf="@+id/label_every"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/dialog_repeat_legend"-->
+                <!--tools:text="5" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/label_every"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:text="@string/every"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/input_repeat_interval"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/input_repeat_interval"-->
+                <!--tools:text="every" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/label_until"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:text="@string/until"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/input_repeating_date"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/input_repeating_date"-->
+                <!--tools:text="until" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/input_repeating_date"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="12dp"-->
+                <!--android:layout_marginTop="12dp"-->
+                <!--android:drawableStart="@android:drawable/ic_menu_my_calendar"-->
+                <!--android:drawablePadding="6dp"-->
+                <!--android:ems="10"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="@{viewModel.repeatEndDateString}"-->
+                <!--app:layout_constraintStart_toEndOf="@+id/label_until"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/input_repeat_interval" />-->
 
 
         </android.support.constraint.ConstraintLayout>
