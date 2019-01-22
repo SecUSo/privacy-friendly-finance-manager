@@ -1,12 +1,14 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
@@ -28,6 +31,8 @@ import org.secuso.privacyfriendlyfinance.databinding.ContentTransactionListBindi
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
+import java.util.List;
+
 /**
  * This abstract class is provided as a base class for all
  * activities that show a list of transactions. Classes that use
@@ -38,6 +43,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
  */
 public abstract class TransactionListActivity extends BaseActivity implements OnItemClickListener<Transaction> {
     private RecyclerView recyclerView;
+    private TextView emptyView;
     protected TransactionListViewModel viewModel;
 
     protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
@@ -63,6 +69,21 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         TransactionsAdapter adapter = new TransactionsAdapter(this, viewModel.getTransactions());
         adapter.onItemClick(this);
         recyclerView.setAdapter(adapter);
+
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
+        viewModel.getTransactions().observe(this, new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(@Nullable List<Transaction> transactions) {
+                if (transactions.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {

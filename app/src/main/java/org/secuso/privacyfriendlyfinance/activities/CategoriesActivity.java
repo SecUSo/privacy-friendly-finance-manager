@@ -17,6 +17,7 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -30,6 +31,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
@@ -43,6 +45,8 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoriesViewMode
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
+import java.util.List;
+
 /**
  * Activity to CRUD categories.
  *
@@ -52,6 +56,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 public class CategoriesActivity extends BaseActivity implements OnItemClickListener<CategoryWrapper> {
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView recyclerView;
+    private TextView emptyView;
     private CategoriesViewModel viewModel;
     private SwipeController swipeController = null;
 
@@ -83,6 +88,21 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(categoriesAdapter);
+
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setText(getString(R.string.activity_categories_empty_list_label));
+        viewModel.getCategories().observe(this, new Observer<List<CategoryWrapper>>() {
+            @Override
+            public void onChanged(@Nullable List<CategoryWrapper> categoryWrappers) {
+                if (categoryWrappers.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        });
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override

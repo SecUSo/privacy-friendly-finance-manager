@@ -96,6 +96,7 @@
     <string name="activity_category_expenses_month_label">Ausgaben diesen Monat:</string>
     <string name="category_saved_msg">Kategorie gespeichert</string>
     <string name="dialog_category_name_taken_msg">Eine Kategorie mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
+    <string name="activity_categories_empty_list_label">Keine Kategorien gefunden</string>
 
     <!--### T R A N S A C T I O N ###-->
     <string name="activity_transaction_saved_msg">Transaktion gespeichert</string>
@@ -111,6 +112,7 @@
     <string name="dialog_transaction_no_repetition">Keine Wiederholung</string>
     <string name="dialog_transaction_date_hint">Datum der Transaktion</string>
     <string name="dialog_delete_transaction_title">Wollen Sie diese Transaktion löschen?</string>
+    <string name="activity_transactions_empty_list_label">Keine Transaktionen gefunden</string>
 
     <!--### A C C O U N T ###-->
     <string name="account">Konto</string>

@@ -1,10 +1,13 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
@@ -14,9 +17,12 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
+import java.util.List;
+
 public class RepeatingTransactionsActivity extends BaseActivity implements OnItemClickListener<RepeatingTransaction> {
     private RepeatingTransactionsAdapter repeatingTransactionsAdapter;
     private RecyclerView recyclerView;
+    private TextView emptyView;
 
     @Override
     protected Class<? extends BaseViewModel> getViewModelClass() {
@@ -45,6 +51,21 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(repeatingTransactionsAdapter);
+
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
+        tmpViewModel.getRepeatingTransactions().observe(this, new Observer<List<RepeatingTransaction>>() {
+            @Override
+            public void onChanged(@Nullable List<RepeatingTransaction> repeatingTransactions) {
+                if (repeatingTransactions.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void openRepeatingTransactionDialog(RepeatingTransaction repeatingTransaction) {

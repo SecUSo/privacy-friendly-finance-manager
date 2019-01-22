@@ -95,6 +95,7 @@
     <string name="activity_category_expenses_month_label">Expenses of this month:</string>
     <string name="category_saved_msg">Category saved</string>
     <string name="dialog_category_name_taken_msg">A category with this name already exists. Please choose a different one.</string>
+    <string name="activity_categories_empty_list_label">No categories found</string>
 
     <!--### T R A N S A C T I O N ###-->
     <string name="activity_transaction_saved_msg">Transaction saved</string>
@@ -111,6 +112,7 @@
     <string name="dialog_transaction_no_repetition">No repetition</string>
     <string name="dialog_transaction_zero_value_impossible_msg">In order to save your transaction, please change your amount from 0 to a value.</string>
     <string name="dialog_delete_transaction_title">Do you want to delete this transaction?</string>
+    <string name="activity_transactions_empty_list_label">No transactions found</string>
 
     <!--### A C C O U N T ###-->
     <string name="account">Account</string>
