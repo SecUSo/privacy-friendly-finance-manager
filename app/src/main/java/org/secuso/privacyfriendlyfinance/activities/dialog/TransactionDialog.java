@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.NullableArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyTextWatcher;
+import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyInputFilter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogTransactionBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
@@ -158,7 +159,8 @@ public class TransactionDialog extends AppCompatDialogFragment {
             }
         });
 
-        editTextAmount.addTextChangedListener(new CurrencyTextWatcher());
+//        editTextAmount.addTextChangedListener(new CurrencyTextWatcher());
+        editTextAmount.setFilters(new InputFilter[] {new CurrencyInputFilter()});
 
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override

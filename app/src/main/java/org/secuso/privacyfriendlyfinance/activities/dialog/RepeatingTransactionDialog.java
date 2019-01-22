@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.NullableArrayAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyTextWatcher;
+import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyInputFilter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogRepeatingTransactionBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
@@ -41,11 +42,9 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
     private AlertDialog dialog;
     private View view;
     private EditText editTextAmount;
-    private TextView editTextRepeatEndDate;
     private TextView editTextDate;
     private Spinner categorySpinner;
     private Spinner accountSpinner;
-    private Spinner repeatingSpinner;
 
     private RepeatingTransactionDialogViewModel viewModel;
 
@@ -90,16 +89,6 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
                         transaction.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
                         transaction.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
                     }
-                    String[] repeatingOptions = {
-                            null,
-                            getResources().getString(R.string.weeks),
-                            getResources().getString(R.string.months)
-                    };
-//                    repeatingSpinner.setAdapter(
-//                            new NullableArrayAdapter<>(getActivity(),
-//                                                        R.layout.support_simple_spinner_dropdown_item,
-//                                                        repeatingOptions)
-//                                .setNullPlaceholderString(getString(R.string.dialog_transaction_no_repetition)));
                     viewModel.setTransaction(transaction);
                     binding.setViewModel(viewModel);
                     editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
@@ -137,7 +126,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
             }
         });
 
-        editTextAmount.addTextChangedListener(new CurrencyTextWatcher());
+        editTextAmount.setFilters(new InputFilter[] {new CurrencyInputFilter()});
 
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,12 +135,6 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
             }
         });
 
-//        editTextRepeatEndDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openDatePickerRepeatEndDate();
-//            }
-//        });
 
         dialog = builder.create();
         return dialog;
@@ -167,15 +150,6 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
 
         });
     }
-
-//    private void openDatePickerRepeatEndDate() {
-//        openDatePicker(new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                viewModel.setRepeatEndDate(new LocalDate(year, month + 1, dayOfMonth));
-//            }
-//        });
-//    }
 
     private void openDatePicker(DatePickerDialog.OnDateSetListener listener) {
         LocalDate date = viewModel.getEnd();

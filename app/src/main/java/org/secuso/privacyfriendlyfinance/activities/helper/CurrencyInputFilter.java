@@ -26,8 +26,9 @@ public class CurrencyInputFilter implements InputFilter {
 
         String oldValue = dest.toString();
         String result = oldValue.substring(0, dstart) + source.toString().substring(start, end) + oldValue.substring(dend, oldValue.length());
-
         Matcher matcher = pattern.matcher(result);
+        Log.d("CurrencyFilter", result + " " + matcher.matches());
+
         if (!matcher.matches()) return "";
 
         try {

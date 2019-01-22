@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:hint="@string/dialog_transaction_value_hint"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:maxLength="10"
             android:selectAllOnFocus="false"
             android:singleLine="false"

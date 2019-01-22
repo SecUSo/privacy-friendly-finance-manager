@@ -3,6 +3,7 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 import android.app.Application;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
@@ -21,10 +22,13 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
         if (amount == null) amount = "";
         Long number = CurrencyHelper.convertToLong(amount);
         if (number == null) number = 0L;
-        if (getExpense()) number = -number;
+
         if (getNumericAmount() != number) {
+            Log.d("CurrencyInput", "amount set to: " + number);
             setNumericAmount(number);
+            notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amount);
+            notifyPropertyChanged(BR.amountColor);
         }
     }
 
@@ -39,7 +43,7 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
     }
     public void setExpense(boolean checked) {
         if ((getNumericAmount() > 0 && checked) || (getNumericAmount() < 0 && !checked)) {
-            setNumericAmount(getNumericAmount() * -1);
+            setAmount(CurrencyHelper.convertToString(getNumericAmount() * -1));
             notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amountColor);
         }
