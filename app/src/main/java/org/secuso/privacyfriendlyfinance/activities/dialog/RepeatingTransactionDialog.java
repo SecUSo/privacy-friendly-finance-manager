@@ -75,9 +75,9 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         long transactionId = getArguments().getLong(EXTRA_TRANSACTION_ID, -1L);
 
         if (transactionId >= 0) {
-            builder.setTitle(R.string.dialog_transaction_edit_title);
+            builder.setTitle(R.string.dialog_repeating_transaction_edit_title);
         } else {
-            builder.setTitle(R.string.dialog_transaction_create_title);
+            builder.setTitle(R.string.dialog_repeating_transaction_create_title);
         }
         if (viewModel.getTransaction() == null) {
             viewModel.setTransactionId(transactionId).observe(this, new Observer<RepeatingTransaction>() {

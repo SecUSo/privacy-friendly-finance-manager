@@ -159,5 +159,7 @@
     <string name="category_budget">Budget</string>
     <string name="this_month">This Month</string>
     <string name="activity_category_budget_month_left">Budget balance this month:</string>
+    <string name="dialog_repeating_transaction_create_title">New Repeating Transaction</string>
+    <string name="dialog_repeating_transaction_edit_title">Edit Repeating Transaction</string>
 
 </resources>
