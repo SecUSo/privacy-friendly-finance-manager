@@ -18,7 +18,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="@string/dialog_transaction_name_hint"
@@ -27,6 +26,7 @@
                 android:text="@={viewModel.name}"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,29 +36,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name"
-                app:viewModel="@{viewModel}"
-                app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
                 app:negativeLabel="@{@string/dialog_transaction_radio_button_expense_action}"
-                />
-
-            <TextView
-                android:id="@+id/dialog_transaction_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:drawableStart="@android:drawable/ic_menu_my_calendar"
-                android:drawablePadding="6dp"
-                android:ems="10"
-                android:gravity="center_vertical"
-                android:text="@{viewModel.endString}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include" />
+                app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
+                app:viewModel="@{viewModel}" />
 
             <TextView
                 android:id="@+id/dialog_category_legend"
@@ -91,7 +76,7 @@
                 android:gravity="center"
                 android:text="@string/account"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dialog_transaction_date" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_repeat" />
 
             <Spinner
                 android:id="@+id/account_spinner"
@@ -105,16 +90,89 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
 
-            <TextView
-                android:id="@+id/dialog_repeat_legend"
-                android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_repeat"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="@string/dialog_transaction_repeating_label"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
+                app:layout_constraintTop_toBottomOf="@+id/include">
+
+                <TextView
+                    android:id="@+id/dialog_transaction_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                    android:drawablePadding="6dp"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.endString}"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_interval" />
+
+                <EditText
+                    android:id="@+id/editText_interval"
+                    android:layout_width="93dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dialog_repeat_legend" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/editText_interval"
+                    app:layout_constraintStart_toEndOf="@+id/editText_interval"
+                    app:layout_constraintTop_toTopOf="@+id/editText_interval">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/months" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_weeks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/weeks"
+                        tools:layout_editor_absoluteX="219dp"
+                        tools:layout_editor_absoluteY="286dp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/dialog_repeat_legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/dialog_transaction_repeating_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/until"
+                    app:layout_constraintBottom_toBottomOf="@+id/dialog_transaction_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date" />
+            </android.support.constraint.ConstraintLayout>
 
             <!--<Spinner-->
                 <!--android:id="@+id/repeat_unit_spinner"-->
