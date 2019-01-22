@@ -19,7 +19,7 @@ public final class RepeatingHelper {
             template = context.getString(R.string.repeat_text_unit_template);
         }
 
-        if (repeatingTransaction.getWeekly()) {
+        if (repeatingTransaction.isWeekly()) {
             if (repeatingTransaction.getInterval() == 1) {
                 template = template.replace("%UNIT%", context.getString(R.string.repeat_unit_every_first_week));
             } else {

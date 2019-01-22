@@ -52,8 +52,6 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         if (repeatingTransaction == null) {
 
         } else {
-            args.putLong(RepeatingTransactionDialog.EXTRA_ACCOUNT_ID, repeatingTransaction.getAccountId());
-            args.putLong(RepeatingTransactionDialog.EXTRA_CATEGORY_ID, repeatingTransaction.getCategoryId());
             args.putLong(RepeatingTransactionDialog.EXTRA_TRANSACTION_ID, repeatingTransaction.getId());
         }
 
