@@ -73,6 +73,12 @@
 
     <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
     <string name="activity_repeating_transactions_title">Wiederkehrende Transaktionen</string>
+    <string name="repeat_text_unit_template">Wird %UNIT% wiederholt</string>
+    <string name="repeat_text_unit_until_template">Wird %UNIT% wiederholt bis %UNTIL%</string>
+    <string name="repeat_unit_every_first_week">jede Woche</string>
+    <string name="repeat_unit_every_n_week">jede %N% Woche</string>
+    <string name="repeat_unit_every_first_month">jeden Monat</string>
+    <string name="repeat_unit_every_n_month">jeden %N% Monat</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Kategorie</string>

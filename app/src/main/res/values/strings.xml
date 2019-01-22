@@ -72,6 +72,12 @@
 
     <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
     <string name="activity_repeating_transactions_title">Repeating transactions</string>
+    <string name="repeat_text_unit_template">Repeating %UNIT%</string>
+    <string name="repeat_text_unit_until_template">Repeating %UNIT% until %UNTIL%</string>
+    <string name="repeat_unit_every_first_week">every week</string>
+    <string name="repeat_unit_every_n_week">every %N% week</string>
+    <string name="repeat_unit_every_first_month">every month</string>
+    <string name="repeat_unit_every_n_month">every %N% month</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>

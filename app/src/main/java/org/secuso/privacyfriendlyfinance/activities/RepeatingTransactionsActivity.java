@@ -31,6 +31,7 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
 
         RepeatingTransactionsViewModel tmpViewModel = (RepeatingTransactionsViewModel) super.viewModel;
         repeatingTransactionsAdapter = new RepeatingTransactionsAdapter(this, tmpViewModel.getRepeatingTransactions());
+        repeatingTransactionsAdapter.onItemClick(this);
 
         addFab(R.layout.fab_add, new View.OnClickListener() {
             @Override
