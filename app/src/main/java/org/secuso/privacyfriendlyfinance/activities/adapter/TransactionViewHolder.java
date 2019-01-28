@@ -94,7 +94,7 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
         if (repeatingName == null) {
             tvRepeating.setVisibility(View.INVISIBLE);
             ivRepeating.setVisibility(View.INVISIBLE);
-        } else if (repeatingName == tvName.getText()) {
+        } else if (repeatingName.equals(tvName.getText())) {
             ivRepeating.setVisibility(View.VISIBLE);
             tvRepeating.setVisibility(View.INVISIBLE);
         } else {
