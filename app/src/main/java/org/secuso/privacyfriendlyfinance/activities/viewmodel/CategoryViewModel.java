@@ -59,6 +59,11 @@ public class CategoryViewModel extends TransactionListViewModel {
         setShowEditMenu(true);
     }
 
+    @Override
+    public boolean showDrawer() {
+        return false;
+    }
+
     public LiveData<Long> getCategoryIncomeMonth() {
         return categoryIncomeMonth;
     }

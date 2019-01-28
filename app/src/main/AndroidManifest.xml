@@ -76,16 +76,14 @@
         </activity>
         <activity
             android:name=".activities.CategoryActivity"
-            android:parentActivityName=".activities.CategoryActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activities.CategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.CategoriesActivity" />
         </activity>
         <activity
             android:name=".activities.AccountActivity"
-            android:parentActivityName=".activities.AccountsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activities.AccountsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.AccountsActivity" />

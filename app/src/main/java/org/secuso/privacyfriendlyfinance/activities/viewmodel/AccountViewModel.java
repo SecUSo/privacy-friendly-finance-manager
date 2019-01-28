@@ -7,7 +7,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import org.joda.time.LocalDate;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
@@ -28,9 +27,14 @@ public class AccountViewModel extends TransactionListViewModel {
         account = accountDao.get(accountId);
         totalBalance = FinanceDatabase.getInstance().transactionDao().sumForAccount(accountId);
         monthBalance = FinanceDatabase.getInstance().transactionDao().sumForAccountBefore(accountId, LocalDate.now().withDayOfMonth(1).toString());
-        setNavigationDrawerId(R.id.nav_account);
+        setNavigationDrawerId(null);
         setPreselectedAccountId(accountId);
         setShowEditMenu(true);
+    }
+
+    @Override
+    public boolean showDrawer() {
+        return false;
     }
 
     public LiveData<Long> getTotalBalance() {

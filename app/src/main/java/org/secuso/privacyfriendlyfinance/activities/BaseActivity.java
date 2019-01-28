@@ -45,6 +45,7 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
+import org.secuso.privacyfriendlyfinance.databinding.ActivityStackedBinding;
 import org.secuso.privacyfriendlyfinance.domain.PeriodicDatabaseWorker;
 
 import java.util.ArrayList;
@@ -117,8 +118,16 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         overridePendingTransition(0, 0);
 
         viewModel = getViewModel();
-        ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
-        binding.setViewModel(viewModel);
+        ;
+        if (viewModel.showDrawer()) {
+            ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
+            mNavigationView = binding.getRoot().findViewById(R.id.nav_view);
+            mNavigationView.setNavigationItemSelectedListener(this);
+            binding.setViewModel(viewModel);
+        } else {
+            ActivityStackedBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_stacked);
+            binding.setViewModel(viewModel);
+        }
 
         viewModel.getTitle().observe(this, new Observer<String>() {
             @Override
@@ -137,13 +146,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer navigationDrawerId) {
-                if (navigationDrawerId == null) navigationDrawerId = -1;
-                selectNavigationItem(navigationDrawerId);
+                if (navigationDrawerId == null || navigationDrawerId == -1) {
+                    selectNavigationItem(-1);
+                } else {
+                    selectNavigationItem(navigationDrawerId);
+                }
             }
         });
-
-        mNavigationView = findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
 
         contentWrapper = findViewById(R.id.content_wrapper);
         inflater = LayoutInflater.from(contentWrapper.getContext());
@@ -198,9 +207,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (viewModel.showDrawer()) {
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         } else {
             super.onBackPressed();
         }
@@ -241,9 +254,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     // set active navigation item
     private void selectNavigationItem(int itemId) {
-        for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
-            boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
-            mNavigationView.getMenu().getItem(i).setChecked(b);
+        if (viewModel.showDrawer()) {
+            for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
+                boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
+                mNavigationView.getMenu().getItem(i).setChecked(b);
+            }
         }
     }
 
@@ -317,11 +332,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             setSupportActionBar(toolbar);
         }
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.nav_drawer_toggle_open_desc, R.string.nav_drawer_toggle_close_desc);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        if (viewModel.showDrawer()) {
+
+            mDrawerLayout = findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, mDrawerLayout, toolbar, R.string.nav_drawer_toggle_open_desc, R.string.nav_drawer_toggle_close_desc);
+            mDrawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+        }
 
         if (contentWrapper != null) {
             contentWrapper.setAlpha(0);
