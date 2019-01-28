@@ -86,20 +86,24 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
     }
 
     private void deleteAccount(final Account account) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.account_delete_action);
-        builder.setMessage(Html.fromHtml(getResources().getString(R.string.account_delete_question, account.getName())));
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                FinanceDatabase.getInstance().accountDao().deleteAsync(account);
-                Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        builder.create().show();
+        if (viewModel.getAccounts().getValue().size() > 1) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.account_delete_action);
+            builder.setMessage(Html.fromHtml(getResources().getString(R.string.account_delete_question, account.getName())));
+            builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    FinanceDatabase.getInstance().accountDao().deleteAsync(account);
+                    Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            builder.create().show();
+        } else {
+            Toast.makeText(getBaseContext(), R.string.account_last_not_deleteable, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void openAccountDialog(Account account) {
