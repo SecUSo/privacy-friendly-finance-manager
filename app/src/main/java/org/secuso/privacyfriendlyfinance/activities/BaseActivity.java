@@ -45,6 +45,7 @@ import android.view.View;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
+import org.secuso.privacyfriendlyfinance.domain.PeriodicDatabaseWorker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     protected SharedPreferences mSharedPreferences;
     protected BaseViewModel viewModel;
 
+    private static Handler periodicHandler;
+
     private List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
 
 
@@ -86,9 +89,29 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         return ViewModelProviders.of(this).get(getViewModelClass());
     }
 
+
+    private void schedulePeriodicTask() {
+        if (periodicHandler == null) {
+            periodicHandler = new Handler();
+        } else {
+            return;
+        }
+        final Runnable periodicRunner = new Runnable() {
+            @Override
+            public void run() {
+                PeriodicDatabaseWorker.work();
+                periodicHandler.postDelayed(this, PeriodicDatabaseWorker.DURATION_BETWEEN_WORK);
+            }
+        };
+        periodicHandler.post(periodicRunner);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        schedulePeriodicTask();
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mHandler = new Handler();
         overridePendingTransition(0, 0);

@@ -17,15 +17,10 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
-import org.secuso.privacyfriendlyfinance.domain.AlarmReceiver;
 
 public class TransactionsActivity extends TransactionListActivity {
     @Override
@@ -36,15 +31,5 @@ public class TransactionsActivity extends TransactionListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        schedulePeriodicAlarm();
-        System.out.println("ON CREATE MAIN");
-    }
-
-    private void schedulePeriodicAlarm() {
-        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        final PendingIntent pendingIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long firstMillis = System.currentTimeMillis();
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 }

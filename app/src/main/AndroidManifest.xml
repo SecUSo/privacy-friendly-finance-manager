@@ -17,14 +17,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver
-            android:name=".domain.AlarmReceiver"
-            android:process=":remote" >
-        </receiver>
-
-        <service
-            android:name="domain.PeriodicDatabaseWorker"
-            android:exported="false" />
 
         <activity
             android:name=".activities.SplashActivity"

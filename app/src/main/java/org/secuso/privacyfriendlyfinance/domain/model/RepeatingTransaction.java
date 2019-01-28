@@ -40,6 +40,19 @@ public class RepeatingTransaction extends AbstractEntity {
     private long interval = 1L;
     private boolean weekly = false;
 
+    public Transaction getTransaction() {
+        Transaction result = new Transaction();
+
+        result.setRepeatingId(getId());
+        result.setName(name);
+        result.setAccountId(accountId);
+        result.setCategoryId(categoryId);
+        result.setAmount(amount);
+        result.setDate(LocalDate.now());
+
+        return result;
+    }
+
     public String getName() {
         return name;
     }

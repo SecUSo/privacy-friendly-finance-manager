@@ -17,4 +17,7 @@ public abstract class RepeatingTransactionDao extends AbstractDao<RepeatingTrans
     @Override
     @Query("SELECT * FROM RepeatingTransaction ORDER BY id ASC")
     public abstract LiveData<List<RepeatingTransaction>> getAll();
+
+    @Query("SELECT * FROM RepeatingTransaction ORDER BY id ASC")
+    public abstract List<RepeatingTransaction> getAllSync();
 }
