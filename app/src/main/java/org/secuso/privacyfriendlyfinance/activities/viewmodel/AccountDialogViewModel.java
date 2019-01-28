@@ -50,7 +50,7 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
 
     public void setAccountId(long accountId) {
         account = accountId == -1 ? new Account() : accountDao.getCached(accountId);
-        originalName = account.getName();
+        if (account != null) originalName = account.getName();
     }
 
     public boolean isNewAccount() {

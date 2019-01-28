@@ -208,10 +208,14 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         return String.valueOf(transaction.getInterval());
     }
     public void setInterval(String str) {
-        long interval = Long.parseLong(str);
-        if (transaction.getInterval() != interval) {
-            transaction.setInterval(interval);
-            notifyPropertyChanged(BR.interval);
+        try {
+            long interval = Long.parseLong(str);
+            if (transaction.getInterval() != interval) {
+                transaction.setInterval(interval);
+                notifyPropertyChanged(BR.interval);
+            }
+        } catch (NumberFormatException e) {
+
         }
     }
 

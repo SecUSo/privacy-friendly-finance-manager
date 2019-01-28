@@ -48,7 +48,7 @@ public class PeriodicDatabaseWorker {
 
         // Is 'nextInsert' before 'now'?
         LocalDate now = LocalDate.now();
-        if (nextInsert.isBefore(now)) {
+        if (nextInsert.isBefore(now) || nextInsert.isEqual(now)) {
             // Insert a new transaction
             Transaction newTransaction = repeatingTransaction.getTransaction();
             newTransaction.setDate(nextInsert);
