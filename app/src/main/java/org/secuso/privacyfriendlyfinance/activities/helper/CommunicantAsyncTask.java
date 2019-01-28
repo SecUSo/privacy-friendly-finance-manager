@@ -11,7 +11,7 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
     private Double progress;
     private String operation;
 
-      @Override
+    @Override
     protected void onPostExecute(Result result) {
         this.result = result;
         progress = 1.0;

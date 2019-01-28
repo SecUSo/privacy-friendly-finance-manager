@@ -27,14 +27,22 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        progressText = findViewById(R.id.progressText);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setMax(1000);
-        FinanceDatabase.connect(getApplicationContext(), this);
+        if (FinanceDatabase.getInstance() == null) {
+            progressText = findViewById(R.id.progressText);
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setMax(1000);
+            FinanceDatabase.connect(getApplicationContext(), this);
+        } else {
+            nextActivity();
+        }
     }
 
     @Override
     public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+        nextActivity();
+    }
+
+    private void nextActivity() {
         Intent mainIntent;
         if(SharedPreferencesManager.isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
