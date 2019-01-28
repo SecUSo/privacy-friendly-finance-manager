@@ -18,6 +18,7 @@ import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     private LiveData<List<Account>> accounts = accountDao.getAll();
 
     private LiveData<Transaction> transactionLive;
+    private LiveData<RepeatingTransaction> repeatingTransaction;
     private Transaction transaction;
 
     private Application application;
@@ -115,7 +117,15 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         originalCategoryId = transaction.getCategoryId();
         originalAmount = transaction.getAmount();
         originalDate = transaction.getDate();
+
+        if (transaction.getRepeatingId() != null) {
+            repeatingTransaction = FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId());
+        }
         notifyChange();
+    }
+
+    public LiveData<RepeatingTransaction> getRepeatingTransaction() {
+        return repeatingTransaction;
     }
 
     @Bindable

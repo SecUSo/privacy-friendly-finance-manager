@@ -13,6 +13,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/textView_repeating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="-1dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_repeating"
+                app:layout_constraintStart_toEndOf="@+id/imageView_repeating"
+                app:layout_constraintTop_toTopOf="@+id/imageView_repeating"
+                tools:text="Repeating" />
+
+            <ImageView
+                android:id="@+id/imageView_repeating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:tint="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include"
+                app:srcCompat="@drawable/ic_autorenew_black_24dp" />
+
             <EditText
                 android:id="@+id/editText_transaction_name"
                 android:layout_width="0dp"

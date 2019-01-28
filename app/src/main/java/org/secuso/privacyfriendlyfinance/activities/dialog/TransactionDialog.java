@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogV
 import org.secuso.privacyfriendlyfinance.databinding.DialogTransactionBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
@@ -64,6 +66,8 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private TextView editTextDate;
     private Spinner categorySpinner;
     private Spinner accountSpinner;
+    private TextView tvRepeating;
+    private ImageView ivRepeating;
 
     private TransactionDialogViewModel viewModel;
 
@@ -81,6 +85,8 @@ public class TransactionDialog extends AppCompatDialogFragment {
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
         categorySpinner = view.findViewById(R.id.category_spinner);
         accountSpinner = view.findViewById(R.id.account_spinner);
+        tvRepeating = view.findViewById(R.id.textView_repeating);
+        ivRepeating = view.findViewById(R.id.imageView_repeating);
         viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
         long transactionId = getArguments().getLong(EXTRA_TRANSACTION_ID, -1L);
@@ -101,10 +107,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
                         transaction.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
                     }
                     viewModel.setTransaction(transaction);
+                    bindRepeatingTransaction();
                     binding.setViewModel(viewModel);
                 }
             });
         } else {
+            bindRepeatingTransaction();
             binding.setViewModel(viewModel);
         }
 
@@ -158,6 +166,27 @@ public class TransactionDialog extends AppCompatDialogFragment {
                 viewModel.setDate(new LocalDate(year, month + 1, dayOfMonth));
             }
         });
+    }
+
+    private void bindRepeatingTransaction() {
+        if (viewModel.getRepeatingTransaction() != null) {
+            viewModel.getRepeatingTransaction().observe(this, new Observer<RepeatingTransaction>() {
+                @Override
+                public void onChanged(@Nullable RepeatingTransaction repeatingTransaction) {
+                    if (repeatingTransaction == null) {
+                        tvRepeating.setVisibility(View.INVISIBLE);
+                        ivRepeating.setVisibility(View.INVISIBLE);
+                    } else {
+                        tvRepeating.setText(repeatingTransaction.getName());
+                        tvRepeating.setVisibility(View.VISIBLE);
+                        ivRepeating.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        } else {
+            tvRepeating.setVisibility(View.INVISIBLE);
+            ivRepeating.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void openDatePicker(DatePickerDialog.OnDateSetListener listener) {
