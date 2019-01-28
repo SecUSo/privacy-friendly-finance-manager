@@ -83,6 +83,9 @@
     <string name="dialog_repeating_transaction_create_title">Neue Wiederkehrende Transaktion</string>
     <string name="dialog_repeating_transaction_edit_title">Wiederkehrende Transaktion bearbeiten</string>
     <string name="repeat_ends_at">Endet am</string>
+    <string name="repeat_delete_action">Wiederkehrende Transaktion löschen</string>
+    <string name="repeat_delete_question">Die zugehörigen erstellten Transaktionen werden nicht gelöscht, verlieren allerdings ihre Referenz auf diese wiederkehrende Transaktion.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie die wiederkehrende Transaktion &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="repeat_deleted_msg">Wiederkehrende Transaktion gelöscht</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Kategorie</string>

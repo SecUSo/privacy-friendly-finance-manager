@@ -72,7 +72,7 @@
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
 
     <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
-    <string name="activity_repeating_transactions_title">Repeating transactions</string>
+    <string name="activity_repeating_transactions_title">Repeating Transactions</string>
     <string name="repeat_text_unit_template">Repeating %UNIT%</string>
     <string name="repeat_text_unit_until_template">Repeating %UNIT% until %UNTIL%</string>
     <string name="repeat_unit_every_first_week">every week</string>
@@ -80,6 +80,10 @@
     <string name="repeat_unit_every_first_month">every month</string>
     <string name="repeat_unit_every_n_month">every %N% month</string>
     <string name="repeat_ends_at">Ends at</string>
+    <string name="repeat_delete_action">Delete Repeating transaction</string>
+    <string name="repeat_delete_question">All generated transactions will be retained but will loose their reference to this repeating transaction.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete repeating transaction &lt;b>%1$s&lt;/b>?</string>
+    <string name="repeat_deleted_msg">Repeating Transaction deleted</string>
+
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>

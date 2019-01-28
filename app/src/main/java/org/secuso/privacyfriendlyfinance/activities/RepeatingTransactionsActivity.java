@@ -18,21 +18,31 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
+import android.content.DialogInterface;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.adapter.RepeatingTransactionsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.dialog.RepeatingTransactionDialog;
+import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionsViewModel;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
 import java.util.List;
@@ -57,7 +67,7 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
 
         setContent(R.layout.content_recycler);
 
-        RepeatingTransactionsViewModel tmpViewModel = (RepeatingTransactionsViewModel) super.viewModel;
+        final RepeatingTransactionsViewModel tmpViewModel = (RepeatingTransactionsViewModel) super.viewModel;
         repeatingTransactionsAdapter = new RepeatingTransactionsAdapter(this, tmpViewModel.getRepeatingTransactions());
         repeatingTransactionsAdapter.onItemClick(this);
 
@@ -74,6 +84,29 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(repeatingTransactionsAdapter);
 
+        SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
+            @Override
+            public void onClick(int position) {
+                deleteRepeatingTransaction(tmpViewModel.getRepeatingTransactions().getValue().get(position));
+            }
+            @Override
+            public Drawable getIcon() {
+                return ContextCompat.getDrawable(RepeatingTransactionsActivity.this, R.drawable.ic_delete_red_24dp);
+            }
+        };
+
+        final SwipeController swipeController = new SwipeController(this, deleteAction, deleteAction);
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
+
         emptyView = findViewById(R.id.empty_view);
         emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
         tmpViewModel.getRepeatingTransactions().observe(this, new Observer<List<RepeatingTransaction>>() {
@@ -88,6 +121,24 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
                 }
             }
         });
+    }
+
+    private void deleteRepeatingTransaction(final RepeatingTransaction transaction) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.repeat_delete_action);
+        builder.setMessage(Html.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName())));
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                FinanceDatabase.getInstance().repeatingTransactionDao().deleteAsync(transaction);
+                Toast.makeText(getBaseContext(), R.string.repeat_deleted_msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.create().show();
+
     }
 
     private void openRepeatingTransactionDialog(RepeatingTransaction repeatingTransaction) {
