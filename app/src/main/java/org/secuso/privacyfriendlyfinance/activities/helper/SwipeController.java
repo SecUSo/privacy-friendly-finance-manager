@@ -21,10 +21,12 @@ package org.secuso.privacyfriendlyfinance.activities.helper;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -188,26 +190,39 @@ public class SwipeController extends Callback {
         Paint p = new Paint();
 
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-            Drawable icon = leftAction.getIcon();
-            icon.setBounds(
+            Rect targetspace = new Rect(
                     itemView.getLeft() + leftAction.getHPadding(),
                     itemView.getTop() + leftAction.getVPadding(),
                     itemView.getLeft() + leftAction.getTotalWidth() - leftAction.getHPadding(),
                     itemView.getBottom() - leftAction.getVPadding());
-            icon.draw(c);
-            buttonInstance = new RectF(icon.copyBounds());
+            drawIcon(c, leftAction.getIcon(), targetspace);
+            buttonInstance = new RectF(targetspace);
         } else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-            Drawable icon = rightAction.getIcon();
-            icon.setBounds(
+            Rect targetspace = new Rect(
                     itemView.getRight() - rightAction.getTotalWidth() + rightAction.getHPadding(),
                     itemView.getTop() + rightAction.getVPadding(),
                     itemView.getRight() - rightAction.getHPadding(),
                     itemView.getBottom() - rightAction.getVPadding());
-            icon.draw(c);
-            buttonInstance = new RectF(icon.copyBounds());
+            drawIcon(c, rightAction.getIcon(), targetspace);
+            buttonInstance = new RectF(targetspace);
         } else {
             buttonInstance = null;
         }
+    }
+
+    private void drawIcon(Canvas c, Drawable icon, Rect target) {
+        Log.d("Target", "" + icon.getIntrinsicWidth() + " : " + icon.getIntrinsicHeight());
+        Log.d("Target", target.toString());
+        if (target.width() < target.height()) {
+            int sub = (target.height() - target.width()) / 2;
+            target = new Rect(target.left, target.top + sub, target.right, target.bottom - sub);
+        } else if (target.width() > target.height()) {
+            int sub = (target.width() - target.height()) / 2;
+            target = new Rect(target.left + sub, target.top, target.right - sub, target.bottom);
+
+        }
+        icon.setBounds(target);
+        icon.draw(c);
     }
 
     public void onDraw(Canvas c) {
