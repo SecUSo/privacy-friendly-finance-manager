@@ -146,14 +146,15 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         setEnd(null);
     }
     public void setEnd(LocalDate date) {
+        Log.d("DateSet", "" + date);
         if (date != null) {
             if (transaction.getEnd() == null || !transaction.getEnd().equals(date)) {
                 transaction.setEnd(date);
-                notifyPropertyChanged(BR.dateString);
+                notifyPropertyChanged(BR.endString);
             }
         } else if (transaction.getEnd() != null) {
             transaction.setEnd(null);
-            notifyPropertyChanged(BR.dateString);
+            notifyPropertyChanged(BR.endString);
         }
     }
 

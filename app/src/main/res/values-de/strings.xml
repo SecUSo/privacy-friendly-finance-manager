@@ -25,6 +25,7 @@
     <string name="every">Alle</string>
     <string name="until">bis</string>
     <string name="forever">für immer</string>
+    <string name="never">niemals</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initialisiere Keystore&#8230;</string>
@@ -81,6 +82,7 @@
     <string name="repeat_unit_every_n_month">jeden %N% Monat</string>
     <string name="dialog_repeating_transaction_create_title">Neue Wiederkehrende Transaktion</string>
     <string name="dialog_repeating_transaction_edit_title">Wiederkehrende Transaktion bearbeiten</string>
+    <string name="repeat_ends_at">Endet am</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Kategorie</string>

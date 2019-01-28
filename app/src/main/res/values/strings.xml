@@ -25,6 +25,7 @@
     <string name="every">Every</string>
     <string name="until">until</string>
     <string name="forever">forever</string>
+    <string name="never">never</string>
 
     <!-- ### S T A R T _ U P ###-->
     <string name="activity_startup_init_key_store_msg">Initializing key store&#8230;</string>
@@ -78,6 +79,7 @@
     <string name="repeat_unit_every_n_week">every %N% week</string>
     <string name="repeat_unit_every_first_month">every month</string>
     <string name="repeat_unit_every_n_month">every %N% month</string>
+    <string name="repeat_ends_at">Ends at</string>
 
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Category</string>
