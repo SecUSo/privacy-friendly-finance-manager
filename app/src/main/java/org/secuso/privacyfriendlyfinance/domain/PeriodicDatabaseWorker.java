@@ -12,7 +12,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 public class PeriodicDatabaseWorker {
-    public static final long DURATION_BETWEEN_WORK = 10_000L;
+    public static final long DURATION_BETWEEN_WORK = 5 * 60 * 1000L;
 
     private static RepeatingTransactionDao repeatingTransactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
     private static TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
@@ -41,12 +41,11 @@ public class PeriodicDatabaseWorker {
         if (repeatingTransaction.getEnd() != null) {
             // Is the end before the calculated 'nextInsert'?
             if (repeatingTransaction.getEnd().isBefore(nextInsert)) {
-                System.out.println("This repeating transaction already ended!");
                 return false;
             }
         }
 
-        // Is 'nextInsert' before 'now'?
+        // Is 'nextInsert' before 'now' or is 'nextInsert' today?
         LocalDate now = LocalDate.now();
         if (nextInsert.isBefore(now) || nextInsert.isEqual(now)) {
             // Insert a new transaction
@@ -57,11 +56,8 @@ public class PeriodicDatabaseWorker {
             // Set the latest insert date of the repeating transaction
             repeatingTransaction.setLatestInsert(nextInsert);
             repeatingTransactionDao.updateOrInsertAsync(repeatingTransaction);
-
-            System.out.println("Inserted a new transaction");
             return true;
         } else {
-            System.out.println("Don't have to insert a new transaction");
             return false;
         }
     }
