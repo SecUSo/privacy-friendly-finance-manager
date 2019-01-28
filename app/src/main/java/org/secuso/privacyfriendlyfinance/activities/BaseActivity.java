@@ -55,7 +55,7 @@ import java.util.List;
  * @author Christopher Beckmann, Karola Marky, Felix Hofmann, Leonard Otto
  * @version 20181129
  * <p>
- * This class is a parent class of all activities the user can access the Navigation Drawer from.
+ * This class is a parent class of all activities.
  * just inject your activities content via the setContent() method.
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
