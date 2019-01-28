@@ -18,6 +18,8 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
     private TextView tvAccount;
     private TextView tvCategory;
     private ImageView ivCategory;
+    private TextView tvRepeating;
+    private ImageView ivRepeating;
     private TextView tvMonth;
     private TextView tvDay;
 
@@ -29,6 +31,8 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
         tvAccount = itemView.findViewById(R.id.textView_account);
         tvCategory = itemView.findViewById(R.id.textView_category);
         ivCategory = itemView.findViewById(R.id.imageView_category);
+        tvRepeating = itemView.findViewById(R.id.textView_repeating);
+        ivRepeating = itemView.findViewById(R.id.imageView_repeating);
         tvMonth = itemView.findViewById(R.id.textView_month);
         tvDay = itemView.findViewById(R.id.textView_day_of_month);
         setCategoryName(null);
@@ -62,6 +66,20 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
         } else {
             ivCategory.clearColorFilter();
         }
+    }
+
+    public void setRepeatingName(String repeatingName) {
+        if (repeatingName == null) {
+            tvRepeating.setVisibility(View.INVISIBLE);
+            ivRepeating.setVisibility(View.INVISIBLE);
+        } else if (repeatingName == tvName.getText()) {
+            ivRepeating.setVisibility(View.VISIBLE);
+            tvRepeating.setVisibility(View.INVISIBLE);
+        } else {
+            tvRepeating.setVisibility(View.VISIBLE);
+            ivRepeating.setVisibility(View.VISIBLE);
+        }
+        tvRepeating.setText(repeatingName);
     }
 
     public void setDate(LocalDate date) {

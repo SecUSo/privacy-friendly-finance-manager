@@ -13,6 +13,7 @@ import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
@@ -41,6 +42,17 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         holder.setTransactionName(transaction.getName());
         holder.setDate(transaction.getDate());
         holder.setAmount(transaction.getAmount());
+
+        if (transaction.getRepeatingId() == null) {
+            holder.setRepeatingName(null);
+        } else {
+            FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, new Observer<RepeatingTransaction>() {
+                @Override
+                public void onChanged(@Nullable RepeatingTransaction repeatingTransaction) {
+                    holder.setRepeatingName(repeatingTransaction.getName());
+                }
+            });
+        }
 
         accounts.observe(context, new Observer<Map<Long, Account>>() {
             @Override
