@@ -25,6 +25,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
+ * Used to convert joda LocalDate to String and vise versa.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

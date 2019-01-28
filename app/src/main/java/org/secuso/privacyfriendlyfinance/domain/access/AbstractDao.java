@@ -35,6 +35,9 @@ import java.util.Map;
 
 
 /**
+ * Data access base class used to access all entities in the database that inherit from
+ * AbstractEntity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

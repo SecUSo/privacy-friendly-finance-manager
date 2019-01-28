@@ -33,6 +33,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import java.util.List;
 
 /**
+ * Array adapter that can also have null elements. Can be configured what to show for null elements.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

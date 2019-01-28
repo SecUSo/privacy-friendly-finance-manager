@@ -25,6 +25,8 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 /**
+ * Wrapper class for category.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

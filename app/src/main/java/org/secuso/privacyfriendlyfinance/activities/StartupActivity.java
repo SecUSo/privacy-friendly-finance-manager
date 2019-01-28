@@ -32,6 +32,8 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
+ * Startup activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

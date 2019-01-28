@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * View model for the transaction dialog.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

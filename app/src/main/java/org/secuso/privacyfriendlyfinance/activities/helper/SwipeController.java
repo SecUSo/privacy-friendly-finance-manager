@@ -34,6 +34,8 @@ import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
 
 
 /**
+ * Swipe controller. Manages swipe gestures.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

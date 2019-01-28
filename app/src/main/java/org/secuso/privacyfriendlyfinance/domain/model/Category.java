@@ -23,6 +23,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 
 /**
+ * Category entity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

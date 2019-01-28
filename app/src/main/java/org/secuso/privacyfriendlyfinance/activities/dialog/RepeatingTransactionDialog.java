@@ -52,6 +52,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import java.util.List;
 
 /**
+ * Dialog used to create and edit repeating transactions.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

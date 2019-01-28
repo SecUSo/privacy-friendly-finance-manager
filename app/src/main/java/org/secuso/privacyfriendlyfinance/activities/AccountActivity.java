@@ -34,6 +34,9 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 /**
+ * Account activity. Used to show detailed information about an account and all transactions that
+ * are linked to this account.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

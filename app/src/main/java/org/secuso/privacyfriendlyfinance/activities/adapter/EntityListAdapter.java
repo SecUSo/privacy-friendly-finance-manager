@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Adapter for lists of entities.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

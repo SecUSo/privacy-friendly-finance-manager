@@ -46,6 +46,8 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 /**
+ * The accounts activity shows all accounts and provides the possibility to create new accounts.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

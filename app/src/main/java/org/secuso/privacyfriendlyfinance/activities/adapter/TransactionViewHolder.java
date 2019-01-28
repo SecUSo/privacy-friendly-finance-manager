@@ -31,6 +31,8 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 import java.util.Locale;
 
 /**
+ * View holder for transactions. Connects the adapter to the view.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

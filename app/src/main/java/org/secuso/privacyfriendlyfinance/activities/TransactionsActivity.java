@@ -23,6 +23,8 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListVie
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 
 /**
+ * Transactions activity that show ALL transactions in the system. Is the main activity of this app.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -21,6 +21,8 @@ package org.secuso.privacyfriendlyfinance.activities.helper;
 import android.os.AsyncTask;
 
 /**
+ * Task listener interface.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

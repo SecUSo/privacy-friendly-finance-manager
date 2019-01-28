@@ -32,6 +32,8 @@ import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
 import java.util.List;
 
 /**
+ * Adapter for account lists.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

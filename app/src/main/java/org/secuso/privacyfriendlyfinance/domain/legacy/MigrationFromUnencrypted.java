@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manages the database migration from an unencrypted database.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -31,6 +31,8 @@ import android.widget.EditText;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
+ * Dialog to input simple unformatted text.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

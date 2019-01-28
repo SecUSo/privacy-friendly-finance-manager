@@ -30,6 +30,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 /**
+ * Periodic database worker. Works in the background.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

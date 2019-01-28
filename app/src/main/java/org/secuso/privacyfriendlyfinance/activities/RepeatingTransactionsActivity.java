@@ -48,6 +48,9 @@ import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import java.util.List;
 
 /**
+ * This activity shows all repeating transactions. Provides the possibility to create new repeating
+ * transactions.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

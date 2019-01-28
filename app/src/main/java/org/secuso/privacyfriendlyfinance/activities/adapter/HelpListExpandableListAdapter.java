@@ -29,6 +29,8 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
+ * Expandable list adapter used for the help activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

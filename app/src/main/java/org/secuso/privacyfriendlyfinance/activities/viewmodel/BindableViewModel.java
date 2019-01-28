@@ -26,6 +26,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
+ * Bindable view model.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

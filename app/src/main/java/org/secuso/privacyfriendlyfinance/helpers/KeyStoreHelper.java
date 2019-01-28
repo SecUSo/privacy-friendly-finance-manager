@@ -39,6 +39,8 @@ import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
 /**
+ * Helper class to manage database keys.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

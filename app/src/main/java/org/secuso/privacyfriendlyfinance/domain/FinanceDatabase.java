@@ -47,6 +47,8 @@ import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 import java.io.File;
 
 /**
+ * The main database class. Also handles the initialization of the database.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

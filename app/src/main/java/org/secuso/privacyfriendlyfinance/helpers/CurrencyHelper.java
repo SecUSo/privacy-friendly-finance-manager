@@ -27,6 +27,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
+ * Helper to convert and set balances and to get the right color for a balance.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

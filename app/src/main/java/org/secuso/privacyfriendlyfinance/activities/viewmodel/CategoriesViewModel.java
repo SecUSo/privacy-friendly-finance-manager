@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * View model for the categories activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

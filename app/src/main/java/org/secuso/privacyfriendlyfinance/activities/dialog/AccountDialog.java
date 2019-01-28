@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dialog used to create and edit accounts.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

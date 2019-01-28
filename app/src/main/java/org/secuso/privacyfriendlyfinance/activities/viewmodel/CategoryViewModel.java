@@ -34,6 +34,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 /**
+ * View model for the category activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

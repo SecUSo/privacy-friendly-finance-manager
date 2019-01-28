@@ -24,6 +24,8 @@ import android.support.annotation.NonNull;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
+ * View model for the transactions activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

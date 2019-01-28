@@ -26,6 +26,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 /**
+ * Bass class for view models.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

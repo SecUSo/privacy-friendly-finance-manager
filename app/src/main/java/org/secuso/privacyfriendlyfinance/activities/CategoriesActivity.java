@@ -49,7 +49,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import java.util.List;
 
 /**
- * Activity to CRUD categories.
+ * Activity that shows all categories. Also provides the possibility to create new categories.
  *
  * @author Felix Hofmann
  */

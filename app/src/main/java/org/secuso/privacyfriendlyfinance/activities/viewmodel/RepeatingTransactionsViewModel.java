@@ -29,6 +29,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import java.util.List;
 
 /**
+ * View model for the repeating transaction activity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

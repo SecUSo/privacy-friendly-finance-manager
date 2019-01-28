@@ -23,8 +23,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * This activity handles the opening of the application
- /**
+ * This activity handles the opening of the application.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

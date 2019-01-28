@@ -27,6 +27,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import java.util.List;
 
 /**
+ * Data access object for accounts.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

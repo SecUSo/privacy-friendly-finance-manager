@@ -24,6 +24,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
+ * This is the base class for all recycler view holder classes.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

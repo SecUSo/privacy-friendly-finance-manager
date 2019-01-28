@@ -21,6 +21,8 @@ package org.secuso.privacyfriendlyfinance.activities.helper;
 import android.os.AsyncTask;
 
 /**
+ * Full task listener interface. Also has an onProgress() method.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

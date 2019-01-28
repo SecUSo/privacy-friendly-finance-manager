@@ -25,6 +25,8 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 
 /**
+ * Wrapper class for accounts.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

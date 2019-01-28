@@ -19,6 +19,8 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 /**
+ * Click listener.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

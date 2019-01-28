@@ -27,6 +27,8 @@ import org.secuso.privacyfriendlyfinance.BuildConfig;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
+ * Activity that show the about information of the app.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -26,6 +26,8 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlyfinance.R;
 
 /**
+ * View holder for repeating transactions. Connects the adapter to the view.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

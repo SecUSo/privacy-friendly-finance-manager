@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Task that runs asynchronously.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

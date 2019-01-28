@@ -25,6 +25,8 @@ import android.arch.persistence.room.Index;
 import org.joda.time.LocalDate;
 
 /**
+ * Repeating transaction entity.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

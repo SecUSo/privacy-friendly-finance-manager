@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
+ * Shared preference manager.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

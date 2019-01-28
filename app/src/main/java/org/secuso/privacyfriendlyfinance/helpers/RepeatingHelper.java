@@ -24,6 +24,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
 /**
+ * Helper class that forges string representations of repeating intervals for repeating transactions.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

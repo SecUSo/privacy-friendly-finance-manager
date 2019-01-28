@@ -27,6 +27,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import java.util.List;
 
 /**
+ * Data access object for categories.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -26,6 +26,8 @@ import org.secuso.privacyfriendlyfinance.activities.adapter.HelpListExpandableLi
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 
 /**
+ * Help activity. Shows the help faq.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

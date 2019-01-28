@@ -33,6 +33,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import java.util.List;
 
 /**
+ * Adapter for category lists.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

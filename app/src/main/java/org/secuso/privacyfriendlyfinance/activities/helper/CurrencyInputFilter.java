@@ -27,6 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Input filter that filters currencies.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -23,6 +23,8 @@ import android.arch.persistence.room.PrimaryKey;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 
 /**
+ * Base class for all entities used in this app.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

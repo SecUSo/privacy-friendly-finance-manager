@@ -52,7 +52,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Christopher Beckmann, Karola Marky, Felix Hofmann, Leonard Otto
+ * @author Christopher Beckmann,
+ * @author Karola Marky
+ * @author Felix Hofmann
+ * @author Leonard Otto
+ *
  * @version 20181129
  * <p>
  * This class is a parent class of all activities.

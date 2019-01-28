@@ -27,6 +27,8 @@ import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 /**
+ * Bindable view model for currency input.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

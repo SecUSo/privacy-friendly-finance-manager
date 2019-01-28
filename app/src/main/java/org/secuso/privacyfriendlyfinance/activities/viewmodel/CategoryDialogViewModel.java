@@ -32,6 +32,8 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 import java.util.List;
 
 /**
+ * View model for the category dialog.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

@@ -19,6 +19,8 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 /**
+ * Base class for all entities that have an id.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

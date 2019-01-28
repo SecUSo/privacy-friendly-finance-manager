@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Adapter for transaction lists.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

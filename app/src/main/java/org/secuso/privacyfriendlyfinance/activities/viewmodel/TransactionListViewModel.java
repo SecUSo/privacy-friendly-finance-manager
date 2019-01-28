@@ -29,6 +29,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 /**
+ * View model for all classes that show lists of transactions.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

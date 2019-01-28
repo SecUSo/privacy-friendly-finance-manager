@@ -34,6 +34,9 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 /**
+ * Activity that shows detailed information about a single category and all transactions that are
+ * linked to this category.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */

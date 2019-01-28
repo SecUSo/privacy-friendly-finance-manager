@@ -27,6 +27,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.List;
 
 /**
+ * Data access object for transactions.
+ *
  * @author Felix Hofmann
  * @author Leonard Otto
  */
