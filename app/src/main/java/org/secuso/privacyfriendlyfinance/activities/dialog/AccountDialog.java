@@ -59,6 +59,7 @@ public class AccountDialog extends AppCompatDialogFragment {
         viewModel = ViewModelProviders.of(this).get(AccountDialogViewModel.class);
         viewModel.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
         viewModel.setInitialMonthBalance(getArguments().getLong(EXTRA_ACCOUNT_MONTH_BALANCE, 0L));
+        viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
