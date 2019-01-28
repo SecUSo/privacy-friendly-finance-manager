@@ -132,7 +132,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
                         .build();
 
                 if (FinanceDatabase.instance.accountDao().count() == 0) {
-                    Account defaultAccount = new Account("DefaultAccount");
+                    Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
                     defaultAccount.setId(0L);
                     FinanceDatabase.instance.accountDao().insert(defaultAccount);
                 }

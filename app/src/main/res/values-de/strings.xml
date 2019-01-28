@@ -166,5 +166,6 @@
     <string name="this_month">Diesen Monat</string>
     <string name="activity_category_budget_month_left">Budget Bilanz diesen Monat:</string>
     <string name="account_last_not_deleteable">Sie können Ihren letzten Account nicht löschen.</string>
+    <string name="activity_startup_default_account_name">Standard Konto</string>
 
 </resources>

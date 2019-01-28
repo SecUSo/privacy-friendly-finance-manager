@@ -166,5 +166,6 @@
     <string name="dialog_repeating_transaction_create_title">New Repeating Transaction</string>
     <string name="dialog_repeating_transaction_edit_title">Edit Repeating Transaction</string>
     <string name="account_last_not_deleteable">You can not delete your last account.</string>
+    <string name="activity_startup_default_account_name">Main Account</string>
 
 </resources>
