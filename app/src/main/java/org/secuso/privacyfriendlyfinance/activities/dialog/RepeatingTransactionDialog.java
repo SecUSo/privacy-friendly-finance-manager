@@ -6,7 +6,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -23,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.joda.time.LocalDate;
-import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.NullableArrayAdapter;
 import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyInputFilter;
@@ -65,18 +63,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         categorySpinner = view.findViewById(R.id.category_spinner);
         accountSpinner = view.findViewById(R.id.account_spinner);
         endClearButton = view.findViewById(R.id.imageButton_clearEnd);
-
-        viewModel.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                if (propertyId == BR.expense) {
-                    editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
-                }
-                if (propertyId == BR.endString) {
-                    endClearButton.setVisibility(viewModel.getEnd() == null ? View.INVISIBLE : View.VISIBLE);
-                }
-            }
-        });
+        viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
         long transactionId = getArguments().getLong(EXTRA_TRANSACTION_ID, -1L);
 
@@ -91,13 +78,11 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
                 public void onChanged(@Nullable RepeatingTransaction transaction) {
                     // Is it a transaction dummy?
                     if (transaction.getId() == null) {
-                        Log.d("acc id", getArguments().getLong(EXTRA_ACCOUNT_ID, -1L) + "");
                         transaction.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
                         transaction.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
                     }
                     viewModel.setTransaction(transaction);
                     binding.setViewModel(viewModel);
-                    editTextAmount.setTextColor(getResources().getColor(viewModel.getAmountColor()));
                 }
             });
         } else {

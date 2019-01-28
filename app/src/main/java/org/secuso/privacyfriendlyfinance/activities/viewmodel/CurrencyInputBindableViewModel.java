@@ -2,17 +2,19 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
 import android.databinding.Bindable;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.secuso.privacyfriendlyfinance.BR;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
     public CurrencyInputBindableViewModel(@NonNull Application application) {
         super(application);
     }
+    private int positiveColor = Color.GREEN;
+    private int negativeColor = Color.RED;
+
 
     @Bindable
     public String getAmount() {
@@ -24,7 +26,6 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
         if (number == null) number = 0L;
 
         if (getNumericAmount() != number) {
-            Log.d("CurrencyInput", "amount set to: " + number);
             setNumericAmount(number);
             notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amount);
@@ -34,11 +35,12 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
 
     @Bindable
     public int getAmountColor() {
-        return getExpense() ? R.color.red : R.color.green;
+        return getExpense() ? negativeColor : positiveColor;
     }
 
     @Bindable
     public boolean getExpense() {
+        if (getNumericAmount() == null) return false;
         return getNumericAmount() <= 0;
     }
     public void setExpense(boolean checked) {
@@ -51,4 +53,10 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
 
     protected abstract Long getNumericAmount();
     protected abstract void setNumericAmount(Long amount);
+
+    public void setCurrencyColors(int positiveColor, int negativeColor) {
+        this.positiveColor = positiveColor;
+        this.negativeColor = negativeColor;
+        notifyPropertyChanged(BR.amountColor);
+    }
 }

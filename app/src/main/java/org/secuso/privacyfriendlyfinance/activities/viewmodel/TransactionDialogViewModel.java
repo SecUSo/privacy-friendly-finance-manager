@@ -11,7 +11,6 @@ import android.util.Log;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
-import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
@@ -66,6 +65,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
     @Override
     protected Long getNumericAmount() {
+        if (transaction == null) return null;
         return transaction.getAmount();
     }
 
@@ -158,7 +158,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
     @Bindable
     public int getAccountIndex() {
-        if (accounts.getValue() == null) return 0;
+        if (accounts.getValue() == null || transaction == null) return 0;
         return indexOfId(accounts.getValue(), transaction.getAccountId());
     }
     public void setAccountIndex(int accountIndex) {
@@ -172,7 +172,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
     @Bindable
     public int getCategoryIndex() {
-        if (categories.getValue() == null) return 0;
+        if (categories.getValue() == null|| transaction == null) return 0;
         return indexOfId(categories.getValue(), transaction.getCategoryId());
     }
     public void setCategoryIndex(int categoryIndex) {

@@ -182,7 +182,7 @@
                     android:layout_marginStart="8dp"
                     android:onClick="@{() -> viewModel.clearEnd()}"
                     android:tint="@color/red"
-                    android:visibility="invisible"
+                    android:visibility="@{viewModel.endSet}"
                     app:layout_constraintBottom_toBottomOf="@+id/dialog_transaction_date"
                     app:layout_constraintStart_toEndOf="@+id/dialog_transaction_date"
                     app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date"

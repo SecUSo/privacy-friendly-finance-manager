@@ -8,6 +8,7 @@ import android.arch.lifecycle.Transformations;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
@@ -65,6 +66,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
 
     @Override
     protected Long getNumericAmount() {
+        if (transaction == null) return null;
         return transaction.getAmount();
     }
 
@@ -135,8 +137,13 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     }
 
     @Bindable
+    public int getEndSet() {
+        return getEnd() == null ? View.INVISIBLE : View.VISIBLE;
+    }
+
+    @Bindable
     public String getEndString() {
-        if (transaction.getEnd() == null)  return null;
+        if (transaction.getEnd() == null) return null;
         return transaction.getEnd().toString();
     }
     public LocalDate getEnd() {
@@ -151,10 +158,12 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
             if (transaction.getEnd() == null || !transaction.getEnd().equals(date)) {
                 transaction.setEnd(date);
                 notifyPropertyChanged(BR.endString);
+                notifyPropertyChanged(BR.endSet);
             }
         } else if (transaction.getEnd() != null) {
             transaction.setEnd(null);
             notifyPropertyChanged(BR.endString);
+            notifyPropertyChanged(BR.endSet);
         }
     }
 

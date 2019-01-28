@@ -52,6 +52,7 @@
             android:singleLine="false"
             android:text="@={viewModel.amount}"
             android:textAlignment="center"
+            android:textColor="@{viewModel.amountColor}"
             app:layout_constraintBottom_toBottomOf="@+id/radioGroup_transaction_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/radioGroup_transaction_type"
