@@ -33,26 +33,24 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
  * @author Leonard Otto
  */
 public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
-    public CurrencyInputBindableViewModel(@NonNull Application application) {
-        super(application);
-    }
     private int positiveColor = Color.GREEN;
     private int negativeColor = Color.RED;
 
+    public CurrencyInputBindableViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     @Bindable
-    public String getAmount() {
+    public String getAmountString() {
         return CurrencyHelper.convertToString(getNumericAmount());
     }
-    public void setAmount(String amount) {
-        if (amount == null) amount = "";
-        Long number = CurrencyHelper.convertToLong(amount);
+    public void setAmountString(String amountString) {
+        if (amountString == null) amountString = "";
+        Long number = CurrencyHelper.convertToLong(amountString);
         if (number == null) number = 0L;
-
         if (getNumericAmount() != number) {
             setNumericAmount(number);
             notifyPropertyChanged(BR.expense);
-            notifyPropertyChanged(BR.amount);
             notifyPropertyChanged(BR.amountColor);
         }
     }
@@ -69,9 +67,10 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
     }
     public void setExpense(boolean checked) {
         if ((getNumericAmount() > 0 && checked) || (getNumericAmount() < 0 && !checked)) {
-            setAmount(CurrencyHelper.convertToString(getNumericAmount() * -1));
+            setAmountString(CurrencyHelper.convertToString(getNumericAmount() * -1));
             notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amountColor);
+            notifyPropertyChanged(BR.amountString);
         }
     }
 

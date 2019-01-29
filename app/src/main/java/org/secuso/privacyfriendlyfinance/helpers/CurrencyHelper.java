@@ -24,7 +24,9 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlyfinance.R;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Helper to convert and set balances and to get the right color for a balance.
@@ -33,7 +35,7 @@ import java.text.NumberFormat;
  * @author Leonard Otto
  */
 public final class CurrencyHelper {
-    public static final DecimalFormat format = new DecimalFormat("#0.00");
+    public static final DecimalFormat format = new DecimalFormat("#0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
     private CurrencyHelper() {}
 
     public static void setBalance(Long balance, TextView textView, boolean setColor) {
@@ -57,7 +59,7 @@ public final class CurrencyHelper {
     }
 
     public static String convertToString(Long value) {
-        if (value == null) return null;
+        if (value == null) return "";
         return format.format(value.doubleValue() / 100.00);
     }
     public static String convertToString(Double value) {
