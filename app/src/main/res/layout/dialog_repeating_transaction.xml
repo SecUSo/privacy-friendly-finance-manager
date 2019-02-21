@@ -183,6 +183,7 @@
                     android:onClick="@{() -> viewModel.clearEnd()}"
                     android:tint="@color/red"
                     android:visibility="@{viewModel.endSet}"
+                    android:background="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/dialog_transaction_date"
                     app:layout_constraintStart_toEndOf="@+id/dialog_transaction_date"
                     app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date"
