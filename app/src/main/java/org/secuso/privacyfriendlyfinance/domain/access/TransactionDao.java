@@ -22,6 +22,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
@@ -95,9 +96,24 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:date")
     public abstract LiveData<Long> sumForCategoryFrom(long categoryId, String date);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount > 0 AND date>=:date")
-    public abstract LiveData<Long> sumIncomeForCategoryFrom(long categoryId, String date);
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:from and date<:before")
+    public abstract LiveData<Long> sumForCategoryFromBefore(long categoryId, String from, String before);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount < 0 AND date>=:date")
-    public abstract LiveData<Long> sumExpensesForCategoryFrom(long categoryId, String date);
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount > 0 AND date>=:from and date<:before")
+    public abstract LiveData<Long> sumIncomeForCategoryFromBefore(long categoryId, String from, String before);
+
+    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount < 0 AND date>=:from and date<:before")
+    public abstract LiveData<Long> sumExpensesForCategoryFromBefore(long categoryId, String from, String before);
+
+    public LiveData<Long> sumForCategoryThisMonth(long categoryId) {
+        return sumForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());
+    }
+
+    public LiveData<Long> sumIncomeForCategoryThisMonth(long categoryId) {
+        return sumIncomeForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());
+    }
+
+    public LiveData<Long> sumExpensesForCategoryThisMonth(long categoryId) {
+        return sumExpensesForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());
+    }
 }
