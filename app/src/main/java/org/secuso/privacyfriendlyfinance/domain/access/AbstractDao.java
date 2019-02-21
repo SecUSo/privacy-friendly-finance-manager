@@ -126,12 +126,4 @@ public abstract class AbstractDao<E extends AbstractEntity> {
             }
         });
     }
-
-    private LiveData<Map<Long, E>> cacheMap = getAllMap();
-    public LiveData<Map<Long, E>> getCacheMap() {
-        return cacheMap;
-    }
-    public E getCached(Long id) {
-        return (id == null || cacheMap.getValue() == null) ? null : cacheMap.getValue().get(id);
-    }
 }

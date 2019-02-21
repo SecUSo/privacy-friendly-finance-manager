@@ -44,8 +44,8 @@ import java.util.Map;
  * @author Leonard Otto
  */
 public class RepeatingTransactionsAdapter extends EntityListAdapter<RepeatingTransaction, RepeatingTransactionViewHolder> {
-    private LiveData<Map<Long, Account>> accounts = FinanceDatabase.getInstance().accountDao().getCacheMap();
-    private LiveData<Map<Long, Category>> categories = FinanceDatabase.getInstance().categoryDao().getCacheMap();
+    private LiveData<Map<Long, Account>> accounts = FinanceDatabase.getInstance().accountDao().getAllMap();
+    private LiveData<Map<Long, Category>> categories = FinanceDatabase.getInstance().categoryDao().getAllMap();
 
 
     public RepeatingTransactionsAdapter(BaseActivity context, LiveData<List<RepeatingTransaction>> data) {

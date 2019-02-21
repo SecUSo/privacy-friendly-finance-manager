@@ -20,6 +20,7 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
@@ -39,7 +40,9 @@ import java.util.List;
  */
 public class CategoryDialogViewModel extends BindableViewModel {
     private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+    private long categoryId;
     private Category category;
+    private LiveData<Category> categoryLive;
     private String originalName;
     private Integer originalColor;
     private Long originalBudget;
@@ -52,12 +55,30 @@ public class CategoryDialogViewModel extends BindableViewModel {
         return categoryDao.getAll();
     }
 
+    public LiveData<Category> setCategoryId(long categoryId) {
+        if (this.categoryId != categoryId) {
+            this.categoryId = categoryId;
+            if (categoryId == -1) {
+                setCategoryDummy();
+            } else {
+                categoryLive = categoryDao.get(categoryId);
+            }
+        }
+        return categoryLive;
+    }
 
-    public void setCategoryId(long categoryId) {
-        category = categoryId == -1 ? new Category() : categoryDao.getCached(categoryId);
+    private void setCategoryDummy() {
+        MutableLiveData<Category> mutableCategory = new MutableLiveData<>();
+        mutableCategory.postValue(new Category());
+        categoryLive = mutableCategory;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
         originalName = category.getName();
         originalColor = category.getColor();
         originalBudget = category.getBudget();
+        notifyChange();
     }
 
     public boolean isNewCategory() {
@@ -66,6 +87,7 @@ public class CategoryDialogViewModel extends BindableViewModel {
 
     @Bindable
     public String getName() {
+        if (category == null) return null;
         return category.getName();
     }
     public void setName(String name) {
@@ -79,6 +101,7 @@ public class CategoryDialogViewModel extends BindableViewModel {
 
     @Bindable
     public String getBudget() {
+        if (category == null) return null;
         return  CurrencyHelper.convertToString(category.getBudget());
     }
     public void setBudget(String budget) {
@@ -88,6 +111,7 @@ public class CategoryDialogViewModel extends BindableViewModel {
 
     @Bindable
     public Integer getColor() {
+        if (category == null) return null;
         return category.getColor();
     }
     public void setColor(Integer color) {
@@ -110,4 +134,5 @@ public class CategoryDialogViewModel extends BindableViewModel {
     public Category getCategory() {
         return category;
     }
+
 }

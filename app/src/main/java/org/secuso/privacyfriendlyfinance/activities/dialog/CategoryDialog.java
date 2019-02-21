@@ -64,16 +64,22 @@ public class CategoryDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(CategoryDialogViewModel.class);
-        viewModel.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         final DialogCategoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_category, null, false);
+        viewModel.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L)).observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(@Nullable Category category) {
+                viewModel.setCategory(category);
+                binding.setViewModel(viewModel);
+            }
+        });
+
         View view = binding.getRoot();
-        binding.setViewModel(viewModel);
         builder.setView(view);
 
-        builder.setTitle(viewModel.isNewCategory() ? R.string.dialog_category_create_title : R.string.dialog_category_edit_title);
+        builder.setTitle(getArguments().getLong(EXTRA_CATEGORY_ID, -1L) == -1L ? R.string.dialog_category_create_title : R.string.dialog_category_edit_title);
 
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override

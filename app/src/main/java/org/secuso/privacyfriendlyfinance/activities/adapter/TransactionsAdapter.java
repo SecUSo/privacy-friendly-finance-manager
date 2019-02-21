@@ -35,7 +35,6 @@ import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Adapter for transaction lists.
@@ -44,9 +43,6 @@ import java.util.Map;
  * @author Leonard Otto
  */
 public class TransactionsAdapter extends EntityListAdapter<Transaction, TransactionViewHolder> {
-    private LiveData<Map<Long, Account>> accounts = FinanceDatabase.getInstance().accountDao().getCacheMap();
-    private LiveData<Map<Long, Category>> categories = FinanceDatabase.getInstance().categoryDao().getCacheMap();
-
     public TransactionsAdapter(BaseActivity context, LiveData<List<Transaction>> data) {
         super(context, data);
     }
@@ -67,36 +63,48 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         holder.setDate(transaction.getDate());
         holder.setAmount(transaction.getAmount());
 
-        if (transaction.getRepeatingId() == null) {
-            holder.setRepeatingName(null);
+        FinanceDatabase.getInstance().accountDao().get(transaction.getAccountId()).observe(context, new Observer<Account>() {
+            @Override
+            public void onChanged(@Nullable Account account) {
+                if (account != null) {
+                    holder.setAccountName(account.getName());
+                } else {
+                    holder.setAccountName(context.getResources().getString(R.string.not_found_error));
+                }
+            }
+        });
+
+        if (transaction.getCategoryId() != null) {
+            FinanceDatabase.getInstance().categoryDao().get(transaction.getCategoryId()).observe(context, new Observer<Category>() {
+                @Override
+                public void onChanged(@Nullable Category category) {
+                    if (category != null) {
+                        holder.setCategoryName(category.getName());
+                        holder.setCategoryColor(category.getColor());
+                    } else {
+                        holder.setCategoryName(context.getResources().getString(R.string.not_found_error));
+                        holder.setCategoryColor(null);
+                    }
+                }
+            });
         } else {
+            holder.setCategoryName(null);
+            holder.setCategoryColor(null);
+        }
+
+        if (transaction.getRepeatingId() != null) {
             FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, new Observer<RepeatingTransaction>() {
                 @Override
                 public void onChanged(@Nullable RepeatingTransaction repeatingTransaction) {
-                    holder.setRepeatingName(repeatingTransaction.getName());
+                    if (repeatingTransaction != null) {
+                        holder.setRepeatingName(repeatingTransaction.getName());
+                    } else {
+                        holder.setRepeatingName(context.getResources().getString(R.string.not_found_error));
+                    }
                 }
             });
+        } else {
+            holder.setRepeatingName(null);
         }
-
-        accounts.observe(context, new Observer<Map<Long, Account>>() {
-            @Override
-            public void onChanged(@Nullable Map<Long, Account> map) {
-                holder.setAccountName(map.get(transaction.getAccountId()).getName());
-            }
-        });
-
-        categories.observe(context, new Observer<Map<Long, Category>>() {
-            @Override
-            public void onChanged(@Nullable Map<Long, Category> map) {
-                if (transaction.getCategoryId() != null) {
-                    Category category = map.get(transaction.getCategoryId());
-                    holder.setCategoryName(category.getName());
-                    holder.setCategoryColor(category.getColor());
-                } else {
-                    holder.setCategoryName(null);
-                    holder.setCategoryColor(null);
-                }
-            }
-        });
     }
 }

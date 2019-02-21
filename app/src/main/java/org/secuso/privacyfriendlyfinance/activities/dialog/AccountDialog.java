@@ -21,11 +21,13 @@ package org.secuso.privacyfriendlyfinance.activities.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,6 @@ public class AccountDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(AccountDialogViewModel.class);
-        viewModel.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L));
         viewModel.setInitialMonthBalance(getArguments().getLong(EXTRA_ACCOUNT_MONTH_BALANCE, 0L));
         viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
@@ -67,10 +68,16 @@ public class AccountDialog extends AppCompatDialogFragment {
 
         final DialogAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_account, null, false);
         View view = binding.getRoot();
-        binding.setViewModel(viewModel);
+        viewModel.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L)).observe(this, new Observer<Account>() {
+            @Override
+            public void onChanged(@Nullable Account account) {
+                viewModel.setAccount(account);
+                binding.setViewModel(viewModel);
+            }
+        });
         builder.setView(view);
 
-        builder.setTitle(viewModel.isNewAccount() ? R.string.dialog_account_create_title : R.string.dialog_account_edit_title);
+        builder.setTitle(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L) == -1L ? R.string.dialog_account_create_title : R.string.dialog_account_edit_title);
 
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override

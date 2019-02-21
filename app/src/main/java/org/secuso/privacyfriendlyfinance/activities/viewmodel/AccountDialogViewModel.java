@@ -20,6 +20,7 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.Bindable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -46,6 +47,8 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
     private Account account;
     private LiveData<Long> monthBalanceLive;
+    private LiveData<Account> accountLive;
+    private long accountId;
     private long initialMonthBalance = 0;
     private Long monthBalance;
     private String originalName;
@@ -72,9 +75,28 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
         accountDao.updateOrInsertAsync(account);
     }
 
-    public void setAccountId(long accountId) {
-        account = accountId == -1 ? new Account() : accountDao.getCached(accountId);
-        if (account != null) originalName = account.getName();
+    public void setAccount(Account account) {
+        this.account = account;
+        originalName = account.getName();
+        notifyChange();
+    }
+
+    public LiveData<Account> setAccountId(long accountId) {
+        if (this.accountId != accountId) {
+            this.accountId = accountId;
+            if (accountId == -1) {
+                setAccountDummy();
+            } else {
+                accountLive = accountDao.get(accountId);
+            }
+        }
+        return accountLive;
+    }
+
+    private void setAccountDummy() {
+        MutableLiveData<Account> mutable = new MutableLiveData<>();
+        mutable.postValue(new Account());
+        accountLive = mutable;
     }
 
     public boolean isNewAccount() {
