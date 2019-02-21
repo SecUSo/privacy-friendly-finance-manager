@@ -52,9 +52,7 @@ public class AccountDialog extends AppCompatDialogFragment {
     public static final String EXTRA_ACCOUNT_MONTH_BALANCE = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_MONTH_BALANCE";
 
     private AccountDialogViewModel viewModel;
-    private Account accountObject;
-    private List<Account> allAccounts = new ArrayList<Account>();
-    private boolean editingExistingAccount;
+    private List<Account> allAccounts = new ArrayList<>();
 
 
     @NonNull
@@ -75,6 +73,16 @@ public class AccountDialog extends AppCompatDialogFragment {
                 binding.setViewModel(viewModel);
             }
         });
+
+        viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
+            @Override
+            public void onChanged(@Nullable List<Account> accounts) {
+                synchronized (allAccounts) {
+                    allAccounts = accounts;
+                }
+            }
+        });
+
         builder.setView(view);
 
         builder.setTitle(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L) == -1L ? R.string.dialog_account_create_title : R.string.dialog_account_edit_title);
@@ -88,49 +96,41 @@ public class AccountDialog extends AppCompatDialogFragment {
 
         builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                viewModel.submit(getString(R.string.compensation_transaction_default_name));
-            }
+            public void onClick(DialogInterface dialogInterface, int which) {}
         });
 
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateAccountName()) {
+                    viewModel.submit(getString(R.string.compensation_transaction_default_name));
+                    Toast.makeText(getContext(), R.string.account_saved_msg, Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+            }
+        });
+        return dialog;
     }
 
-
-
-    protected void onClickPositive(String textFromTextInput) {
-        String accountName = textFromTextInput.trim();
-        if (accountName.isEmpty()) {
-            Toast.makeText(getContext(), getString(R.string.dialog_account_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
-        } else if (isAccountNameTaken(accountName)) {
-            Toast.makeText(getContext(), getString(R.string.dialog_account_name_taken_msg), Toast.LENGTH_LONG).show();
-        } else {
-            if (accountObject == null) {
-                //We are working on a new account object and are NOT editing an existing one
-                accountObject = new Account(accountName);
-            } else {
-                accountObject.setName(accountName);
+    private boolean validateAccountName() {
+        synchronized (allAccounts) {
+            if (viewModel.getName() == null || viewModel.getName().isEmpty()) {
+                Toast.makeText(getContext(), getString(R.string.dialog_account_empty_name_impossible_msg), Toast.LENGTH_LONG).show();
+                return false;
             }
 
-            viewModel.updateOrInsert(accountObject);
-
-            Toast.makeText(getContext(), R.string.account_saved_msg, Toast.LENGTH_SHORT).show();
-
-            dismiss();
-        }
-    }
-
-    private boolean isAccountNameTaken(String accountName) {
-        synchronized (allAccounts) {
             if (allAccounts == null || allAccounts.isEmpty()) {
                 return true;
             }
             for (int i = 0; i < allAccounts.size(); i++) {
-                if (allAccounts.get(i).getName().toLowerCase().equals(accountName.toLowerCase())) {
-                    return true;
+                if (allAccounts.get(i).getName().toLowerCase().equals(viewModel.getName().toLowerCase()) && allAccounts.get(i).getId() != viewModel.getAccount().getId()) {
+                    Toast.makeText(getContext(), getString(R.string.dialog_account_name_taken_msg), Toast.LENGTH_LONG).show();
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
     }
 }

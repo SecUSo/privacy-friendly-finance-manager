@@ -99,9 +99,6 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
         accountLive = mutable;
     }
 
-    public boolean isNewAccount() {
-        return account.getId() == null;
-    }
     public void setInitialMonthBalance(long initialMonthBalance) {
         this.initialMonthBalance = initialMonthBalance;
         if (monthBalance == null) monthBalance = initialMonthBalance;
@@ -139,5 +136,9 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
 
     public void cancel() {
         account.setName(originalName);
+    }
+
+    public Account getAccount() {
+        return account;
     }
 }

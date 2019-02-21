@@ -83,13 +83,15 @@ public class CategoryDialog extends AppCompatDialogFragment {
 
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int which) {}
+            public void onClick(DialogInterface dialogInterface, int which) {
+                viewModel.cancel();
+            }
         });
 
         builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                viewModel.cancel();
+
             }
         });
 
@@ -132,16 +134,6 @@ public class CategoryDialog extends AppCompatDialogFragment {
                     dismiss();
                 }
             }
-
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int which) {
-//                if (validateCategoryName()) {
-//                    viewModel.submit();
-//                    Toast.makeText(getContext(), R.string.category_saved_msg, Toast.LENGTH_SHORT).show();
-//                } else {
-//
-//                }
-//            }
         });
         return dialog;
     }
