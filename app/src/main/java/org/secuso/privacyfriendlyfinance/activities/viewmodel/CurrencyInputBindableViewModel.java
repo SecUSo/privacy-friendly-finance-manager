@@ -42,14 +42,20 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
 
     @Bindable
     public String getAmountString() {
+        if (getNumericAmount() == null) return "";
         return CurrencyHelper.convertToString(getNumericAmount());
     }
     public void setAmountString(String amountString) {
         if (amountString == null) amountString = "";
         Long number = CurrencyHelper.convertToLong(amountString);
-        if (number == null) number = 0L;
-        if (getNumericAmount() != number) {
-            setNumericAmount(number);
+        if (number != null) {
+            if (getNumericAmount() != number) {
+                setNumericAmount(number);
+                notifyPropertyChanged(BR.expense);
+                notifyPropertyChanged(BR.amountColor);
+            }
+        } else {
+            setNumericAmount(null);
             notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amountColor);
         }
@@ -63,7 +69,7 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
     @Bindable
     public boolean getExpense() {
         if (getNumericAmount() == null) return false;
-        return getNumericAmount() <= 0;
+        return getNumericAmount() < 0;
     }
     public void setExpense(boolean checked) {
         if ((getNumericAmount() > 0 && checked) || (getNumericAmount() < 0 && !checked)) {
