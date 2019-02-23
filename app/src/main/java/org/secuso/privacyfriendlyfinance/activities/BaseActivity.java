@@ -17,12 +17,12 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.app.FragmentManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -211,6 +211,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onBackPressed() {
+        System.out.println("back pressed");
         if (viewModel.showDrawer()) {
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -273,15 +274,19 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
      * @param intent
      */
     private void createBackStack(Intent intent) {
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            TaskStackBuilder builder = TaskStackBuilder.create(this);
-            builder.addNextIntentWithParentStack(intent);
-            builder.startActivities();
-        } else {
-            startActivity(intent);
-            finish();
+        System.out.println("Added to backtrack: " + intent.getComponent().getClassName());
+        FragmentManager fm = getFragmentManager();
+        System.out.println("Backtrack size: " + fm.getBackStackEntryCount());
+        for (int i = 0; i < fm.getBackStackEntryCount(); i++){
+            System.out.println("number " + i + ": " + fm.getBackStackEntryAt(i).getId());
         }
+
+
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        TaskStackBuilder builder = TaskStackBuilder.create(this);
+        builder.addNextIntentWithParentStack(intent);
+        builder.startActivities();
     }
 
     /**

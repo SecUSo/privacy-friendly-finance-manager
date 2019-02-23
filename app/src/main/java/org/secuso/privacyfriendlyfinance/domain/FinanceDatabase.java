@@ -115,6 +115,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
                 publishProgress(0.0);
                 publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
+
                 KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
                 String passphrase = SharedPreferencesManager.getDbPassphrase();
 

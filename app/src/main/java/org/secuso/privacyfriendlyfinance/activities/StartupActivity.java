@@ -46,6 +46,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         super.onCreate(savedInstanceState);
         SharedPreferencesManager.init(getApplicationContext());
         setContentView(R.layout.activity_startup);
+        getSupportActionBar().hide();
     }
 
     @Override

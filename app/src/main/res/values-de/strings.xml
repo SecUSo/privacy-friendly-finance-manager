@@ -52,6 +52,8 @@
         <item>Wie kann ich meine Ausgaben kategorisieren?</item>
         <item>Was macht die App privatsphäre-freundlich?</item>
         <item>Welche Berechtigungen braucht die App?</item>
+        <item>Wie kann ich einen Eintrag löschen?</item>
+        <item>Wozu gibt es Konten?</item>
     </string-array>
     <string-array name="activity_help_answers">
         <item>Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</item>
@@ -59,6 +61,8 @@
         <item>Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</item>
         <item>Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</item>
         <item>Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</item>
+        <item>Jeder Eintrag in dieser App, sei es eine Transaktion, eine wiederholende Transaktion, ein Konto oder eine Kategorie, kann gelöscht werden, indem der jeweilige Eintrag nach links oder rechts gewischt wird und dann auf den roten Mülleimer-Knopf geklickt wird.</item>
+        <item>Konten können verwendet werden um die Übersicht über das Geld auf einem real existierenden Bankkonto zu behalten. Es ist möglich, die Bilanz, die ein Konto zum Beginn des Monats hatte zu ändern. Auf diese Weise ist man nicht gezwungen alle Transaktionen von Hand einzutragen. In der Kontoansicht erhält man einen Überblick über alle Transaktionen, die man dem jeweiligen Konto zugeordnet hat.</item>
     </string-array>
 
     <!--### A B O U T ###-->
@@ -147,9 +151,14 @@
     <string name="activity_tutorial_slide2_title">Finance Manager</string>
     <string name="activity_tutorial_slide2_msg">Sie können Ihre Finanzen verwalten, indem Sie Ihre Ein- und Ausgaben überwachen.</string>
     <string name="activity_tutorial_slide3_title">Transaktionen erstellen</string>
+    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
     <string name="activity_tutorial_slide4_title">Transaktionsübersicht</string>
     <string name="activity_tutorial_slide4_msg">In der Transaktionsübersicht können Sie die Gesamtbilanz Ihrer Transaktionen, sowie eine Liste dieser Transaktionen sehen.</string>
     <string name="activity_tutorial_slide5_title">Kategorien</string>
+    <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
+    <string name="activity_tutorial_slide6_title">Konten</string>
+    <string name="activity_tutorial_slide6_msg">In der Konten-Ansicht können Sie alle Konten und deren jeweilige Bilanzen sehen. Jede Transaktion ist einem Konto zugewiesen und beeinflusst die Bilanz dieses Kontos. Neue Konten können Sie erstellen, indem Sie auf den Plus-Knopf drücken. Da es schwierig sein kann, alle Transaktionen auf einem real existierenden Konto mit denen des virtuellen Gegenstücks in dieser App synchron zu halten, gibt es die Möglichkeit den Kontostand zu Beginn jedes Monats einzustellen.</string>
+
     <string name="category_delete_dialog_title">Kategorie löschen</string>
     <string name="category_deleted">Kategorie gelöscht</string>
     <string name="account_delete_action">Konto löschen</string>
@@ -159,8 +168,6 @@
     <string name="not_found">Nicht gefunden</string>
     <string name="not_found_error">Fehler: Nicht gefunden</string>
     <string name="dialog_transaction_zero_value_impossible_msg">Bitte geben Sie einen Betrag größer Null ein, um Ihre Transaktion zu speichern</string>
-    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
-    <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
     <string name="activity_transactions_title">Neueste Transaktionen</string>
     <string name="account_plural">Konten</string>
     <string name="activity_accounts_title">@string/account_plural</string>

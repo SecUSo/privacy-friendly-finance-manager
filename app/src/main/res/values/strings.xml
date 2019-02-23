@@ -1,7 +1,7 @@
 <resources>
     <!-- ### A P P ### -->
     <string name="app_name" translatable="false">Finance Manager</string>
-    <string name="app_name_long" translatable="false">Finance Manager</string>
+    <string name="app_name_long" translatable="false">Privacy Friendly Finance Manager</string>
 
     <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
     <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
@@ -51,6 +51,8 @@
         <item>How can I categorize my expenses?</item>
         <item>What makes the app privacy-friendly?</item>
         <item>Which permissions requires the app?</item>
+        <item>How do i delete an entry i made?</item>
+        <item>What are accounts for?</item>
     </string-array>
     <string-array name="activity_help_answers">
         <item>The Privacy Friendly Finance Manager is an app to monitor personal income and expenses.</item>
@@ -58,6 +60,8 @@
         <item>If you go to the menu item "Categories", you can create new categories. When creating a new transaction, you can assign a category to the transaction. The total balance of the categories are displayed under the menu item "Categories".</item>
         <item>Privacy Friendly App Finance Manager does not require any permission. It further does not include any tracking mechanisms or advertisement.</item>
         <item>Privacy Friendly App Finance Manager does not require any permission.</item>
+        <item>Any entry in this app, may it be a transaction, a repeating transaction, an account or a category can be deleted by swiping the entry to the left or to the right and then clicking on the appearing red trash bin button.</item>
+        <item>Accounts can be used to track the money you have in a real bank account in some bank. It is possible to change the balance of the beginning of the month so you don't have to add all the small expenses and incomes by hand. In the Account view you get an overview of all transactions you added to the corresponding account.</item>
     </string-array>
 
     <!--### A B O U T ###-->
@@ -150,13 +154,17 @@
     <string name="activity_tutorial_slide2_title">Finance Manager</string>
     <string name="activity_tutorial_slide2_msg">You can manage your finances by tracking your earnings and expenses.</string>
     <string name="activity_tutorial_slide3_title">New Transactions</string>
-    <string name="activity_tutorial_slide3_msg">"You can create new transactions by clicking on the Plus-Button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. "</string>
+    <string name="activity_tutorial_slide3_msg">"You can create new transactions by clicking on the plus button in the main view. Now you are able to enter the amount, a title, a date and a category. Furthermore you can specify if the transaction is an expense or income. "</string>
     <string name="activity_tutorial_slide4_title">Transaction overview</string>
     <string name="activity_tutorial_slide4_msg">In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. </string>
     <string name="activity_tutorial_slide5_title">Categories</string>
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
+    <string name="activity_tutorial_slide6_title">Accounts</string>
+    <string name="activity_tutorial_slide6_msg">In the accounts view you get an overview over all accounts. You can create new accounts by clicking the plus button. Every transaction is linked to one account and affects the total balance of this account. It can get quite difficult to synchronize the transactions of an account that exists in the real world with the transactions of the account´s virtual counterpart. In order to solve this issue the balance for the beginning of the month can be set for each account and each month.</string>
+
+
     <string name="category_delete_question">All assigned transactions will be without category afterwards.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete category &lt;b>%1$s&lt;/b>?</string>
-    <string name="activity_about_authors_names" translatable="false">Felix Hofmann, Leonard Otto</string>
+    <string name="activity_about_authors_names" translatable="false">Felix Hofmann, Leonard Otto, David Meiborg</string>
     <string name="none">none</string>
     <string name="not_found">Not found</string>
     <string name="not_found_error">ERROR: Not found</string>
