@@ -23,12 +23,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.FullTaskListener;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelper;
+import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelperException;
 import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
@@ -40,6 +43,7 @@ import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 public class StartupActivity extends AppCompatActivity implements FullTaskListener {
     ProgressBar progressBar;
     TextView progressText;
+    boolean keyGen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +56,20 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        progressText = findViewById(R.id.progressText);
+        progressBar = findViewById(R.id.progressBar);
         if (FinanceDatabase.getInstance() == null) {
-            progressText = findViewById(R.id.progressText);
-            progressBar = findViewById(R.id.progressBar);
-            progressBar.setMax(1000);
+            try {
+                if (!KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).keyExists()) {
+                    keyGen = true;
+                    progressText.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setMax(1000);
+                }
+            } catch (KeyStoreHelperException e) {
+                e.printStackTrace();
+            }
+
             FinanceDatabase.connect(getApplicationContext(), this);
         } else {
             nextActivity();
@@ -82,7 +96,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     @Override
     public void onProgress(final Double progress, AsyncTask<?, ?, ?> task) {
-        runOnUiThread(new Runnable() {
+        if (keyGen) runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 progressBar.setProgress(new Double(progress * 1000).intValue());
@@ -92,7 +106,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     @Override
     public void onOperation(final String operation, AsyncTask<?, ?, ?> task) {
-        runOnUiThread(new Runnable() {
+        if (keyGen) runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 progressText.setText(operation);

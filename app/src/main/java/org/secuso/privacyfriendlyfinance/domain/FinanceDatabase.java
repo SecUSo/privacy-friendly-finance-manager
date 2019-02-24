@@ -58,6 +58,7 @@ import java.io.File;
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
     private static final String DB_NAME = "encryptedDB";
+    public static final String KEY_ALIAS = "financeDatabaseKey";
     private static InitDatabaseTask initTask;
     private static FinanceDatabase instance;
 
@@ -81,7 +82,6 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
 
     private static class InitDatabaseTask extends CommunicantAsyncTask<Void, FinanceDatabase> {
-        private static final String KEY_ALIAS = "financeDatabaseKey";
         private Context context;
         private String dbName;
 
