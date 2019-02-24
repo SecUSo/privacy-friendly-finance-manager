@@ -36,12 +36,13 @@
                 android:id="@+id/color_picker_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="64dp"
+                app:density="5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_account_name"
+                app:layout_constraintTop_toBottomOf="@+id/editText_budget"
                 app:wheelType="FLOWER" />
 
             <EditText
@@ -54,11 +55,12 @@
                 android:ems="10"
                 android:hint="@string/category_budget"
                 android:inputType="numberSigned|numberDecimal"
-                android:textAlignment="center"
                 android:text="@={viewModel.budget}"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/color_picker_view" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_account_name" />
 
             <TextView
                 android:id="@+id/textView"
