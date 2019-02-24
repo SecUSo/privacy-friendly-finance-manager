@@ -167,7 +167,9 @@ public class KeyStoreHelper {
 
     private void generateKey(Context context) throws KeyStoreException, InvalidAlgorithmParameterException,
             NoSuchAlgorithmException, UnrecoverableEntryException, NoSuchProviderException {
-        if (Build.VERSION.SDK_INT == 21) {
+        if (Build.VERSION.SDK_INT == 21
+                || Build.VERSION.SDK_INT == 22
+                || Build.VERSION.SDK_INT == 23) {
             deleteKey();
             // Generate a key pair for encryption
             Calendar start = Calendar.getInstance();
