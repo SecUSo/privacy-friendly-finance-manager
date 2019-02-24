@@ -77,9 +77,9 @@ public class AccountDialog extends AppCompatDialogFragment {
         viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable List<Account> accounts) {
-                synchronized (allAccounts) {
-                    allAccounts = accounts;
-                }
+            synchronized (allAccounts) {
+                allAccounts = accounts;
+            }
             }
         });
 
