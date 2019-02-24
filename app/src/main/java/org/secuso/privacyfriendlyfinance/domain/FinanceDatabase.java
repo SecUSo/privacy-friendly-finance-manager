@@ -40,6 +40,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelper;
+import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelperException;
 
 import java.io.File;
 
@@ -157,6 +158,9 @@ public abstract class FinanceDatabase extends RoomDatabase {
                 }
 
                 char[] key = keystore.getKey(context);
+                if (key == null) {
+                    throw new RuntimeException("Key could not be retrieved!");
+                }
 
                 publishProgress(.6);
                 if (dbFileExists()) {
@@ -181,8 +185,19 @@ public abstract class FinanceDatabase extends RoomDatabase {
                     MigrationFromUnencrypted.deleteLegacyDatabase(context);
                 }
                 return FinanceDatabase.instance;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (KeyStoreHelperException ex) {
+//                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//                alertDialog.setTitle("Database error!");
+//                alertDialog.setMessage("Error creating database: " + ex.getMessage());
+////                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+////                        new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int which) {
+////                                dialog.dismiss();
+////                            }
+////                        });
+//                alertDialog.show();
+
+                throw new RuntimeException(ex);
             }
         }
     }
