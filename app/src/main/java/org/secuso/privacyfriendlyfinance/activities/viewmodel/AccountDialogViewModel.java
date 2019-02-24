@@ -118,17 +118,28 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     }
 
     public void submit(final String compensationTitle) {
-        accountDao.updateOrInsertAsync(account).addListener(new TaskListener() {
+        accountDao.updateOrInsertAsync(account, new TaskListener() {
             @Override
             public void onDone(Object result, AsyncTask<?, ?, ?> task) {
                 if (initialMonthBalance != monthBalance) {
-                    Long id = (Long) result;
-                    Transaction compensation = new Transaction();
-                    compensation.setName(compensationTitle);
-                    compensation.setAccountId(id);
-                    compensation.setDate(LocalDate.now().withDayOfMonth(1).minusDays(1));
-                    compensation.setAmount(monthBalance - initialMonthBalance);
-                    transactionDao.updateOrInsertAsync(compensation);
+                    final Long accountId = (Long) result;
+                    transactionDao.getLatestByNameForAccountLastMonthAsync(accountId, compensationTitle, new TaskListener() {
+                        @Override
+                        public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+                            Transaction compensation;
+                            if (result != null) {
+                                compensation = (Transaction) result;
+                            } else {
+                                compensation = new Transaction();
+                                compensation.setName(compensationTitle);
+                                compensation.setAccountId(accountId);
+                                compensation.setDate(LocalDate.now().withDayOfMonth(1).minusDays(1));
+                                compensation.setAmount(0L);
+                            }
+                            compensation.setAmount(monthBalance - initialMonthBalance + compensation.getAmount());
+                            transactionDao.updateOrInsertAsync(compensation);
+                        }
+                    });
                 }
             }
         });

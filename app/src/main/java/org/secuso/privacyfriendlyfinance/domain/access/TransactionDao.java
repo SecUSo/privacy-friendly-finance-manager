@@ -23,6 +23,8 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
 import org.joda.time.LocalDate;
+import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
+import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
@@ -115,5 +117,25 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
 
     public LiveData<Long> sumExpensesForCategoryThisMonth(long categoryId) {
         return sumExpensesForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());
+    }
+
+
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC LIMIT 1")
+    public abstract LiveData<Transaction> getLatestByNameAndAccountFromBefore(long accountId, String name, String from, String before);
+
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC LIMIT 1")
+    public abstract Transaction getLatestByNameAndAccountFromBeforeSync(long accountId, String name, String from, String before);
+
+    public LiveData<Transaction> getLatestByNameForAccountLastMonth(Long accountId, String name) {
+        return getLatestByNameAndAccountFromBefore(accountId, name, LocalDate.now().minusMonths(1).withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).toString());
+    }
+
+    public CommunicantAsyncTask<?, Transaction> getLatestByNameForAccountLastMonthAsync(final Long accountId, final String name, TaskListener listener) {
+        return listenAndExec(new CommunicantAsyncTask<Void, Transaction>() {
+            @Override
+            protected Transaction doInBackground(Void... voids) {
+                return getLatestByNameAndAccountFromBeforeSync(accountId, name, LocalDate.now().minusMonths(1).withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).toString());
+            }
+        }, listener);
     }
 }
