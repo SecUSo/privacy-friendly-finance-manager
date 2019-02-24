@@ -301,7 +301,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         switch (itemId) {
             case R.id.nav_main:
                 intent = new Intent(this, TransactionsActivity.class);
-                startActivity(intent);
+                createBackStack(intent);
                 break;
             case R.id.nav_category:
                 intent = new Intent(this, CategoriesActivity.class);
