@@ -23,8 +23,6 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
-import android.util.Base64;
-import android.util.Log;
 
 import com.commonsware.cwac.saferoom.SafeHelperFactory;
 
@@ -42,7 +40,6 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.helpers.KeyStoreHelper;
-import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.io.File;
 
@@ -113,46 +110,61 @@ public abstract class FinanceDatabase extends RoomDatabase {
         protected FinanceDatabase doInBackground(Void... voids) {
             try {
 
+//                publishProgress(0.0);
+//                publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
+//
+//                KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
+//                String passphrase = SharedPreferencesManager.getDbPassphrase();
+//
+//                if (!keystore.keyExists()) {
+//                    keystore.generateKey(context);
+//                    if (passphrase != null) {
+//                        Log.w("OpenDatabase", "database passphrase could not be recovered");
+//                        SharedPreferencesManager.removeDbPassphrase();
+//                    }
+//                }
+//
+//                publishProgress(.2);
+//
+//                if (passphrase == null) {
+//                    publishOperation(context.getResources().getString(R.string.activity_startup_create_passphrase_msg));
+//                    passphrase = keystore.createPassphrase();
+//                    SharedPreferencesManager.setDbPassphrase(passphrase);
+//                }
+//
+//                publishProgress(.4);
+//                publishOperation(context.getResources().getString(R.string.activity_startup_decrypt_phassphrase_msg));
+//                byte[] decryptedPassphrase = keystore.rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
+//
+//                char[] charPassphrase = new char[decryptedPassphrase.length];
+//                for (int i = 0; i < decryptedPassphrase.length; ++i) {
+//                    charPassphrase[i] = (char) (decryptedPassphrase[i] & 0xFF);
+//                }
+
+
+
+
+
                 publishProgress(0.0);
                 publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
 
-                KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
-                String passphrase = SharedPreferencesManager.getDbPassphrase();
+                KeyStoreHelper keystore = KeyStoreHelper.getInstance(KEY_ALIAS);
+
 
                 if (!keystore.keyExists()) {
-                    keystore.generateKey(context);
-                    if (passphrase != null) {
-                        Log.w("OpenDatabase", "database passphrase could not be recovered");
-                        SharedPreferencesManager.removeDbPassphrase();
-                    }
-                }
-
-                publishProgress(.2);
-
-                if (passphrase == null) {
                     deleteDatabaseFile();
-                    publishOperation(context.getResources().getString(R.string.activity_startup_create_passphrase_msg));
-                    passphrase = keystore.createPassphrase();
-                    SharedPreferencesManager.setDbPassphrase(passphrase);
+                    publishOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
                 }
 
-                publishProgress(.4);
-                publishOperation(context.getResources().getString(R.string.activity_startup_decrypt_phassphrase_msg));
-                byte[] decryptedPassphrase = keystore.rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
-
-                char[] charPassphrase = new char[decryptedPassphrase.length];
-                for (int i = 0; i < decryptedPassphrase.length; ++i) {
-                    charPassphrase[i] = (char) (decryptedPassphrase[i] & 0xFF);
-                }
+                char[] key = keystore.getKey(context);
 
                 publishProgress(.6);
                 if (dbFileExists()) {
-                    publishOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
                 } else {
                     publishOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
                 }
                 FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
-                        .openHelperFactory(new SafeHelperFactory(charPassphrase))
+                        .openHelperFactory(new SafeHelperFactory(key))
                         .fallbackToDestructiveMigration()
                         .build();
 
