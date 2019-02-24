@@ -50,7 +50,7 @@ public class CurrencyInputFilter implements InputFilter {
 
         String oldValue = dest.toString();
         String result = oldValue.substring(0, dstart) + source.toString().substring(start, end) + oldValue.substring(dend, oldValue.length());
-        if (result.equals("-")) return null;
+        if (result.equals("-") && (min == null || min < 0.0)) return null;
         Matcher matcher = pattern.matcher(result);
         Log.d("CurrencyFilter", result + " " + matcher.matches());
 

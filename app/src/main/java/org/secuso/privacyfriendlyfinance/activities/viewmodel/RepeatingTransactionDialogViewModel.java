@@ -60,7 +60,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     private RepeatingTransaction transaction;
 
     private Application application;
-
+    private boolean amountEdited = false;
 
     private long transactionId = -1;
 
@@ -91,11 +91,14 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     @Override
     protected Long getNumericAmount() {
         if (transaction == null) return null;
+        if (transaction.getId() == null && !amountEdited) return null;
         return transaction.getAmount();
     }
 
     @Override
     protected void setNumericAmount(Long amount) {
+        amountEdited = true;
+        if (amount == null) amount = 0L;
         transaction.setAmount(amount);
     }
 
