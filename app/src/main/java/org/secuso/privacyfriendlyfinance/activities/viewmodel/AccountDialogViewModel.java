@@ -48,7 +48,7 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     private Account account;
     private LiveData<Long> monthBalanceLive;
     private LiveData<Account> accountLive;
-    private long accountId;
+    private Long accountId;
     private long initialMonthBalance = 0;
     private Long monthBalance;
     private String originalName;
@@ -82,7 +82,7 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     }
 
     public LiveData<Account> setAccountId(long accountId) {
-        if (this.accountId != accountId) {
+        if (this.accountId == null || this.accountId != accountId) {
             this.accountId = accountId;
             if (accountId == -1) {
                 setAccountDummy();
