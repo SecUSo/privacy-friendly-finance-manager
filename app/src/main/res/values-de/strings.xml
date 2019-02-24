@@ -1,8 +1,4 @@
 <resources>
-    <!-- ### A P P ### -->
-    <string name="app_name">Finance Manager</string>
-    <string name="app_name_long">Finance Manager</string>
-
     <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
     <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
 
