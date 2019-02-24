@@ -35,6 +35,7 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
     private int positiveColor = Color.GREEN;
     private int negativeColor = Color.RED;
+    private String amountString = null;
 
     public CurrencyInputBindableViewModel(@NonNull Application application) {
         super(application);
@@ -42,11 +43,17 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
 
     @Bindable
     public String getAmountString() {
-        if (getNumericAmount() == null) return "";
-        return CurrencyHelper.convertToString(getNumericAmount());
+        if (amountString == null) {
+            amountString = CurrencyHelper.convertToString(getNumericAmount());
+            if (amountString == null) {
+                amountString = "";
+            }
+        }
+        return amountString;
     }
     public void setAmountString(String amountString) {
         if (amountString == null) amountString = "";
+        this.amountString = amountString;
         Long number = CurrencyHelper.convertToLong(amountString);
         if (number != null) {
             if (getNumericAmount() != number) {
@@ -59,6 +66,7 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
             notifyPropertyChanged(BR.expense);
             notifyPropertyChanged(BR.amountColor);
         }
+
     }
 
     @Bindable
@@ -68,16 +76,28 @@ public abstract class CurrencyInputBindableViewModel extends BindableViewModel {
 
     @Bindable
     public boolean getExpense() {
-        if (getNumericAmount() == null) return false;
-        return getNumericAmount() < 0;
+        return getAmountString().startsWith("-");
     }
+
     public void setExpense(boolean checked) {
-        if ((getNumericAmount() > 0 && checked) || (getNumericAmount() < 0 && !checked)) {
-            setAmountString(CurrencyHelper.convertToString(getNumericAmount() * -1));
-            notifyPropertyChanged(BR.expense);
-            notifyPropertyChanged(BR.amountColor);
+        if (getExpense() != checked) {
+            if (checked) {
+                setAmountString("-" + getAmountString());
+            } else {
+                setAmountString(getAmountString().substring(1));
+            }
             notifyPropertyChanged(BR.amountString);
         }
+//        if (getNumericAmount() == null) {
+//            setAmountString(checked ? "-" + getAmountString() : "");
+//            notifyPropertyChanged(BR.amountColor);
+//            notifyPropertyChanged(BR.amountString);
+//        } else if ((getNumericAmount() > 0 && checked) || (getNumericAmount() < 0 && !checked)) {
+//            setAmountString(CurrencyHelper.convertToString(getNumericAmount() * -1));
+//            notifyPropertyChanged(BR.expense);
+//            notifyPropertyChanged(BR.amountColor);
+//            notifyPropertyChanged(BR.amountString);
+//        }
     }
 
     protected abstract Long getNumericAmount();
