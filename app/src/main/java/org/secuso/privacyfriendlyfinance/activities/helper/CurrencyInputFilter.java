@@ -51,6 +51,7 @@ public class CurrencyInputFilter implements InputFilter {
         String oldValue = dest.toString();
         String result = oldValue.substring(0, dstart) + source.toString().substring(start, end) + oldValue.substring(dend, oldValue.length());
         if (result.equals("-") && (min == null || min < 0.0)) return null;
+
         Matcher matcher = pattern.matcher(result);
         Log.d("CurrencyFilter", result + " " + matcher.matches());
 
@@ -58,6 +59,7 @@ public class CurrencyInputFilter implements InputFilter {
 
         try {
             Double input = Double.parseDouble(result);
+            if (Math.abs(input) >= 1_000_000_00L) return "";
             if ((min != null && input < min) || (max != null && input > max)) return "";
 
         } catch (NumberFormatException nfe) { }
