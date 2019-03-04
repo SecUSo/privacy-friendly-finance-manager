@@ -68,15 +68,18 @@ public class CategoryDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         final DialogCategoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_category, null, false);
+        View view = binding.getRoot();
+        colorPicker = view.findViewById(R.id.color_picker_view);
+
         viewModel.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L)).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
                 viewModel.setCategory(category);
+                if (viewModel.getColor() != null) colorPicker.setInitialColor(viewModel.getColor(), false);
                 binding.setViewModel(viewModel);
             }
         });
 
-        View view = binding.getRoot();
         builder.setView(view);
 
         builder.setTitle(getArguments().getLong(EXTRA_CATEGORY_ID, -1L) == -1L ? R.string.dialog_category_create_title : R.string.dialog_category_edit_title);
@@ -105,7 +108,6 @@ public class CategoryDialog extends AppCompatDialogFragment {
         });
 
 
-        colorPicker = view.findViewById(R.id.color_picker_view);
         editTextBudget = view.findViewById(R.id.editText_budget);
 
         editTextBudget.setFilters(new InputFilter[] {new CurrencyInputFilter(0.0, null)});
