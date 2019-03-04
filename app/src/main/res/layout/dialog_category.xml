@@ -23,7 +23,7 @@
                 android:layout_marginEnd="8dp"
                 android:hint="@string/dialog_category_name_hint"
                 android:inputType="text"
-                android:maxLength="128"
+                android:maxLength="32"
                 android:singleLine="false"
                 android:textAlignment="center"
                 android:text="@={viewModel.name}"
