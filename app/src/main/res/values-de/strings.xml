@@ -154,6 +154,8 @@
     <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
     <string name="activity_tutorial_slide6_title">Konten</string>
     <string name="activity_tutorial_slide6_msg">In der Konten-Ansicht können Sie alle Konten und deren jeweilige Bilanzen sehen. Jede Transaktion ist einem Konto zugewiesen und beeinflusst die Bilanz dieses Kontos. Neue Konten können Sie erstellen, indem Sie auf den Plus-Knopf drücken. Da es schwierig sein kann, alle Transaktionen auf einem real existierenden Konto mit denen des virtuellen Gegenstücks in dieser App synchron zu halten, gibt es die Möglichkeit den Kontostand zu Beginn jedes Monats einzustellen.</string>
+    <string name="activity_tutorial_slide7_title">Wiederholende Transaktionen</string>
+    <string name="activity_tutorial_slide7_msg">Wiederholende Transaktionen sind Transaktionen die von der App automatisch wiederholt werden. Zusätzlich zu den Informationen, die für eine normale Transaktion eingestellt werden können, können bei einer wiederholenden Transaktion das Enddatum und das Wiederholungsintervall (Wochen oder Monate) festgelegt werden. Die wiederholten Transaktionen werden von der App zu Beginn des jeweiligen Monats oder der jeweiligen Woche eingefügt.</string>
 
     <string name="category_delete_dialog_title">Kategorie löschen</string>
     <string name="category_deleted">Kategorie gelöscht</string>

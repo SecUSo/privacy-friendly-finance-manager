@@ -161,7 +161,8 @@
     <string name="activity_tutorial_slide5_msg">Under the menu item Categories you are able to see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button you can create new Categories.</string>
     <string name="activity_tutorial_slide6_title">Accounts</string>
     <string name="activity_tutorial_slide6_msg">In the accounts view you get an overview over all accounts. You can create new accounts by clicking the plus button. Every transaction is linked to one account and affects the total balance of this account. It can get quite difficult to synchronize the transactions of an account that exists in the real world with the transactions of the account´s virtual counterpart. In order to solve this issue the balance for the beginning of the month can be set for each account and each month.</string>
-
+    <string name="activity_tutorial_slide7_title">Repeating transactions</string>
+    <string name="activity_tutorial_slide7_msg">Repeating transactions are transactions that are repeated automatically by the app. In addition to all the details you can set for a normal transaction for a repeating transaction you can set the end date and the repeating interval in weeks or months. The repeated transactions are then added at the beginning of the corresponding month or week.</string>
 
     <string name="category_delete_question">All assigned transactions will be without category afterwards.&lt;br />This can &lt;i>not&lt;/i> be undone.&lt;br />&lt;br />Are you sure you want to delete category &lt;b>%1$s&lt;/b>?</string>
     <string name="activity_about_authors_names" translatable="false">Felix Hofmann, Leonard Otto, David Meiborg</string>
