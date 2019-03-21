@@ -99,7 +99,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         if (keyGen) runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setProgress(new Double(progress * 1000).intValue());
+                progressBar.setProgress(Double.valueOf(progress * 1000).intValue());
             }
         });
     }

@@ -80,7 +80,7 @@ public class MigrationFromUnencrypted {
             }
 
             for (String categoryName : categoryNames) {
-                Category category = target.categoryDao().getByName(categoryName).getValue();
+                Category category = target.categoryDao().get(categoryName);
                 if (category == null) {
                     target.categoryDao().insert(new Category(categoryName));
                 }
@@ -100,7 +100,7 @@ public class MigrationFromUnencrypted {
                         sourceTransaction.getString("transactionDate"),
                         DateTimeFormat.forPattern("dd/MM/yyyy")
                 ));
-                Category category = target.categoryDao().getByName(sourceTransaction.getString("transactionCategory")).getValue();
+                Category category = target.categoryDao().get(sourceTransaction.getString("transactionCategory"));
                 if (category != null) {
                     transaction.setCategoryId(category.getId());
                 }
