@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:padding="0dp"
+    android:visibility="visible"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textView_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_balance_label"
+            tools:text="-$13.37" />
+
+        <TextView
+            android:id="@+id/textView_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_category_icon"
+            app:layout_constraintStart_toEndOf="@+id/imageView_category_icon"
+            app:layout_constraintTop_toTopOf="@+id/imageView_category_icon"
+            tools:text="Example Category" />
+
+        <ImageView
+            android:id="@+id/imageView_category_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/category"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_category_gray_24dp" />
+
+        <TextView
+            android:id="@+id/textView_budget_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_budget"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView_budget"
+            app:layout_constraintStart_toStartOf="@+id/textView_budget" />
+
+        <TextView
+            android:id="@+id/textView_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_balance"
+            app:layout_constraintStart_toEndOf="@+id/textView_category_name"
+            app:layout_constraintTop_toTopOf="@+id/textView_balance"
+            tools:text="$100.00" />
+
+        <TextView
+            android:id="@+id/textView_balance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/this_month"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_budget_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/green"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_budget"
+            app:layout_constraintStart_toEndOf="@+id/textView_budget"
+            tools:text="$86.63" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

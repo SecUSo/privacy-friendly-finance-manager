@@ -1,0 +1,37 @@
+String resource name convention for android projects
+
+Convention:
+
+		Prefix				Interfix					Suffix
+	<WHERE IS IT USED?> _ <DESCRIPTION OF THE STRING> _ <WHAT KIND OF STRING IS IT?>
+
+
+
+Suffixes:
+	action (Used for buttons and other things that trigger actions)
+	msg (Used for messages that will be displayed to the user)
+	hint (Used for hints, e.g. hints in text input fields)
+	title (Used for titles of e.g. activities)
+	desc (Used for textual descriptions of actions)
+	label
+	<empty>
+
+Prefixes:
+	activity
+	dialog
+	nav
+	<empty>
+
+
+
+
+
+Examples:
+	actvity_transactionlist_table_header_amount
+		Header of the column "amount" of the table in the transaction list acitvity.
+	dialog_transaction_add_title
+		Titel of the transaction creation dialog.
+	actvity_transactionlist_transaction_add_action
+		Text of the button in the transaction activity that adds a transaction.
+	date
+		The translation of the word date. Can be used in multiple locations. For example as a label of a edit-text-element in a dialog.

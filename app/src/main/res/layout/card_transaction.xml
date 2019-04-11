@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imageView_category"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/category"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_category"
+        app:layout_constraintEnd_toStartOf="@+id/textView_category"
+        app:layout_constraintTop_toTopOf="@+id/textView_category"
+        app:srcCompat="@drawable/ic_category_gray_24dp" />
+
+    <TextView
+        android:id="@+id/textView_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView_day_of_month"
+        app:layout_constraintStart_toStartOf="@+id/textView_day_of_month"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="OCT" />
+
+    <TextView
+        android:id="@+id/textView_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="$-13.37" />
+
+    <TextView
+        android:id="@+id/textview_transaction_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView_day_of_month"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Transaction Name" />
+
+    <TextView
+        android:id="@+id/textView_day_of_month"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="13" />
+
+    <TextView
+        android:id="@+id/textView_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_account"
+        app:layout_constraintStart_toEndOf="@+id/imageView_account"
+        app:layout_constraintTop_toTopOf="@+id/imageView_account"
+        tools:text="Default Account" />
+
+    <TextView
+        android:id="@+id/textView_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Example Category" />
+
+    <ImageView
+        android:id="@+id/imageView_account"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginBottom="12dp"
+        android:contentDescription="@string/account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textview_transaction_name"
+        app:srcCompat="@drawable/ic_account_gray_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView_repeating"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:tint="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_transaction_name"
+        app:layout_constraintStart_toEndOf="@+id/textview_transaction_name"
+        app:layout_constraintTop_toTopOf="@+id/textview_transaction_name"
+        app:srcCompat="@drawable/ic_autorenew_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView_repeating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_repeating"
+        app:layout_constraintStart_toEndOf="@+id/imageView_repeating"
+        app:layout_constraintTop_toTopOf="@+id/imageView_repeating"
+        tools:text="Repeating" />
+
+</android.support.constraint.ConstraintLayout>

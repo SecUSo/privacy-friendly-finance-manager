@@ -1,18 +1,19 @@
 /*
- This file is part of Privacy Friendly App Finance Manager.
+ Privacy Friendly Finance Manager is licensed under the GPLv3.
+ Copyright (C) 2019 Leonard Otto, Felix Hofmann
 
- Privacy Friendly App Finance Manager is free software:
- you can redistribute it and/or modify it under the terms of the
- GNU General Public License as published by the Free Software Foundation,
- either version 3 of the License, or any later version.
-
- Privacy Friendly App Finance Manager is distributed in the hope
- that it will be useful, but WITHOUT ANY WARRANTY; without even
- the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+ General Public License as published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License along with this program.
+ If not, see http://www.gnu.org/licenses/.
+
+ Additionally icons from Google Design Material Icons are used that are licensed under Apache
+ License Version 2.0.
  */
 
 package org.secuso.privacyfriendlyfinance.activities;
@@ -37,7 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.helpers.FirstLaunchManager;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * @author David Meiborg
@@ -51,7 +52,6 @@ public class TutorialActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private Button btnSkip, btnNext;
-    private FirstLaunchManager firstLaunchManager;
 
     // layouts of all welcome sliders
     // add few more layouts if you want
@@ -61,6 +61,8 @@ public class TutorialActivity extends AppCompatActivity {
             R.layout.tutorial_slide3,
             R.layout.tutorial_slide4,
             R.layout.tutorial_slide5,
+            R.layout.tutorial_slide6,
+            R.layout.tutorial_slide7
     };
 
     private static final String TAG = TutorialActivity.class.getSimpleName();
@@ -76,7 +78,6 @@ public class TutorialActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        firstLaunchManager = new FirstLaunchManager(this);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -140,10 +141,10 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        if(firstLaunchManager.isFirstTimeLaunch()) {
-            Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
+        if(SharedPreferencesManager.isFirstTimeLaunch()) {
+            Intent intent = new Intent(TutorialActivity.this, TransactionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            firstLaunchManager.setFirstTimeLaunch(false);
+            SharedPreferencesManager.setFirstTimeLaunch(false);
             startActivity(intent);
         }
         finish();

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel" type="org.secuso.privacyfriendlyfinance.activities.viewmodel.CurrencyInputBindableViewModel"/>
+        <variable name="positiveLabel" type="java.lang.String"/>
+        <variable name="negativeLabel" type="java.lang.String"/>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/radioGroup_transaction_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/radioButton_transaction_expense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="@={viewModel.expense}"
+                android:text="@{negativeLabel}"
+                tools:text="Negative" />
+
+            <RadioButton
+                android:id="@+id/radioButton_transaction_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="@{!viewModel.expense}"
+                android:text="@{positiveLabel}"
+                tools:text="Positive" />
+
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/dialog_transaction_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hint="@string/dialog_transaction_value_hint"
+            android:inputType="numberSigned|numberDecimal"
+            android:maxLength="10"
+            android:selectAllOnFocus="false"
+            android:singleLine="false"
+            android:textAlignment="center"
+            android:text="@={viewModel.amountString}"
+            android:textColor="@{viewModel.amountColor}"
+            app:layout_constraintBottom_toBottomOf="@+id/radioGroup_transaction_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/radioGroup_transaction_type"
+            app:layout_constraintTop_toTopOf="@+id/radioGroup_transaction_type" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

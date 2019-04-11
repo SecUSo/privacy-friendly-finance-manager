@@ -1,114 +1,179 @@
 <resources>
-    <string name="app_name">Finanzen Manager</string>
-    <string name="app_name_long">Finanzen Manager</string>
+    <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
+    <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
 
-    <!-- ###DRAWER###-->
-    <string name="action_help">Hilfe</string>
-    <string name="action_about">Über</string>
-    <string name="action_main">Transaktionsübersicht</string>
-    <string name="action_tutorial">Tutorial</string>
-    <string name="action_category">Kategorien</string>
-
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- ###MAIN### -->
-    <string name="totalBalance">Kontostand</string>
-    <string name="deleteItem">Löschen</string>
-    <string name="editItem">Bearbeiten</string>
-    <string name="legend_amount">Betrag</string>
-    <string name="legend_name">Titel</string>
-    <string name="legend_date">Datum</string>
-
-    <!-- ###CATEGORY###-->
-    <string name="category">Kategorien</string>
-    <string name="dialog_category_hint_name">Name der Kategorie</string>
-    <string name="dialog_category_title">Neue Kategorie</string>
-    <string name="dialog_category_edit">Kategorie bearbeiten</string>
-
-    <string name="category_legend_balance">Bilanz</string>
-    <string name="category_legend_name">Name</string>
-    <string name="firstCategoryName">Standard</string>
-    <string name="category_name">Kategorie</string>
-    <string name="category_deletion_standard">Diese Kategorie kann nicht gelöscht oder bearbeitet werden.</string>
-
-
-
-    <!--###HELP###-->
+    <!-- ### G E N E R A L ### -->
+    <string name="balance">Guthaben</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="amount">Betrag</string>
+    <string name="name">Name</string>
+    <string name="date">Datum</string>
     <string name="help">Hilfe</string>
-
-    <string name="help_whatis">Was ist der Privacy Friendly Finanzen Manager?</string>
-    <string name="help_whatis_answer">Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</string>
-    <string name="help_feature_one">Wie überwache ich Ausgaben und Einnahmen?</string>
-    <string name="help_feature_one_answer">Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den + Button in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</string>
-    <string name="help_feature_two">Wie kann ich meine Ausgaben kategorisieren?</string>
-    <string name="help_feature_two_answer">Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</string>
-    <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="help_privacy_answer">Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</string>
-    <string name="help_permission">Welche Berechtigungen braucht die App?</string>
-    <string name="help_permission_answer">Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</string>
-
-    <!--###ABOUT###-->
-    <string name="about">Über</string>
-    <string name="version_number">Version v%s</string>
-    <string name="about_author">Autoren: </string>
-    <string name="about_author_names" translatable="false">David Meiborg</string>
-    <string name="about_author_contributors">und Mitwirkende.</string>
-    <string name="about_affiliation">In Zusammenarbeit mit</string>
-    <string name="privacy_friendly">Diese App gehört zur Gruppe der Privacy Friendly Apps entwickelt vom Karlsruher Institut für Technologie (KIT). Quelltext lizenziert unter GPLv3. Bilder copyright KIT und Google Inc.</string>
-    <string name="more_info">Weitere Infos unter:</string>
-    <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
-    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
-
-    <!--###dialog###-->
-    <string name="dialog_title">Neuer Eintrag</string>
-    <string name="dialog_submit">Ok</string>
-    <string name="dialog_cancel">Abbrechen</string>
-    <string name="dialog_hint_expense_name">Titel</string>
-    <string name="dialog_hint_expense_value">Betrag</string>
-    <string name="dialog_radio_button_income">Einkommen</string>
-    <string name="dialog_radio_button_expense">Ausgabe</string>
-    <string name="dialog_hint_date">Datum eingeben</string>
-
-    <string name="edit_dialog_title">Eintrag bearbeiten</string>
-    <string name="edit_dialog_submit">Ok</string>
-    <string name="edit_dialog_cancel">Abbrechen</string>
-
-    <string name="delete_dialog_title">Möchten Sie diese Transaktion wirklich löschen?</string>
-    <string name="delete_dialog_positive">Ok</string>
-    <string name="delete_dialog_negative">Abbrechen</string>
-
-    <!-- ### TOASTS ### -->
-    <string name="dialog_toast_0">Ein Eintrag mit 0 als Wert ist nicht gültig. Bitte ändern Sie den Eintrag von 0 auf einen Wert um den Eintrag zu speichern.</string>
-    <string name="dialog_category_toast">Die Kategorie muss einen Namen haben.</string>
-    <string name="toast_new_entry">Eintrag wurde hinzugefügt</string>
-    <string name="toast_delete">Eintrag wurde gelöscht</string>
-    <string name="toast_update">Eintrag wurde bearbeitet</string>
-
-
-    <!-- ### WELCOME DIALOG ### -->
+    <string name="submit">Fertig</string>
+    <string name="cancel">Abbrechen</string>
     <string name="okay">Okay</string>
-
-    <!-- ### TUTORIAL DIALOG ### -->
-    <string name="slide1_heading">Willkommen!</string>
-    <string name="slide1_text">Willkommen im Finanzen Manager, der Ihre Privatsphäre nicht verletzt. Diese App kommt ohne Berechtigungen aus.</string>
-
-    <string name="slide2_heading">Finanzen Manager</string>
-    <string name="slide2_text">Sie können ihre Finanzen managen, indem Sie ihre Einnahmen und Ausgaben überwachen.</string>
-
-    <string name="slide4_heading">Neue Transaktionen</string>
-    <string name="slide4_text">Sie können neue Einträge durch das Klicken des Plus-Buttons in der Transaktionsübersicht erstellen. Nun können Sie den Wert, einen Titel, ein Datum und eine Kategorie zuordnen. Zusätzlich können Sie spezifizieren, ob es sich um eine Ausgabe oder Einnahme handelt.</string>
-
-    <string name="slide3_heading">Transaktionsübersicht</string>
-    <string name="slide3_text">Unter dem Menüpunkt Transaktionsübersicht sehen Sie die Bilanz ihrer Einträge, sowie eine Liste mit allen eingetragenen Einnahmen und Ausgaben.</string>
-
-    <string name="slide5_heading">Kategorien</string>
-    <string name="slide5_text">Unter dem Menüpunkt Kategorien sehen Sie alle erstellten Kategorien und deren Bilanzen. Durch das Klicken des Plus-Buttons können Sie eine neue Kategorie erstellen.</string>
-
-
-
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
+    <string name="please_note">Bitte beachten Sie:</string>
+    <string name="weeks">Wochen</string>
+    <string name="months">Monate</string>
+    <string name="every">Alle</string>
+    <string name="until">bis</string>
+    <string name="forever">für immer</string>
+    <string name="never">niemals</string>
+
+    <!-- ### S T A R T _ U P ###-->
+    <string name="activity_startup_init_key_store_msg">Initialisiere Keystore&#8230;</string>
+    <string name="activity_startup_create_passphrase_msg">Generiere Passphrase&#8230;</string>
+    <string name="activity_startup_decrypt_phassphrase_msg">Entschlüssele Passphrase&#8230;</string>
+    <string name="activity_startup_open_database_msg">Öffne Datenbank&#8230;</string>
+    <string name="activity_startup_create_and_open_database_msg">Erstelle und öffne Datenbank&#8230;</string>
+    <string name="activity_startup_migrate_database_msg">Migriere Datenbank&#8230;</string>
+
+    <!-- ### N A V _ B A R ###-->
+    <string name="nav_help_action">Hilfe</string>
+    <string name="nav_about_action">Über</string>
+    <string name="nav_main_action">Transaktionsübersicht</string>
+    <string name="nav_tutorial_action">Tutorial</string>
+    <string name="nav_category_action">Kategorien</string>
+    <string name="nav_drawer_toggle_open_desc">Navigationsleiste öffnen</string>
+    <string name="nav_drawer_toggle_close_desc">Navigationsleiste schließen</string>
+
+
+    <!--### H E L P ###-->
+    <string-array name="activity_help_questions">
+        <item>Was ist der Privacy Friendly Finanzen Manager?</item>
+        <item>Wie überwache ich Ausgaben und Einnahmen?</item>
+        <item>Wie kann ich meine Ausgaben kategorisieren?</item>
+        <item>Was macht die App privatsphäre-freundlich?</item>
+        <item>Welche Berechtigungen braucht die App?</item>
+        <item>Wie kann ich einen Eintrag löschen?</item>
+        <item>Wozu gibt es Konten?</item>
+    </string-array>
+    <string-array name="activity_help_answers">
+        <item>Der Privacy Friendly Finanzen Manager ist eine App zur Überwachung von Ausgaben und Einnahmen.</item>
+        <item>Eine Transaktion, entweder Einnahme oder Ausgabe, kann durch den Plus-Knopf in der Toolbar erstellt werden. Die Liste aller Transaktionen befindet sich im Navigationsmenü und kann dort abgerufen werden. Transaktionen können bearbeitet und gelöscht werden.</item>
+        <item>Unter dem Menüpunkt "Kategorien" können neue Kategorien erstellt werden. Bei der Erstellung von neuen Transaktionen können Sie der Transaktion eine Kategorie zuordnen. Alle Kategorien und deren Bilanzen sind unter dem Menüpunkt "Kategorien" aufgelistet.</item>
+        <item>Der Privacy Friendly Finanzen Manager benötigt keinerlei Zugriffsrechte. Darüber hinaus beinhaltet die App keine Tracking Mechanismen oder Werbung.</item>
+        <item>Der Privacy Friendly Finanzen Manager benötigt keine Berechtigungen.</item>
+        <item>Jeder Eintrag in dieser App, sei es eine Transaktion, eine wiederholende Transaktion, ein Konto oder eine Kategorie, kann gelöscht werden, indem der jeweilige Eintrag nach links oder rechts gewischt wird und dann auf den roten Mülleimer-Knopf geklickt wird.</item>
+        <item>Konten können verwendet werden um die Übersicht über das Geld auf einem real existierenden Bankkonto zu behalten. Es ist möglich, die Bilanz, die ein Konto zum Beginn des Monats hatte zu ändern. Auf diese Weise ist man nicht gezwungen alle Transaktionen von Hand einzutragen. In der Kontoansicht erhält man einen Überblick über alle Transaktionen, die man dem jeweiligen Konto zugeordnet hat.</item>
+    </string-array>
+
+    <!--### A B O U T ###-->
+    <string name="activity_about_title">Über</string>
+    <string name="activity_about_version">Version v%s</string>
+    <string name="activity_about_authors">Autoren:</string>
+    <string name="activity_about_authors_contributors">und Mitwirkende</string>
+    <string name="activity_about_affiliation">In Zusammenarbeit mit</string>
+    <string name="activity_about_more_info">Weitere Informationen finden Sie unter:</string>
+    <string name="activity_about_belongs">Diese Applikation gehört zur Gruppe der Privacy Friendly Apps und wurde am Karlsruher Institut für Technologie (KIT) entwickelt. Der Quellcode ist unter der GPLv3-Lizenz lizenziert. Bilder sind urheberrechtlich geschützt (KIT und Goolge Inc.)</string>
+    <string name="activity_about_github_link" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
+    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+
+    <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
+    <string name="activity_repeating_transactions_title">Wiederkehrende Transaktionen</string>
+    <string name="repeat_text_unit_template">Wird %UNIT% wiederholt</string>
+    <string name="repeat_text_unit_until_template">Wird %UNIT% wiederholt bis %UNTIL%</string>
+    <string name="repeat_unit_every_first_week">jede Woche</string>
+    <string name="repeat_unit_every_n_week">jede %N% Woche</string>
+    <string name="repeat_unit_every_first_month">jeden Monat</string>
+    <string name="repeat_unit_every_n_month">jeden %N% Monat</string>
+    <string name="dialog_repeating_transaction_create_title">Neue Wiederkehrende Transaktion</string>
+    <string name="dialog_repeating_transaction_edit_title">Wiederkehrende Transaktion bearbeiten</string>
+    <string name="repeat_ends_at">Endet am</string>
+    <string name="repeat_delete_action">Wiederkehrende Transaktion löschen</string>
+    <string name="repeat_delete_question">Die zugehörigen erstellten Transaktionen werden nicht gelöscht, verlieren allerdings ihre Referenz auf diese wiederkehrende Transaktion.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie die wiederkehrende Transaktion &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="repeat_deleted_msg">Wiederkehrende Transaktion gelöscht</string>
+
+    <!-- ### C A T E G O R Y ###-->
+    <string name="category">Kategorie</string>
+    <string name="category_plural">Kategorien</string>
+    <string name="dialog_category_name_hint">Name der Kategorie</string>
+    <string name="dialog_category_create_title">Kategorie erstellen</string>
+    <string name="dialog_category_edit_title">Kategorie bearbeiten</string>
+    <string name="dialog_category_empty_name_impossible_msg">Die Kategorie muss einen Namen haben.</string>
+    <string name="category_default_category_name">Standard</string>
+    <string name="activity_category_manifest_label">Category activity</string>
+    <string name="activity_category_category_balance_month_label">Kategoriebilanz diesen Monat:</string>
+    <string name="activity_category_income_month_label">Einkommen diesen Monat:</string>
+    <string name="activity_category_expenses_month_label">Ausgaben diesen Monat:</string>
+    <string name="category_saved_msg">Kategorie gespeichert</string>
+    <string name="dialog_category_name_taken_msg">Eine Kategorie mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
+    <string name="activity_categories_empty_list_label">Keine Kategorien gefunden</string>
+
+    <!--### T R A N S A C T I O N ###-->
+    <string name="activity_transaction_saved_msg">Transaktion gespeichert</string>
+    <string name="activity_transaction_deleted_msg">Transaktion gelöscht</string>
+    <string name="activity_transaction_updated_msg">Transaction bearbeitet</string>
+    <string name="dialog_transaction_create_title">Transaktion erstellen</string>
+    <string name="dialog_transaction_edit_title">Transaktion bearbeiten</string>
+    <string name="dialog_transaction_name_hint">Name der Transaktion</string>
+    <string name="dialog_transaction_value_hint">Betrag der Transaktion</string>
+    <string name="dialog_transaction_radio_button_income_action">Einnahme</string>
+    <string name="dialog_transaction_radio_button_expense_action">Ausgabe</string>
+    <string name="dialog_transaction_repeating_label">Transaktion wiederholen:</string>
+    <string name="dialog_transaction_no_repetition">Keine Wiederholung</string>
+    <string name="dialog_transaction_date_hint">Datum der Transaktion</string>
+    <string name="dialog_delete_transaction_title">Wollen Sie diese Transaktion löschen?</string>
+    <string name="activity_transactions_empty_list_label">Keine Transaktionen gefunden</string>
+
+    <!--### A C C O U N T ###-->
+    <string name="account">Konto</string>
+    <string name="account_delete_question">Alle zugewiesenen Transaktionen werden ebenfalls gelöscht.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie den Account &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="activity_account_beginning_month_suffix">zu Beginn dieses Monats</string>
+    <string name="activity_account_beginning_month_prefix">Beginn des Monats:</string>
+    <string name="nav_action_account">Konto</string>
+    <string name="activity_account_manifest_label">Account activity</string>
+    <string name="activity_accounts_manifest_label">Accounts activity</string>
+    <string name="dialog_account_name_hint">Name des Kontos</string>
+    <string name="dialog_account_create_title">Konto erstellen</string>
+    <string name="dialog_account_edit_title">Konto bearbeiten</string>
+    <string name="account_saved_msg">Konto gespeichert</string>
+    <string name="dialog_account_empty_name_impossible_msg">Ein leerer Kontoname ist nicht möglich</string>
+    <string name="dialog_account_name_taken_msg">Ein Konto mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
+    <string name="account_activity_balance_label">Bilanz für dieses Konto:</string>
+    <string name="dialog_account_balance_hint">Bilanz eingeben</string>
+    <string name="dialog_account_balance_beginning_month_label">Bilanz zum Beginn dieses Monats:</string>
+    <string name="dialog_account_balance_change_desc">Das Ändern der Bilanz zum Anfang des Monats hat die automatische Erstellung einer Ausgleichstransaktion am Ende des Vormonats zur Folge. Diese Ausgleichstransaktion addiert bzw. subtrahiert einen entsprechenden Betrag um die von Ihnen gewünschte Bilanz für diesen Monat herzustellen.</string>
+    <string name="compensation_transaction_default_name">Ausgleichstransaktion</string>
+    <string name="dialog_account_positive_label">Positiv</string>
+    <string name="dialog_account_negative_label">Negativ</string>
+
+    <!-- ### T U T O R I A L ### -->
+    <string name="activity_tutorial_slide1_title">Willkommen!</string>
+    <string name="activity_tutorial_slide1_msg">Willkommen bei Ihrem Privacy Friendly Finance Manager. Diese App benötigt keinerlei Berechtigungen, um zu funktionieren.</string>
+    <string name="activity_tutorial_slide2_title">Finance Manager</string>
+    <string name="activity_tutorial_slide2_msg">Sie können Ihre Finanzen verwalten, indem Sie Ihre Ein- und Ausgaben überwachen.</string>
+    <string name="activity_tutorial_slide3_title">Transaktionen erstellen</string>
+    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
+    <string name="activity_tutorial_slide4_title">Transaktionsübersicht</string>
+    <string name="activity_tutorial_slide4_msg">In der Transaktionsübersicht können Sie die Gesamtbilanz Ihrer Transaktionen, sowie eine Liste dieser Transaktionen sehen.</string>
+    <string name="activity_tutorial_slide5_title">Kategorien</string>
+    <string name="activity_tutorial_slide5_msg">In der Kategorien-Ansicht können Sie alle Kategorien und deren jeweilige Bilanzen sehen. Diese hängt von genau den Transaktionen ab, denen Sie diese Kategorie zugeteilt haben. Neue Kategorien können Sie durch Drücken auf den Plus-Knopf hinzufügen.</string>
+    <string name="activity_tutorial_slide6_title">Konten</string>
+    <string name="activity_tutorial_slide6_msg">In der Konten-Ansicht können Sie alle Konten und deren jeweilige Bilanzen sehen. Jede Transaktion ist einem Konto zugewiesen und beeinflusst die Bilanz dieses Kontos. Neue Konten können Sie erstellen, indem Sie auf den Plus-Knopf drücken. Da es schwierig sein kann, alle Transaktionen auf einem real existierenden Konto mit denen des virtuellen Gegenstücks in dieser App synchron zu halten, gibt es die Möglichkeit den Kontostand zu Beginn jedes Monats einzustellen.</string>
+    <string name="activity_tutorial_slide7_title">Wiederholende Transaktionen</string>
+    <string name="activity_tutorial_slide7_msg">Wiederholende Transaktionen sind Transaktionen die von der App automatisch wiederholt werden. Zusätzlich zu den Informationen, die für eine normale Transaktion eingestellt werden können, können bei einer wiederholenden Transaktion das Enddatum und das Wiederholungsintervall (Wochen oder Monate) festgelegt werden. Die wiederholten Transaktionen werden von der App zu Beginn des jeweiligen Monats oder der jeweiligen Woche eingefügt.</string>
+
+    <string name="category_delete_dialog_title">Kategorie löschen</string>
+    <string name="category_deleted">Kategorie gelöscht</string>
+    <string name="account_delete_action">Konto löschen</string>
+    <string name="account_deleted_msg">Konto gelöscht</string>
+    <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie die Kategorie &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="none">Keine</string>
+    <string name="not_found">Nicht gefunden</string>
+    <string name="not_found_error">Fehler: Nicht gefunden</string>
+    <string name="dialog_transaction_zero_value_impossible_msg">Bitte geben Sie einen Betrag größer Null ein, um Ihre Transaktion zu speichern</string>
+    <string name="activity_transactions_title">Neueste Transaktionen</string>
+    <string name="account_plural">Konten</string>
+    <string name="activity_accounts_title">@string/account_plural</string>
+    <string name="activity_categories_title">@string/category_plural</string>
+    <string name="category_budget">Budget</string>
+    <string name="this_month">Diesen Monat</string>
+    <string name="activity_category_budget_month_left">Budget Bilanz diesen Monat:</string>
+    <string name="account_last_not_deleteable">Sie können Ihren letzten Account nicht löschen.</string>
+    <string name="activity_startup_default_account_name">Standard Konto</string>
 
 </resources>

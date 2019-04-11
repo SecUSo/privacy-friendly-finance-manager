@@ -1,228 +1,157 @@
 /*
- This file is part of Privacy Friendly App Finance Manager.
+ Privacy Friendly Finance Manager is licensed under the GPLv3.
+ Copyright (C) 2019 Leonard Otto, Felix Hofmann
 
- Privacy Friendly App Finance Manager is free software:
- you can redistribute it and/or modify it under the terms of the
- GNU General Public License as published by the Free Software Foundation,
- either version 3 of the License, or any later version.
-
- Privacy Friendly App Finance Manager is distributed in the hope
- that it will be useful, but WITHOUT ANY WARRANTY; without even
- the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+ General Public License as published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with Privacy Friendly App Finance Manager. If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License along with this program.
+ If not, see http://www.gnu.org/licenses/.
+
+ Additionally icons from Google Design Material Icons are used that are licensed under Apache
+ License Version 2.0.
  */
+
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlyfinance.R;
-import org.secuso.privacyfriendlyfinance.activities.adapter.CategoryCustomListViewAdapter;
-import org.secuso.privacyfriendlyfinance.activities.helper.BaseActivity;
-import org.secuso.privacyfriendlyfinance.database.CategoryDataType;
-import org.secuso.privacyfriendlyfinance.database.CategorySQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASQLiteHelper;
-import org.secuso.privacyfriendlyfinance.database.PFASampleDataType;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryCategory;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryDeleteCategory;
-import org.secuso.privacyfriendlyfinance.helpers.AsyncQueryUpdateCategory;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 
 /**
- * @author David Meiborg
- * Activity for categories
+ * Activity that shows detailed information about a single category and all transactions that are
+ * linked to this category.
  *
+ * @author Felix Hofmann
+ * @author Leonard Otto
  */
+public class CategoryActivity extends TransactionListActivity {
+    public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
+    protected CategoryViewModel viewModel;
+    private TextView tvCategoryBudgetLabel;
+    private TextView tvCategoryBudget;
+    private TextView tvCategoryBudgetMonth;
+    private Long budget = null;
+    private Long balance = null;
 
-public class CategoryActivity extends BaseActivity {
-
-    private CategorySQLiteHelper myDB;
-    private CategoryCustomListViewAdapter adapter;
-    private List<CategoryDataType> database_list;
-    private ArrayList<CategoryDataType> list;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ListView categoryList = (ListView) findViewById(R.id.categoryList);
-        new AsyncQueryCategory(categoryList,this).execute();
-    }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            drawer.openDrawer(GravityCompat.START);
-        }
-    }
-
-    /**
-     * This method creates the content for the activity
-     * FAB, the list of categories and the contextMenu for the list entries
-     *
-     * @return void
-     */
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
-        ActionBar ab = getSupportActionBar();
-        if(ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
+        viewModel = (CategoryViewModel) super.viewModel;
+        viewModel.getCategory().observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(Category category) {
+                viewModel.setTitle(category.getName());
+            }
+        });
+    }
+
+    private void updateBudgetMonth() {
+        if (budget == null) {
+            tvCategoryBudgetLabel.setVisibility(View.INVISIBLE);
+            tvCategoryBudget.setVisibility(View.INVISIBLE);
+            tvCategoryBudgetMonth.setVisibility(View.INVISIBLE);
+        } else {
+            if (balance == null) balance = 0L;
+
+            CurrencyHelper.setBalance(budget + balance, tvCategoryBudgetMonth);
+            tvCategoryBudget.setText("/ " + CurrencyHelper.convertToCurrencyString(budget));
+            tvCategoryBudgetLabel.setVisibility(View.VISIBLE);
+            tvCategoryBudget.setVisibility(View.VISIBLE);
+            tvCategoryBudgetMonth.setVisibility(View.VISIBLE);
         }
 
-        overridePendingTransition(0, 0);
+    }
 
-        FloatingActionButton add_category = findViewById(R.id.add_category);
-        add_category.setOnClickListener(new View.OnClickListener(){
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        addEditMenuClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick (View view){
+            public boolean onMenuItemClick(MenuItem item) {
                 openCategoryDialog();
+
+                return true;
             }
         });
 
-        ListView categoryList = (ListView) findViewById(R.id.categoryList);
+        View view = setHeaderLayout(R.layout.header_category_balance);
 
-        new AsyncQueryCategory(categoryList,this).execute();
+        tvCategoryBudgetLabel = view.findViewById(R.id.tv_categoryBudgetMonth_label);
+        tvCategoryBudget = view.findViewById(R.id.tv_categoryBudget);
+        tvCategoryBudgetMonth = view.findViewById(R.id.tv_categoryBudgetMonth);
 
-        registerForContextMenu(categoryList);
+        final TextView tvCategoryBalance = view.findViewById(R.id.tv_categoryBalanceMonth);
+        final TextView tvCategoryIncome = view.findViewById(R.id.tv_categoryIncomeMonth);
+        final TextView tvCategoryExpenses = view.findViewById(R.id.tv_categoryExpensesMonth);
 
+        viewModel.getCategory().observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(@Nullable Category category) {
+                budget = category.getBudget();
+                updateBudgetMonth();
+            }
+        });
+
+        viewModel.getCategoryBalanceMonth().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long currencyBalance) {
+                CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance);
+                balance = currencyBalance;
+                updateBudgetMonth();
+
+            }
+        });
+        viewModel.getCategoryIncomeMonth().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long categoryIncome) {
+                CurrencyHelper.setBalance(categoryIncome, tvCategoryIncome);
+            }
+        });
+        viewModel.getCategoryExpensesMonth().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long categoryExpenses) {
+                CurrencyHelper.setBalance(categoryExpenses, tvCategoryExpenses);
+            }
+        });
     }
-    /**
-     * opens menu for delete or edit categories
-     *
-     * @return void
-     */
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_click_menu_category,menu);
-    }
-    /**
-     * actions when menu item is selected for delete or edit categories
-     *
-     * @return void
-     */
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        if(item.getItemId()==R.id.listDeleteCategory){
-            if(info.position==0){
-                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
-            }
-            else{
-                new AsyncQueryDeleteCategory(info.position,CategoryActivity.this).execute();
-
-                Toast.makeText(getApplicationContext(), R.string.toast_delete, Toast.LENGTH_SHORT).show();
-
-            }
-
-            Intent categoryActivity = new Intent(getBaseContext(),CategoryActivity.class);
-            startActivity(categoryActivity);
-        }
-        if (item.getItemId()==R.id.listEditCategory){
-            if(info.position==0){
-                Toast.makeText(CategoryActivity.this,R.string.category_deletion_standard, Toast.LENGTH_SHORT).show();
-            }
-            else{
-                new AsyncQueryUpdateCategoryOpenDialog(info.position,CategoryActivity.this).execute();
-            }
-        }
-
-
-        return super.onContextItemSelected(item);
-    }
-
-    /**
-     * This method opens the Dialog for adding a Category
-     *
-     * @return void
-     */
 
     private void openCategoryDialog() {
-        Dialog_Category dialog = new Dialog_Category();
-        dialog.show(getSupportFragmentManager(),"Dialog");
+        CategoryDialog categoryDialog = new CategoryDialog();
+
+        Bundle args = new Bundle();
+        args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, viewModel.getCategory().getValue().getId());
+        categoryDialog.setArguments(args);
+
+        categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
     }
 
-
-    /**
-     * This method connects the Activity to the menu item
-     *
-     * @return ID of the menu item it belongs to
-     */
-
-    protected int getNavigationDrawerID() {
-        return R.id.nav_category;
+    @Override
+    protected CategoryViewModel getViewModel() {
+        long categoryId = getIntent().getLongExtra(EXTRA_CATEGORY_ID, -1);
+        CategoryViewModel.CategoryViewModelFactory viewModelFactory = new CategoryViewModel.CategoryViewModelFactory(this.getApplication(), categoryId);
+        return ViewModelProviders.of(this, viewModelFactory).get(CategoryViewModel.class);
     }
 
-    /**
-     * This nested class opens the Edit Dialog with an AsyncTask
-     *
-     */
-    private class AsyncQueryUpdateCategoryOpenDialog extends AsyncTask<Void,Void,Void> {
-
-        private ArrayList<CategoryDataType> list = new ArrayList<>();
-        int position;
-        CategorySQLiteHelper myDB;
-        Context context;
-
-
-        public AsyncQueryUpdateCategoryOpenDialog(int position, Context context){
-            this.position=position;
-            this.context=context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            myDB = new CategorySQLiteHelper(context);
-            List<CategoryDataType> database_list = myDB.getAllSampleData();
-            list = new ArrayList<>();
-
-            for (CategoryDataType s : database_list){
-                list.add(s);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Dialog_Category_Edit dialog = new Dialog_Category_Edit(list.get(position),context);
-            dialog.show(getSupportFragmentManager(),"EditDialog");
-        }
+    @Override
+    protected Class<? extends TransactionListViewModel> getViewModelClass() {
+        return CategoryViewModel.class;
     }
 }

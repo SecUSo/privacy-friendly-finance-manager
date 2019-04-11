@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel" type="org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionDialogViewModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView_repeating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="-1dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_repeating"
+                app:layout_constraintStart_toEndOf="@+id/imageView_repeating"
+                app:layout_constraintTop_toTopOf="@+id/imageView_repeating"
+                tools:text="Repeating" />
+
+            <ImageView
+                android:id="@+id/imageView_repeating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:tint="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include"
+                app:srcCompat="@drawable/ic_autorenew_black_24dp" />
+
+            <EditText
+                android:id="@+id/editText_transaction_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/dialog_transaction_name_hint"
+                android:inputType="text"
+                android:maxLength="32"
+                android:text="@={viewModel.name}"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/fragment_currency_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name"
+                app:viewModel="@{viewModel}"
+                app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
+                app:negativeLabel="@{@string/dialog_transaction_radio_button_expense_action}"
+                />
+
+            <TextView
+                android:id="@+id/dialog_transaction_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                android:drawablePadding="6dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:text="@{viewModel.dateString}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include" />
+
+            <TextView
+                android:id="@+id/dialog_category_legend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/category"
+                app:layout_constraintStart_toStartOf="@+id/dialog_account_legend"
+                app:layout_constraintTop_toBottomOf="@+id/account_spinner" />
+
+            <Spinner
+                android:id="@+id/category_spinner"
+                android:selectedItemPosition="@={viewModel.categoryIndex}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_category_legend" />
+
+            <TextView
+                android:id="@+id/dialog_account_legend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/account"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_transaction_date" />
+
+            <Spinner
+                android:id="@+id/account_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+                android:selectedItemPosition="@={viewModel.accountIndex}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>

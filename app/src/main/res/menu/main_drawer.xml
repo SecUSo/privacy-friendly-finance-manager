@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/nav_group_main"
+    <group
+        android:id="@+id/nav_group_views"
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_menu_home"
-            android:title="@string/action_main" />
+            android:title="@string/activity_transactions_title" />
+        <item
+            android:id="@+id/nav_repeating_transactions"
+            android:icon="@drawable/ic_autorenew_black_24dp"
+            android:title="@string/activity_repeating_transactions_title" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account_gray_24dp"
+            android:title="@string/activity_accounts_title" />
         <item
             android:id="@+id/nav_category"
-            android:icon="@drawable/ic_list_black_24dp"
-            android:title="@string/action_category" />
+            android:icon="@drawable/ic_category_gray_24dp"
+            android:title="@string/activity_categories_title" />
 
     </group>
 
-    <group android:id="@+id/nav_group_add"
+    <group
+        android:id="@+id/nav_group_additional"
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_tutorial"
             android:icon="@drawable/ic_menu_tutorial"
-            android:title="@string/action_tutorial" />
+            android:title="@string/nav_tutorial_action" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_help"
-            android:title="@string/action_help" />
+            android:title="@string/nav_help_action" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_info"
-            android:title="@string/action_about" />
+            android:title="@string/nav_about_action" />
     </group>
 </menu>

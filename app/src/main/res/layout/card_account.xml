@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:padding="0dp"
+    android:visibility="visible"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textView_balance_month_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/green"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_account_name"
+            app:layout_constraintTop_toBottomOf="@+id/textView_account_name"
+            tools:text="$156.85" />
+
+        <TextView
+            android:id="@+id/textView_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_account_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView_account_name"
+            tools:text="-$13.37" />
+
+        <ImageView
+            android:id="@+id/imageView_account_icon"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/account"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_account_gray_24dp" />
+
+        <TextView
+            android:id="@+id/textView_account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageView_account_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Default Account" />
+
+        <TextView
+            android:id="@+id/textView_balance_month_start_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:gravity="center"
+            android:text="@string/activity_account_beginning_month_suffix"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_balance_month_start"
+            app:layout_constraintStart_toEndOf="@+id/textView_balance_month_start"
+            app:layout_constraintTop_toTopOf="@+id/textView_balance_month_start" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent">
@@ -15,11 +16,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide4_heading"
+            android:text="@string/activity_tutorial_slide3_title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
             android:textStyle="bold" />
 
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/ic_list_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +35,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
-            android:text="@string/slide4_text"
+            android:text="@string/activity_tutorial_slide3_msg"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_desc" />
