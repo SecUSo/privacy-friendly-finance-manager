@@ -72,7 +72,7 @@ public final class CurrencyHelper {
 
     public static Long convertToLong(String text) {
         try {
-            return ((Double) (Double.parseDouble(text) * 100)).longValue();
+            return Math.round(Double.parseDouble(text) * 100);
         } catch (NumberFormatException e) {
             return null;
         }
