@@ -1,0 +1,12 @@
+Die Privacy Friendly Finanzmanager-App hilft Ihnen ihr Einkommen und ihre Ausgaben im Blick zu behalten.
+
+Folgende Features bietet die App an::
+
+- Neue Transaktionen
+Sie können neue Einträge durch das Klicken des "+"-Buttons in der Transaktionsübersicht erstellen. Nun können Sie den Wert, einen Titel, ein Datum und eine Kategorie zuordnen. Zusätzlich können Sie spezifizieren, ob es sich um eine Ausgabe oder Einnahme handelt.
+
+- Transaktionsübersicht
+Unter dem Menüpunkt Transaktionsübersicht sehen Sie die Bilanz ihrer Einträge, sowie eine Liste mit allen eingetragenen Einnahmen und Ausgaben. Durch langes Klicken der Einträge kann man die Transaktionen bearbeiten oder löschen.
+
+- Kategorien
+Unter dem Menüpunkt Kategorien sehen Sie alle erstellten Kategorien und deren Bilanzen. Durch das Klicken des Plus-Buttons können Sie eine neue Kategorie erstellen. Durch langes Klicken der Einträge kann man die Kategorien bearbeiten oder löschen.
