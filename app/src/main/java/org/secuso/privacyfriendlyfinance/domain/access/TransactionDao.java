@@ -45,29 +45,29 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     public abstract LiveData<Transaction> get(long id);
 
     @Override
-    @Query("SELECT * FROM Tranzaction ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getAll();
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccount(long accountId);
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date>=:date ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date>=:date ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountFrom(long accountId, String date);
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date<:date ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date<:date ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountBefore(long accountId, String date);
 
-    @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 
 
     /*
      * R E P E A T I N G _ T R A N S A C T I O N S
      */
-    @Query("SELECT * FROM Tranzaction WHERE repeatingId=:repeatingId ORDER BY date DESC")
+    @Query("SELECT * FROM Tranzaction WHERE repeatingId=:repeatingId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getByRepeatingId(long repeatingId);
 
 
@@ -120,10 +120,10 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     }
 
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC LIMIT 1")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC, id DESC LIMIT 1")
     public abstract LiveData<Transaction> getLatestByNameAndAccountFromBefore(long accountId, String name, String from, String before);
 
-    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC LIMIT 1")
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC, id DESC LIMIT 1")
     public abstract Transaction getLatestByNameAndAccountFromBeforeSync(long accountId, String name, String from, String before);
 
     public LiveData<Transaction> getLatestByNameForAccountLastMonth(Long accountId, String name) {
