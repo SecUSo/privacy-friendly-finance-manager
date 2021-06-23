@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,6 +66,9 @@ import java.util.List;
  * just inject your activities content via the setContent() method.
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+
+    private static final String TAG = BaseActivity.class.getName();
+
     // delay to launch nav drawer item, to allow close animation to play
     public static final int NAVDRAWER_LAUNCH_DELAY = 250;
     // fade in and fade out durations for the main content when switching between
@@ -213,7 +217,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onBackPressed() {
-        System.out.println("back pressed");
+        Log.d(TAG, "back pressed");
         if (viewModel.showDrawer()) {
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -276,14 +280,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
      * @param intent
      */
     private void createBackStack(Intent intent) {
-        System.out.println("Added to backtrack: " + intent.getComponent().getClassName());
+        Log.d(TAG, "Added to backtrack: " + intent.getComponent().getClassName());
         FragmentManager fm = getFragmentManager();
-        System.out.println("Backtrack size: " + fm.getBackStackEntryCount());
+        Log.d(TAG, "Backtrack size: " + fm.getBackStackEntryCount());
         for (int i = 0; i < fm.getBackStackEntryCount(); i++){
-            System.out.println("number " + i + ": " + fm.getBackStackEntryAt(i).getId());
+            Log.d(TAG, "number " + i + ": " + fm.getBackStackEntryAt(i).getId());
         }
-
-
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         TaskStackBuilder builder = TaskStackBuilder.create(this);
