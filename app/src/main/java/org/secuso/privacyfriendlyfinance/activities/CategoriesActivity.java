@@ -23,13 +23,13 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -133,7 +133,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     public void deleteCategory(final Category category) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.category_delete_dialog_title);
-        builder.setMessage(Html.fromHtml(getResources().getString(R.string.category_delete_question, category.getName())));
+        builder.setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.category_delete_question, category.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY));
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 FinanceDatabase.getInstance().categoryDao().deleteAsync(category);

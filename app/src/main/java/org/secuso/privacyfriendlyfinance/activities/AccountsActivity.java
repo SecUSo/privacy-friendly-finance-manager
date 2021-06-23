@@ -24,11 +24,11 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -114,7 +114,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         if (viewModel.getAccounts().getValue().size() > 1) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.account_delete_action);
-            builder.setMessage(Html.fromHtml(getResources().getString(R.string.account_delete_question, account.getName())));
+            builder.setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.account_delete_question, account.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY));
             builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     FinanceDatabase.getInstance().accountDao().deleteAsync(account);

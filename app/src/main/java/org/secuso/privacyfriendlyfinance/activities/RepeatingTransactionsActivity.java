@@ -23,13 +23,13 @@ import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -130,7 +130,7 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
     private void deleteRepeatingTransaction(final RepeatingTransaction transaction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.repeat_delete_action);
-        builder.setMessage(Html.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName())));
+        builder.setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY));
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 FinanceDatabase.getInstance().repeatingTransactionDao().deleteAsync(transaction);

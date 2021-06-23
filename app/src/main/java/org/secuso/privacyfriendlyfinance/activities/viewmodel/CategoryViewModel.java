@@ -96,6 +96,7 @@ public class CategoryViewModel extends TransactionListViewModel {
             this.categoryId = categoryId;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             return (T) new CategoryViewModel(application, categoryId);
