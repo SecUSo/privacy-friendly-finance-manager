@@ -18,7 +18,7 @@
 
 package org.secuso.privacyfriendlyfinance.domain.convert;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;

@@ -19,11 +19,11 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.databinding.Observable;
-import android.databinding.PropertyChangeRegistry;
-import android.support.annotation.NonNull;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.Observable;
+import androidx.databinding.PropertyChangeRegistry;
+import androidx.lifecycle.AndroidViewModel;
 
 /**
  * Bindable view model.

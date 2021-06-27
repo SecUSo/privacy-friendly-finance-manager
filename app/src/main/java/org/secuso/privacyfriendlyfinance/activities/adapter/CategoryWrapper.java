@@ -18,7 +18,7 @@
 
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;

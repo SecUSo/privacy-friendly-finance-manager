@@ -19,12 +19,12 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
 
-import org.joda.time.LocalDate;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;

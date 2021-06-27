@@ -19,9 +19,10 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;

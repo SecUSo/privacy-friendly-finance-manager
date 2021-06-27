@@ -19,10 +19,11 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;

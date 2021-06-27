@@ -18,7 +18,7 @@
 
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;

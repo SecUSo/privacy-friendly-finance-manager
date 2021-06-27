@@ -19,13 +19,14 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.databinding.Bindable;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
+import androidx.databinding.Bindable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;

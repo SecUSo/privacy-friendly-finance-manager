@@ -20,7 +20,8 @@ package org.secuso.privacyfriendlyfinance.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * This activity handles the opening of the application.
