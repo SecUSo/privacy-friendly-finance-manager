@@ -25,7 +25,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.commonsware.cwac.saferoom.SafeHelperFactory;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteDatabaseHook;
+import net.sqlcipher.database.SupportFactory;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
@@ -164,12 +166,18 @@ public abstract class FinanceDatabase extends RoomDatabase {
                 }
 
                 publishProgress(.6);
-                if (dbFileExists()) {
-                } else {
+
+                if (!dbFileExists()) {
                     publishOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
                 }
+
                 FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
-                        .openHelperFactory(new SafeHelperFactory(key))
+                        .openHelperFactory(new SupportFactory(SQLiteDatabase.getBytes(key), new SQLiteDatabaseHook() {
+                            @Override public void preKey(SQLiteDatabase database) {}
+                            @Override public void postKey(SQLiteDatabase database) {
+                                database.rawExecSQL("PRAGMA cipher_compatibility = 3;");
+                            }
+                        }))
                         .fallbackToDestructiveMigration()
                         .build();
 
