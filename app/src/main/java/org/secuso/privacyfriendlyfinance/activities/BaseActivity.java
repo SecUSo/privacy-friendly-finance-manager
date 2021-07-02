@@ -204,6 +204,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     protected final FloatingActionButton addFab(@LayoutRes int layout, View.OnClickListener listener) {
         FloatingActionButton fab = (FloatingActionButton) inflater.inflate(layout, contentWrapper, false);
+        fab.setImageResource(R.drawable.ic_add_white_24);
         contentWrapper.addView(fab);
         if (listener != null) {
             fab.setOnClickListener(listener);

@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                    android:drawableStart="@drawable/ic_calendar_today_gray_24dp"
                     android:drawablePadding="6dp"
                     android:ems="10"
                     android:gravity="center_vertical"
