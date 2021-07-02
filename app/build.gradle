@@ -13,6 +13,11 @@ android {
     buildFeatures {
         dataBinding true
     }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -44,4 +49,5 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
 
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
