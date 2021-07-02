@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountDialogViewModel;
@@ -59,7 +59,7 @@ public class AccountDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(AccountDialogViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AccountDialogViewModel.class);
         viewModel.setInitialMonthBalance(getArguments().getLong(EXTRA_ACCOUNT_MONTH_BALANCE, 0L));
         viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 

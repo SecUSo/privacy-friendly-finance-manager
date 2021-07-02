@@ -38,7 +38,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
@@ -79,7 +79,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        viewModel = ViewModelProviders.of(this).get(TransactionDialogViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TransactionDialogViewModel.class);
 
         final DialogTransactionBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_transaction, null, false);
         view = binding.getRoot();

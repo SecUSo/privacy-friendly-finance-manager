@@ -38,7 +38,7 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -93,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     protected abstract Class<? extends BaseViewModel> getViewModelClass();
 
     protected BaseViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(getViewModelClass());
+        return new ViewModelProvider(this).get(getViewModelClass());
     }
 
 

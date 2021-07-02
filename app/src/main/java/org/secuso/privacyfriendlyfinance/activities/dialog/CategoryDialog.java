@@ -33,7 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
@@ -64,7 +64,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(CategoryDialogViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CategoryDialogViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
