@@ -21,11 +21,13 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.secuso.privacyfriendlyfinance.R;
@@ -42,16 +44,22 @@ import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
  * @author Leonard Otto
  */
 public class StartupActivity extends AppCompatActivity implements FullTaskListener {
-    ProgressBar progressBar;
-    TextView progressText;
-    boolean keyGen = false;
+
+    private ProgressBar progressBar;
+    private TextView progressText;
+    private boolean keyGen = false;
+
+    private static final String TAG = StartupActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferencesManager.init(getApplicationContext());
         setContentView(R.layout.activity_startup);
-        getSupportActionBar().hide();
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
     }
 
     @Override
@@ -59,6 +67,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         super.onPostCreate(savedInstanceState);
         progressText = findViewById(R.id.progressText);
         progressBar = findViewById(R.id.progressBar);
+
         if (FinanceDatabase.getInstance() == null) {
             try {
                 if (!KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).keyExists()) {
@@ -68,7 +77,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
                     progressBar.setMax(1000);
                 }
             } catch (KeyStoreHelperException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't instantiate keystore helper", e);
             }
 
             FinanceDatabase.connect(getApplicationContext(), this);
@@ -84,7 +93,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     private void nextActivity() {
         Intent mainIntent;
-        if(SharedPreferencesManager.isFirstTimeLaunch()) {
+        if(SharedPreferencesManager.get(this).isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
             mainIntent = new Intent(this, TransactionsActivity.class);
@@ -97,21 +106,15 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     @Override
     public void onProgress(final Double progress, AsyncTask<?, ?, ?> task) {
-        if (keyGen) runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setProgress(Double.valueOf(progress * 1000).intValue());
-            }
-        });
+        if (keyGen) {
+            runOnUiThread(() -> progressBar.setProgress(Double.valueOf(progress * 1000).intValue()));
+        }
     }
 
     @Override
     public void onOperation(final String operation, AsyncTask<?, ?, ?> task) {
-        if (keyGen) runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressText.setText(operation);
-            }
-        });
+        if (keyGen) {
+            runOnUiThread(() -> progressText.setText(operation));
+        }
     }
 }

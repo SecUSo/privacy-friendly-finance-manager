@@ -23,16 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.model.Account;
-import org.secuso.privacyfriendlyfinance.domain.model.Category;
-import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.util.List;
@@ -59,33 +54,27 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
     @Override
     public void onBindViewHolder(@NonNull final TransactionViewHolder holder, int index) {
         super.onBindViewHolder(holder, index);
-        final Transaction transaction = getItem(index);
+        Transaction transaction = getItem(index);
         holder.setTransactionName(transaction.getName());
         holder.setDate(transaction.getDate());
         holder.setAmount(transaction.getAmount());
 
-        FinanceDatabase.getInstance().accountDao().get(transaction.getAccountId()).observe(context, new Observer<Account>() {
-            @Override
-            public void onChanged(@Nullable Account account) {
-                if (account != null) {
-                    holder.setAccountName(account.getName());
-                } else {
-                    holder.setAccountName(context.getResources().getString(R.string.not_found_error));
-                }
+        FinanceDatabase.getInstance().accountDao().get(transaction.getAccountId()).observe(context, account -> {
+            if (account != null) {
+                holder.setAccountName(account.getName());
+            } else {
+                holder.setAccountName(context.getResources().getString(R.string.not_found_error));
             }
         });
 
         if (transaction.getCategoryId() != null) {
-            FinanceDatabase.getInstance().categoryDao().get(transaction.getCategoryId()).observe(context, new Observer<Category>() {
-                @Override
-                public void onChanged(@Nullable Category category) {
-                    if (category != null) {
-                        holder.setCategoryName(category.getName());
-                        holder.setCategoryColor(category.getColor());
-                    } else {
-                        holder.setCategoryName(context.getResources().getString(R.string.not_found_error));
-                        holder.setCategoryColor(null);
-                    }
+            FinanceDatabase.getInstance().categoryDao().get(transaction.getCategoryId()).observe(context, category -> {
+                if (category != null) {
+                    holder.setCategoryName(category.getName());
+                    holder.setCategoryColor(category.getColor());
+                } else {
+                    holder.setCategoryName(context.getResources().getString(R.string.not_found_error));
+                    holder.setCategoryColor(null);
                 }
             });
         } else {
@@ -94,14 +83,11 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         }
 
         if (transaction.getRepeatingId() != null) {
-            FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, new Observer<RepeatingTransaction>() {
-                @Override
-                public void onChanged(@Nullable RepeatingTransaction repeatingTransaction) {
-                    if (repeatingTransaction != null) {
-                        holder.setRepeatingName(repeatingTransaction.getName());
-                    } else {
-                        holder.setRepeatingName(context.getResources().getString(R.string.not_found_error));
-                    }
+            FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, repeatingTransaction -> {
+                if (repeatingTransaction != null) {
+                    holder.setRepeatingName(repeatingTransaction.getName());
+                } else {
+                    holder.setRepeatingName(context.getResources().getString(R.string.not_found_error));
                 }
             });
         } else {

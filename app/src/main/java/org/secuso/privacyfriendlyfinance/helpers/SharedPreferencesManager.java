@@ -29,8 +29,7 @@ import android.content.SharedPreferences;
  */
 public class SharedPreferencesManager {
 
-    private static SharedPreferences pref;
-    private static SharedPreferences.Editor editor;
+    private static SharedPreferencesManager sharedPreferencesManager;
 
     public static final int PREF_MODE = Context.MODE_PRIVATE;
     public static final String PREF_NAME = "privacy_friendly_apps";
@@ -38,33 +37,47 @@ public class SharedPreferencesManager {
     public static final String KEY_IS_FIRST_TIME_LAUNCH = "isFirstTimeLaunch";
     public static final String KEY_DB_PASSPHRASE = "dbPassphrase";
 
-    private SharedPreferencesManager() {
-    }
+    private final SharedPreferences pref;
+    private final SharedPreferences.Editor editor;
 
-    public static void init(Context context) {
+    private SharedPreferencesManager(Context context) {
         pref = context.getSharedPreferences(PREF_NAME, PREF_MODE);
         editor = pref.edit();
     }
 
-    public static void setFirstTimeLaunch(boolean isFirstTime) {
+    public void setFirstTimeLaunch(boolean isFirstTime) {
         editor.putBoolean(KEY_IS_FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
     }
 
-    public static boolean isFirstTimeLaunch() {
+    public boolean isFirstTimeLaunch() {
         return pref.getBoolean(KEY_IS_FIRST_TIME_LAUNCH, true);
     }
 
-    public static void removeDbPassphrase() {
+    public void removeDbPassphrase() {
         editor.remove(KEY_DB_PASSPHRASE);
         editor.commit();
     }
-    public static void setDbPassphrase(String passphrase) {
+
+    public void setDbPassphrase(String passphrase) {
         editor.putString(KEY_DB_PASSPHRASE, passphrase);
         editor.commit();
     }
-    public static String getDbPassphrase() {
+
+    public String getDbPassphrase() {
         return pref.getString(KEY_DB_PASSPHRASE, null);
     }
 
+    public static SharedPreferencesManager get(Context context) {
+        if(sharedPreferencesManager == null) {
+            synchronized (SharedPreferencesManager.class) {
+                if(sharedPreferencesManager == null) {
+                    // Use application context to prevent leaking specific context
+                    sharedPreferencesManager = new SharedPreferencesManager(context.getApplicationContext());
+                }
+            }
+        }
+
+        return sharedPreferencesManager;
+    }
 }

@@ -59,6 +59,8 @@ import javax.security.auth.x500.X500Principal;
 public class KeyStoreHelper {
     private static KeyStoreHelper singletonInstance;
 
+    private static final String TAG = KeyStoreHelper.class.getName();
+
     private static final String androidKeyStore = "AndroidKeyStore";
     private static final String RSA_MODE =  "RSA/ECB/PKCS1Padding";
     private final int KEY_RETRIEVAL_COUNTER = 3;
@@ -66,18 +68,22 @@ public class KeyStoreHelper {
     private final String keyAlias;
     private KeyStore.PrivateKeyEntry privateKeyEntry;
 
-    public synchronized static KeyStoreHelper getInstance(String keyAlias) throws KeyStoreHelperException {
+    public static KeyStoreHelper getInstance(String keyAlias) throws KeyStoreHelperException {
         if (singletonInstance == null) {
-            try {
-                singletonInstance = new KeyStoreHelper(keyAlias);
-            } catch (KeyStoreException ex) {
-                throw new KeyStoreHelperException("No provider supports a KeyStoreSpi implementation for the specified type! " + ex.getMessage());
-            } catch (CertificateException ex) {
-                throw new KeyStoreHelperException("A certificate could not be loaded: " + ex.getMessage());
-            } catch (IOException ex) {
-                throw new KeyStoreHelperException("I/O format problem: " + ex.getMessage());
-            } catch (NoSuchAlgorithmException ex) {
-                throw new KeyStoreHelperException("Algorithm to check keystore integrity not found: " + ex.getMessage());
+            synchronized (KeyStoreHelper.class) {
+                if(singletonInstance == null) {
+                    try {
+                        singletonInstance = new KeyStoreHelper(keyAlias);
+                    } catch (KeyStoreException e) {
+                        throw new KeyStoreHelperException("No provider supports a KeyStoreSpi implementation for the specified type", e);
+                    } catch (CertificateException e) {
+                        throw new KeyStoreHelperException("A certificate could not be loaded", e);
+                    } catch (IOException e) {
+                        throw new KeyStoreHelperException("I/O format problem", e);
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new KeyStoreHelperException("Algorithm to check keystore integrity not found", e);
+                    }
+                }
             }
         }
 
@@ -107,7 +113,7 @@ public class KeyStoreHelper {
     }
 
     public char[] getKey(Context context) throws KeyStoreHelperException {
-        String passphrase = SharedPreferencesManager.getDbPassphrase();
+        String passphrase = SharedPreferencesManager.get(context).getDbPassphrase();
 
         if (!keyExists()) {
             try {
@@ -118,8 +124,8 @@ public class KeyStoreHelper {
             }
 
             if (passphrase != null) {
-                Log.w("OpenDatabase", "database passphrase could not be recovered");
-                SharedPreferencesManager.removeDbPassphrase();
+                Log.w(TAG, "database passphrase could not be recovered");
+                SharedPreferencesManager.get(context).removeDbPassphrase();
             }
         }
 
@@ -129,7 +135,7 @@ public class KeyStoreHelper {
             } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IOException ex) {
                 throw new KeyStoreHelperException("Could not pick random passphrase and encrypt it: " + ex.getMessage());
             }
-            SharedPreferencesManager.setDbPassphrase(passphrase);
+            SharedPreferencesManager.get(context).setDbPassphrase(passphrase);
         }
 
         byte[] decryptedPassphrase;

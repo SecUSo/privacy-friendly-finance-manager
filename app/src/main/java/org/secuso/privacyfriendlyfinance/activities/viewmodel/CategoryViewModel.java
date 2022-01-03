@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -40,7 +39,6 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryViewModel extends TransactionListViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private long categoryId;
     private LiveData<Category> category;
     private LiveData<Long> categoryBalanceMonth;
@@ -52,7 +50,7 @@ public class CategoryViewModel extends TransactionListViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_category);
         this.categoryId = categoryId;
-        category = categoryDao.get(categoryId);
+        category = FinanceDatabase.getInstance().categoryDao().get(categoryId);
         categoryBalanceMonth = FinanceDatabase.getInstance().transactionDao().sumForCategoryThisMonth(categoryId);
         categoryIncomeMonth = FinanceDatabase.getInstance().transactionDao().sumIncomeForCategoryThisMonth(categoryId);
         categoryExpensesMonth = FinanceDatabase.getInstance().transactionDao().sumExpensesForCategoryThisMonth(categoryId);

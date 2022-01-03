@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -40,16 +39,15 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class AccountViewModel extends TransactionListViewModel {
-    private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private long accountId;
-    private LiveData<Account> account;
-    private LiveData<Long> totalBalance;
-    private LiveData<Long> monthBalance;
+    private final long accountId;
+    private final LiveData<Account> account;
+    private final LiveData<Long> totalBalance;
+    private final LiveData<Long> monthBalance;
 
     public AccountViewModel(@NonNull Application application, long accountId) {
         super(application);
         this.accountId = accountId;
-        account = accountDao.get(accountId);
+        account = FinanceDatabase.getInstance().accountDao().get(accountId);
         totalBalance = FinanceDatabase.getInstance().transactionDao().sumForAccount(accountId);
         monthBalance = FinanceDatabase.getInstance().transactionDao().sumForAccountBefore(accountId, LocalDate.now().withDayOfMonth(1).toString());
         setNavigationDrawerId(null);
@@ -79,16 +77,18 @@ public class AccountViewModel extends TransactionListViewModel {
     }
 
     public static class AccountViewModelFactory implements ViewModelProvider.Factory {
-        private Application application;
-        private long accountId;
+        private final Application application;
+        private final long accountId;
 
         public AccountViewModelFactory(Application application, long accountId) {
             this.application = application;
             this.accountId = accountId;
         }
 
+        @NonNull
+        @SuppressWarnings("unchecked")
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new AccountViewModel(application, accountId);
         }
     }

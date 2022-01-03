@@ -21,7 +21,6 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
@@ -40,21 +39,18 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoriesViewModel extends BaseViewModel {
-    private LiveData<List<CategoryWrapper>> categories;
+    private final LiveData<List<CategoryWrapper>> categories;
 
     public CategoriesViewModel(@NonNull Application application) {
         super(application);
         setNavigationDrawerId(R.id.nav_category);
         setTitle(R.string.activity_categories_title);
-        categories = Transformations.map(FinanceDatabase.getInstance().categoryDao().getAll(), new Function<List<Category>, List<CategoryWrapper>>() {
-            @Override
-            public List<CategoryWrapper> apply(List<Category> input) {
-                List<CategoryWrapper> wrappers = new ArrayList<>();
-                for (Category category : input) {
-                    wrappers.add(new CategoryWrapper(category));
-                }
-                return wrappers;
+        categories = Transformations.map(FinanceDatabase.getInstance().categoryDao().getAll(), input -> {
+            List<CategoryWrapper> wrappers = new ArrayList<>();
+            for (Category category : input) {
+                wrappers.add(new CategoryWrapper(category));
             }
+            return wrappers;
         });
     }
 

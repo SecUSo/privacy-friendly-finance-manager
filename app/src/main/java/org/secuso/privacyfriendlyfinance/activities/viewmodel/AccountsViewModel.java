@@ -21,7 +21,6 @@ package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
@@ -46,15 +45,12 @@ public class AccountsViewModel extends BaseViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_account);
         setTitle(R.string.activity_accounts_title);
-        accounts = Transformations.map(FinanceDatabase.getInstance().accountDao().getAll(), new Function<List<Account>, List<AccountWrapper>>() {
-            @Override
-            public List<AccountWrapper> apply(List<Account> input) {
-                List<AccountWrapper> wrappers = new ArrayList<>();
-                for (Account account : input) {
-                    wrappers.add(new AccountWrapper(account));
-                }
-                return wrappers;
+        accounts = Transformations.map(FinanceDatabase.getInstance().accountDao().getAll(), input -> {
+            List<AccountWrapper> wrappers = new ArrayList<>();
+            for (Account account : input) {
+                wrappers.add(new AccountWrapper(account));
             }
+            return wrappers;
         });
     }
 

@@ -40,7 +40,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryDialogViewModel extends BindableViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private long categoryId;
     private Category category;
     private LiveData<Category> categoryLive;

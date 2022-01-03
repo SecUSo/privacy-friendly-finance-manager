@@ -50,17 +50,17 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
-    private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private RepeatingTransactionDao transactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
+    private final RepeatingTransactionDao repeatingTransactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
 
-    private LiveData<List<Category>> categories;
-    private LiveData<List<Account>> accounts = accountDao.getAll();
+    private final LiveData<List<Category>> categories;
+    private final LiveData<List<Account>> accounts;
 
     private LiveData<RepeatingTransaction> transactionLive;
     private RepeatingTransaction transaction;
 
-    private Application application;
+    private final Application application;
     private boolean amountEdited = false;
 
     private long transactionId = -1;
@@ -68,22 +68,18 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     public RepeatingTransactionDialogViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
-        categories = Transformations.map(categoryDao.getAll(), new Function<List<Category>, List<Category>>() {
-            @Override
-            public List<Category> apply(List<Category> input) {
-                List<Category> categoriesAndVoid = new ArrayList<>();
-                categoriesAndVoid.add(null);
-                categoriesAndVoid.addAll(input);
-                return categoriesAndVoid;
-            }
+
+        categories = Transformations.map(categoryDao.getAll(), input -> {
+            List<Category> categoriesAndVoid = new ArrayList<>();
+            categoriesAndVoid.add(null);
+            categoriesAndVoid.addAll(input);
+            return categoriesAndVoid;
         });
 
-        Transformations.map(accounts, new Function<List<Account>, Void>() {
-            @Override
-            public Void apply(List<Account> input) {
-                notifyPropertyChanged(BR.accountIndex);
-                return null;
-            }
+        accounts = accountDao.getAll();
+        Transformations.map(accounts, (Function<List<Account>, Void>) input -> {
+            notifyPropertyChanged(BR.accountIndex);
+            return null;
         });
 
         setTransactionDummy();
@@ -116,7 +112,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
             if (transactionId == -1) {
                 setTransactionDummy();
             } else {
-                transactionLive = transactionDao.get(transactionId);
+                transactionLive = repeatingTransactionDao.get(transactionId);
             }
         }
         return transactionLive;
@@ -127,7 +123,6 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         mutableTransaction.postValue(new RepeatingTransaction());
         transactionLive = mutableTransaction;
     }
-
 
     private String originalName;
     private Long originalAccountId;
@@ -266,9 +261,8 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         }
     }
 
-
     public void submit() {
-        transactionDao.updateOrInsertAsync(transaction);
+        repeatingTransactionDao.updateOrInsertAsync(transaction);
     }
 
     public void cancel() {

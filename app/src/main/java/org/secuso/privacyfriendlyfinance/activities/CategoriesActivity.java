@@ -18,7 +18,6 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -131,20 +130,15 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     }
 
     public void deleteCategory(final Category category) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.category_delete_dialog_title);
-        builder.setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.category_delete_question, category.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY));
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                FinanceDatabase.getInstance().categoryDao().deleteAsync(category);
-                Toast.makeText(getBaseContext(), R.string.category_deleted, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        builder.create().show();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.category_delete_dialog_title)
+                .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.category_delete_question, category.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                .setPositiveButton(R.string.delete, (dialog, id) -> {
+                    FinanceDatabase.getInstance().categoryDao().deleteAsync(category);
+                    Toast.makeText(getBaseContext(), R.string.category_deleted, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                .create().show();
     }
 
     private void openCategoryDialog(Category category) {

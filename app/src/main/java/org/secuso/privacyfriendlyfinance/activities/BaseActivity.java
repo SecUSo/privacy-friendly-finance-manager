@@ -38,7 +38,6 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,8 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     private static Handler periodicHandler;
 
-    private List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
-
+    private final List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
 
     protected abstract Class<? extends BaseViewModel> getViewModelClass();
 
@@ -100,14 +98,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         return new ViewModelProvider(this).get(getViewModelClass());
     }
 
-
     private void schedulePeriodicTask() {
         if (periodicHandler == null) {
             periodicHandler = new Handler();
         } else {
             return;
         }
-        final Runnable periodicRunner = new Runnable() {
+        Runnable periodicRunner = new Runnable() {
             @Override
             public void run() {
                 PeriodicDatabaseWorker.work();
@@ -128,7 +125,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         overridePendingTransition(0, 0);
 
         viewModel = getViewModel();
-        ;
         if (viewModel.showDrawer()) {
             ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
             mNavigationView = binding.getRoot().findViewById(R.id.nav_view);
@@ -139,28 +135,15 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             binding.setViewModel(viewModel);
         }
 
-        viewModel.getTitle().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String title) {
-                BaseActivity.this.setTitle(title);
-            }
-        });
+        viewModel.getTitle().observe(this, title -> BaseActivity.this.setTitle(title));
 
-        viewModel.getTitleId().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer titleId) {
-                viewModel.setTitle(getString(titleId));
-            }
-        });
+        viewModel.getTitleId().observe(this, titleId -> viewModel.setTitle(getString(titleId)));
 
-        viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer navigationDrawerId) {
-                if (navigationDrawerId == null || navigationDrawerId == -1) {
-                    selectNavigationItem(-1);
-                } else {
-                    selectNavigationItem(navigationDrawerId);
-                }
+        viewModel.getNavigationDrawerId().observe(this, navigationDrawerId -> {
+            if (navigationDrawerId == null || navigationDrawerId == -1) {
+                selectNavigationItem(-1);
+            } else {
+                selectNavigationItem(navigationDrawerId);
             }
         });
 
@@ -171,13 +154,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_pencil, menu);
+
         MenuItem menuItemEdit = menu.findItem(R.id.toolbar_action_edit);
-        menuItemEdit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                menuItemEditClicked(item);
-                return true;
-            }
+        menuItemEdit.setOnMenuItemClickListener(item -> {
+            menuItemEditClicked(item);
+            return true;
         });
 
         return viewModel.doShowEditMenu();
@@ -246,12 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         }
 
         // delay transition so the drawer can close
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callDrawerItem(itemId);
-            }
-        }, NAVDRAWER_LAUNCH_DELAY);
+        mHandler.postDelayed(() -> callDrawerItem(itemId), NAVDRAWER_LAUNCH_DELAY);
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
 

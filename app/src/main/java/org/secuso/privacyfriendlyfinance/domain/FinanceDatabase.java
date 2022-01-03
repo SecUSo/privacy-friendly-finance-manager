@@ -18,8 +18,10 @@
 
 package org.secuso.privacyfriendlyfinance.domain;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
+import androidx.annotation.Nullable;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -60,100 +62,69 @@ import java.io.File;
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
+
+    private static final String TAG = FinanceDatabase.class.getName();
+
+    private static FinanceDatabase financeDatabase;
+
     public static final String DB_NAME = "encryptedDB";
     public static final String KEY_ALIAS = "financeDatabaseKey";
-    private static InitDatabaseTask initTask;
-    private static FinanceDatabase instance;
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
     public abstract AccountDao accountDao();
     public abstract RepeatingTransactionDao repeatingTransactionDao();
 
+    @Nullable
     public static FinanceDatabase getInstance() {
-        return instance;
+        return financeDatabase;
     }
 
-    public static CommunicantAsyncTask<?, FinanceDatabase> connect(Context context, TaskListener listener) {
-        if (initTask == null) {
-            initTask = new InitDatabaseTask(context, DB_NAME);
-            if (listener != null) initTask.addListener(listener);
-            initTask.execute();
+    public synchronized static void connect(Context context, TaskListener listener) {
+        if(financeDatabase != null && financeDatabase.isOpen()) {
+            throw new RuntimeException("Cannot reinitialize database once it is initialized and active");
         }
-        return initTask;
+
+        InitDatabaseTask task = new InitDatabaseTask(context);
+        if (listener != null) {
+            task.addListener(listener);
+        }
+        task.execute();
     }
 
+    private static class InitDatabaseTask extends CommunicantAsyncTask<Void, Void> {
 
-    private static class InitDatabaseTask extends CommunicantAsyncTask<Void, FinanceDatabase> {
-        private Context context;
-        private String dbName;
+        @SuppressLint("StaticFieldLeak")
+        private final Context context;
 
-        public InitDatabaseTask(Context context, String dbName) {
+        public InitDatabaseTask(Context context) {
             this.context = context;
-            this.dbName = dbName;
         }
 
         private void deleteDatabaseFile() {
             File databaseDir = new File(context.getApplicationInfo().dataDir + "/databases");
             File[] files = databaseDir.listFiles();
             if(files != null) {
-                for(File f: files) {
-                    if(!f.isDirectory() && f.getName().startsWith(DB_NAME)) {
-                        f.delete();
+                for(File file : files) {
+                    if(!file.isDirectory() && file.getName().startsWith(DB_NAME)) {
+                        file.delete();
                     }
                 }
             }
         }
 
-        private boolean dbFileExists() {
+        private boolean databaseFileExists() {
             File databaseFile = new File(context.getApplicationInfo().dataDir + "/databases/" + DB_NAME);
             return databaseFile.exists() && databaseFile.isFile();
         }
 
         @Override
-        protected FinanceDatabase doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             try {
-
-//                publishProgress(0.0);
-//                publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
-//
-//                KeyStoreHelper keystore = new KeyStoreHelper(KEY_ALIAS);
-//                String passphrase = SharedPreferencesManager.getDbPassphrase();
-//
-//                if (!keystore.keyExists()) {
-//                    keystore.generateKey(context);
-//                    if (passphrase != null) {
-//                        Log.w("OpenDatabase", "database passphrase could not be recovered");
-//                        SharedPreferencesManager.removeDbPassphrase();
-//                    }
-//                }
-//
-//                publishProgress(.2);
-//
-//                if (passphrase == null) {
-//                    publishOperation(context.getResources().getString(R.string.activity_startup_create_passphrase_msg));
-//                    passphrase = keystore.createPassphrase();
-//                    SharedPreferencesManager.setDbPassphrase(passphrase);
-//                }
-//
-//                publishProgress(.4);
-//                publishOperation(context.getResources().getString(R.string.activity_startup_decrypt_phassphrase_msg));
-//                byte[] decryptedPassphrase = keystore.rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
-//
-//                char[] charPassphrase = new char[decryptedPassphrase.length];
-//                for (int i = 0; i < decryptedPassphrase.length; ++i) {
-//                    charPassphrase[i] = (char) (decryptedPassphrase[i] & 0xFF);
-//                }
-
-
-
-
-
                 publishProgress(0.0);
                 publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
 
                 KeyStoreHelper keystore = KeyStoreHelper.getInstance(KEY_ALIAS);
-
 
                 if (!keystore.keyExists()) {
                     deleteDatabaseFile();
@@ -167,11 +138,11 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
                 publishProgress(.6);
 
-                if (!dbFileExists()) {
+                if (!databaseFileExists()) {
                     publishOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
                 }
 
-                FinanceDatabase.instance = Room.databaseBuilder(context, FinanceDatabase.class, dbName)
+                financeDatabase = Room.databaseBuilder(context, FinanceDatabase.class, DB_NAME)
                         .openHelperFactory(new SupportFactory(SQLiteDatabase.getBytes(key), new SQLiteDatabaseHook() {
                             @Override public void preKey(SQLiteDatabase database) {}
                             @Override public void postKey(SQLiteDatabase database) {
@@ -181,33 +152,23 @@ public abstract class FinanceDatabase extends RoomDatabase {
                         .fallbackToDestructiveMigration()
                         .build();
 
-                if (FinanceDatabase.instance.accountDao().count() == 0) {
+                if (financeDatabase.accountDao().count() == 0) {
                     Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
                     defaultAccount.setId(0L);
-                    FinanceDatabase.instance.accountDao().insert(defaultAccount);
+                    financeDatabase.accountDao().insert(defaultAccount);
                 }
 
                 if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
                     publishProgress(.8);
                     publishOperation(context.getResources().getString(R.string.activity_startup_migrate_database_msg));
-                    MigrationFromUnencrypted.migrateTo(FinanceDatabase.instance, context);
+                    MigrationFromUnencrypted.migrateTo(financeDatabase, context);
                     MigrationFromUnencrypted.deleteLegacyDatabase(context);
                 }
-                return FinanceDatabase.instance;
-            } catch (KeyStoreHelperException ex) {
-//                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-//                alertDialog.setTitle("Database error!");
-//                alertDialog.setMessage("Error creating database: " + ex.getMessage());
-////                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-////                        new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface dialog, int which) {
-////                                dialog.dismiss();
-////                            }
-////                        });
-//                alertDialog.show();
-
-                throw new RuntimeException(ex);
+            } catch (KeyStoreHelperException e) {
+                throw new RuntimeException(e);
             }
+
+            return null;
         }
     }
 }
