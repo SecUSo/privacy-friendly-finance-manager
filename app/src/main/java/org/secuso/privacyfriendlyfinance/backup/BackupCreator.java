@@ -31,6 +31,7 @@ public class BackupCreator implements IBackupCreator {
             writer.beginObject();
             writer.name("database");
 
+            SQLiteDatabase.loadLibs(context);
             SQLiteDatabase database = SQLiteDatabase.openDatabase(context.getDatabasePath(FinanceDatabase.DB_NAME).getPath(), KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).getKey(context), null, SQLiteDatabase.OPEN_READONLY, new SQLiteDatabaseHook() {
                 @Override public void preKey(SQLiteDatabase database) {}
                 @Override public void postKey(SQLiteDatabase database) {
