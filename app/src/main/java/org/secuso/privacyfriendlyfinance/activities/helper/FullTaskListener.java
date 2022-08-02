@@ -27,6 +27,6 @@ import android.os.AsyncTask;
  * @author Leonard Otto
  */
 public interface FullTaskListener extends TaskListener {
-    void onProgress(Double progress, AsyncTask<?, ?, ?> task);
-    void onOperation(String operation, AsyncTask<?, ?, ?> task);
+    void onProgress(Double progress);
+    void onOperation(String operation);
 }

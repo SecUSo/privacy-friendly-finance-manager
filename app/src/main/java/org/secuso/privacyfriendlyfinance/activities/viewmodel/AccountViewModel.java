@@ -47,9 +47,9 @@ public class AccountViewModel extends TransactionListViewModel {
     public AccountViewModel(@NonNull Application application, long accountId) {
         super(application);
         this.accountId = accountId;
-        account = FinanceDatabase.getInstance().accountDao().get(accountId);
-        totalBalance = FinanceDatabase.getInstance().transactionDao().sumForAccount(accountId);
-        monthBalance = FinanceDatabase.getInstance().transactionDao().sumForAccountBefore(accountId, LocalDate.now().withDayOfMonth(1).toString());
+        account = FinanceDatabase.getInstance(application).accountDao().get(accountId);
+        totalBalance = FinanceDatabase.getInstance(application).transactionDao().sumForAccount(accountId);
+        monthBalance = FinanceDatabase.getInstance(application).transactionDao().sumForAccountBefore(accountId, LocalDate.now().withDayOfMonth(1).toString());
         setNavigationDrawerId(null);
         setPreselectedAccountId(accountId);
         setShowEditMenu(true);

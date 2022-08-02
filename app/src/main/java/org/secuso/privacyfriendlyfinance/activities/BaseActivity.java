@@ -48,6 +48,7 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityStackedBinding;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.PeriodicDatabaseWorker;
 
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         Runnable periodicRunner = new Runnable() {
             @Override
             public void run() {
-                PeriodicDatabaseWorker.work();
+                PeriodicDatabaseWorker.work(FinanceDatabase.getInstance(getApplicationContext()));
                 periodicHandler.postDelayed(this, PeriodicDatabaseWorker.DURATION_BETWEEN_WORK);
             }
         };

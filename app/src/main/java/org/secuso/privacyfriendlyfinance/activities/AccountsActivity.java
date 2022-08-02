@@ -111,7 +111,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
                     .setTitle(R.string.account_delete_action)
                     .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.account_delete_question, account.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
-                        FinanceDatabase.getInstance().accountDao().deleteAsync(account);
+                        FinanceDatabase.getInstance(this).accountDao().deleteAsync(account);
                         Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> {})

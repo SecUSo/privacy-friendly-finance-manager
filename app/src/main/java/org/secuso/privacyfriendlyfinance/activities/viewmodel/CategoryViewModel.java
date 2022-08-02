@@ -50,10 +50,10 @@ public class CategoryViewModel extends TransactionListViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_category);
         this.categoryId = categoryId;
-        category = FinanceDatabase.getInstance().categoryDao().get(categoryId);
-        categoryBalanceMonth = FinanceDatabase.getInstance().transactionDao().sumForCategoryThisMonth(categoryId);
-        categoryIncomeMonth = FinanceDatabase.getInstance().transactionDao().sumIncomeForCategoryThisMonth(categoryId);
-        categoryExpensesMonth = FinanceDatabase.getInstance().transactionDao().sumExpensesForCategoryThisMonth(categoryId);
+        category = FinanceDatabase.getInstance(application).categoryDao().get(categoryId);
+        categoryBalanceMonth = FinanceDatabase.getInstance(application).transactionDao().sumForCategoryThisMonth(categoryId);
+        categoryIncomeMonth = FinanceDatabase.getInstance(application).transactionDao().sumIncomeForCategoryThisMonth(categoryId);
+        categoryExpensesMonth = FinanceDatabase.getInstance(application).transactionDao().sumExpensesForCategoryThisMonth(categoryId);
         setNavigationDrawerId(R.id.nav_category);
         setPreselectedCategoryId(categoryId);
         setShowEditMenu(true);

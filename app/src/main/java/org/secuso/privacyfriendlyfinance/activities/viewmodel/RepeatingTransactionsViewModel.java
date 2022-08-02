@@ -42,7 +42,7 @@ public class RepeatingTransactionsViewModel extends BaseViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_repeating_transactions);
         setTitle(R.string.activity_repeating_transactions_title);
-        repeatingTransactions = FinanceDatabase.getInstance()
+        repeatingTransactions = FinanceDatabase.getInstance(application)
                 .repeatingTransactionDao().getAll();
     }
 

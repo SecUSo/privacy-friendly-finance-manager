@@ -21,6 +21,7 @@ package org.secuso.privacyfriendlyfinance.helpers;
 import android.content.Context;
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
+import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import android.util.Log;
@@ -62,7 +63,7 @@ public class KeyStoreHelper {
     private static final String TAG = KeyStoreHelper.class.getName();
 
     private static final String androidKeyStore = "AndroidKeyStore";
-    private static final String RSA_MODE =  "RSA/ECB/PKCS1Padding";
+    private static final String RSA_MODE = "RSA/ECB/PKCS1Padding";
     private final int KEY_RETRIEVAL_COUNTER = 3;
     private final KeyStore keyStore;
     private final String keyAlias;
@@ -71,7 +72,7 @@ public class KeyStoreHelper {
     public static KeyStoreHelper getInstance(String keyAlias) throws KeyStoreHelperException {
         if (singletonInstance == null) {
             synchronized (KeyStoreHelper.class) {
-                if(singletonInstance == null) {
+                if (singletonInstance == null) {
                     try {
                         singletonInstance = new KeyStoreHelper(keyAlias);
                     } catch (KeyStoreException e) {
@@ -91,14 +92,12 @@ public class KeyStoreHelper {
     }
 
     /**
-     *
      * @param keyAlias Key alias
-     *
-     * @throws KeyStoreException - if no Provider supports a KeyStoreSpi implementation for the specified type
-     * @throws CertificateException – if any of the certificates in the keystore could not be loaded
-     * @throws IOException - if there is an I/O or format problem with the keystore data. If the error is due
-     * to an incorrect ProtectionParameter (e.g. wrong password) the cause of the IOException should
-     * be an UnrecoverableKeyException
+     * @throws KeyStoreException        - if no Provider supports a KeyStoreSpi implementation for the specified type
+     * @throws CertificateException     – if any of the certificates in the keystore could not be loaded
+     * @throws IOException              - if there is an I/O or format problem with the keystore data. If the error is due
+     *                                  to an incorrect ProtectionParameter (e.g. wrong password) the cause of the IOException should
+     *                                  be an UnrecoverableKeyException
      * @throws NoSuchAlgorithmException – if the algorithm used to check the integrity of the keystore cannot be found
      */
     private KeyStoreHelper(String keyAlias) throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException {
@@ -112,7 +111,7 @@ public class KeyStoreHelper {
         }
     }
 
-    public char[] getKey(Context context) throws KeyStoreHelperException {
+    public char[] getKey(Context context) {
         String passphrase = SharedPreferencesManager.get(context).getDbPassphrase();
 
         if (!keyExists()) {
@@ -120,7 +119,7 @@ public class KeyStoreHelper {
                 generateKey(context);
             } catch (KeyStoreException | InvalidAlgorithmParameterException
                     | NoSuchAlgorithmException | UnrecoverableEntryException | NoSuchProviderException ex) {
-                throw new KeyStoreHelperException("Could not generate key: " + ex.getMessage());
+                Log.e(TAG, "Could not generate key: " + ex.getMessage(), ex);
             }
 
             if (passphrase != null) {
@@ -133,16 +132,16 @@ public class KeyStoreHelper {
             try {
                 passphrase = pickRandomPassphraseAndEncryptRSA();
             } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IOException ex) {
-                throw new KeyStoreHelperException("Could not pick random passphrase and encrypt it: " + ex.getMessage());
+                Log.e(TAG, "Could not pick random passphrase and encrypt it: " + ex.getMessage(), ex);
             }
             SharedPreferencesManager.get(context).setDbPassphrase(passphrase);
         }
 
-        byte[] decryptedPassphrase;
+        byte[] decryptedPassphrase = new byte[0];
         try {
             decryptedPassphrase = rsaDecrypt(Base64.decode(passphrase, Base64.DEFAULT));
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IOException ex) {
-            throw new KeyStoreHelperException("Could not decrypt passphrase with rsa: " + ex.getMessage());
+            Log.e(TAG, "Could not decrypt passphrase with rsa: " + ex.getMessage(), ex);
         }
 
         char[] charPassphrase = new char[decryptedPassphrase.length];
@@ -158,7 +157,6 @@ public class KeyStoreHelper {
     }
 
     /**
-     *
      * @return
      * @throws KeyStoreException - if the keystore has not yet been initialized or the entry cannot be removed
      */
@@ -171,45 +169,40 @@ public class KeyStoreHelper {
         return false;
     }
 
-    private void generateKey(Context context) throws KeyStoreException, InvalidAlgorithmParameterException,
-            NoSuchAlgorithmException, UnrecoverableEntryException, NoSuchProviderException {
-        if (Build.VERSION.SDK_INT == 21
-                || Build.VERSION.SDK_INT == 22
-                || Build.VERSION.SDK_INT == 23) {
-            deleteKey();
-            // Generate a key pair for encryption
-            Calendar start = Calendar.getInstance();
-            Calendar end = Calendar.getInstance();
-            end.add(Calendar.YEAR, 30);
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
-                    .setAlias(keyAlias)
-                    .setSubject(new X500Principal("CN=" + keyAlias))
-                    .setSerialNumber(BigInteger.TEN)
-                    .setStartDate(start.getTime())
-                    .setEndDate(end.getTime())
+    private void generateKey(Context context) throws InvalidAlgorithmParameterException, UnrecoverableEntryException, KeyStoreException, NoSuchAlgorithmException, NoSuchProviderException {
+        deleteKey();
+
+        X500Principal subject = new X500Principal("CN=" + keyAlias);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        end.add(Calendar.YEAR, 30);
+
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, androidKeyStore);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(keyAlias, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT);
+            KeyGenParameterSpec keyGenSpec = builder.setKeySize(4096)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_ECB)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+                    .setRandomizedEncryptionRequired(false)
+                    .setUserAuthenticationRequired(false)
                     .build();
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, androidKeyStore);
-            kpg.initialize(spec);
-            kpg.generateKeyPair();
-            privateKeyEntry = getKey(0);
+            kpg.initialize(keyGenSpec);
         } else {
-            deleteKey();
-            // Generate a key pair for encryption
-            Calendar start = Calendar.getInstance();
-            Calendar end = Calendar.getInstance();
-            end.add(Calendar.YEAR, 30);
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
-                    .setAlias(keyAlias)
-                    .setSubject(new X500Principal("CN=" + keyAlias))
-                    .setSerialNumber(BigInteger.TEN)
+            KeyPairGeneratorSpec.Builder builder = new KeyPairGeneratorSpec.Builder(context);
+            KeyPairGeneratorSpec keyPairGenSpec = builder.setAlias(keyAlias)
+                    .setSerialNumber(BigInteger.ONE)
+                    .setSubject(subject)
                     .setStartDate(start.getTime())
                     .setEndDate(end.getTime())
+                    .setKeySize(4096)
                     .build();
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA);
-            kpg.initialize(spec);
-            kpg.generateKeyPair();
-            privateKeyEntry = getKey(0);
+            kpg.initialize(keyPairGenSpec);
         }
+
+        kpg.generateKeyPair();
+
+        privateKeyEntry = getKey(0);
     }
 
     private String pickRandomPassphraseAndEncryptRSA() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException {
@@ -263,7 +256,7 @@ public class KeyStoreHelper {
         }
 
         byte[] bytes = new byte[values.size()];
-        for(int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; i++) {
             bytes[i] = values.get(i);
         }
         return bytes;

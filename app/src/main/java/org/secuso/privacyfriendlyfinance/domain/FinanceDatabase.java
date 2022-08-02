@@ -21,7 +21,6 @@ package org.secuso.privacyfriendlyfinance.domain;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import androidx.annotation.Nullable;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -33,7 +32,7 @@ import net.sqlcipher.database.SupportFactory;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
-import org.secuso.privacyfriendlyfinance.activities.helper.TaskListener;
+import org.secuso.privacyfriendlyfinance.activities.helper.FullTaskListener;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
@@ -56,9 +55,9 @@ import java.io.File;
  * @author Leonard Otto
  */
 @Database(
-    entities = {Account.class, Category.class, Transaction.class, RepeatingTransaction.class},
-    exportSchema = false,
-    version = 10
+        entities = {Account.class, Category.class, Transaction.class, RepeatingTransaction.class},
+        exportSchema = false,
+        version = 10
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {
@@ -71,21 +70,119 @@ public abstract class FinanceDatabase extends RoomDatabase {
     public static final String KEY_ALIAS = "financeDatabaseKey";
 
     public abstract TransactionDao transactionDao();
+
     public abstract CategoryDao categoryDao();
+
     public abstract AccountDao accountDao();
+
     public abstract RepeatingTransactionDao repeatingTransactionDao();
 
-    @Nullable
-    public static FinanceDatabase getInstance() {
+    public synchronized static FinanceDatabase getInstance(Context context) {
+        return getInstance(context, null);
+    }
+
+    public synchronized static FinanceDatabase getInstance(Context context, FullTaskListener listener) {
+        if (financeDatabase == null) {
+            financeDatabase = buildDatabase(context, listener);
+        }
         return financeDatabase;
     }
 
-    public synchronized static void connect(Context context, TaskListener listener) {
-        if(financeDatabase != null && financeDatabase.isOpen()) {
+    public synchronized static boolean isInitialized() {
+        return financeDatabase != null;
+    }
+
+    private static FinanceDatabase buildDatabase(Context context, FullTaskListener listener) {
+
+        if (listener != null) {
+            listener.onProgress(0.0);
+            listener.onOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
+        }
+
+        KeyStoreHelper keystore = null;
+        try {
+            keystore = KeyStoreHelper.getInstance(KEY_ALIAS);
+        } catch (KeyStoreHelperException e) {
+            // This should never happen
+            e.printStackTrace();
+            return null;
+        }
+
+        if (!keystore.keyExists()) {
+            deleteDatabaseFile(context);
+            if (listener != null) {
+                listener.onOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
+            }
+        }
+
+        char[] key = keystore.getKey(context);
+        if (key == null) {
+            throw new RuntimeException("Key could not be retrieved!");
+        }
+        if (listener != null) {
+            listener.onProgress(.6);
+            if (!databaseFileExists(context)) {
+                listener.onOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
+            }
+        }
+
+        FinanceDatabase myFinanceDatabase = Room.databaseBuilder(context, FinanceDatabase.class, DB_NAME)
+                .openHelperFactory(new SupportFactory(SQLiteDatabase.getBytes(key), new SQLiteDatabaseHook() {
+                    @Override
+                    public void preKey(SQLiteDatabase database) {
+                    }
+
+                    @Override
+                    public void postKey(SQLiteDatabase database) {
+                        database.rawExecSQL("PRAGMA cipher_compatibility = 3;");
+                    }
+                }))
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
+
+        if (myFinanceDatabase.accountDao().count() == 0) {
+            Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
+            defaultAccount.setId(0L);
+            myFinanceDatabase.accountDao().insert(defaultAccount);
+        }
+
+        if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
+            if (listener != null) {
+                listener.onProgress(.8);
+                listener.onOperation(context.getResources().getString(R.string.activity_startup_migrate_database_msg));
+            }
+            MigrationFromUnencrypted.migrateTo(myFinanceDatabase, context);
+            MigrationFromUnencrypted.deleteLegacyDatabase(context);
+        }
+
+
+        return myFinanceDatabase;
+    }
+
+    private static void deleteDatabaseFile(Context context) {
+        File databaseDir = new File(context.getApplicationInfo().dataDir + "/databases");
+        File[] files = databaseDir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (!file.isDirectory() && file.getName().startsWith(DB_NAME)) {
+                    file.delete();
+                }
+            }
+        }
+    }
+
+    private static boolean databaseFileExists(Context context) {
+        File databaseFile = new File(context.getApplicationInfo().dataDir + "/databases/" + DB_NAME);
+        return databaseFile.exists() && databaseFile.isFile();
+    }
+
+    public synchronized static void connect(Context context, FullTaskListener listener) {
+        if (financeDatabase != null && financeDatabase.isOpen()) {
             throw new RuntimeException("Cannot reinitialize database once it is initialized and active");
         }
 
-        InitDatabaseTask task = new InitDatabaseTask(context);
+        InitDatabaseTask task = new InitDatabaseTask(context, listener);
         if (listener != null) {
             task.addListener(listener);
         }
@@ -96,79 +193,23 @@ public abstract class FinanceDatabase extends RoomDatabase {
 
         @SuppressLint("StaticFieldLeak")
         private final Context context;
+        private final FullTaskListener listener;
 
-        public InitDatabaseTask(Context context) {
+        public InitDatabaseTask(Context context, FullTaskListener listener) {
             this.context = context;
-        }
-
-        private void deleteDatabaseFile() {
-            File databaseDir = new File(context.getApplicationInfo().dataDir + "/databases");
-            File[] files = databaseDir.listFiles();
-            if(files != null) {
-                for(File file : files) {
-                    if(!file.isDirectory() && file.getName().startsWith(DB_NAME)) {
-                        file.delete();
-                    }
-                }
-            }
-        }
-
-        private boolean databaseFileExists() {
-            File databaseFile = new File(context.getApplicationInfo().dataDir + "/databases/" + DB_NAME);
-            return databaseFile.exists() && databaseFile.isFile();
+            this.listener = listener;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
-                publishProgress(0.0);
-                publishOperation(context.getResources().getString(R.string.activity_startup_init_key_store_msg));
-
-                KeyStoreHelper keystore = KeyStoreHelper.getInstance(KEY_ALIAS);
-
-                if (!keystore.keyExists()) {
-                    deleteDatabaseFile();
-                    publishOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
-                }
-
-                char[] key = keystore.getKey(context);
-                if (key == null) {
-                    throw new RuntimeException("Key could not be retrieved!");
-                }
-
-                publishProgress(.6);
-
-                if (!databaseFileExists()) {
-                    publishOperation(context.getResources().getString(R.string.activity_startup_create_and_open_database_msg));
-                }
-
-                financeDatabase = Room.databaseBuilder(context, FinanceDatabase.class, DB_NAME)
-                        .openHelperFactory(new SupportFactory(SQLiteDatabase.getBytes(key), new SQLiteDatabaseHook() {
-                            @Override public void preKey(SQLiteDatabase database) {}
-                            @Override public void postKey(SQLiteDatabase database) {
-                                database.rawExecSQL("PRAGMA cipher_compatibility = 3;");
-                            }
-                        }))
-                        .fallbackToDestructiveMigration()
-                        .build();
-
-                if (financeDatabase.accountDao().count() == 0) {
-                    Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
-                    defaultAccount.setId(0L);
-                    financeDatabase.accountDao().insert(defaultAccount);
-                }
-
-                if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
-                    publishProgress(.8);
-                    publishOperation(context.getResources().getString(R.string.activity_startup_migrate_database_msg));
-                    MigrationFromUnencrypted.migrateTo(financeDatabase, context);
-                    MigrationFromUnencrypted.deleteLegacyDatabase(context);
-                }
-            } catch (KeyStoreHelperException e) {
-                throw new RuntimeException(e);
-            }
-
+            getInstance(context, listener);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            if (listener != null)
+                listener.onProgress(1.0);
         }
     }
 }

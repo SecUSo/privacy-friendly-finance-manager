@@ -18,6 +18,8 @@
 
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
@@ -33,9 +35,9 @@ public class CategoryWrapper implements IdProvider {
     private Category category;
     private LiveData<Long> balance;
 
-    public CategoryWrapper(Category category) {
+    public CategoryWrapper(Category category, Context context) {
         this.category = category;
-        balance = FinanceDatabase.getInstance().transactionDao().sumForCategoryThisMonth(category.getId());
+        balance = FinanceDatabase.getInstance(context).transactionDao().sumForCategoryThisMonth(category.getId());
     }
 
     public LiveData<Long> getBalance() {

@@ -45,10 +45,10 @@ public class CategoriesViewModel extends BaseViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_category);
         setTitle(R.string.activity_categories_title);
-        categories = Transformations.map(FinanceDatabase.getInstance().categoryDao().getAll(), input -> {
+        categories = Transformations.map(FinanceDatabase.getInstance(application).categoryDao().getAll(), input -> {
             List<CategoryWrapper> wrappers = new ArrayList<>();
             for (Category category : input) {
-                wrappers.add(new CategoryWrapper(category));
+                wrappers.add(new CategoryWrapper(category, application));
             }
             return wrappers;
         });

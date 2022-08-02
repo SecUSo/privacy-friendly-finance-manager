@@ -134,7 +134,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
                 .setTitle(R.string.category_delete_dialog_title)
                 .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.category_delete_question, category.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
-                    FinanceDatabase.getInstance().categoryDao().deleteAsync(category);
+                    FinanceDatabase.getInstance(this).categoryDao().deleteAsync(category);
                     Toast.makeText(getBaseContext(), R.string.category_deleted, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {})

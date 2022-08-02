@@ -41,17 +41,19 @@ public class PeriodicDatabaseWorker {
 
     private PeriodicDatabaseWorker() {}
 
-    public static void work() {
-        PeriodicDatabaseTask periodicDatabaseTask = new PeriodicDatabaseTask();
+    public static void work(FinanceDatabase database) {
+        PeriodicDatabaseTask periodicDatabaseTask = new PeriodicDatabaseTask(database);
         periodicDatabaseTask.execute();
     }
 
     private static class PeriodicDatabaseTask extends CommunicantAsyncTask<Void, Void> {
 
-        private final RepeatingTransactionDao repeatingTransactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
-        private final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+        private final RepeatingTransactionDao repeatingTransactionDao;
+        private final TransactionDao transactionDao;
 
-        public PeriodicDatabaseTask() {
+        public PeriodicDatabaseTask(FinanceDatabase database) {
+            repeatingTransactionDao = database.repeatingTransactionDao();
+            transactionDao = database.transactionDao();
         }
 
         @Override

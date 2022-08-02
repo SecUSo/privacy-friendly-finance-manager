@@ -56,7 +56,7 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
 
         for (TaskListener listener : listeners) {
             if (listener instanceof FullTaskListener) {
-                ((FullTaskListener) listener).onProgress(value, this);
+                ((FullTaskListener) listener).onProgress(value);
             }
         }
     }
@@ -64,7 +64,7 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
     protected void publishOperation(String operation) {
         for (TaskListener listener : listeners) {
             if (listener instanceof FullTaskListener) {
-                ((FullTaskListener) listener).onOperation(operation, this);
+                ((FullTaskListener) listener).onOperation(operation);
             }
         }
     }
@@ -77,7 +77,7 @@ public abstract class CommunicantAsyncTask<Params, Result> extends AsyncTask<Par
         if (!listeners.contains(listener)) {
             if (getStatus() == Status.FINISHED) {
                 if (listener instanceof FullTaskListener) {
-                    ((FullTaskListener) listener).onProgress(progress, this);
+                    ((FullTaskListener) listener).onProgress(progress);
                 }
                 listener.onDone(result, this);
             } else {

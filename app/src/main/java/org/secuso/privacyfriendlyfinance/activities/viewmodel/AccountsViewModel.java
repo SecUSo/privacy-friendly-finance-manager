@@ -45,10 +45,10 @@ public class AccountsViewModel extends BaseViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_account);
         setTitle(R.string.activity_accounts_title);
-        accounts = Transformations.map(FinanceDatabase.getInstance().accountDao().getAll(), input -> {
+        accounts = Transformations.map(FinanceDatabase.getInstance(application).accountDao().getAll(), input -> {
             List<AccountWrapper> wrappers = new ArrayList<>();
             for (Account account : input) {
-                wrappers.add(new AccountWrapper(account));
+                wrappers.add(new AccountWrapper(account, application));
             }
             return wrappers;
         });

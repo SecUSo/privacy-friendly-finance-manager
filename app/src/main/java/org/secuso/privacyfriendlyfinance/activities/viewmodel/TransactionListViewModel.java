@@ -36,7 +36,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionListViewModel extends BaseViewModel {
-    protected final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    protected final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
     private LiveData<Long> balance;
     private LiveData<List<Transaction>> transactions;
     private long preselectedCategoryId = -1L;

@@ -119,7 +119,7 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
                 .setTitle(R.string.repeat_delete_action)
                 .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
-                    FinanceDatabase.getInstance().repeatingTransactionDao().deleteAsync(transaction);
+                    FinanceDatabase.getInstance(this).repeatingTransactionDao().deleteAsync(transaction);
                     Toast.makeText(getBaseContext(), R.string.repeat_deleted_msg, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {})

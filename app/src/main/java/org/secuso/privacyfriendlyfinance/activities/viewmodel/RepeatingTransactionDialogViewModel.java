@@ -50,9 +50,9 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableViewModel {
-    private final CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
-    private final AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private final RepeatingTransactionDao repeatingTransactionDao = FinanceDatabase.getInstance().repeatingTransactionDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance(getApplication()).categoryDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance(getApplication()).accountDao();
+    private final RepeatingTransactionDao repeatingTransactionDao = FinanceDatabase.getInstance(getApplication()).repeatingTransactionDao();
 
     private final LiveData<List<Category>> categories;
     private final LiveData<List<Account>> accounts;

@@ -50,9 +50,9 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
-    private final CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
-    private final AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance(getApplication()).categoryDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance(getApplication()).accountDao();
+    private final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
 
     private final LiveData<List<Account>> accounts;
     private final LiveData<List<Category>> categories;
@@ -145,7 +145,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         originalDate = transaction.getDate();
 
         if (transaction.getRepeatingId() != null) {
-            repeatingTransaction = FinanceDatabase.getInstance()
+            repeatingTransaction = FinanceDatabase.getInstance(application)
                     .repeatingTransactionDao().get(transaction.getRepeatingId());
         }
         notifyChange();

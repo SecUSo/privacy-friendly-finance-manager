@@ -59,7 +59,7 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         holder.setDate(transaction.getDate());
         holder.setAmount(transaction.getAmount());
 
-        FinanceDatabase.getInstance().accountDao().get(transaction.getAccountId()).observe(context, account -> {
+        FinanceDatabase.getInstance(context).accountDao().get(transaction.getAccountId()).observe(context, account -> {
             if (account != null) {
                 holder.setAccountName(account.getName());
             } else {
@@ -68,7 +68,7 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         });
 
         if (transaction.getCategoryId() != null) {
-            FinanceDatabase.getInstance().categoryDao().get(transaction.getCategoryId()).observe(context, category -> {
+            FinanceDatabase.getInstance(context).categoryDao().get(transaction.getCategoryId()).observe(context, category -> {
                 if (category != null) {
                     holder.setCategoryName(category.getName());
                     holder.setCategoryColor(category.getColor());
@@ -83,7 +83,7 @@ public class TransactionsAdapter extends EntityListAdapter<Transaction, Transact
         }
 
         if (transaction.getRepeatingId() != null) {
-            FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, repeatingTransaction -> {
+            FinanceDatabase.getInstance(context).repeatingTransactionDao().get(transaction.getRepeatingId()).observe(context, repeatingTransaction -> {
                 if (repeatingTransaction != null) {
                     holder.setRepeatingName(repeatingTransaction.getName());
                 } else {

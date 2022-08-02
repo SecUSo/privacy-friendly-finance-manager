@@ -80,8 +80,8 @@ public class BackupRestorer implements IBackupRestorer {
 
     @Override
     public boolean restoreBackup(@NonNull Context context, @NonNull InputStream restoreData) {
-        if(FinanceDatabase.getInstance() != null) {
-            FinanceDatabase.getInstance().close();
+        if(FinanceDatabase.isInitialized()) {
+            FinanceDatabase.getInstance(context).close();
         }
 
         try {
@@ -100,6 +100,7 @@ public class BackupRestorer implements IBackupRestorer {
                 }
             }
 
+            System.exit(0);
             return true;
         } catch(Exception e) {
             Log.e(TAG, "Failed to restore backup", e);

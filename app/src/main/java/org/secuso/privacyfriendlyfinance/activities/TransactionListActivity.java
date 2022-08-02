@@ -142,7 +142,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_delete_transaction_title)
                 .setPositiveButton(R.string.delete, (dialog, which) -> {
-                    FinanceDatabase.getInstance().transactionDao().deleteAsync(transaction);
+                    FinanceDatabase.getInstance(this).transactionDao().deleteAsync(transaction);
                     Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, null);

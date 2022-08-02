@@ -44,8 +44,8 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
-    private final AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance(getApplication()).accountDao();
+    private final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
     private Account account;
     private LiveData<Long> monthBalanceLive;
     private LiveData<Account> accountLive;
