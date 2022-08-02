@@ -19,15 +19,14 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
 
-import org.joda.time.LocalDate;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
-import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
@@ -40,7 +39,6 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryViewModel extends TransactionListViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
     private long categoryId;
     private LiveData<Category> category;
     private LiveData<Long> categoryBalanceMonth;
@@ -52,10 +50,10 @@ public class CategoryViewModel extends TransactionListViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_category);
         this.categoryId = categoryId;
-        category = categoryDao.get(categoryId);
-        categoryBalanceMonth = FinanceDatabase.getInstance().transactionDao().sumForCategoryThisMonth(categoryId);
-        categoryIncomeMonth = FinanceDatabase.getInstance().transactionDao().sumIncomeForCategoryThisMonth(categoryId);
-        categoryExpensesMonth = FinanceDatabase.getInstance().transactionDao().sumExpensesForCategoryThisMonth(categoryId);
+        category = FinanceDatabase.getInstance(application).categoryDao().get(categoryId);
+        categoryBalanceMonth = FinanceDatabase.getInstance(application).transactionDao().sumForCategoryThisMonth(categoryId);
+        categoryIncomeMonth = FinanceDatabase.getInstance(application).transactionDao().sumIncomeForCategoryThisMonth(categoryId);
+        categoryExpensesMonth = FinanceDatabase.getInstance(application).transactionDao().sumExpensesForCategoryThisMonth(categoryId);
         setNavigationDrawerId(R.id.nav_category);
         setPreselectedCategoryId(categoryId);
         setShowEditMenu(true);
@@ -96,6 +94,7 @@ public class CategoryViewModel extends TransactionListViewModel {
             this.categoryId = categoryId;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             return (T) new CategoryViewModel(application, categoryId);

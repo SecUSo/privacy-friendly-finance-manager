@@ -19,11 +19,12 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.databinding.Bindable;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
@@ -43,8 +44,8 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
-    private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance(getApplication()).accountDao();
+    private final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
     private Account account;
     private LiveData<Long> monthBalanceLive;
     private LiveData<Account> accountLive;

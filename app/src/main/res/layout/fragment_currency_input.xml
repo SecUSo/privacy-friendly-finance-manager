@@ -7,7 +7,7 @@
         <variable name="positiveLabel" type="java.lang.String"/>
         <variable name="negativeLabel" type="java.lang.String"/>
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -58,5 +58,5 @@
             app:layout_constraintStart_toEndOf="@+id/radioGroup_transaction_type"
             app:layout_constraintTop_toTopOf="@+id/radioGroup_transaction_type" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

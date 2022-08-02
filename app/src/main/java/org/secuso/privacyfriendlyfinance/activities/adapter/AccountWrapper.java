@@ -18,7 +18,9 @@
 
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
-import android.arch.lifecycle.LiveData;
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
@@ -35,10 +37,10 @@ public class AccountWrapper implements IdProvider {
     private LiveData<Long> currentBalance;
     private LiveData<Long> startOfMonthBalance;
 
-    public AccountWrapper(Account account) {
+    public AccountWrapper(Account account, Context context) {
         this.account = account;
-        currentBalance = FinanceDatabase.getInstance().transactionDao().sumForAccount(account.getId());
-        startOfMonthBalance = FinanceDatabase.getInstance().transactionDao().sumForAccountBefore(account.getId(), LocalDate.now().withDayOfMonth(1).toString());
+        currentBalance = FinanceDatabase.getInstance(context).transactionDao().sumForAccount(account.getId());
+        startOfMonthBalance = FinanceDatabase.getInstance(context).transactionDao().sumForAccountBefore(account.getId(), LocalDate.now().withDayOfMonth(1).toString());
     }
 
     public LiveData<Long> getCurrentBalance() {

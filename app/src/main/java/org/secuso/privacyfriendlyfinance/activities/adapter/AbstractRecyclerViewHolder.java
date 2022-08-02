@@ -19,9 +19,10 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * This is the base class for all recycler view holder classes.

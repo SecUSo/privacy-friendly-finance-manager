@@ -18,13 +18,12 @@
 
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.BaseActivity;
@@ -44,9 +43,8 @@ import java.util.Map;
  * @author Leonard Otto
  */
 public class RepeatingTransactionsAdapter extends EntityListAdapter<RepeatingTransaction, RepeatingTransactionViewHolder> {
-    private LiveData<Map<Long, Account>> accounts = FinanceDatabase.getInstance().accountDao().getAllMap();
-    private LiveData<Map<Long, Category>> categories = FinanceDatabase.getInstance().categoryDao().getAllMap();
-
+    private final LiveData<Map<Long, Account>> accounts = FinanceDatabase.getInstance(context).accountDao().getAllMap();
+    private final LiveData<Map<Long, Category>> categories = FinanceDatabase.getInstance(context).categoryDao().getAllMap();
 
     public RepeatingTransactionsAdapter(BaseActivity context, LiveData<List<RepeatingTransaction>> data) {
         super(context, data);
@@ -68,24 +66,15 @@ public class RepeatingTransactionsAdapter extends EntityListAdapter<RepeatingTra
         holder.setTransactionName(rt.getName());
         holder.setRepeatingText(RepeatingHelper.forgeRepeatingText(context, rt));
 
-        accounts.observe(context, new Observer<Map<Long, Account>>() {
-            @Override
-            public void onChanged(@Nullable Map<Long, Account> map) {
-                holder.setAccountName(map.get(rt.getAccountId()).getName());
-            }
-        });
-
-        categories.observe(context, new Observer<Map<Long, Category>>() {
-            @Override
-            public void onChanged(@Nullable Map<Long, Category> map) {
-                if (rt.getCategoryId() != null) {
-                    Category category = map.get(rt.getCategoryId());
-                    holder.setCategoryName(category.getName());
-                    holder.setCategoryColor(category.getColor());
-                } else {
-                    holder.setCategoryName(null);
-                    holder.setCategoryColor(null);
-                }
+        accounts.observe(context, map -> holder.setAccountName(map.get(rt.getAccountId()).getName()));
+        categories.observe(context, map -> {
+            if (rt.getCategoryId() != null) {
+                Category category = map.get(rt.getCategoryId());
+                holder.setCategoryName(category.getName());
+                holder.setCategoryColor(category.getColor());
+            } else {
+                holder.setCategoryName(null);
+                holder.setCategoryColor(null);
             }
         });
     }

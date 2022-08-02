@@ -19,25 +19,23 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
-import android.content.DialogInterface;
-import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.LayoutRes;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
@@ -48,8 +46,6 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListVie
 import org.secuso.privacyfriendlyfinance.databinding.ContentTransactionListBinding;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
-
-import java.util.List;
 
 /**
  * This abstract class is provided as a base class for all
@@ -75,12 +71,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
 
-        addFab(R.layout.fab_add, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClick(null);
-            }
-        });
+        addFab(R.layout.fab_add, view -> onItemClick(null));
 
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -91,19 +82,15 @@ public abstract class TransactionListActivity extends BaseActivity implements On
 
         emptyView = findViewById(R.id.empty_view);
         emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
-        viewModel.getTransactions().observe(this, new Observer<List<Transaction>>() {
-            @Override
-            public void onChanged(@Nullable List<Transaction> transactions) {
-                if (transactions.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
+        viewModel.getTransactions().observe(this, transactions -> {
+            if (transactions.isEmpty()) {
+                recyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
             }
         });
-
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
@@ -154,12 +141,9 @@ public abstract class TransactionListActivity extends BaseActivity implements On
     private void deleteTransaction(final Transaction transaction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_delete_transaction_title)
-                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FinanceDatabase.getInstance().transactionDao().deleteAsync(transaction);
-                        Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
-                    }
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
+                    FinanceDatabase.getInstance(this).transactionDao().deleteAsync(transaction);
+                    Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, null);
 

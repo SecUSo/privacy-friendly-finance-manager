@@ -19,9 +19,10 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.secuso.privacyfriendlyfinance.BuildConfig;
 import org.secuso.privacyfriendlyfinance.R;

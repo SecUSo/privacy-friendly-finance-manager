@@ -19,8 +19,9 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
@@ -41,7 +42,7 @@ public class RepeatingTransactionsViewModel extends BaseViewModel {
         super(application);
         setNavigationDrawerId(R.id.nav_repeating_transactions);
         setTitle(R.string.activity_repeating_transactions_title);
-        repeatingTransactions = FinanceDatabase.getInstance()
+        repeatingTransactions = FinanceDatabase.getInstance(application)
                 .repeatingTransactionDao().getAll();
     }
 

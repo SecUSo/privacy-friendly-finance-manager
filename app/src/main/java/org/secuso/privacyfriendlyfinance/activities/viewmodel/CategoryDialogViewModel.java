@@ -19,10 +19,11 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.databinding.Bindable;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.secuso.privacyfriendlyfinance.BR;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
@@ -39,7 +40,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryDialogViewModel extends BindableViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance(getApplication()).categoryDao();
     private long categoryId;
     private Category category;
     private LiveData<Category> categoryLive;

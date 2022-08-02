@@ -18,13 +18,14 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.dialog.AccountDialog;
@@ -48,7 +49,7 @@ public class AccountActivity extends TransactionListActivity {
     protected AccountViewModel getViewModel() {
         long accountId = getIntent().getLongExtra(EXTRA_ACCOUNT_ID, -1);
         AccountViewModel.AccountViewModelFactory viewModelFactory = new AccountViewModel.AccountViewModelFactory(this.getApplication(), accountId);
-        return ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
+        return new ViewModelProvider(this, viewModelFactory).get(AccountViewModel.class);
     }
 
     @Override

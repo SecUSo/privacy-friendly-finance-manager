@@ -18,7 +18,7 @@
 
 package org.secuso.privacyfriendlyfinance.domain.model;
 
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.PrimaryKey;
 
 import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 

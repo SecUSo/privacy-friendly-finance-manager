@@ -19,8 +19,9 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
@@ -35,7 +36,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionListViewModel extends BaseViewModel {
-    protected final TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    protected final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
     private LiveData<Long> balance;
     private LiveData<List<Transaction>> transactions;
     private long preselectedCategoryId = -1L;

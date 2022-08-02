@@ -21,11 +21,14 @@ package org.secuso.privacyfriendlyfinance.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.FullTaskListener;
@@ -41,16 +44,21 @@ import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
  * @author Leonard Otto
  */
 public class StartupActivity extends AppCompatActivity implements FullTaskListener {
-    ProgressBar progressBar;
-    TextView progressText;
-    boolean keyGen = false;
+
+    private ProgressBar progressBar;
+    private TextView progressText;
+
+    private static final String TAG = StartupActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferencesManager.init(getApplicationContext());
         setContentView(R.layout.activity_startup);
-        getSupportActionBar().hide();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
     }
 
     @Override
@@ -58,22 +66,11 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         super.onPostCreate(savedInstanceState);
         progressText = findViewById(R.id.progressText);
         progressBar = findViewById(R.id.progressBar);
-        if (FinanceDatabase.getInstance() == null) {
-            try {
-                if (!KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).keyExists()) {
-                    keyGen = true;
-                    progressText.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setMax(1000);
-                }
-            } catch (KeyStoreHelperException e) {
-                e.printStackTrace();
-            }
 
-            FinanceDatabase.connect(getApplicationContext(), this);
-        } else {
-            nextActivity();
-        }
+        FinanceDatabase.connect(getApplicationContext(), this);
+        progressText.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setMax(1000);
     }
 
     @Override
@@ -83,7 +80,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     private void nextActivity() {
         Intent mainIntent;
-        if(SharedPreferencesManager.isFirstTimeLaunch()) {
+        if (SharedPreferencesManager.get(this).isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
             mainIntent = new Intent(this, TransactionsActivity.class);
@@ -95,22 +92,12 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
     }
 
     @Override
-    public void onProgress(final Double progress, AsyncTask<?, ?, ?> task) {
-        if (keyGen) runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setProgress(Double.valueOf(progress * 1000).intValue());
-            }
-        });
+    public void onProgress(final Double progress) {
+        runOnUiThread(() -> progressBar.setProgress(Double.valueOf(progress * 1000).intValue()));
     }
 
     @Override
-    public void onOperation(final String operation, AsyncTask<?, ?, ?> task) {
-        if (keyGen) runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressText.setText(operation);
-            }
-        });
+    public void onOperation(final String operation) {
+        runOnUiThread(() -> progressText.setText(operation));
     }
 }

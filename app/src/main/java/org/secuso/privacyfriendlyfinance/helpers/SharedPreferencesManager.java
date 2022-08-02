@@ -28,43 +28,56 @@ import android.content.SharedPreferences;
  * @author Leonard Otto
  */
 public class SharedPreferencesManager {
-    private static SharedPreferences pref;
-    private static SharedPreferences.Editor editor;
 
-    private static final int PRIVATE_MODE = 0;
-    private static final String PREF_NAME = "privacy_friendly_apps";
+    private static SharedPreferencesManager sharedPreferencesManager;
 
-    private static final String IS_FIRST_TIME_LAUNCH = "isFirstTimeLaunch";
-    private static final String DB_PASSPHRASE = "dbPassphrase";
+    public static final int PREF_MODE = Context.MODE_PRIVATE;
+    public static final String PREF_NAME = "privacy_friendly_apps";
 
-    private SharedPreferencesManager() {
-    }
+    public static final String KEY_IS_FIRST_TIME_LAUNCH = "isFirstTimeLaunch";
+    public static final String KEY_DB_PASSPHRASE = "dbPassphrase";
 
-    public static void init(Context context) {
-        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+    private final SharedPreferences pref;
+    private final SharedPreferences.Editor editor;
+
+    private SharedPreferencesManager(Context context) {
+        pref = context.getSharedPreferences(PREF_NAME, PREF_MODE);
         editor = pref.edit();
     }
 
-    public static void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+    public void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(KEY_IS_FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
     }
 
-    public static boolean isFirstTimeLaunch() {
-        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    public boolean isFirstTimeLaunch() {
+        return pref.getBoolean(KEY_IS_FIRST_TIME_LAUNCH, true);
     }
 
-    public static void removeDbPassphrase() {
-        editor.remove(DB_PASSPHRASE);
+    public void removeDbPassphrase() {
+        editor.remove(KEY_DB_PASSPHRASE);
         editor.commit();
     }
-    public static void setDbPassphrase(String passphrase) {
-        editor.putString(DB_PASSPHRASE, passphrase);
+
+    public void setDbPassphrase(String passphrase) {
+        editor.putString(KEY_DB_PASSPHRASE, passphrase);
         editor.commit();
     }
-    public static String getDbPassphrase() {
-        return pref.getString(DB_PASSPHRASE, null);
+
+    public String getDbPassphrase() {
+        return pref.getString(KEY_DB_PASSPHRASE, null);
     }
 
+    public static SharedPreferencesManager get(Context context) {
+        if(sharedPreferencesManager == null) {
+            synchronized (SharedPreferencesManager.class) {
+                if(sharedPreferencesManager == null) {
+                    // Use application context to prevent leaking specific context
+                    sharedPreferencesManager = new SharedPreferencesManager(context.getApplicationContext());
+                }
+            }
+        }
 
+        return sharedPreferencesManager;
+    }
 }

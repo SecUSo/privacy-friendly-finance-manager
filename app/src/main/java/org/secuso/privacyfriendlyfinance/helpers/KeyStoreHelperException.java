@@ -5,7 +5,11 @@ public class KeyStoreHelperException extends Exception {
         super(message);
     }
 
-    public KeyStoreHelperException(Exception ex) {
-        super(ex);
+    public KeyStoreHelperException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public KeyStoreHelperException(Throwable cause) {
+        super(cause);
     }
 }

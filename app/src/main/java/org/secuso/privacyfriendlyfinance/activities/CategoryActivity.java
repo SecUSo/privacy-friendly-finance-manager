@@ -18,13 +18,14 @@
 
 package org.secuso.privacyfriendlyfinance.activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
@@ -147,7 +148,7 @@ public class CategoryActivity extends TransactionListActivity {
     protected CategoryViewModel getViewModel() {
         long categoryId = getIntent().getLongExtra(EXTRA_CATEGORY_ID, -1);
         CategoryViewModel.CategoryViewModelFactory viewModelFactory = new CategoryViewModel.CategoryViewModelFactory(this.getApplication(), categoryId);
-        return ViewModelProviders.of(this, viewModelFactory).get(CategoryViewModel.class);
+        return new ViewModelProvider(this, viewModelFactory).get(CategoryViewModel.class);
     }
 
     @Override

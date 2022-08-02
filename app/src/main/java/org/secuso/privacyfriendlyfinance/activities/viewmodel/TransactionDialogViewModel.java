@@ -19,13 +19,14 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.databinding.Bindable;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
+import androidx.databinding.Bindable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.BR;
@@ -49,18 +50,18 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
-    private CategoryDao categoryDao = FinanceDatabase.getInstance().categoryDao();
-    private AccountDao accountDao = FinanceDatabase.getInstance().accountDao();
-    private TransactionDao transactionDao = FinanceDatabase.getInstance().transactionDao();
+    private final CategoryDao categoryDao = FinanceDatabase.getInstance(getApplication()).categoryDao();
+    private final AccountDao accountDao = FinanceDatabase.getInstance(getApplication()).accountDao();
+    private final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
 
-    private LiveData<List<Category>> categories;
-    private LiveData<List<Account>> accounts = accountDao.getAll();
+    private final LiveData<List<Account>> accounts;
+    private final LiveData<List<Category>> categories;
 
     private LiveData<Transaction> transactionLive;
     private LiveData<RepeatingTransaction> repeatingTransaction;
     private Transaction transaction;
 
-    private Application application;
+    private final Application application;
 
     private boolean amountEdited = false;
 
@@ -70,22 +71,18 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     public TransactionDialogViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
-        categories = Transformations.map(categoryDao.getAll(), new Function<List<Category>, List<Category>>() {
-            @Override
-            public List<Category> apply(List<Category> input) {
-                List<Category> categoriesAndVoid = new ArrayList<>();
-                categoriesAndVoid.add(null);
-                categoriesAndVoid.addAll(input);
-                return categoriesAndVoid;
-            }
+
+        categories = Transformations.map(categoryDao.getAll(), input -> {
+            List<Category> categoriesAndVoid = new ArrayList<>();
+            categoriesAndVoid.add(null);
+            categoriesAndVoid.addAll(input);
+            return categoriesAndVoid;
         });
 
-        Transformations.map(accounts, new Function<List<Account>, Void>() {
-            @Override
-            public Void apply(List<Account> input) {
-                notifyPropertyChanged(BR.accountIndex);
-                return null;
-            }
+        accounts = accountDao.getAll();
+        Transformations.map(accounts, (Function<List<Account>, Void>) input -> {
+            notifyPropertyChanged(BR.accountIndex);
+            return null;
         });
 
         setTransactionDummy();
@@ -148,7 +145,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         originalDate = transaction.getDate();
 
         if (transaction.getRepeatingId() != null) {
-            repeatingTransaction = FinanceDatabase.getInstance().repeatingTransactionDao().get(transaction.getRepeatingId());
+            repeatingTransaction = FinanceDatabase.getInstance(application)
+                    .repeatingTransactionDao().get(transaction.getRepeatingId());
         }
         notifyChange();
     }

@@ -19,19 +19,19 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Html;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountWrapper;
@@ -72,12 +72,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         accountsAdapter.onItemClick(this);
 
         setContent(R.layout.content_recycler);
-        addFab(R.layout.fab_add, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAccountDialog(null);
-            }
-        });
+        addFab(R.layout.fab_add, view -> openAccountDialog(null));
 
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
@@ -103,7 +98,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 swipeController.onDraw(c);
             }
         });
@@ -111,20 +106,16 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
     private void deleteAccount(final Account account) {
         if (viewModel.getAccounts().getValue().size() > 1) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.account_delete_action);
-            builder.setMessage(Html.fromHtml(getResources().getString(R.string.account_delete_question, account.getName())));
-            builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    FinanceDatabase.getInstance().accountDao().deleteAsync(account);
-                    Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                }
-            });
-            builder.create().show();
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.account_delete_action)
+                    .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.account_delete_question, account.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                    .setPositiveButton(R.string.delete, (dialog, id) -> {
+                        FinanceDatabase.getInstance(this).accountDao().deleteAsync(account);
+                        Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                    .create().show();
         } else {
             Toast.makeText(getBaseContext(), R.string.account_last_not_deleteable, Toast.LENGTH_LONG).show();
         }
@@ -132,8 +123,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
 
     private void openAccountDialog(Account account) {
         Bundle args = new Bundle();
-        if (account == null) {
-        } else {
+        if (account != null) {
             args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, account.getId());
         }
 

@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -90,7 +90,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout_repeat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                    android:drawableStart="@drawable/ic_calendar_today_gray_24dp"
                     android:drawablePadding="6dp"
                     android:ems="10"
                     android:gravity="center_vertical"
@@ -188,7 +188,7 @@
                     app:layout_constraintStart_toEndOf="@+id/dialog_transaction_date"
                     app:layout_constraintTop_toTopOf="@+id/dialog_transaction_date"
                     app:srcCompat="@drawable/ic_close_black_24dp" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--<Spinner-->
                 <!--android:id="@+id/repeat_unit_spinner"-->
@@ -254,6 +254,6 @@
                 <!--app:layout_constraintTop_toBottomOf="@+id/input_repeat_interval" />-->
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

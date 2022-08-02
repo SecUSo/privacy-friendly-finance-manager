@@ -18,34 +18,37 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.FragmentManager;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.LayoutRes;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.TaskStackBuilder;
+import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
+
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityBaseBinding;
 import org.secuso.privacyfriendlyfinance.databinding.ActivityStackedBinding;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.PeriodicDatabaseWorker;
 
 import java.util.ArrayList;
@@ -63,6 +66,9 @@ import java.util.List;
  * just inject your activities content via the setContent() method.
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+
+    private static final String TAG = BaseActivity.class.getName();
+
     // delay to launch nav drawer item, to allow close animation to play
     public static final int NAVDRAWER_LAUNCH_DELAY = 250;
     // fade in and fade out durations for the main content when switching between
@@ -85,15 +91,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     private static Handler periodicHandler;
 
-    private List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
-
+    private final List<MenuItem.OnMenuItemClickListener> editMenuClickListeners = new ArrayList<MenuItem.OnMenuItemClickListener>();
 
     protected abstract Class<? extends BaseViewModel> getViewModelClass();
 
     protected BaseViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(getViewModelClass());
+        return new ViewModelProvider(this).get(getViewModelClass());
     }
-
 
     private void schedulePeriodicTask() {
         if (periodicHandler == null) {
@@ -101,10 +105,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         } else {
             return;
         }
-        final Runnable periodicRunner = new Runnable() {
+        Runnable periodicRunner = new Runnable() {
             @Override
             public void run() {
-                PeriodicDatabaseWorker.work();
+                PeriodicDatabaseWorker.work(FinanceDatabase.getInstance(getApplicationContext()));
                 periodicHandler.postDelayed(this, PeriodicDatabaseWorker.DURATION_BETWEEN_WORK);
             }
         };
@@ -122,7 +126,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         overridePendingTransition(0, 0);
 
         viewModel = getViewModel();
-        ;
         if (viewModel.showDrawer()) {
             ActivityBaseBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
             mNavigationView = binding.getRoot().findViewById(R.id.nav_view);
@@ -133,28 +136,15 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             binding.setViewModel(viewModel);
         }
 
-        viewModel.getTitle().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String title) {
-                BaseActivity.this.setTitle(title);
-            }
-        });
+        viewModel.getTitle().observe(this, title -> BaseActivity.this.setTitle(title));
 
-        viewModel.getTitleId().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer titleId) {
-                viewModel.setTitle(getString(titleId));
-            }
-        });
+        viewModel.getTitleId().observe(this, titleId -> viewModel.setTitle(getString(titleId)));
 
-        viewModel.getNavigationDrawerId().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer navigationDrawerId) {
-                if (navigationDrawerId == null || navigationDrawerId == -1) {
-                    selectNavigationItem(-1);
-                } else {
-                    selectNavigationItem(navigationDrawerId);
-                }
+        viewModel.getNavigationDrawerId().observe(this, navigationDrawerId -> {
+            if (navigationDrawerId == null || navigationDrawerId == -1) {
+                selectNavigationItem(-1);
+            } else {
+                selectNavigationItem(navigationDrawerId);
             }
         });
 
@@ -165,13 +155,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_pencil, menu);
+
         MenuItem menuItemEdit = menu.findItem(R.id.toolbar_action_edit);
-        menuItemEdit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                menuItemEditClicked(item);
-                return true;
-            }
+        menuItemEdit.setOnMenuItemClickListener(item -> {
+            menuItemEditClicked(item);
+            return true;
         });
 
         return viewModel.doShowEditMenu();
@@ -198,6 +186,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     protected final FloatingActionButton addFab(@LayoutRes int layout, View.OnClickListener listener) {
         FloatingActionButton fab = (FloatingActionButton) inflater.inflate(layout, contentWrapper, false);
+        fab.setImageResource(R.drawable.ic_add_white_24);
         contentWrapper.addView(fab);
         if (listener != null) {
             fab.setOnClickListener(listener);
@@ -211,7 +200,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onBackPressed() {
-        System.out.println("back pressed");
+        Log.d(TAG, "back pressed");
         if (viewModel.showDrawer()) {
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -239,12 +228,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         }
 
         // delay transition so the drawer can close
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callDrawerItem(itemId);
-            }
-        }, NAVDRAWER_LAUNCH_DELAY);
+        mHandler.postDelayed(() -> callDrawerItem(itemId), NAVDRAWER_LAUNCH_DELAY);
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
 
@@ -274,14 +258,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
      * @param intent
      */
     private void createBackStack(Intent intent) {
-        System.out.println("Added to backtrack: " + intent.getComponent().getClassName());
+        Log.d(TAG, "Added to backtrack: " + intent.getComponent().getClassName());
         FragmentManager fm = getFragmentManager();
-        System.out.println("Backtrack size: " + fm.getBackStackEntryCount());
+        Log.d(TAG, "Backtrack size: " + fm.getBackStackEntryCount());
         for (int i = 0; i < fm.getBackStackEntryCount(); i++){
-            System.out.println("number " + i + ": " + fm.getBackStackEntryAt(i).getId());
+            Log.d(TAG, "number " + i + ": " + fm.getBackStackEntryAt(i).getId());
         }
-
-
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         TaskStackBuilder builder = TaskStackBuilder.create(this);

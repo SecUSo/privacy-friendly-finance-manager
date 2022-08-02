@@ -19,8 +19,14 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.Application;
+import android.util.Log;
 
-import net.danlew.android.joda.JodaTimeAndroid;
+import androidx.annotation.NonNull;
+import androidx.work.Configuration;
+
+import org.secuso.privacyfriendlybackup.api.pfa.BackupManager;
+import org.secuso.privacyfriendlyfinance.backup.BackupCreator;
+import org.secuso.privacyfriendlyfinance.backup.BackupRestorer;
 
 /**
  * Application base class. Can be used to hook initialization.
@@ -28,10 +34,18 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * @author Felix Hofmann
  * @author Leonard Otto
  */
-public class PFFinanceApplication extends Application {
+public class PFFinanceApplication extends Application implements Configuration.Provider {
     @Override
     public void onCreate() {
         super.onCreate();
-        JodaTimeAndroid.init(this);
+
+        BackupManager.setBackupCreator(new BackupCreator());
+        BackupManager.setBackupRestorer(new BackupRestorer());
+    }
+
+    @NonNull
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        return new Configuration.Builder().setMinimumLoggingLevel(Log.INFO).build();
     }
 }

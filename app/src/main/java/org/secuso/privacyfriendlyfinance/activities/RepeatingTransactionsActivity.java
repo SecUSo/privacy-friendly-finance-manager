@@ -19,21 +19,19 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
@@ -44,8 +42,6 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
-
-import java.util.List;
 
 /**
  * This activity shows all repeating transactions. Provides the possibility to create new repeating
@@ -74,12 +70,7 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         repeatingTransactionsAdapter = new RepeatingTransactionsAdapter(this, tmpViewModel.getRepeatingTransactions());
         repeatingTransactionsAdapter.onItemClick(this);
 
-        addFab(R.layout.fab_add, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openRepeatingTransactionDialog(null);
-            }
-        });
+        addFab(R.layout.fab_add, v -> openRepeatingTransactionDialog(null));
 
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
@@ -112,43 +103,32 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
 
         emptyView = findViewById(R.id.empty_view);
         emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
-        tmpViewModel.getRepeatingTransactions().observe(this, new Observer<List<RepeatingTransaction>>() {
-            @Override
-            public void onChanged(@Nullable List<RepeatingTransaction> repeatingTransactions) {
-                if (repeatingTransactions.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
+        tmpViewModel.getRepeatingTransactions().observe(this, repeatingTransactions -> {
+            if (repeatingTransactions.isEmpty()) {
+                recyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
             }
         });
     }
 
     private void deleteRepeatingTransaction(final RepeatingTransaction transaction) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.repeat_delete_action);
-        builder.setMessage(Html.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName())));
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                FinanceDatabase.getInstance().repeatingTransactionDao().deleteAsync(transaction);
-                Toast.makeText(getBaseContext(), R.string.repeat_deleted_msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        builder.create().show();
-
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.repeat_delete_action)
+                .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                .setPositiveButton(R.string.delete, (dialog, id) -> {
+                    FinanceDatabase.getInstance(this).repeatingTransactionDao().deleteAsync(transaction);
+                    Toast.makeText(getBaseContext(), R.string.repeat_deleted_msg, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                .create().show();
     }
 
     private void openRepeatingTransactionDialog(RepeatingTransaction repeatingTransaction) {
         Bundle args = new Bundle();
-        if (repeatingTransaction == null) {
-
-        } else {
+        if (repeatingTransaction != null) {
             args.putLong(RepeatingTransactionDialog.EXTRA_TRANSACTION_ID, repeatingTransaction.getId());
         }
 
