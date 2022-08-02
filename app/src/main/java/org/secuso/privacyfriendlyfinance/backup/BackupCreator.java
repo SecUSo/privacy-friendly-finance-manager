@@ -32,20 +32,30 @@ public class BackupCreator implements IBackupCreator {
             writer.name("database");
 
             SQLiteDatabase.loadLibs(context);
-            SQLiteDatabase database = SQLiteDatabase.openDatabase(context.getDatabasePath(FinanceDatabase.DB_NAME).getPath(), KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).getKey(context), null, SQLiteDatabase.OPEN_READONLY, new SQLiteDatabaseHook() {
-                @Override public void preKey(SQLiteDatabase database) {}
-                @Override public void postKey(SQLiteDatabase database) {
-                    database.rawExecSQL("PRAGMA cipher_compatibility = 3;");
-                }
-            });
 
-            DatabaseUtil.writeDatabase(writer, database);
-            database.close();
+            if (context.getDatabasePath(FinanceDatabase.DB_NAME).exists()) {
+                SQLiteDatabase database = SQLiteDatabase.openDatabase(context.getDatabasePath(FinanceDatabase.DB_NAME).getPath(), KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).getKey(context), null, SQLiteDatabase.OPEN_READONLY, new SQLiteDatabaseHook() {
+                    @Override
+                    public void preKey(SQLiteDatabase database) {
+                    }
+
+                    @Override
+                    public void postKey(SQLiteDatabase database) {
+                        database.rawExecSQL("PRAGMA cipher_compatibility = 3;");
+                    }
+                });
+
+                DatabaseUtil.writeDatabase(writer, database);
+                database.close();
+            } else {
+                writer.beginObject();
+                writer.endObject();
+            }
 
             writer.name("preferences");
             SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPreferencesManager.PREF_NAME, SharedPreferencesManager.PREF_MODE);
             // Don't backup the db passphrase. Instead, we should always use the passphrase that's already used on-device.
-            PreferenceUtil.writePreferences(writer, sharedPreferences, new String[]{ SharedPreferencesManager.KEY_DB_PASSPHRASE });
+            PreferenceUtil.writePreferences(writer, sharedPreferences, new String[]{SharedPreferencesManager.KEY_DB_PASSPHRASE});
 
             writer.endObject();
             writer.close();
