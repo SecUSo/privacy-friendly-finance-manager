@@ -47,7 +47,6 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     private ProgressBar progressBar;
     private TextView progressText;
-    private boolean keyGen = false;
 
     private static final String TAG = StartupActivity.class.getName();
 
@@ -57,7 +56,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         setContentView(R.layout.activity_startup);
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.hide();
         }
     }
@@ -69,6 +68,9 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
         progressBar = findViewById(R.id.progressBar);
 
         FinanceDatabase.connect(getApplicationContext(), this);
+        progressText.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setMax(1000);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     private void nextActivity() {
         Intent mainIntent;
-        if(SharedPreferencesManager.get(this).isFirstTimeLaunch()) {
+        if (SharedPreferencesManager.get(this).isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
             mainIntent = new Intent(this, TransactionsActivity.class);
@@ -91,30 +93,11 @@ public class StartupActivity extends AppCompatActivity implements FullTaskListen
 
     @Override
     public void onProgress(final Double progress) {
-        if (keyGen) {
-            runOnUiThread(() -> progressBar.setProgress(Double.valueOf(progress * 1000).intValue()));
-        }
-        if(progress >= 1.0) {
-            runOnUiThread(() -> {
-                try {
-                    if (!KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).keyExists()) {
-                        keyGen = true;
-                        progressText.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setMax(1000);
-                    }
-                } catch (KeyStoreHelperException e) {
-                    e.printStackTrace();
-                }
-                nextActivity();
-            });
-        }
+        runOnUiThread(() -> progressBar.setProgress(Double.valueOf(progress * 1000).intValue()));
     }
 
     @Override
     public void onOperation(final String operation) {
-        if (keyGen) {
-            runOnUiThread(() -> progressText.setText(operation));
-        }
+        runOnUiThread(() -> progressText.setText(operation));
     }
 }

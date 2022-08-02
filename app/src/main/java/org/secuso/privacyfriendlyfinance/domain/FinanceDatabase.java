@@ -20,6 +20,7 @@ package org.secuso.privacyfriendlyfinance.domain;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -138,14 +139,7 @@ public abstract class FinanceDatabase extends RoomDatabase {
                     }
                 }))
                 .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
                 .build();
-
-        if (myFinanceDatabase.accountDao().count() == 0) {
-            Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
-            defaultAccount.setId(0L);
-            myFinanceDatabase.accountDao().insert(defaultAccount);
-        }
 
         if (MigrationFromUnencrypted.legacyDatabaseExists(context)) {
             if (listener != null) {
@@ -182,34 +176,47 @@ public abstract class FinanceDatabase extends RoomDatabase {
             throw new RuntimeException("Cannot reinitialize database once it is initialized and active");
         }
 
-        InitDatabaseTask task = new InitDatabaseTask(context, listener);
+        InitDatabaseTask task = new InitDatabaseTask(context);
         if (listener != null) {
             task.addListener(listener);
         }
         task.execute();
     }
 
-    private static class InitDatabaseTask extends CommunicantAsyncTask<Void, Void> {
+    private static class InitDatabaseTask extends CommunicantAsyncTask<Void, Void> implements FullTaskListener {
 
         @SuppressLint("StaticFieldLeak")
         private final Context context;
-        private final FullTaskListener listener;
 
-        public InitDatabaseTask(Context context, FullTaskListener listener) {
+        public InitDatabaseTask(Context context) {
             this.context = context;
-            this.listener = listener;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getInstance(context, listener);
+            getInstance(context, this);
+            super.publishProgress(0.9);
+            super.publishOperation(context.getResources().getString(R.string.activity_startup_open_database_msg));
+            if (getInstance(context).accountDao().count() == 0) {
+                Account defaultAccount = new Account(context.getResources().getString(R.string.activity_startup_default_account_name));
+                defaultAccount.setId(0L);
+                getInstance(context).accountDao().insert(defaultAccount);
+            }
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void unused) {
-            if (listener != null)
-                listener.onProgress(1.0);
+        public void onProgress(Double progress) {
+            super.publishProgress(progress);
+        }
+
+        @Override
+        public void onOperation(String operation) {
+            super.publishOperation(operation);
+        }
+
+        @Override
+        public void onDone(Object result, AsyncTask<?, ?, ?> task) {
         }
     }
 }

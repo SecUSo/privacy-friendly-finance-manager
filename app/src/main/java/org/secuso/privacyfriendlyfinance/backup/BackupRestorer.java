@@ -67,7 +67,7 @@ public class BackupRestorer implements IBackupRestorer {
 
             switch (key) {
                 case SharedPreferencesManager.KEY_IS_FIRST_TIME_LAUNCH:
-                    sharedPreferences.edit().putBoolean(key, reader.nextBoolean()).apply();
+                    sharedPreferences.edit().putBoolean(key, reader.nextBoolean()).commit();
                     break;
                 default:
                     reader.skipValue();
