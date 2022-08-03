@@ -30,9 +30,15 @@ public class BackupRestorer implements IBackupRestorer {
     private void readDatabase(Context context, JsonReader reader) throws Exception {
         reader.beginObject();
 
-        assert reader.nextName().equals("version");
+        String n1 = reader.nextName();
+        if (!n1.equals("version")) {
+            throw new RuntimeException("Unknown value " + n1);
+        }
         int version = reader.nextInt();
-        assert reader.nextName().equals("content");
+        String n2 = reader.nextName();
+        if (!n2.equals("content")) {
+            throw new RuntimeException("Unknown value " + n2);
+        }
 
         char[] databasePassword = KeyStoreHelper.getInstance(FinanceDatabase.KEY_ALIAS).getKey(context);
         SQLiteDatabase restoreDatabase = SQLiteDatabase.openOrCreateDatabase(context.getDatabasePath(RESTORE_DB_NAME).getPath(), databasePassword, null, new SQLiteDatabaseHook() {
