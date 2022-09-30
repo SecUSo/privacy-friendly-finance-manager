@@ -206,6 +206,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
+                // close the database connection if the main activity is closed
+                // to reopen it later
+                if (isTaskRoot()) {
+                    FinanceDatabase.disconnect();
+                }
                 super.onBackPressed();
             }
         } else {
