@@ -183,6 +183,13 @@ public abstract class FinanceDatabase extends RoomDatabase {
         task.execute();
     }
 
+    public synchronized static void disconnect() {
+        if (financeDatabase != null && financeDatabase.isOpen()) {
+            financeDatabase.close();
+        }
+        financeDatabase = null;
+    }
+
     private static class InitDatabaseTask extends CommunicantAsyncTask<Void, Void> implements FullTaskListener {
 
         @SuppressLint("StaticFieldLeak")
