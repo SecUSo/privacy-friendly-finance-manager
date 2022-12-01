@@ -78,6 +78,12 @@ public abstract class TransactionListActivity extends BaseActivity implements On
 
         TransactionsAdapter adapter = new TransactionsAdapter(this, viewModel.getTransactions());
         adapter.onItemClick(this);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                recyclerView.scrollToPosition(positionStart);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         emptyView = findViewById(R.id.empty_view);
