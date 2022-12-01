@@ -48,8 +48,14 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT * FROM Tranzaction ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getAll();
 
+    @Query("SELECT * FROM Tranzaction WHERE name LIKE '%' || :filter || '%' ORDER BY date DESC, id DESC")
+    public abstract LiveData<List<Transaction>> getAllFiltered(String filter);
+
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccount(long accountId);
+
+    @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name LIKE '%' || :filter || '%' ORDER BY date DESC, id DESC")
+    public abstract LiveData<List<Transaction>> getForAccountFiltered(long accountId, String filter);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND date>=:date ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountFrom(long accountId, String date);
@@ -59,6 +65,9 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
 
     @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForCategory(long categoryId);
+
+    @Query("SELECT * FROM Tranzaction WHERE categoryId=:categoryId AND name LIKE '%' || :filter || '%' ORDER BY date DESC, id DESC")
+    public abstract LiveData<List<Transaction>> getForCategoryFiltered(long categoryId, String filter);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);

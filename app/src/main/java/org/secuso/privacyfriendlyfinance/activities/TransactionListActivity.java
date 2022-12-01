@@ -22,10 +22,12 @@ import android.app.AlertDialog;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
     private RecyclerView recyclerView;
     private TextView emptyView;
     protected TransactionListViewModel viewModel;
+    private TransactionsAdapter adapter;
 
     protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
 
@@ -76,7 +79,7 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        TransactionsAdapter adapter = new TransactionsAdapter(this, viewModel.getTransactions());
+        adapter = new TransactionsAdapter(this, viewModel.getTransactions());
         adapter.onItemClick(this);
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -86,8 +89,20 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         });
         recyclerView.setAdapter(adapter);
 
-        emptyView = findViewById(R.id.empty_view);
-        emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
+        SearchView search = findViewById(R.id.search_transaction);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterTransactions(newText);
+                return false;
+            }
+        });
+
         viewModel.getTransactions().observe(this, transactions -> {
             if (transactions.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
@@ -97,6 +112,9 @@ public abstract class TransactionListActivity extends BaseActivity implements On
                 emptyView.setVisibility(View.GONE);
             }
         });
+
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
@@ -169,5 +187,9 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         }
         transactionDialog.setArguments(args);
         transactionDialog.show(getSupportFragmentManager(), "TransactionDialog");
+    }
+
+    private void filterTransactions(String filter) {
+        adapter.setData(viewModel.getTransactionsFiltered(filter));
     }
 }

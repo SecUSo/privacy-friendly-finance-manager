@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -32,7 +33,10 @@ import org.secuso.privacyfriendlyfinance.activities.dialog.AccountDialog;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
+
+import java.util.List;
 
 /**
  * Account activity. Used to show detailed information about an account and all transactions that

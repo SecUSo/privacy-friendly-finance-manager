@@ -85,6 +85,11 @@ public class CategoryViewModel extends TransactionListViewModel {
         return transactionDao.getForCategory(categoryId);
     }
 
+    @Override
+    protected LiveData<List<Transaction>> fetchTransactionsFiltered(String filter) {
+        return transactionDao.getForCategoryFiltered(categoryId, filter);
+    }
+
     public static class CategoryViewModelFactory implements ViewModelProvider.Factory {
         private Application application;
         private long categoryId;
