@@ -88,6 +88,10 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         setTransactionDummy();
     }
 
+    public LiveData<List<String>> getAllTitles() {
+        return transactionDao.getAllTitles();
+    }
+
     @Override
     protected Long getNumericAmount() {
         if (transaction == null) return null;

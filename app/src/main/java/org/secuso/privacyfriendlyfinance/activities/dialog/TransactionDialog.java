@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,6 +85,11 @@ public class TransactionDialog extends AppCompatDialogFragment {
         final DialogTransactionBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_transaction, null, false);
         view = binding.getRoot();
         builder.setView(view);
+
+        AutoCompleteTextView etName = view.findViewById(R.id.editText_transaction_name);
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), R.layout.transaction_name_autocomplete_dropdown_item);
+        etName.setAdapter(autoCompleteAdapter);
+        viewModel.getAllTitles().observe(this, list -> autoCompleteAdapter.addAll(list));
 
         editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
