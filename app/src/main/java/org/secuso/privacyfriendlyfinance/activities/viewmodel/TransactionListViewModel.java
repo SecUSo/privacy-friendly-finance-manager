@@ -59,9 +59,17 @@ public class TransactionListViewModel extends BaseViewModel {
         return transactionDao.getAll();
     }
 
+    protected LiveData<List<Transaction>> fetchTransactionsFiltered(String filter) {
+        return transactionDao.getAllFiltered(filter);
+    }
+
     public LiveData<List<Transaction>> getTransactions() {
         if (transactions == null) transactions = fetchTransactions();
         return transactions;
+    }
+
+    public LiveData<List<Transaction>> getTransactionsFiltered(String filter) {
+        return fetchTransactionsFiltered(filter);
     }
 
     public long getPreselectedCategoryId() {

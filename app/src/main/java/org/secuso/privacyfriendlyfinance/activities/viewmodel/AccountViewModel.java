@@ -76,6 +76,11 @@ public class AccountViewModel extends TransactionListViewModel {
         return transactionDao.getForAccount(accountId);
     }
 
+    @Override
+    protected LiveData<List<Transaction>> fetchTransactionsFiltered(String filter) {
+        return transactionDao.getForAccountFiltered(accountId, filter);
+    }
+
     public static class AccountViewModelFactory implements ViewModelProvider.Factory {
         private final Application application;
         private final long accountId;

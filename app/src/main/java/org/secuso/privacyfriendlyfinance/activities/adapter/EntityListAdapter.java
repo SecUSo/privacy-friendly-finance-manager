@@ -41,6 +41,7 @@ import java.util.List;
  */
 public abstract class EntityListAdapter<E extends IdProvider, H extends RecyclerView.ViewHolder> extends ListAdapter<E, H> {
     protected final BaseActivity context;
+    protected LiveData<List<E>> data;
     private List<OnItemClickListener<E>> listeners = new ArrayList<>();
 
     public EntityListAdapter(BaseActivity context, LiveData<List<E>> data) {
@@ -58,6 +59,7 @@ public abstract class EntityListAdapter<E extends IdProvider, H extends Recycler
         });
 
         this.context = context;
+        this.data = data;
         data.observe(context, new Observer<List<E>>() {
             @Override
             public void onChanged(@Nullable List<E> newItems) {
@@ -72,6 +74,7 @@ public abstract class EntityListAdapter<E extends IdProvider, H extends Recycler
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = holder.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     E item = getItem(position);
                     for (OnItemClickListener<E> listener : listeners) {
@@ -84,5 +87,15 @@ public abstract class EntityListAdapter<E extends IdProvider, H extends Recycler
 
     public void onItemClick(OnItemClickListener<E> listener) {
         listeners.add(listener);
+    }
+
+    public void setData(LiveData<List<E>> data) {
+        this.data = data;
+        data.observe(context, new Observer<List<E>>() {
+            @Override
+            public void onChanged(@Nullable List<E> newItems) {
+                submitList(newItems);
+            }
+        });
     }
 }
