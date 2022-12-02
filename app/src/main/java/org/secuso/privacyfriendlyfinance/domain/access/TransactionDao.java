@@ -63,6 +63,8 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getForAccountAndCategory(long accountId, long categoryId);
 
+    @Query("SELECT DISTINCT TRIM(name) FROM Tranzaction ORDER BY date DESC")
+    public abstract LiveData<List<String>> getAllDistinctTitles();
 
     /*
      * R E P E A T I N G _ T R A N S A C T I O N S
