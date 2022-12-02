@@ -88,8 +88,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         setTransactionDummy();
     }
 
-    public LiveData<List<String>> getAllTitles() {
-        return transactionDao.getAllTitles();
+    public LiveData<List<String>> getAllDistinctTitles() {
+        return transactionDao.getAllDistinctTitles();
     }
 
     @Override
@@ -166,8 +166,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     public void setName(String name) {
         if (name == null) name = "";
         if (transaction.getName() == null) transaction.setName("");
-        if (!transaction.getName().equals(name)) {
-            transaction.setName(name);
+        if (!transaction.getName().equals(name.trim())) {
+            transaction.setName(name.trim());
             notifyPropertyChanged(BR.name);
         }
     }

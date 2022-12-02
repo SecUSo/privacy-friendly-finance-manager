@@ -89,7 +89,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
         AutoCompleteTextView etName = view.findViewById(R.id.editText_transaction_name);
         ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), R.layout.transaction_name_autocomplete_dropdown_item);
         etName.setAdapter(autoCompleteAdapter);
-        viewModel.getAllTitles().observe(this, list -> autoCompleteAdapter.addAll(list));
+        viewModel.getAllDistinctTitles().observe(this, list -> autoCompleteAdapter.addAll(list));
 
         editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
