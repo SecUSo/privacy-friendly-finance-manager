@@ -19,13 +19,11 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -34,10 +32,7 @@ import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
-import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
-
-import java.util.List;
 
 /**
  * Activity that shows detailed information about a single category and all transactions that are
