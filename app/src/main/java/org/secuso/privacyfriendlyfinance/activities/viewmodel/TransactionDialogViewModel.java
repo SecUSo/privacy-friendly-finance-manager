@@ -166,8 +166,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     public void setName(String name) {
         if (name == null) name = "";
         if (transaction.getName() == null) transaction.setName("");
-        if (!transaction.getName().equals(name.trim())) {
-            transaction.setName(name.trim());
+        if (!transaction.getName().equals(name)) {
+            transaction.setName(name);
             notifyPropertyChanged(BR.name);
         }
     }
@@ -232,6 +232,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
 
     public void submit() {
+        transaction.setName(transaction.getName().trim());
         transactionDao.updateOrInsertAsync(transaction);
     }
 
