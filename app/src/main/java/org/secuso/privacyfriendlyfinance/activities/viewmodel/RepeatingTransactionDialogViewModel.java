@@ -106,6 +106,10 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         return accounts;
     }
 
+    public LiveData<List<String>> getAllDistinctRepeatingTransactionTitles() {
+        return repeatingTransactionDao.getAllDistinctRepeatingTransactionTitles();
+    }
+
     public LiveData<RepeatingTransaction> setTransactionId(long transactionId) {
         if (this.transactionId != transactionId) {
             this.transactionId = transactionId;
@@ -262,6 +266,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     }
 
     public void submit() {
+        transaction.setName(transaction.getName().trim());
         repeatingTransactionDao.updateOrInsertAsync(transaction);
     }
 
