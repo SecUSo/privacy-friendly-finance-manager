@@ -25,6 +25,7 @@ import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 
 import java.util.List;
@@ -36,17 +37,22 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class RepeatingTransactionsViewModel extends BaseViewModel {
-    private LiveData<List<RepeatingTransaction>> repeatingTransactions;
+    private final RepeatingTransactionDao repeatingTransactionDao =
+            FinanceDatabase.getInstance(getApplication()).repeatingTransactionDao();
+    private final LiveData<List<RepeatingTransaction>> repeatingTransactions;
 
     public RepeatingTransactionsViewModel(@NonNull Application application) {
         super(application);
         setNavigationDrawerId(R.id.nav_repeating_transactions);
         setTitle(R.string.activity_repeating_transactions_title);
-        repeatingTransactions = FinanceDatabase.getInstance(application)
-                .repeatingTransactionDao().getAll();
+        repeatingTransactions = repeatingTransactionDao.getAll();
     }
 
     public LiveData<List<RepeatingTransaction>> getRepeatingTransactions() {
         return repeatingTransactions;
+    }
+
+    public LiveData<List<RepeatingTransaction>> getRepeatingTransactionsFiltered(String filter) {
+        return repeatingTransactionDao.getAllFiltered(filter);
     }
 }

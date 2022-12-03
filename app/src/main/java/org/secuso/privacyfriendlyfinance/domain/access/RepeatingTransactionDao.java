@@ -44,4 +44,10 @@ public abstract class RepeatingTransactionDao extends AbstractDao<RepeatingTrans
 
     @Query("SELECT * FROM RepeatingTransaction ORDER BY id ASC")
     public abstract List<RepeatingTransaction> getAllSync();
+
+    @Query("SELECT * FROM RepeatingTransaction WHERE name LIKE '%' || :filter || '%' ORDER BY id ASC")
+    public abstract LiveData<List<RepeatingTransaction>> getAllFiltered(String filter);
+
+    @Query("SELECT DISTINCT TRIM(name) FROM RepeatingTransaction ORDER BY name DESC")
+    public abstract LiveData<List<String>> getAllDistinctRepeatingTransactionTitles();
 }

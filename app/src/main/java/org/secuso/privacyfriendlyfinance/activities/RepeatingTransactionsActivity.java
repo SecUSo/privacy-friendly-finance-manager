@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,12 +65,17 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContent(R.layout.content_recycler);
+        setContent(R.layout.content_transaction_list);
 
         final RepeatingTransactionsViewModel tmpViewModel = (RepeatingTransactionsViewModel) super.viewModel;
         repeatingTransactionsAdapter = new RepeatingTransactionsAdapter(this, tmpViewModel.getRepeatingTransactions());
         repeatingTransactionsAdapter.onItemClick(this);
-
+        repeatingTransactionsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                recyclerView.scrollToPosition(positionStart);
+            }
+        });
         addFab(R.layout.fab_add, v -> openRepeatingTransactionDialog(null));
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -77,6 +83,21 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(repeatingTransactionsAdapter);
+
+        SearchView search = findViewById(R.id.search_transaction);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterRepeatingTransactions(newText);
+                return false;
+            }
+        });
+
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
@@ -140,5 +161,9 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
     @Override
     public void onItemClick(RepeatingTransaction item) {
         openRepeatingTransactionDialog(item);
+    }
+
+    private void filterRepeatingTransactions(String filter) {
+        repeatingTransactionsAdapter.setData(((RepeatingTransactionsViewModel) super.viewModel).getRepeatingTransactionsFiltered(filter));
     }
 }

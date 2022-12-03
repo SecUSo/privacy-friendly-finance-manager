@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -114,6 +115,10 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
             binding.setViewModel(viewModel);
         }
 
+        AutoCompleteTextView etName = view.findViewById(R.id.editText_transaction_name);
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), R.layout.transaction_name_autocomplete_dropdown_item);
+        etName.setAdapter(autoCompleteAdapter);
+        viewModel.getAllDistinctRepeatingTransactionTitles().observe(this, list -> autoCompleteAdapter.addAll(list));
         viewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable List<Account> accounts) {
