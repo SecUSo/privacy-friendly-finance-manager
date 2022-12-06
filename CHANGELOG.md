@@ -1,5 +1,24 @@
 # Changelog
 
+<a name="v2.2.0"></a>
+## [Finance Manager (Privacy Friendly) v2.2.0 (v2.2.0)](https://github.com/SecUSo/privacy-friendly-finance-manager/releases/tag/v2.2.0) - 06 Dec 2022
+
+## What's Changed
+* Fixed App crashes on reopening by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/32
+* TransactionListActivity scroll to new transaction by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/36
+* Added text auto completion to the transaction name in TransactionDialog. by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/38
+* Added search bar to filter transactions. by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/37
+* Fixed AutoCompleteTextView misbehaving on spaces. by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/39
+* Added search feature and autocomplete for repeatable transactions. by [@coderPaddyS](https://github.com/coderPaddyS) in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/40
+
+## New Contributors
+* [@coderPaddyS](https://github.com/coderPaddyS) made their first contribution in https://github.com/SecUSo/privacy-friendly-finance-manager/pull/32
+
+**Full Changelog**: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.1.0...v2.2.0
+
+[Changes][v2.2.0]
+
+
 <a name="v2.1.0"></a>
 ## [Finance Manager (Privacy Friendly) v2.1.0 (v2.1.0)](https://github.com/SecUSo/privacy-friendly-finance-manager/releases/tag/v2.1.0) - 03 Aug 2022
 
@@ -51,6 +70,7 @@
 [Changes][v1.0]
 
 
+[v2.2.0]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.0.2...v2.1.0
 [v2.0.2]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v1.0.1...v2.0.1
