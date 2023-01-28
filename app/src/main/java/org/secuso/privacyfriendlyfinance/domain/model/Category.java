@@ -22,6 +22,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdProvider;
+
 /**
  * Category entity.
  *
@@ -33,7 +35,7 @@ import androidx.room.Index;
     inheritSuperIndices = true,
     indices = @Index(value = "name", unique = true)
 )
-public class Category extends AbstractEntity {
+public class Category extends AbstractEntity implements NameWithIdProvider {
     private String name;
     private Long budget;
     private Integer color;
@@ -44,6 +46,7 @@ public class Category extends AbstractEntity {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }

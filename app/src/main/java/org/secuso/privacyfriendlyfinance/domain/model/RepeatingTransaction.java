@@ -23,6 +23,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import org.joda.time.LocalDate;
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdProvider;
 
 /**
  * Repeating transaction entity.
@@ -52,7 +53,7 @@ import org.joda.time.LocalDate;
                 ),
         }
 )
-public class RepeatingTransaction extends AbstractEntity {
+public class RepeatingTransaction extends AbstractEntity implements NameWithIdProvider {
     private String name;
     private long amount;
     private LocalDate latestInsert = LocalDate.now();

@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019 Leonard Otto, Felix Hofmann
+ Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -16,46 +16,24 @@
  License Version 2.0.
  */
 
-package org.secuso.privacyfriendlyfinance.domain.model;
-
-
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.Index;
-
-import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdProvider;
+package org.secuso.privacyfriendlyfinance.domain.model.common;
 
 /**
- * Account entity.
- *
- * @author Felix Hofmann
- * @author Leonard Otto
+ * minimal {@link NameWithIdProvider} implementation for use in unittests
  */
-@Entity(
-    tableName = "Account",
-    inheritSuperIndices = true,
-    indices = @Index(value = "name", unique = true)
-)
-public class Account extends AbstractEntity implements NameWithIdProvider {
+public class NameWithIdDto implements NameWithIdProvider {
+    private Long id;
     private String name;
 
-    public Account() {
+    public Long getId() {
+        return id;
     }
-
-    @Ignore
-    public Account(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    @Override
-    public String toString() {
-        return name;
+    public NameWithIdDto(String name, Long id) {
+        this.name = name;
+        this.id = id;
     }
 }
