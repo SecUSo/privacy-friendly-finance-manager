@@ -12,7 +12,9 @@ Unter dem Menüpunkt Transaktionsübersicht sehen Sie die Bilanz ihrer Einträge
 Unter dem Menüpunkt Kategorien sehen Sie alle erstellten Kategorien und deren Bilanzen. Durch das Klicken des Plus-Buttons können Sie eine neue Kategorie erstellen. Durch langes Klicken der Einträge kann man die Kategorien bearbeiten oder löschen.
 
 - Backups
-Sie können ein Backup von ihrer database erstellen und dann mit <privacy-friendly-backup><\https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/)> wiederherstellen.
+Sie können eine Datensicherung Ihrer Transaktionsdaten mit Hilfe der 
+App <a href='https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/</a> erstellen 
+und wieder zurückspielen.
 
 Kontaktieren Sie uns gerne über:
 Twitter - @SECUSOResearch https://twitter.com/secusoresearc)
