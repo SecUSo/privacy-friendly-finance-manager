@@ -13,7 +13,7 @@ Unter dem Menüpunkt Kategorien sehen Sie alle erstellten Kategorien und deren B
 
 - Backups
 Sie können eine Datensicherung Ihrer Transaktionsdaten mit Hilfe der 
-App <a href='https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/</a> erstellen 
+App <a href="https://f-droid.org/de/packages/org.secuso.privacyfriendlybackup/">privacy-friendly-backup</a> erstellen 
 und wieder zurückspielen.
 
 Kontaktieren Sie uns gerne über:
