@@ -24,7 +24,7 @@ Further development requires Android Studio, we recommend to use at least versio
  
 ## Making Backups
 
-You can create a backup of your privacy-friendly-finance-manager database and restore it later with privacy-friendly-backup: https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/
+You can create a backup of your privacy-friendly-finance-manager database and restore it later with [privacy-friendly-backup](https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/)
 
 ### API Reference
 
