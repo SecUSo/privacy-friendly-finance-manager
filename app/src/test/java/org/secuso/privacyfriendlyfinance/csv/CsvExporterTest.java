@@ -47,8 +47,8 @@ public class CsvExporterTest {
     public void toCsv() {
         // date,amount,transaction-name,category-name,account-name
         String expected = "1999-12-31,10000,My Test Transaction,my test category,my test account";
-        Id2Name<NameWithIdDto> id2Category = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test account", 12345L)));
-        Id2Name<NameWithIdDto> id2Account = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test category", 54321L)));
+        Id2Name<NameWithIdDto> id2Account = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test account", 12345L)));
+        Id2Name<NameWithIdDto> id2Category = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test category", 54321L)));
 
         CsvExporter exporter = new CsvExporter(id2Category, id2Account);
 

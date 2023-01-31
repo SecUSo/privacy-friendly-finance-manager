@@ -20,6 +20,9 @@ package org.secuso.privacyfriendlyfinance.csv;
 
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
+
+import java.util.Arrays;
 
 /**
  * converts (list of) {@link Transaction} items to csv format used for export.
@@ -34,7 +37,7 @@ public class CsvExporter {
     }
 
     public String toCsv(Transaction transaction) {
-        // todo
-        return "";
+
+        return transaction.getDate() + "," + transaction.getAmount() + "," + transaction.getName() + "," + id2Category.get(transaction.getCategoryId()) + "," + id2Account.get(transaction.getAccountId());
     }
 }
