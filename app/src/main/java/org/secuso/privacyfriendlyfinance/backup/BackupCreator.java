@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 
 public class BackupCreator implements IBackupCreator {
     @Override
-    public void writeBackup(@NonNull Context context, @NonNull OutputStream outputStream) {
+    public boolean writeBackup(@NonNull Context context, @NonNull OutputStream outputStream) {
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
         writer.setIndent("");
 
@@ -62,5 +62,6 @@ public class BackupCreator implements IBackupCreator {
         } catch (Exception e) {
             Log.e("PFA BackupCreator", "Error occurred", e);
         }
+        return true;
     }
 }
