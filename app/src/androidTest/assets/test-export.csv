@@ -1,0 +1,3 @@
+account;category;currency;amount;ref_currency_amount;type;payment_type;payment_type_local;note;date;gps_latitude;gps_longitude;gps_accuracy_in_meters;warranty_in_month;transfer;payee;labels;envelope_id;custom_category
+Cash;Gifts;EUR;190.00;190.00;Income;CASH;Cash;Yay, such a big gift;2023-01-30 09:38:17;;;;0;false;;;10010;false
+Cash;Life events;EUR;-15.00;-15.00;Expenses;TRANSFER;Bank transfer;Ein Beispiel;2023-01-30 09:37:05;;;;0;false;;;6004;false
