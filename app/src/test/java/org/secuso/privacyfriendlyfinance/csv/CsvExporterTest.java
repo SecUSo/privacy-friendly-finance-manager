@@ -28,7 +28,10 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * junit-4 test for {@link CsvExporter}
@@ -44,7 +47,7 @@ public class CsvExporterTest {
     }
 
     @Test
-    public void toCsv() {
+    public void toCsv() throws IOException {
         // date,amount,note,category,account
         String expected = "1999-12-31;10000;My Test Transaction;my test category;my test account";
         Id2Name<NameWithIdDto> id2Account = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test account", 12345L)));
@@ -59,6 +62,13 @@ public class CsvExporterTest {
         String csvLine = exporter.toCsv(transaction);
 
         assertEquals(expected, csvLine);
+
+
+        String[] first = {"three", "two", "one"};
+        ArrayList<String[]> list = new ArrayList<String[]>();
+        list.add(first);
+
+        exporter.writeData(list);
     }
 
     @Test

@@ -20,9 +20,21 @@ package org.secuso.privacyfriendlyfinance.csv;
 
 import androidx.annotation.NonNull;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * converts (list of) {@link Transaction} items to csv format used for export.
@@ -48,8 +60,30 @@ public class CsvExporter {
     }
 
     @NonNull
-    private String toCsv(Object date, Object amount, Object comment, Object categoryName, Object accountName) {
+    private String toCsv(Object... columns) {
+        return  Arrays.stream(columns)
+                .map(o -> o.toString())
+                .collect(Collectors.joining(CSV_FIELD_DELIMITER));
+    }
+    @NonNull
+    private String toCsv_original (Object date, Object amount, Object comment, Object categoryName, Object accountName) {
         return date + CSV_FIELD_DELIMITER + amount + CSV_FIELD_DELIMITER + comment
                 + CSV_FIELD_DELIMITER + categoryName + CSV_FIELD_DELIMITER + accountName;
+    }
+
+    public void writeData(List<String[]> lines) throws IOException {
+//        Writer writer = new FileWriter("the-test-text.csv");
+//
+//        StatefulBeanToCsv<CSVHeader> beanToCsv = new StatefulBeanToCsvBuilder<CSVHeader>(writer)
+//                .withSeparator(';')
+//                .withLineEnd(CSVWriter.DEFAULT_LINE_END)
+//                .withOrderedResults(true)
+//                .build();
+
+        CSVWriter writer = (CSVWriter) new CSVWriterBuilder(new FileWriter("the-test-text.csv")).withSeparator(';').build();
+        for(String[] line : lines) {
+            writer.writeNext(line);
+        }
+        writer.close();
     }
 }
