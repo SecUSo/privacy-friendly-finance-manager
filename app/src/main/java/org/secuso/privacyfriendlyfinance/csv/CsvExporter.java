@@ -20,16 +20,12 @@ package org.secuso.privacyfriendlyfinance.csv;
 
 import androidx.annotation.NonNull;
 
-import com.opencsv.CSVWriter;
 import com.opencsv.CSVWriterBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.ICSVWriter;
 
-import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
@@ -39,51 +35,61 @@ import java.util.stream.Collectors;
 /**
  * converts (list of) {@link Transaction} items to csv format used for export.
  */
-public class CsvExporter {
-    public static final String CSV_FIELD_DELIMITER = ";";
+public class CsvExporter implements AutoCloseable {
+    public static final char CSV_FIELD_DELIMITER_CHAR = ';';
+    public static final String CSV_FIELD_DELIMITER = "" + CSV_FIELD_DELIMITER_CHAR;
     private final Id2Name<?> id2Category;
     private final Id2Name<?> id2Account;
 
-    public CsvExporter(Id2Name<?> id2Category, Id2Name<?> id2Account) {
+    ICSVWriter csvWriter;
+
+    public CsvExporter(Writer resultWriter, Id2Name<?> id2Category, Id2Name<?> id2Account) {
         this.id2Category = id2Category;
         this.id2Account = id2Account;
+
+        csvWriter = new CSVWriterBuilder(resultWriter)
+                .withSeparator(CSV_FIELD_DELIMITER_CHAR)
+                .build();
+
     }
 
-    public String toCsv(Transaction transaction) {
+    public void writeCsvLine(Transaction transaction) {
 
-        return toCsv(transaction.getDate(), transaction.getAmount(), transaction.getName(),
-                id2Category.get(transaction.getCategoryId()), id2Account.get(transaction.getAccountId()));
+        writeCsvLine(
+                toString(transaction.getDate()),
+                toString(transaction.getAmount()),
+                toString(transaction.getName()),
+                toString(id2Category.get(transaction.getCategoryId())),
+                toString(id2Account.get(transaction.getAccountId())));
     }
 
-    public String createCsvHeader() {
-        return toCsv("date","amount","note","category","account");
+    /**
+     * nullsafe: converts object to string
+     */
+    private String toString(Object o) {
+        return o != null ? o.toString() : null;
+    }
+
+    public void writeCsvHeader() {
+        writeCsvLine("date","amount","note","category","account");
     }
 
     @NonNull
-    private String toCsv(Object... columns) {
-        return  Arrays.stream(columns)
-                .map(o -> o.toString())
-                .collect(Collectors.joining(CSV_FIELD_DELIMITER));
-    }
-    @NonNull
-    private String toCsv_original (Object date, Object amount, Object comment, Object categoryName, Object accountName) {
-        return date + CSV_FIELD_DELIMITER + amount + CSV_FIELD_DELIMITER + comment
-                + CSV_FIELD_DELIMITER + categoryName + CSV_FIELD_DELIMITER + accountName;
+    private void writeCsvLine(String... columns) {
+        StringBuilder result = new StringBuilder();
+        csvWriter.writeNext(columns, false);
+        csvWriter.flushQuietly();
     }
 
-    public void writeData(List<String[]> lines) throws IOException {
-//        Writer writer = new FileWriter("the-test-text.csv");
-//
-//        StatefulBeanToCsv<CSVHeader> beanToCsv = new StatefulBeanToCsvBuilder<CSVHeader>(writer)
-//                .withSeparator(';')
-//                .withLineEnd(CSVWriter.DEFAULT_LINE_END)
-//                .withOrderedResults(true)
-//                .build();
-
-        CSVWriter writer = (CSVWriter) new CSVWriterBuilder(new FileWriter("the-test-text.csv")).withSeparator(';').build();
+    public void writeCsvLineByList(List<String[]> lines) throws IOException {
         for(String[] line : lines) {
-            writer.writeNext(line);
+            csvWriter.writeNext(line);
         }
-        writer.close();
+        csvWriter.flush();
+    }
+
+    @Override
+    public void close() throws Exception {
+        csvWriter.close();
     }
 }
