@@ -18,16 +18,17 @@
 
 package org.secuso.privacyfriendlyfinance.csv;
 
+import androidx.annotation.NonNull;
+
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
-import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
-
-import java.util.Arrays;
 
 /**
  * converts (list of) {@link Transaction} items to csv format used for export.
  */
 public class CsvExporter {
+    public static final String CSV_FIELD_DELIMITER = ";";
     private final Id2Name<?> id2Category;
     private final Id2Name<?> id2Account;
 
@@ -38,6 +39,17 @@ public class CsvExporter {
 
     public String toCsv(Transaction transaction) {
 
-        return transaction.getDate() + "," + transaction.getAmount() + "," + transaction.getName() + "," + id2Category.get(transaction.getCategoryId()) + "," + id2Account.get(transaction.getAccountId());
+        return toCsv(transaction.getDate(), transaction.getAmount(), transaction.getName(),
+                id2Category.get(transaction.getCategoryId()), id2Account.get(transaction.getAccountId()));
+    }
+
+    public String createCsvHeader() {
+        return toCsv("date","amount","note","category","account");
+    }
+
+    @NonNull
+    private String toCsv(Object date, Object amount, Object comment, Object categoryName, Object accountName) {
+        return date + CSV_FIELD_DELIMITER + amount + CSV_FIELD_DELIMITER + comment
+                + CSV_FIELD_DELIMITER + categoryName + CSV_FIELD_DELIMITER + accountName;
     }
 }

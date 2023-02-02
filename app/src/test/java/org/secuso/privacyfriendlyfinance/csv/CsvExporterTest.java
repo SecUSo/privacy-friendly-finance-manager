@@ -45,8 +45,8 @@ public class CsvExporterTest {
 
     @Test
     public void toCsv() {
-        // date,amount,transaction-name,category-name,account-name
-        String expected = "1999-12-31,10000,My Test Transaction,my test category,my test account";
+        // date,amount,note,category,account
+        String expected = "1999-12-31;10000;My Test Transaction;my test category;my test account";
         Id2Name<NameWithIdDto> id2Account = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test account", 12345L)));
         Id2Name<NameWithIdDto> id2Category = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test category", 54321L)));
 
@@ -56,7 +56,18 @@ public class CsvExporterTest {
                 "My Test Transaction",10000, LocalDate.parse("1999-12-31"),
                 12345L, 54321L);
 
-        String csvLine = exporter.toCsv(transaction).toString();
+        String csvLine = exporter.toCsv(transaction);
+
+        assertEquals(expected, csvLine);
+    }
+
+    @Test
+    public void createCsvHeader() {
+        String expected = "date;amount;note;category;account";
+
+        CsvExporter exporter = new CsvExporter(null, null);
+
+        String csvLine = exporter.createCsvHeader();
 
         assertEquals(expected, csvLine);
     }
