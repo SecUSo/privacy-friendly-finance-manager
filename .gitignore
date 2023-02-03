@@ -37,3 +37,4 @@ Thumbs.db
 app/release/*
 *.apk
 /app/src/main/gen
+/app/src/androidTest/assets/*.csv#
