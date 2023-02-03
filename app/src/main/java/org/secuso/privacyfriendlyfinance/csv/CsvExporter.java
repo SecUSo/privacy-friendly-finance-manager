@@ -28,9 +28,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * converts (list of) {@link Transaction} items to csv format used for export.
@@ -76,7 +74,6 @@ public class CsvExporter implements AutoCloseable {
 
     @NonNull
     private void writeCsvLine(String... columns) {
-        StringBuilder result = new StringBuilder();
         csvWriter.writeNext(columns, false);
         csvWriter.flushQuietly();
     }
