@@ -18,6 +18,7 @@
 
 package org.secuso.privacyfriendlyfinance.domain.model.common;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +31,13 @@ public class Id2Name <T extends NameWithIdProvider>  {
     private final Map<Long, String> id2Name;
 
     public Id2Name(List<T> items) {
-        id2Name = items.stream().collect(Collectors.toMap(NameWithIdProvider::getId, NameWithIdProvider::getName));
+        Map<Long, String> map = new HashMap<>();
+        for (T item : items) {
+            if (map.put(item.getId(), item.getName()) != null) {
+                throw new IllegalStateException("Duplicate key");
+            }
+        }
+        id2Name = map;
     }
 
     /**
