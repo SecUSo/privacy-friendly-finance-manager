@@ -18,11 +18,16 @@
 
 package org.secuso.privacyfriendlyfinance.csv;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.opencsv.CSVWriterBuilder;
 import com.opencsv.ICSVWriter;
 
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
+import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 
@@ -70,6 +75,15 @@ public class CsvExporter implements AutoCloseable {
 
     public void writeCsvHeader() {
         writeCsvLine("date","amount","note","category","account");
+    }
+
+    public void writeTransactions(List<Transaction> transactions) {
+        writeCsvHeader();
+
+        for(int x = 0; x < transactions.size(); x++) {
+            writeCsvLine(transactions.get(x));
+        }
+
     }
 
     @NonNull

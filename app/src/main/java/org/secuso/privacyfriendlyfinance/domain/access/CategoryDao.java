@@ -44,4 +44,7 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     @Override
     @Query("SELECT * FROM Category")
     public abstract LiveData<List<Category>> getAll();
+
+    @Query("SELECT * FROM Category")
+    public abstract List<Category> getAllSynchron();
 }

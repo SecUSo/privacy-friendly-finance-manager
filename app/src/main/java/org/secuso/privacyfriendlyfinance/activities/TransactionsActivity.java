@@ -28,6 +28,9 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.csv.CsvExporter;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
@@ -36,6 +39,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Transactions activity that show ALL transactions in the system. Is the main activity of this app.
@@ -66,29 +70,35 @@ public class TransactionsActivity extends TransactionListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.exportButton:
-                CsvExporter exporter = null;
-                Id2Name<NameWithIdDto> id2Category = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test category", 12345L)));
-                Id2Name<NameWithIdDto> id2Account = new Id2Name<>(Arrays.asList(new NameWithIdDto("my test account", 54321L)));
-                try {
-                    exporter = new CsvExporter(new FileWriter(getExternalFilesDir("MyFileDir") + "/the-test.csv"), id2Category, id2Account);
-                    Log.d(TAG, getExternalFilesDir("MyFileDir") + "/the-test.csv");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                exporter.writeCsvHeader();
-
-                Transaction transaction = new Transaction("Example", 42, new LocalDate(), 54321L, 12345L);
-                exporter.writeCsvLine(transaction);
-                try {
-                    exporter.close();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                // Code for About goes here
-                return true;
+                return onExportCsv();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean onExportCsv() {
+        final List<Transaction> transactionList = this.viewModel.getTransactions().getValue();
+        new Thread(() -> doExportAsynch(transactionList)).start();
+        return true;
+    }
+
+    private boolean doExportAsynch(List<Transaction> transactionList) {
+        CsvExporter exporter = null;
+
+        Id2Name<Category> id2Category = new Id2Name<>(FinanceDatabase.getInstance(getApplication()).categoryDao().getAllSynchron());
+        Id2Name<Account> id2Account = new Id2Name<>(FinanceDatabase.getInstance(getApplication()).accountDao().getAllSynchron());
+        try {
+            exporter = new CsvExporter(new FileWriter(getExternalFilesDir("MyFileDir") + "/the-test.csv"), id2Category, id2Account);
+            exporter.writeTransactions(transactionList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                exporter.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 }
