@@ -25,6 +25,7 @@ import android.view.MenuItem;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.helper.FileHelper;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.csv.CsvExporter;
@@ -35,6 +36,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -77,18 +79,19 @@ public class TransactionsActivity extends TransactionListActivity {
     }
 
     private boolean onExportCsv() {
+        File file = FileHelper.getCsvFile(this,"the-test.csv");
         final List<Transaction> transactionList = this.viewModel.getTransactions().getValue();
-        new Thread(() -> doExportAsynch(transactionList)).start();
+        new Thread(() -> doExportAsynch(transactionList, file)).start();
         return true;
     }
 
-    private boolean doExportAsynch(List<Transaction> transactionList) {
+    private void doExportAsynch(List<Transaction> transactionList, File file) {
         CsvExporter exporter = null;
 
         Id2Name<Category> id2Category = new Id2Name<>(FinanceDatabase.getInstance(getApplication()).categoryDao().getAllSynchron());
         Id2Name<Account> id2Account = new Id2Name<>(FinanceDatabase.getInstance(getApplication()).accountDao().getAllSynchron());
         try {
-            exporter = new CsvExporter(new FileWriter(getExternalFilesDir("MyFileDir") + "/the-test.csv"), id2Category, id2Account);
+            exporter = new CsvExporter(new FileWriter(file), id2Category, id2Account);
             exporter.writeTransactions(transactionList);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -99,6 +102,10 @@ public class TransactionsActivity extends TransactionListActivity {
                 throw new RuntimeException(e);
             }
         }
-        return true;
+
+
+        runOnUiThread(() -> {
+            FileHelper.sendCsv(this, "Send CSV to ...", file);
+        });
     }
 }

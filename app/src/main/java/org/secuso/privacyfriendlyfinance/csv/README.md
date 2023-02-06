@@ -4,6 +4,8 @@ charset = "utf8"
 csv-fielddelimiter = ";"
 enclose in -"- : only if necessary
 
+shared as mime = text/csv
+
 Available columns
 
 * date (without time as iso string)
