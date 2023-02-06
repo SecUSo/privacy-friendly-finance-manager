@@ -60,7 +60,7 @@ public class CsvExporter implements AutoCloseable {
 
         writeCsvLine(
                 toString(transaction.getDate()),
-                toString(transaction.getAmount()),
+                toString(transaction.getAmount() / 100.0),
                 toString(transaction.getName()),
                 toString(id2Category.get(transaction.getCategoryId())),
                 toString(id2Account.get(transaction.getAccountId())));

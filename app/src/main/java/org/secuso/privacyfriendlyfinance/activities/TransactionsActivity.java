@@ -81,11 +81,11 @@ public class TransactionsActivity extends TransactionListActivity {
     private boolean onExportCsv() {
         File file = FileHelper.getCsvFile(this,"the-test.csv");
         final List<Transaction> transactionList = this.viewModel.getTransactions().getValue();
-        new Thread(() -> doExportAsynch(transactionList, file)).start();
+        new Thread(() -> doExportAsync(transactionList, file)).start();
         return true;
     }
 
-    private void doExportAsynch(List<Transaction> transactionList, File file) {
+    private void doExportAsync(List<Transaction> transactionList, File file) {
         CsvExporter exporter = null;
 
         Id2Name<Category> id2Category = new Id2Name<>(FinanceDatabase.getInstance(getApplication()).categoryDao().getAllSynchron());
@@ -102,7 +102,6 @@ public class TransactionsActivity extends TransactionListActivity {
                 throw new RuntimeException(e);
             }
         }
-
 
         runOnUiThread(() -> {
             FileHelper.sendCsv(this, "Send CSV to ...", file);
