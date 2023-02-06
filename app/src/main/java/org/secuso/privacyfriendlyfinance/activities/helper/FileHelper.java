@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
@@ -41,17 +42,18 @@ public class FileHelper {
         return sharedDir;
     }
 
-    public static File getCsvFile(Context context) {
-        File outFile = new File(getSharedDir(context), FILENAME);
+    public static File getCsvFile(Context context, String filename) {
+        File outFile = new File(getSharedDir(context), filename);
         return outFile;
     }
 
-    private static Uri getCsvFileUri(Context context) {
-        return FileProvider.getUriForFile(context, "org.secuso.privacyfriendlyfinance", getCsvFile(context));
+    private static Uri getCsvFileUri(Context context, File file) {
+        return FileProvider.getUriForFile(context, "org.secuso.privacyfriendlyfinance", file);
     }
 
-    public static  boolean sendCsv(Context context, String chooserLabel) {
-        Uri outUri = getCsvFileUri(context);
+    public static  boolean sendCsv(Context context, String chooserLabel, File file) {
+        Uri outUri = getCsvFileUri(context, file);
+        Log.d("TAG", "teile diese uti: " + outUri);
 
         if (outUri != null) {
             Intent childSend = new Intent();
