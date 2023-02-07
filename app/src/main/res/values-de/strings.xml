@@ -176,4 +176,7 @@
     <string name="account_last_not_deleteable">Sie können Ihren letzten Account nicht löschen.</string>
     <string name="activity_startup_default_account_name">Standard Konto</string>
 
+    <!-- ### CSV Import / Export ### -->
+    <string name="nav_title_export_as_csv">Als CSV exportieren</string>
+
 </resources>

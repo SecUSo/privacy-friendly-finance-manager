@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, k3b
+ Copyright (C) 2023 MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -20,6 +20,8 @@ package org.secuso.privacyfriendlyfinance.csv;
 
 import static org.junit.Assert.*;
 
+import android.util.Log;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +32,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +42,11 @@ import java.util.List;
  * junit-4 test for {@link CsvExporter}
  */
 public class CsvExporterTest {
+
     @Test
     public void writeCsvLine() {
         // date,amount,note,category,account
-        String expected = "1999-12-31;10000;My Test Transaction;my test category;my test account";
+        String expected = "1999-12-31;0.05;My Test Transaction;my test category;my test account";
         Id2Name<NameWithIdDto> id2Account = new Id2Name<>(List.of(new NameWithIdDto("my test account", 12345L)));
         Id2Name<NameWithIdDto> id2Category = new Id2Name<>(List.of(new NameWithIdDto("my test category", 54321L)));
 
@@ -50,7 +55,7 @@ public class CsvExporterTest {
         CsvExporter exporter = new CsvExporter(csvLine, id2Category, id2Account);
 
         Transaction transaction = new Transaction(
-                "My Test Transaction",10000, LocalDate.parse("1999-12-31"),
+                "My Test Transaction",5, LocalDate.parse("1999-12-31"),
                 12345L, 54321L);
 
         exporter.writeCsvLine(transaction);

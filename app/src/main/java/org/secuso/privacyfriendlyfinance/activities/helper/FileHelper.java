@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2023 k3b
+ Copyright (C) 2023 MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -53,7 +53,8 @@ public class FileHelper {
 
     public static  boolean sendCsv(Context context, String chooserLabel, File file) {
         Uri outUri = getCsvFileUri(context, file);
-        Log.d("TAG", "teile diese uti: " + outUri);
+        Log.d("TAG", chooserLabel +
+                ": " + outUri);
 
         if (outUri != null) {
             Intent childSend = new Intent();
@@ -61,6 +62,7 @@ public class FileHelper {
             childSend
                     .setAction(Intent.ACTION_SEND)
                     .putExtra(Intent.EXTRA_STREAM, outUri)
+
                     .setType(MIME_CSV);
 
             childSend.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
