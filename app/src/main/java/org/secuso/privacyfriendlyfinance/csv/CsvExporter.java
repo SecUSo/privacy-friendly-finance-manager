@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, k3b
+ Copyright (C) 2023 MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -18,21 +18,18 @@
 
 package org.secuso.privacyfriendlyfinance.csv;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 import com.opencsv.CSVWriterBuilder;
 import com.opencsv.ICSVWriter;
 
-import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
-import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 /**
@@ -41,6 +38,7 @@ import java.util.List;
 public class CsvExporter implements AutoCloseable {
     public static final char CSV_FIELD_DELIMITER_CHAR = ';';
     public static final String CSV_FIELD_DELIMITER = "" + CSV_FIELD_DELIMITER_CHAR;
+    public static DecimalFormat df = new DecimalFormat("0.00");
     private final Id2Name<?> id2Category;
     private final Id2Name<?> id2Account;
 
@@ -54,16 +52,22 @@ public class CsvExporter implements AutoCloseable {
                 .withSeparator(CSV_FIELD_DELIMITER_CHAR)
                 .build();
 
+        setDecimalFormat();
     }
 
     public void writeCsvLine(Transaction transaction) {
-
         writeCsvLine(
                 toString(transaction.getDate()),
-                toString(transaction.getAmount() / 100.0),
+                toString(df.format((transaction.getAmount()) / 100.0)),
                 toString(transaction.getName()),
                 toString(id2Category.get(transaction.getCategoryId())),
                 toString(id2Account.get(transaction.getAccountId())));
+    }
+
+    private void setDecimalFormat() {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        df.setDecimalFormatSymbols(dfs);
     }
 
     /**
@@ -90,13 +94,6 @@ public class CsvExporter implements AutoCloseable {
     private void writeCsvLine(String... columns) {
         csvWriter.writeNext(columns, false);
         csvWriter.flushQuietly();
-    }
-
-    public void writeCsvLineByList(List<String[]> lines) throws IOException {
-        for(String[] line : lines) {
-            csvWriter.writeNext(line);
-        }
-        csvWriter.flush();
     }
 
     @Override

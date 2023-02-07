@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019 Leonard Otto, Felix Hofmann
+ Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -18,12 +18,10 @@
 package org.secuso.privacyfriendlyfinance.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.FileHelper;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
@@ -34,13 +32,9 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
-import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -79,7 +73,7 @@ public class TransactionsActivity extends TransactionListActivity {
     }
 
     private boolean onExportCsv() {
-        File file = FileHelper.getCsvFile(this,"the-test.csv");
+        File file = FileHelper.getCsvFile(this,"Transactions-Export.csv");
         final List<Transaction> transactionList = this.viewModel.getTransactions().getValue();
         new Thread(() -> doExportAsync(transactionList, file)).start();
         return true;
@@ -104,7 +98,7 @@ public class TransactionsActivity extends TransactionListActivity {
         }
 
         runOnUiThread(() -> {
-            FileHelper.sendCsv(this, "Send CSV to ...", file);
+            FileHelper.sendCsv(this, getString(R.string.nav_title_export_as_csv), file);
         });
     }
 }

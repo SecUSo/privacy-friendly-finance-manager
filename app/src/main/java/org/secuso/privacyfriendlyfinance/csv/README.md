@@ -4,12 +4,12 @@ charset = "utf8"
 csv-fielddelimiter = ";"
 enclose in -"- : only if necessary
 
-shared as mime = text/csv
+shared as mime = text/csv with fixed name "Transactions-Export.csv"
 
 Available columns
 
 * date (without time as iso string)
-* amount (in euro cent)
+* amount (using decimalseparator ".")
 * note (transaction name or comment)
 * category = name of selected category or empty
 * account = name of selected account or empty
