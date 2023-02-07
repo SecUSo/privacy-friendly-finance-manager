@@ -26,7 +26,6 @@ import com.opencsv.ICSVWriter;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -36,8 +35,6 @@ import java.util.List;
  * converts (list of) {@link Transaction} items to csv format used for export.
  */
 public class CsvExporter implements AutoCloseable {
-    public static final char CSV_FIELD_DELIMITER_CHAR = ';';
-    public static final String CSV_FIELD_DELIMITER = "" + CSV_FIELD_DELIMITER_CHAR;
     public static DecimalFormat df = new DecimalFormat("0.00");
     private final Id2Name<?> id2Category;
     private final Id2Name<?> id2Account;
@@ -49,7 +46,7 @@ public class CsvExporter implements AutoCloseable {
         this.id2Account = id2Account;
 
         csvWriter = new CSVWriterBuilder(resultWriter)
-                .withSeparator(CSV_FIELD_DELIMITER_CHAR)
+                .withSeparator(CsvDefinitions.CSV_FIELD_DELIMITER_CHAR)
                 .build();
 
         setDecimalFormat();
@@ -78,7 +75,7 @@ public class CsvExporter implements AutoCloseable {
     }
 
     public void writeCsvHeader() {
-        writeCsvLine("date","amount","note","category","account");
+        writeCsvLine(CsvDefinitions.CSV_HEADER_TRANSACTIONSSTRINGS);
     }
 
     public void writeTransactions(List<Transaction> transactions) {
