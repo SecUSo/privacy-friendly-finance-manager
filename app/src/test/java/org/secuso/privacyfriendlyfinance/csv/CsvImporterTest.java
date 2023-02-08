@@ -47,10 +47,22 @@ public class CsvImporterTest {
     }
 
     @Test
+    public void readCsvNote() throws CsvValidationException, IOException {
+        String csvData = "note\n" +
+                "My Test Transaction";
+        StringReader csvDataReader = new StringReader(csvData);
+
+        CsvImporter importer = new CsvImporter(csvDataReader);
+
+        Transaction transaction = importer.readFromCsv().get(0);
+        assertEquals("My Test Transaction",transaction.getName());
+    }
+
+    @Test
     public void testGetColumnNo_found() {
         CsvImporter importer = new CsvImporter(new StringReader(""));
 
-        int columnNo = importer.getColumnNo(CsvDefinitions.CSV_HEADER_TRANSACTIONSSTRINGS, "note");
+        int columnNo = importer.getColumnNo(CsvDefinitions.CSV_HEADER_TRANSACTIONSSTRINGS, CsvDefinitions.COLUMN_NAME_NOTE);
         assertEquals(2, columnNo);
 
     }

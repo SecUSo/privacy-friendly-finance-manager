@@ -56,7 +56,7 @@ public class CsvImporter  implements AutoCloseable {
         String[] line;
 
         String[] headers = csvReader.readNext();
-        int columnNoNote = getColumnNo(headers, "note"); // i.e. note content is in column 7
+        int columnNoNote = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_NOTE); // i.e. note content is in column 7
 
         while ((line = csvReader.readNext()) != null) {
             Transaction transaction = new Transaction();
