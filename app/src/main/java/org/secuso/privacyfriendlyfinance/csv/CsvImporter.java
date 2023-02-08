@@ -57,6 +57,7 @@ public class CsvImporter  implements AutoCloseable {
 
         String[] headers = csvReader.readNext();
         int columnNoNote = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_NOTE); // i.e. note content is in column 7
+        int columnNoAmount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_AMOUNT);
 
         while ((line = csvReader.readNext()) != null) {
             Transaction transaction = new Transaction();
@@ -65,14 +66,31 @@ public class CsvImporter  implements AutoCloseable {
             // 1999-12-31;0.05;My Test Transaction;my test category;my test account
 
             // content of column note
-            String noteColumnContent = getColumnContent(line, columnNoNote);  // i.e. "My Test Transaction";
+            String noteColumnContent = getColumnContentNote(line, columnNoNote);  // i.e. "My Test Transaction";
             transaction.setName(noteColumnContent);
+            long amountColumnContent = getColumnContentAmount(line, columnNoAmount);
+            transaction.setAmount(amountColumnContent);
             
             list.add(transaction);
             System.out.println(line);
         }
         csvReader.close();
         return list;
+    }
+
+    protected long getColumnContentAmount(String[] line, int columnNoAmount) {
+        float amount = 0;
+
+        if(columnNoAmount >= 0 && columnNoAmount < line.length) {
+            String amountString = line[columnNoAmount];
+            try{
+                amount = Float.parseFloat(amountString) * 100;
+            } catch(NumberFormatException ex){
+            }
+
+            return (long) amount;
+        }
+        return (long) amount;
     }
 
     protected int getColumnNo(String[] headers, String columnName) {
@@ -84,7 +102,7 @@ public class CsvImporter  implements AutoCloseable {
         return -1;
     }
 
-    protected String getColumnContent(String[] line, int columnNo) {
+    protected String getColumnContentNote(String[] line, int columnNo) {
         if(columnNo >= 0 && columnNo < line.length) return line[columnNo];
         return null;
     }
