@@ -56,6 +56,17 @@ public class CsvImporterTest {
     }
 
     @Test
+    public void readCsvAmount() throws CsvValidationException, IOException {
+        String csvData = "note\n" +
+                0.70;
+
+        CsvImporter importer = createImporter(csvData);
+
+        Transaction transaction = importer.readFromCsv().get(0);
+        if(0.70 == transaction.getAmount());
+    }
+
+    @Test
     public void testGetColumnNo_found() {
         CsvImporter importer = createImporter("");
 
@@ -86,7 +97,6 @@ public class CsvImporterTest {
     private CsvImporter createImporter(String csvData) {
         StringReader csvDataReader = new StringReader(csvData);
 
-        CsvImporter importer = new CsvImporter(csvDataReader);
-        return importer;
+        return new CsvImporter(csvDataReader);
     }
 }
