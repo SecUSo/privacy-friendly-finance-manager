@@ -28,6 +28,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class CsvImporterTest {
@@ -46,8 +48,8 @@ public class CsvImporterTest {
 
     @Test
     public void readCsvNote() throws CsvValidationException, IOException {
-        String csvData = "note\n" +
-                "My Test Transaction";
+        String csvData = CsvDefinitions.COLUMN_NAME_NOTE +
+                "\n" + "My Test Transaction";
 
         CsvImporter importer = createImporter(csvData);
 
@@ -57,13 +59,24 @@ public class CsvImporterTest {
 
     @Test
     public void readCsvAmount() throws CsvValidationException, IOException {
-        String csvData = "amount\n" +
-                "7.35";
+        String csvData = CsvDefinitions.COLUMN_NAME_AMOUNT +
+                "\n" + "7.35";
 
         CsvImporter importer = createImporter(csvData);
 
         Transaction transaction = importer.readFromCsv().get(0);
         assertEquals(735, transaction.getAmount());
+    }
+
+    @Test
+    public void readCsvDate() throws CsvValidationException, IOException {
+        String csvData = CsvDefinitions.COLUMN_NAME_DATE +
+                "\n" + "2002-03-17";
+
+        CsvImporter importer = createImporter(csvData);
+        Transaction transaction = importer.readFromCsv().get(0);
+
+        assertEquals("2002-03-17", transaction.getDate().toString());
     }
 
     @Test
@@ -89,9 +102,9 @@ public class CsvImporterTest {
         String[] data = new String[]{"zero","one"};
         CsvImporter importer = createImporter("");
 
-        assertEquals("1", "one", importer.getColumnContentNote(data,1));
-        assertEquals("-1",null, importer.getColumnContentNote(data,-1));
-        assertEquals("2",null, importer.getColumnContentNote(data,2));
+        assertEquals("1", "one", importer.getColumnContent(data,1));
+        assertEquals("-1",null, importer.getColumnContent(data,-1));
+        assertEquals("2",null, importer.getColumnContent(data,2));
     }
 
     private CsvImporter createImporter(String csvData) {

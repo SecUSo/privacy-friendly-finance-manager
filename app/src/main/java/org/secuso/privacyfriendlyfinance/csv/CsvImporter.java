@@ -22,9 +22,9 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.io.IOException;
@@ -58,40 +58,26 @@ public class CsvImporter  implements AutoCloseable {
         String[] headers = csvReader.readNext();
         int columnNoNote = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_NOTE); // i.e. note content is in column 7
         int columnNoAmount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_AMOUNT);
+        int columnNoDate = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_DATE);
 
         while ((line = csvReader.readNext()) != null) {
-            Transaction transaction = new Transaction();
+            Transaction tr = new Transaction();
 
             // date;amount;note;category;account
             // 1999-12-31;0.05;My Test Transaction;my test category;my test account
 
             // content of column note
-            String noteColumnContent = getColumnContentNote(line, columnNoNote);  // i.e. "My Test Transaction";
-            transaction.setName(noteColumnContent);
-            long amountColumnContent = getColumnContentAmount(line, columnNoAmount);
-            transaction.setAmount(amountColumnContent);
+            tr.setName(getColumnContent(line, columnNoNote)); // i.e. "My Test Transaction";
+            tr.setAmount(getColumnContentLong(line, columnNoAmount));
+            tr.setDate(getColumnContentDate(line, columnNoDate));
             
-            list.add(transaction);
+            list.add(tr);
             System.out.println(line);
         }
         csvReader.close();
         return list;
     }
 
-    protected long getColumnContentAmount(String[] line, int columnNoAmount) {
-        float amount = 0;
-
-        if(columnNoAmount >= 0 && columnNoAmount < line.length) {
-            String amountString = line[columnNoAmount];
-            try{
-                amount = Float.parseFloat(amountString) * 100;
-            } catch(NumberFormatException ex){
-            }
-
-            return (long) amount;
-        }
-        return (long) amount;
-    }
 
     protected int getColumnNo(String[] headers, String columnName) {
 
@@ -102,10 +88,30 @@ public class CsvImporter  implements AutoCloseable {
         return -1;
     }
 
-    protected String getColumnContentNote(String[] line, int columnNo) {
+    protected LocalDate getColumnContentDate(String[] line, int columnNo) {
+        String dateString =  getColumnContent(line, columnNo);
+
+        return LocalDate.parse(dateString);
+    }
+
+    protected long getColumnContentLong(String[] line, int columnNo) {
+        float amount = 0.0f;
+
+        String amountString =  getColumnContent(line, columnNo);
+        if (amountString != null && !amountString.isEmpty()) {
+            try {
+                amount = Float.parseFloat(amountString) * 100;
+            } catch (NumberFormatException ex) {
+            }
+        }
+        return (long) amount;
+    }
+
+    protected String getColumnContent(String[] line, int columnNo) {
         if(columnNo >= 0 && columnNo < line.length) return line[columnNo];
         return null;
     }
+
 
     @Override
     public void close() throws Exception {
