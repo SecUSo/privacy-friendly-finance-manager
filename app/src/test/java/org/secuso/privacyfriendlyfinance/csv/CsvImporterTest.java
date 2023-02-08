@@ -48,9 +48,8 @@ public class CsvImporterTest {
     public void readCsvNote() throws CsvValidationException, IOException {
         String csvData = "note\n" +
                 "My Test Transaction";
-        StringReader csvDataReader = new StringReader(csvData);
 
-        CsvImporter importer = new CsvImporter(csvDataReader);
+        CsvImporter importer = createImporter(csvData);
 
         Transaction transaction = importer.readFromCsv().get(0);
         assertEquals("My Test Transaction",transaction.getName());
@@ -79,9 +78,9 @@ public class CsvImporterTest {
         String[] data = new String[]{"zero","one"};
         CsvImporter importer = createImporter("");
 
-        assertEquals("1", "one",importer.getColumnContent(data,1));
-        assertEquals("-1",null,importer.getColumnContent(data,-1));
-        assertEquals("2",null,importer.getColumnContent(data,2));
+        assertEquals("1", "one", importer.getColumnContent(data,1));
+        assertEquals("-1",null, importer.getColumnContent(data,-1));
+        assertEquals("2",null, importer.getColumnContent(data,2));
     }
 
     private CsvImporter createImporter(String csvData) {

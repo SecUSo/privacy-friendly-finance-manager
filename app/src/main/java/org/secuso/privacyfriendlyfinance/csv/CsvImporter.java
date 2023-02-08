@@ -84,8 +84,9 @@ public class CsvImporter  implements AutoCloseable {
         return -1;
     }
 
-    protected String getColumnContent(String[] line, int columnNoNote) {
-        return line[columnNoNote];
+    protected String getColumnContent(String[] line, int columnNo) {
+        if(columnNo >= 0 && columnNo < line.length) return line[columnNo];
+        return null;
     }
 
     @Override
