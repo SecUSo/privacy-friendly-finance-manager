@@ -36,9 +36,7 @@ public class CsvImporterTest {
         // date,amount,note,category,account
         String csvData = "date;amount;note;category;account\n" +
                 "1999-12-31;0.05;My Test Transaction;my test category;my test account";
-        StringReader csvDataReader = new StringReader(csvData);
-
-        CsvImporter importer = new CsvImporter(csvDataReader);
+        CsvImporter importer = createImporter(csvData);
 
         List<Transaction> transactions = importer.readFromCsv();
         assertNotNull("contains data", transactions);
@@ -48,7 +46,7 @@ public class CsvImporterTest {
 
     @Test
     public void testGetColumnNo_found() {
-        CsvImporter importer = new CsvImporter(new StringReader(""));
+        CsvImporter importer = createImporter("");
 
         int columnNo = importer.getColumnNo(CsvDefinitions.CSV_HEADER_TRANSACTIONSSTRINGS, "note");
         assertEquals(2, columnNo);
@@ -57,10 +55,27 @@ public class CsvImporterTest {
 
     @Test
     public void testGetColumnNo_notFound() {
-        CsvImporter importer = new CsvImporter(new StringReader(""));
+        CsvImporter importer = createImporter("");
 
         int columnNo = importer.getColumnNo(CsvDefinitions.CSV_HEADER_TRANSACTIONSSTRINGS, "doesNotExist");
         assertEquals(-1, columnNo);
 
+    }
+
+    @Test
+    public void getColumnContent() {
+        String[] data = new String[]{"zero","one"};
+        CsvImporter importer = createImporter("");
+
+        assertEquals("1", "one",importer.getColumnContent(data,1));
+        assertEquals("-1",null,importer.getColumnContent(data,-1));
+        assertEquals("2",null,importer.getColumnContent(data,2));
+    }
+
+    private CsvImporter createImporter(String csvData) {
+        StringReader csvDataReader = new StringReader(csvData);
+
+        CsvImporter importer = new CsvImporter(csvDataReader);
+        return importer;
     }
 }
