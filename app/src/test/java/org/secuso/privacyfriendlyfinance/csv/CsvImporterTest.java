@@ -27,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Name2Id;
+import org.secuso.privacyfriendlyfinance.domain.model.common.Name2IdCreateIfNotExists;
 import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
 import java.io.IOException;
@@ -52,6 +53,33 @@ public class CsvImporterTest {
         assertEquals("account",12345L, transactions.get(0).getAccountId());
         assertEquals("category", Long.valueOf(54321L), transactions.get(0).getCategoryId());
         // assertEquals(expected, csvLine.toString().trim());
+    }
+
+    @Test
+    public void readCsvAccountIdUnknown() throws CsvValidationException, IOException {
+        // date,amount,note,category,account
+        String csvData = "account\n" +
+                "my test non existing  account";
+
+        Name2Id<NameWithIdDto> account2Id = new Name2IdCreateIfNotExists<NameWithIdDto>(List.of(new NameWithIdDto("my test account", 12345L))) {
+            @Override
+            protected NameWithIdDto createItem() {
+                NameWithIdDto item = new NameWithIdDto("",null);
+                return item;
+            }
+
+            @Override
+            protected void save(NameWithIdDto newItem) {
+                newItem.setId(555L);
+            }
+        };
+        Name2Id<NameWithIdDto> category2Id = new Name2Id<>(List.of(new NameWithIdDto("my test category", 54321L)));
+        StringReader csvDataReader = new StringReader(csvData);
+
+        CsvImporter importer = new CsvImporter(csvDataReader, account2Id, category2Id);
+
+        List<Transaction> transactions = importer.readFromCsv();
+        assertEquals("account",555L, transactions.get(0).getAccountId());
     }
 
     @Test

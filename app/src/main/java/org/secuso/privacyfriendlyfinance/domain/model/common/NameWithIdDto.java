@@ -25,6 +25,11 @@ public class NameWithIdDto implements NameWithIdProvider {
     private Long id;
     private String name;
 
+    public NameWithIdDto(String name, Long id) {
+        this.name = name;
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -32,8 +37,12 @@ public class NameWithIdDto implements NameWithIdProvider {
         return name;
     }
 
-    public NameWithIdDto(String name, Long id) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
+
 }

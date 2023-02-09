@@ -27,7 +27,7 @@ import java.util.Map;
  * @param <T> where the data comes from
  */
 public class Name2Id<T extends NameWithIdProvider>  {
-    private final Map<String,Long> name2Id;
+    protected final Map<String,Long> name2Id;
 
     public Name2Id(List<T> items) {
         Map<String,Long> map = new HashMap<>();
