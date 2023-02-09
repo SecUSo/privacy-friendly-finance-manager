@@ -26,6 +26,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.domain.model.common.Name2Id;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -36,8 +37,12 @@ import java.util.Objects;
 public class CsvImporter  implements AutoCloseable {
 
     private final CSVReader csvReader;
+    private Name2Id<?> accountName2Id;
+    private Name2Id<?> categoryName2Id;
 
-    public CsvImporter(Reader csvDataReader) {
+    public CsvImporter(Reader csvDataReader, Name2Id<?> accountName2Id, Name2Id<?> categoryName2Id) {
+        this.accountName2Id = accountName2Id;
+        this.categoryName2Id = categoryName2Id;
         CSVParser parser = new CSVParserBuilder()
                 .withSeparator(CsvDefinitions.CSV_FIELD_DELIMITER_CHAR)
                 .withIgnoreQuotations(true)
@@ -59,18 +64,17 @@ public class CsvImporter  implements AutoCloseable {
         int columnNoNote = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_NOTE); // i.e. note content is in column 7
         int columnNoAmount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_AMOUNT);
         int columnNoDate = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_DATE);
+        int columnNoAccount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_ACCOUNT);
+        int columnNoCategory = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_CATEGORY);
 
         while ((line = csvReader.readNext()) != null) {
-            Transaction tr = new Transaction();
+            Transaction tr = createTransaction(
+                    getColumnContent(line, columnNoNote),
+                    getColumnContent(line, columnNoAmount),
+                    getColumnContent(line, columnNoDate),
+                    getColumnContent(line, columnNoAccount),
+                    getColumnContent(line, columnNoCategory));
 
-            // date;amount;note;category;account
-            // 1999-12-31;0.05;My Test Transaction;my test category;my test account
-
-            // content of column note
-            tr.setName(getColumnContent(line, columnNoNote)); // i.e. "My Test Transaction";
-            tr.setAmount(getColumnContentLong(line, columnNoAmount));
-            tr.setDate(getColumnContentDate(line, columnNoDate));
-            
             list.add(tr);
             System.out.println(line);
         }
@@ -78,6 +82,80 @@ public class CsvImporter  implements AutoCloseable {
         return list;
     }
 
+    protected Transaction createTransaction(String nameStr, String amountStr, String dateStr, String accountStr , String categoryStr) {
+        Transaction tr = new Transaction();
+        tr.setName(nameStr);
+
+        tr.setAmount(floatString2Long(amountStr));
+        tr.setDate(dateString2Date(dateStr));
+        tr.setAccountId(idString2Acc(accountStr));
+        tr.setCategoryId(idString2Cat(categoryStr));
+
+        return tr;
+    }
+
+    protected long idString2Acc(String accountStr) {
+        if (accountStr != null && !accountStr.isEmpty()) {
+
+            try {
+                return accountName2Id.get(accountStr);
+            } catch (Exception ex) {
+                addError("'" + accountStr +"'" +
+                        "account doesn't exist:" + ex.getMessage());
+                return 0;
+            }
+        }
+
+        return 0;
+    }
+
+    protected Long idString2Cat(String categoryStr) {
+        if (categoryStr != null && !categoryStr.isEmpty()) {
+
+            try {
+                return categoryName2Id.get(categoryStr);
+            } catch (Exception ex) {
+                addError("'" + categoryStr +"'" +
+                        "category doesn't exist:" + ex.getMessage());
+                return null;
+            }
+        }
+
+        return 0L;
+    }
+
+    protected long floatString2Long(String amountStr) {
+        float amount = 0.0f;
+
+        if (amountStr != null && !amountStr.isEmpty()) {
+            try {
+                amount = Float.parseFloat(amountStr) * 100;
+            } catch (NumberFormatException ex) {
+                addError("'" + amountStr +"'" +
+                        "is not a valid amount. Valid example '123.45' :" + ex.getMessage());
+                amount = 0.0f;
+            }
+        }
+        return (long) amount;
+    }
+
+    private void addError(String s) {
+        // TODO generate errormessagetext for user with current csv-line number
+    }
+
+    protected LocalDate dateString2Date(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) return null;
+
+        // cut off time info if exists asssuming that date part is always 10 chars long
+        if (dateStr.length() > 10) dateStr = dateStr.substring(0,10);
+        try {
+            return LocalDate.parse(dateStr);
+        } catch (Exception ex) {
+            addError("'" + dateStr +"'" +
+                    "is not a valid date. Valid example '2022-12-14' :" + ex.getMessage());
+            return null;
+        }
+    }
 
     protected int getColumnNo(String[] headers, String columnName) {
 
@@ -86,25 +164,6 @@ public class CsvImporter  implements AutoCloseable {
         }
 
         return -1;
-    }
-
-    protected LocalDate getColumnContentDate(String[] line, int columnNo) {
-        String dateString =  getColumnContent(line, columnNo);
-
-        return LocalDate.parse(dateString);
-    }
-
-    protected long getColumnContentLong(String[] line, int columnNo) {
-        float amount = 0.0f;
-
-        String amountString =  getColumnContent(line, columnNo);
-        if (amountString != null && !amountString.isEmpty()) {
-            try {
-                amount = Float.parseFloat(amountString) * 100;
-            } catch (NumberFormatException ex) {
-            }
-        }
-        return (long) amount;
     }
 
     protected String getColumnContent(String[] line, int columnNo) {

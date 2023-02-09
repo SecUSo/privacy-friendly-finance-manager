@@ -23,13 +23,14 @@ import static org.junit.Assert.assertNotNull;
 
 import com.opencsv.exceptions.CsvValidationException;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.domain.model.common.Name2Id;
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdDto;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class CsvImporterTest {
@@ -38,6 +39,60 @@ public class CsvImporterTest {
         // date,amount,note,category,account
         String csvData = "date;amount;note;category;account\n" +
                 "1999-12-31;0.05;My Test Transaction;my test category;my test account";
+
+        Name2Id<NameWithIdDto> account2Id = new Name2Id<>(List.of(new NameWithIdDto("my test account", 12345L)));
+        Name2Id<NameWithIdDto> category2Id = new Name2Id<>(List.of(new NameWithIdDto("my test category", 54321L)));
+        StringReader csvDataReader = new StringReader(csvData);
+
+        CsvImporter importer = new CsvImporter(csvDataReader, account2Id, category2Id);
+
+        List<Transaction> transactions = importer.readFromCsv();
+        assertNotNull("contains data", transactions);
+        assertEquals("exactly one element",1, transactions.size());
+        assertEquals("account",12345L, transactions.get(0).getAccountId());
+        assertEquals("category", Long.valueOf(54321L), transactions.get(0).getCategoryId());
+        // assertEquals(expected, csvLine.toString().trim());
+    }
+
+    @Test
+    public void dateString2Date() {
+        String columData = "2001-02-27";
+        CsvImporter importer = createImporter("");
+
+        LocalDate locD = importer.dateString2Date(columData);
+        assertEquals(columData, locD.toString());
+    }
+
+    @Test
+    public void dateString2DateNull() {
+        String columData = null;
+        CsvImporter importer = createImporter("");
+
+        LocalDate locD = importer.dateString2Date(columData);
+        assertEquals(null, locD);
+    }
+
+    @Test
+    public void floatString2Long() {
+        String columData = "865.13";
+        CsvImporter importer = createImporter("");
+
+        long amount = importer.floatString2Long(columData);
+        assertEquals(86513, amount);
+    }
+    @Test
+    public void floatString2LongNull() {
+        String columData = null;
+        CsvImporter importer = createImporter("");
+
+        long amount = importer.floatString2Long(columData);
+        assertEquals(0l, amount);
+    }
+
+    @Test
+    public void readCsvAllNull() throws CsvValidationException, IOException {
+        String csvData = CsvDefinitions.COLUMN_NAME_NOTE +
+                "\n\n" ;
         CsvImporter importer = createImporter(csvData);
 
         List<Transaction> transactions = importer.readFromCsv();
@@ -71,12 +126,23 @@ public class CsvImporterTest {
     @Test
     public void readCsvDate() throws CsvValidationException, IOException {
         String csvData = CsvDefinitions.COLUMN_NAME_DATE +
-                "\n" + "2002-03-17";
+                "\n" + "2001-02-27";
 
         CsvImporter importer = createImporter(csvData);
         Transaction transaction = importer.readFromCsv().get(0);
 
-        assertEquals("2002-03-17", transaction.getDate().toString());
+        assertEquals("2001-02-27", transaction.getDate().toString());
+    }
+
+    @Test
+    public void readCsvDateWithTime() throws CsvValidationException, IOException {
+        String csvData = CsvDefinitions.COLUMN_NAME_DATE +
+                "\n" + "2023-01-30 09:37:05";
+
+        CsvImporter importer = createImporter(csvData);
+        Transaction transaction = importer.readFromCsv().get(0);
+
+        assertEquals("2023-01-30", transaction.getDate().toString());
     }
 
     @Test
@@ -110,6 +176,6 @@ public class CsvImporterTest {
     private CsvImporter createImporter(String csvData) {
         StringReader csvDataReader = new StringReader(csvData);
 
-        return new CsvImporter(csvDataReader);
+        return new CsvImporter(csvDataReader, null, null);
     }
 }
