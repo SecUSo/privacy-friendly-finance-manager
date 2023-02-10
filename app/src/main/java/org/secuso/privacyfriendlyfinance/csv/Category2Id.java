@@ -16,32 +16,35 @@
  License Version 2.0.
  */
 
-package org.secuso.privacyfriendlyfinance.domain.model.common;
+package org.secuso.privacyfriendlyfinance.csv;
 
-import java.util.List;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.domain.model.common.Name2IdCreateIfNotExists;
 
-public abstract class Name2IdCreateIfNotExists<T extends NameWithIdProvider> extends Name2Id<T> {
-    public Name2IdCreateIfNotExists(List<T> items) {
-        super(items);
+/**
+ * Android Room specific Translater from CategoryName to CategoryId that creates Category on demand.
+ */
+public class Category2Id extends Name2IdCreateIfNotExists<Category> {
+
+    private final CategoryDao dao;
+
+    public Category2Id(CategoryDao dao) {
+        super(dao.getAllSynchron());
+        this.dao = dao;
     }
 
     @Override
-    public Long get(String name) {
-        Long id = super.get(name);
-        if (id == null) {
-            // not found: must create
-            T newItem = createItem();
-            newItem.setName(name);
-            newItem = save(newItem);
-            id = newItem.getId();
-            if (id != null) {
-                this.name2Id.put(name, id);
-            }
-        }
-        return id;
+    protected Category createItem() {
+        return new Category();
     }
 
-    abstract protected T createItem();
-
-    abstract protected T save(T newItem);
+    @Override
+    protected Category save(Category newItem) {
+        long rowId = dao.insert(newItem);
+        if(rowId >= 0) {
+            return dao.getByRowId(rowId);
+        }
+        return null;
+    }
 }

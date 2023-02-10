@@ -16,32 +16,37 @@
  License Version 2.0.
  */
 
-package org.secuso.privacyfriendlyfinance.domain.model.common;
+package org.secuso.privacyfriendlyfinance.csv;
 
-import java.util.List;
+import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.domain.model.common.Name2IdCreateIfNotExists;
 
-public abstract class Name2IdCreateIfNotExists<T extends NameWithIdProvider> extends Name2Id<T> {
-    public Name2IdCreateIfNotExists(List<T> items) {
-        super(items);
+
+/**
+ * Android Room specific Translater from AccountName to AccountId that creates Account on demand.
+ */
+public class Account2Id extends Name2IdCreateIfNotExists<Account> {
+
+    private final AccountDao dao;
+
+    public Account2Id(AccountDao dao) {
+        super(dao.getAllSynchron());
+        this.dao = dao;
     }
 
     @Override
-    public Long get(String name) {
-        Long id = super.get(name);
-        if (id == null) {
-            // not found: must create
-            T newItem = createItem();
-            newItem.setName(name);
-            newItem = save(newItem);
-            id = newItem.getId();
-            if (id != null) {
-                this.name2Id.put(name, id);
-            }
-        }
-        return id;
+    protected Account createItem() {
+        return new Account();
     }
 
-    abstract protected T createItem();
+    @Override
+    protected Account save(Account newItem) {
+        long rowId = dao.insert(newItem);
+        if (rowId >= 0) {
+            return dao.getByRowId(rowId);
+        }
+        return null;
+    }
 
-    abstract protected T save(T newItem);
 }

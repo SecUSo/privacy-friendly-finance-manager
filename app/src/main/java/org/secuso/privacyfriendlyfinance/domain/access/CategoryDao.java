@@ -39,7 +39,7 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     @Query("SELECT * FROM Category WHERE id=:id")
     public abstract LiveData<Category> get(long id);
 
-    @Query("SELECT * FROM Account WHERE rowid = :rowId")
+    @Query("SELECT * FROM Category WHERE rowid = :rowId")
     public abstract Category getByRowId(long rowId);
 
     @Query("SELECT * FROM Category WHERE name LIKE :name")
