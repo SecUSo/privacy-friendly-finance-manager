@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.secuso.privacyfriendlyfinance.csv.CsvImporter;
+import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
@@ -18,7 +20,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CsvImportActivity extends AppCompatActivity {
@@ -56,11 +57,13 @@ public class CsvImportActivity extends AppCompatActivity {
             finish();
         } finally {
             close(in, uri);
+            finish();
         }
     }
 
     private void importCsv(InputStream in) throws Exception {
         List<Account> accounts = loadAccountsFromDB();
+
         Name2Id<?> accountName2Id = new Name2IdCreateIfNotExists<Account>(accounts){
 
             @Override
@@ -69,8 +72,8 @@ public class CsvImportActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void save(Account newItem) {
-                saveAccount(newItem);
+            protected Account save(Account newItem) {
+                return saveAccount(newItem);
             }
         };
 
@@ -83,8 +86,8 @@ public class CsvImportActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void save(Category newItem) {
-                saveCategories(newItem);
+            protected Category save(Category newItem) {
+                return saveCategories(newItem);
 
             }
         };
@@ -100,18 +103,25 @@ public class CsvImportActivity extends AppCompatActivity {
     }
 
     private List<Category> loadCategoriesFromDB() {
-        return null;
+        return FinanceDatabase.getInstance(getApplication()).categoryDao().getAllSynchron();
     }
 
-    private void saveCategories(Category newItem) {
+    private Category saveCategories(Category newItem) {
+        FinanceDatabase.getInstance(getApplication()).categoryDao().insert(newItem);
+        return newItem;
     }
 
     private List<Account> loadAccountsFromDB() {
-        return null; // todo
+        return FinanceDatabase.getInstance(getApplication()).accountDao().getAllSynchron();
     }
 
-    private void saveAccount(Account newItem) {
-        // TODO
+    private Account saveAccount(Account newItem) {
+        AccountDao dao = FinanceDatabase.getInstance(getApplication()).accountDao();
+        long rowId = dao.insert(newItem);
+        if (rowId >= 0) {
+            return dao.getByRowId(rowId);
+        }
+        return null;
     }
 
     public static void close(Closeable stream, Object source) {

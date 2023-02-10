@@ -25,6 +25,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Name2Id;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Name2IdCreateIfNotExists;
@@ -69,8 +70,9 @@ public class CsvImporterTest {
             }
 
             @Override
-            protected void save(NameWithIdDto newItem) {
+            protected NameWithIdDto save(NameWithIdDto newItem) {
                 newItem.setId(555L);
+                return newItem;
             }
         };
         Name2Id<NameWithIdDto> category2Id = new Name2Id<>(List.of(new NameWithIdDto("my test category", 54321L)));

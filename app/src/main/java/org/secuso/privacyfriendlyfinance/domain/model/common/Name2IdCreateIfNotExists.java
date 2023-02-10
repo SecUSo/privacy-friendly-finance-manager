@@ -16,14 +16,16 @@ public abstract class Name2IdCreateIfNotExists<T extends NameWithIdProvider> ext
             // not found: must create
             T newItem = createItem();
             newItem.setName(name);
-            save(newItem);
+            newItem = save(newItem);
             id = newItem.getId();
-            this.name2Id.put(name,id);
+            if (id != null) {
+                this.name2Id.put(name, id);
+            }
         }
         return id;
     }
 
     abstract protected T createItem();
 
-    abstract protected void save(T newItem);
+    abstract protected T save(T newItem);
 }
