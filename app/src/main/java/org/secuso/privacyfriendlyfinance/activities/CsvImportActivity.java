@@ -10,6 +10,7 @@ import android.util.Log;
 import org.secuso.privacyfriendlyfinance.csv.CsvImporter;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
+import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
@@ -107,8 +108,13 @@ public class CsvImportActivity extends AppCompatActivity {
     }
 
     private Category saveCategories(Category newItem) {
-        FinanceDatabase.getInstance(getApplication()).categoryDao().insert(newItem);
-        return newItem;
+        CategoryDao dao = FinanceDatabase.getInstance(getApplication()).categoryDao();
+        long rowId = dao.insert(newItem);
+        if(rowId >= 0) {
+            return dao.getByRowId(rowId);
+        }
+        // FinanceDatabase.getInstance(getApplication()).categoryDao().insert(newItem);
+        return null;
     }
 
     private List<Account> loadAccountsFromDB() {

@@ -1,7 +1,5 @@
 package org.secuso.privacyfriendlyfinance.domain.model.common;
 
-import org.secuso.privacyfriendlyfinance.domain.model.Account;
-
 import java.util.List;
 
 public abstract class Name2IdCreateIfNotExists<T extends NameWithIdProvider> extends Name2Id<T> {
