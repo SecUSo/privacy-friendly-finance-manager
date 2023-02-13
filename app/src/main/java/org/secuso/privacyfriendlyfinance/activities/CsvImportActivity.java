@@ -24,11 +24,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.csv.Account2Id;
 import org.secuso.privacyfriendlyfinance.csv.Category2Id;
 import org.secuso.privacyfriendlyfinance.csv.CsvImporter;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
+import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
 import java.io.Closeable;
@@ -63,30 +66,54 @@ public class CsvImportActivity extends AppCompatActivity {
 
     private void ImportCsvInBackground(Uri uri, FinanceDatabase database) {
         InputStream in = null;
+        String messages = "";
         try {
             in = getContentResolver().openInputStream(uri);
 
-            importCsv(in, database);
+            messages = importCsv(in, database);
         } catch (Exception ex) {
             Log.w(TAG,"Error in onCreate-startActivityForResult " + uri, ex);
-            // toast(this, getString(R.string.error_cannot_convert_or_resend, uri, ex.getMessage()));
+            messages += getString(R.string.err_cannot_read_import_file, uri.toString(), ex.getMessage());
             setResult(RESULT_CANCELED);
         } finally {
+            final String finalMessages = messages;
+            runOnUiThread(() -> {
+                if (!finalMessages.isEmpty()) {
+                    Toast.makeText(this, finalMessages, Toast.LENGTH_LONG).show();
+                }
+                finish();
+            });
             close(in, uri);
-            finish();
         }
     }
 
-    private void importCsv(InputStream in, FinanceDatabase database) throws Exception {
+    private String importCsv(InputStream in, FinanceDatabase database) throws Exception {
         CsvImporter importer = new CsvImporter(
                 new InputStreamReader(in),
                 new Account2Id(database.accountDao()),
                 new Category2Id(database.categoryDao()));
-        List<Transaction> transactions = importer.readFromCsv();
+            List<Transaction> transactions = importer.readFromCsv();
 
-        for (Transaction t : transactions) {
-            database.transactionDao().insert(t);
-        }
+            StringBuilder messageLines = new StringBuilder(importer.getErrors());
+
+            TransactionDao dao = database.transactionDao();
+            int countImported = 0;
+            for (Transaction t : transactions) {
+
+                try {
+                    if (t.getAmount() != 0 && dao.findSameTransaction(t).isEmpty()) {
+                        // Do not insert duplicate entries or entries with no amount
+                        dao.insert(t);
+                        countImported ++;
+                    }
+                } catch (Exception ex) {
+                   messageLines.append(getString(R.string.err_cannot_save_to_db,
+                           t.toString(),ex.getMessage()));
+                }
+            }
+            messageLines.append(getString(R.string.info_import_success,
+                ""+ countImported,"" + transactions.size()));
+            return messageLines.toString();
     }
 
     public static void close(Closeable stream, Object source) {

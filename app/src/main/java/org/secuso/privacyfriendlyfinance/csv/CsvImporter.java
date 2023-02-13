@@ -39,6 +39,8 @@ public class CsvImporter  implements AutoCloseable {
     private final CSVReader csvReader;
     private Name2Id<?> accountName2Id;
     private Name2Id<?> categoryName2Id;
+    private StringBuilder errors;
+    private int lineNumber;
 
     public CsvImporter(Reader csvDataReader, Name2Id<?> accountName2Id, Name2Id<?> categoryName2Id) {
         this.accountName2Id = accountName2Id;
@@ -57,55 +59,81 @@ public class CsvImporter  implements AutoCloseable {
     }
 
     public List<Transaction> readFromCsv() throws CsvValidationException, IOException {
+        this.errors = new StringBuilder();
+        lineNumber = 0;
         List<Transaction> list = new ArrayList<>();
         String[] line;
 
-        String[] headers = csvReader.readNext();
+        String[] headers = readNextCsvColumnLine();
         int columnNoNote = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_NOTE); // i.e. note content is in column 7
         int columnNoAmount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_AMOUNT);
         int columnNoDate = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_DATE);
         int columnNoAccount = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_ACCOUNT);
         int columnNoCategory = getColumnNo(headers, CsvDefinitions.COLUMN_NAME_CATEGORY);
 
-        while ((line = csvReader.readNext()) != null) {
-            Transaction tr = createTransaction(
-                    getColumnContent(line, columnNoNote),
-                    getColumnContent(line, columnNoAmount),
-                    getColumnContent(line, columnNoDate),
-                    getColumnContent(line, columnNoAccount),
-                    getColumnContent(line, columnNoCategory));
+        while ((line = readNextCsvColumnLine()) != null) {
+            try {
+                Transaction tr = createTransaction(
+                        getColumnContent(line, columnNoNote),
+                        getColumnContent(line, columnNoAmount),
+                        getColumnContent(line, columnNoDate),
+                        getColumnContent(line, columnNoAccount),
+                        getColumnContent(line, columnNoCategory));
 
-            list.add(tr);
+                list.add(tr);
+            } catch (Exception ex) {
+                addError(ex.getMessage());
+            }
             System.out.println(line);
         }
         csvReader.close();
         return list;
     }
 
+    private String[] readNextCsvColumnLine() throws IOException, CsvValidationException {
+        String[] columns;
+        do {
+            lineNumber++;
+            columns = csvReader.readNext();
+        } while (columns != null && isComment(columns));
+        return columns;
+    }
+
+    // " ; ;; "
+    private boolean isComment(String[] columns) {
+        // empty line without content
+        if (columns.length == 1 && columns[0].trim().length() == 0) return true;
+
+        // comments start with "#" char
+        return columns[0].startsWith("#");
+    }
+
     protected Transaction createTransaction(String nameStr, String amountStr, String dateStr, String accountStr , String categoryStr) {
         Transaction tr = new Transaction();
+
         tr.setName(nameStr);
 
         tr.setAmount(floatString2Long(amountStr));
         tr.setDate(dateString2Date(dateStr));
         tr.setAccountId(idString2Acc(accountStr));
-        tr.setCategoryId(idString2Cat(categoryStr));
+
+        if (categoryStr != null && !categoryStr.isEmpty() && !categoryStr.equals("0")) {
+            tr.setCategoryId(idString2Cat(categoryStr));
+        } // else CategoryId remains null
 
         return tr;
     }
 
     protected long idString2Acc(String accountStr) {
         if (accountStr != null && !accountStr.isEmpty()) {
-
             try {
+                // executes sql create on demand
                 return accountName2Id.get(accountStr);
             } catch (Exception ex) {
-                addError("'" + accountStr +"'" +
-                        "account doesn't exist:" + ex.getMessage());
-                return 0;
+                throw new RuntimeException("'" + accountStr +"'" +
+                        "account cannot be created :" + ex.getMessage(), ex);
             }
         }
-
         return 0;
     }
 
@@ -113,48 +141,44 @@ public class CsvImporter  implements AutoCloseable {
         if (categoryStr != null && !categoryStr.isEmpty()) {
 
             try {
+                // executes sql create on demand
                 return categoryName2Id.get(categoryStr);
             } catch (Exception ex) {
-                addError("'" + categoryStr +"'" +
-                        "category doesn't exist:" + ex.getMessage());
-                return null;
+                throw new RuntimeException("'" + categoryStr +"'" +
+                        "category cannot be created:" + ex.getMessage(), ex);
             }
         }
-
-        return 0L;
+        return null;
     }
 
     protected long floatString2Long(String amountStr) {
         float amount = 0.0f;
 
         if (amountStr != null && !amountStr.isEmpty()) {
-            try {
                 amount = Float.parseFloat(amountStr) * 100;
-            } catch (NumberFormatException ex) {
-                addError("'" + amountStr +"'" +
-                        "is not a valid amount. Valid example '123.45' :" + ex.getMessage());
-                amount = 0.0f;
-            }
+                // may throw exception if not a valid number
         }
         return (long) amount;
     }
 
     private void addError(String s) {
-        // TODO generate errormessagetext for user with current csv-line number
+        errors
+                .append("Error #")
+                .append(lineNumber)
+                .append("\n")
+                .append(s)
+                .append("\n");
     }
 
     protected LocalDate dateString2Date(String dateStr) {
-        if (dateStr == null || dateStr.isEmpty()) return null;
+        if (dateStr == null || dateStr.isEmpty()) return new LocalDate(); // default to today
 
         // cut off time info if exists asssuming that date part is always 10 chars long
-        if (dateStr.length() > 10) dateStr = dateStr.substring(0,10);
-        try {
-            return LocalDate.parse(dateStr);
-        } catch (Exception ex) {
-            addError("'" + dateStr +"'" +
-                    "is not a valid date. Valid example '2022-12-14' :" + ex.getMessage());
-            return null;
+        if (dateStr.length() > 10) {
+            dateStr = dateStr.substring(0,10);
         }
+
+        return LocalDate.parse(dateStr);
     }
 
     protected int getColumnNo(String[] headers, String columnName) {
@@ -175,5 +199,9 @@ public class CsvImporter  implements AutoCloseable {
     @Override
     public void close() throws Exception {
         this.csvReader.close();
+    }
+
+    public String getErrors() {
+        return errors.toString();
     }
 }

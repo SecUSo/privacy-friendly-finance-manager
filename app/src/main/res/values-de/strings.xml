@@ -179,4 +179,9 @@
     <!-- ### CSV Import / Export ### -->
     <string name="nav_title_export_as_csv">Als CSV exportieren</string>
 
+    <!-- parameter 1: specific text parameter 2 exception messasage -->
+    <string name="err_cannot_read_import_file">Kann CSVDatei nicht lesen aus %s : %s</string>
+    <string name="err_cannot_save_to_db">Kann %s nicht in Datenbank speichern\n\t %s</string>
+    <string name="info_import_success">Ergebnis:  (%s/%s) Transactionen importiert</string>
+
 </resources>

@@ -94,12 +94,12 @@ public class CsvImporterTest {
     }
 
     @Test
-    public void dateString2DateNull() {
+    public void dateString2DateNullReturnsCurrentDate() {
         String columData = null;
         CsvImporter importer = createImporter("");
 
         LocalDate locD = importer.dateString2Date(columData);
-        assertEquals(null, locD);
+        assertEquals(new LocalDate(), locD);
     }
 
     @Test
@@ -127,9 +127,23 @@ public class CsvImporterTest {
 
         List<Transaction> transactions = importer.readFromCsv();
         assertNotNull("contains data", transactions);
-        assertEquals("exactly one element",1, transactions.size());
-        // assertEquals(expected, csvLine.toString().trim());
+        assertEquals("exactly one element",0, transactions.size());
     }
+
+    @Test
+    public void readCsvWithComments() throws CsvValidationException, IOException {
+        String csvData = "# some comment\n"
+                + CsvDefinitions.COLUMN_NAME_NOTE + "\n"
+                + "\n" // empty line ignored
+                + "# this is an other comment\n"
+                + "My Test Transaction\n";
+
+        CsvImporter importer = createImporter(csvData);
+
+        Transaction transaction = importer.readFromCsv().get(0);
+        assertEquals("My Test Transaction",transaction.getName());
+    }
+
 
     @Test
     public void readCsvNote() throws CsvValidationException, IOException {
