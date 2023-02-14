@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -60,6 +61,18 @@ public class CategoryDialog extends AppCompatDialogFragment {
     private List<Category> allCategories = new ArrayList<>();
     private ColorPickerView colorPicker;
     private EditText editTextBudget;
+
+    public static void showCategoryDialog(Category category, FragmentManager fragmentManager) {
+        CategoryDialog categoryDialog = new CategoryDialog();
+
+        Bundle args = new Bundle();
+        if (category != null) {
+            args.putLong(EXTRA_CATEGORY_ID, category.getId());
+        }
+        categoryDialog.setArguments(args);
+
+        categoryDialog.show(fragmentManager, "CategoryDialog");
+    }
 
     @NonNull
     @Override

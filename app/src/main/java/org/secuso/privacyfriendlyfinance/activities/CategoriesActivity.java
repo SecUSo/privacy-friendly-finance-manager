@@ -142,16 +142,7 @@ public class CategoriesActivity extends BaseActivity implements OnItemClickListe
     }
 
     private void openCategoryDialog(Category category) {
-        Bundle args = new Bundle();
-        if (category == null) {
-        } else {
-            args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, category.getId());
-        }
-
-        CategoryDialog categoryDialog = new CategoryDialog();
-        categoryDialog.setArguments(args);
-
-        categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
+        CategoryDialog.showCategoryDialog(category, getSupportFragmentManager());
     }
 
     @Override

@@ -124,13 +124,13 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
     private void openAccountDialog(Account account) {
         Bundle args = new Bundle();
         if (account != null) {
-            args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, account.getId());
+            args.putLong(AccountDialog.EXTRA_ACCOUNT_ID, account.getId());
         }
 
         AccountDialog accountDialog = new AccountDialog();
         accountDialog.setArguments(args);
 
-        accountDialog.show(getSupportFragmentManager(), "CategoryDialog");
+        accountDialog.show(getSupportFragmentManager(), "AccountDialog");
     }
 
     @Override

@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,6 +72,11 @@ public class TransactionDialog extends AppCompatDialogFragment {
     private TextView editTextDate;
     private Spinner categorySpinner;
     private Spinner accountSpinner;
+
+    private Button addCategoryButton;
+
+    private Button addAccountButton;
+
     private TextView tvRepeating;
     private ImageView ivRepeating;
 
@@ -95,10 +101,13 @@ public class TransactionDialog extends AppCompatDialogFragment {
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
         categorySpinner = view.findViewById(R.id.category_spinner);
         accountSpinner = view.findViewById(R.id.account_spinner);
+        addCategoryButton = view.findViewById(R.id.button_add_category);
+        addAccountButton = view.findViewById(R.id.button_add_account);
         tvRepeating = view.findViewById(R.id.textView_repeating);
         ivRepeating = view.findViewById(R.id.imageView_repeating);
         viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
+        addCategoryButton.setOnClickListener(v -> onAddCategoryClick());
         long transactionId = getArguments().getLong(EXTRA_TRANSACTION_ID, -1L);
 
         if (transactionId >= 0) {
@@ -167,6 +176,10 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         dialog = builder.create();
         return dialog;
+    }
+
+    private void onAddCategoryClick() {
+        CategoryDialog.showCategoryDialog(null, getActivity().getSupportFragmentManager());
     }
 
     private void openDatePickerTransactionDate() {

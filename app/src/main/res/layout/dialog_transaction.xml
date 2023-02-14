@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -31,10 +32,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                app:tint="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/include"
-                app:srcCompat="@drawable/ic_autorenew_black_24dp" />
+                app:srcCompat="@drawable/ic_autorenew_black_24dp"
+                app:tint="@android:color/darker_gray" />
 
             <AutoCompleteTextView
                 android:id="@+id/editText_transaction_name"
@@ -64,10 +65,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_transaction_name"
-                app:viewModel="@{viewModel}"
-                app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
                 app:negativeLabel="@{@string/dialog_transaction_radio_button_expense_action}"
-                />
+                app:positiveLabel="@{@string/dialog_transaction_radio_button_income_action}"
+                app:viewModel="@{viewModel}" />
 
             <TextView
                 android:id="@+id/dialog_transaction_date"
@@ -87,7 +87,7 @@
                 android:id="@+id/dialog_category_legend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="@string/category"
                 app:layout_constraintStart_toStartOf="@+id/dialog_account_legend"
@@ -95,12 +95,13 @@
 
             <Spinner
                 android:id="@+id/category_spinner"
-                android:selectedItemPosition="@={viewModel.categoryIndex}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:selectedItemPosition="@={viewModel.categoryIndex}"
+                app:layout_constraintEnd_toStartOf="@+id/button_add_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_category_legend" />
 
@@ -123,9 +124,29 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="8dp"
                 android:selectedItemPosition="@={viewModel.accountIndex}"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_add_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_account_legend" />
+
+            <Button
+                android:id="@+id/button_add_account"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:text="+"
+                app:layout_constraintBottom_toBottomOf="@+id/account_spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/account_spinner" />
+
+            <Button
+                android:id="@+id/button_add_category"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:text="+"
+                app:layout_constraintBottom_toBottomOf="@+id/category_spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/category_spinner" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
