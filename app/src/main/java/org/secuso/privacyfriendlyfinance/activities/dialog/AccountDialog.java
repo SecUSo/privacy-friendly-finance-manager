@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -55,6 +56,22 @@ public class AccountDialog extends AppCompatDialogFragment {
     private AccountDialogViewModel viewModel;
     private List<Account> allAccounts = new ArrayList<>();
 
+    public static void showAccountDialog(Account account, Long monthBalance, FragmentManager fragmentManager) {
+        AccountDialog accountDialog = new AccountDialog();
+
+        Bundle args = new Bundle();
+        if (account != null) {
+            args.putLong(AccountDialog.EXTRA_ACCOUNT_ID, account.getId());
+        }
+
+        if (monthBalance != null) {
+            args.putLong(AccountDialog.EXTRA_ACCOUNT_MONTH_BALANCE, monthBalance);
+        }
+
+        accountDialog.setArguments(args);
+
+        accountDialog.show(fragmentManager, "AccountDialog");
+    }
 
     @NonNull
     @Override

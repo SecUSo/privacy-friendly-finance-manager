@@ -107,7 +107,12 @@ public class TransactionDialog extends AppCompatDialogFragment {
         ivRepeating = view.findViewById(R.id.imageView_repeating);
         viewModel.setCurrencyColors(getResources().getColor(R.color.green), getResources().getColor(R.color.red));
 
-        addCategoryButton.setOnClickListener(v -> onAddCategoryClick());
+        addCategoryButton.setOnClickListener(v ->
+                CategoryDialog.showCategoryDialog(null,
+                        getActivity().getSupportFragmentManager()));
+        addAccountButton.setOnClickListener(v ->
+                AccountDialog.showAccountDialog(null, null,
+                        getActivity().getSupportFragmentManager()));
         long transactionId = getArguments().getLong(EXTRA_TRANSACTION_ID, -1L);
 
         if (transactionId >= 0) {
@@ -176,10 +181,6 @@ public class TransactionDialog extends AppCompatDialogFragment {
 
         dialog = builder.create();
         return dialog;
-    }
-
-    private void onAddCategoryClick() {
-        CategoryDialog.showCategoryDialog(null, getActivity().getSupportFragmentManager());
     }
 
     private void openDatePickerTransactionDate() {
