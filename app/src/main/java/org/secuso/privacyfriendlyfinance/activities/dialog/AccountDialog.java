@@ -50,8 +50,9 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class AccountDialog extends AppCompatDialogFragment {
-    public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
-    public static final String EXTRA_ACCOUNT_MONTH_BALANCE = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_MONTH_BALANCE";
+
+    private static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
+    private static final String EXTRA_ACCOUNT_MONTH_BALANCE = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_MONTH_BALANCE";
 
     private AccountDialogViewModel viewModel;
     private List<Account> allAccounts = new ArrayList<>();

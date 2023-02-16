@@ -175,17 +175,10 @@ public abstract class TransactionListActivity extends BaseActivity implements On
     }
 
     @Override
-    public void onItemClick(Transaction item) {
-        TransactionDialog transactionDialog = new TransactionDialog();
-        Bundle args = new Bundle();
-        if (item != null) {
-            args.putLong(TransactionDialog.EXTRA_TRANSACTION_ID, item.getId());
-        } else {
-            args.putLong(TransactionDialog.EXTRA_CATEGORY_ID, viewModel.getPreselectedCategoryId());
-            args.putLong(TransactionDialog.EXTRA_ACCOUNT_ID, viewModel.getPreselectedAccountId());
-        }
-        transactionDialog.setArguments(args);
-        transactionDialog.show(getSupportFragmentManager(), "TransactionDialog");
+    public void onItemClick(Transaction transaction) {
+        TransactionDialog.showTransactionDialog(
+                getSupportFragmentManager(), transaction,
+                viewModel.getPreselectedAccountId(), viewModel.getPreselectedCategoryId());
     }
 
     private void filterTransactions(String filter) {

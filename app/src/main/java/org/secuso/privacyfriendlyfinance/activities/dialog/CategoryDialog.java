@@ -55,7 +55,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryDialog extends AppCompatDialogFragment {
-    public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
+    private static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
 
     private CategoryDialogViewModel viewModel;
     private List<Category> allCategories = new ArrayList<>();
