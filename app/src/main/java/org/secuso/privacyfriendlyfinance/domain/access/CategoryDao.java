@@ -36,7 +36,7 @@ import java.util.List;
 @Dao
 public abstract class CategoryDao extends AbstractDao<Category> {
     @Override
-    @Query("SELECT * FROM Category WHERE id=:id")
+    @Query("SELECT * FROM Category WHERE id=:id ORDER BY name")
     public abstract LiveData<Category> get(long id);
 
     @Query("SELECT * FROM Category WHERE rowid = :rowId")
@@ -46,9 +46,9 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     public abstract Category get(String name);
 
     @Override
-    @Query("SELECT * FROM Category")
+    @Query("SELECT * FROM Category  ORDER BY name")
     public abstract LiveData<List<Category>> getAll();
 
-    @Query("SELECT * FROM Category")
+    @Query("SELECT * FROM Category ORDER BY name")
     public abstract List<Category> getAllSynchron();
 }

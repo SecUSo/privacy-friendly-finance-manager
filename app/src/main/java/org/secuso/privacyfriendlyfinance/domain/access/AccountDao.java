@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Dao
 public abstract class AccountDao extends AbstractDao<Account> {
-    @Query("SELECT COUNT(*) FROM Account")
+    @Query("SELECT COUNT(*) FROM Account ORDER BY name")
     public abstract long count();
 
     @Override
@@ -48,8 +48,8 @@ public abstract class AccountDao extends AbstractDao<Account> {
     public abstract LiveData<Account> getByName(String name);
 
     @Override
-    @Query("SELECT * FROM Account")
+    @Query("SELECT * FROM Account ORDER BY name")
     public abstract LiveData<List<Account>> getAll();
-    @Query("SELECT * FROM Account")
+    @Query("SELECT * FROM Account ORDER BY name")
     public abstract List<Account> getAllSynchron();
 }
