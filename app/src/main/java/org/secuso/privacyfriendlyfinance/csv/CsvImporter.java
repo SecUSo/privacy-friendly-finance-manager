@@ -184,7 +184,7 @@ public class CsvImporter  implements AutoCloseable {
     protected int getColumnNo(String[] headers, String columnName) {
 
         for(int x = 0; x < headers.length; x++) {
-            if(Objects.equals(headers[x], columnName)) return x;
+            if(Objects.equals(headers[x].toLowerCase().trim(), columnName)) return x;
         }
 
         return -1;

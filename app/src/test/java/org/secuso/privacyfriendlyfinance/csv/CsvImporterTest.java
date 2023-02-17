@@ -85,6 +85,18 @@ public class CsvImporterTest {
     }
 
     @Test
+    public void readCsvNoteCaseInsensitive() throws CsvValidationException, IOException {
+        // header "note" with wrong casing and additional space at start and end
+
+        String csvData = " nOtE \n" + "My Test Transaction";
+
+        CsvImporter importer = createImporter(csvData);
+
+        Transaction transaction = importer.readFromCsv().get(0);
+        assertEquals("My Test Transaction",transaction.getName());
+    }
+
+    @Test
     public void dateString2Date() {
         String columData = "2001-02-27";
         CsvImporter importer = createImporter("");
