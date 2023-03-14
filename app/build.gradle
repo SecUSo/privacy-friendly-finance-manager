@@ -16,8 +16,10 @@ android {
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+        // java-11 to allow to use java stream api
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildTypes {
         release {
@@ -37,6 +39,11 @@ dependencies {
     implementation project(':backup-api')
 
     testImplementation 'junit:junit:4.13.2'
+
+    // for unittests replaces net.danlew:android.joda that causes 'Resource not found: "org/joda/time/tz/data/ZoneInfoMap"'
+    // see https://github.com/dlew/joda-time-android/issues/37
+    testImplementation 'joda-time:joda-time:2.9.4.2'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -56,5 +63,9 @@ dependencies {
     androidTestImplementation "androidx.work:work-testing:$work_version"
 
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+
+    // https://opencsv.sourceforge.net/
+    implementation 'com.opencsv:opencsv:5.7.1'
+
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }

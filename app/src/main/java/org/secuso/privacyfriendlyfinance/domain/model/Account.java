@@ -23,6 +23,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdProvider;
+
 /**
  * Account entity.
  *
@@ -34,7 +36,7 @@ import androidx.room.Index;
     inheritSuperIndices = true,
     indices = @Index(value = "name", unique = true)
 )
-public class Account extends AbstractEntity {
+public class Account extends AbstractEntity implements NameWithIdProvider {
     private String name;
 
     public Account() {

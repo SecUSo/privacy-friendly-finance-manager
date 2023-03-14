@@ -232,7 +232,9 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
 
 
     public void submit() {
-        transaction.setName(transaction.getName().trim());
+        if (transaction.getName() != null) {
+            transaction.setName(transaction.getName().trim());
+        }
         transactionDao.updateOrInsertAsync(transaction);
     }
 

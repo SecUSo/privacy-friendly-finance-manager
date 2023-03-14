@@ -47,4 +47,6 @@ public abstract class AccountDao extends AbstractDao<Account> {
     @Override
     @Query("SELECT * FROM Account")
     public abstract LiveData<List<Account>> getAll();
+    @Query("SELECT * FROM Account")
+    public abstract List<Account> getAllSynchron();
 }

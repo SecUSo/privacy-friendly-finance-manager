@@ -24,6 +24,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import org.joda.time.LocalDate;
+import org.secuso.privacyfriendlyfinance.domain.model.common.NameWithIdProvider;
 
 /**
  * Transaction entity.
@@ -61,7 +62,7 @@ import org.joda.time.LocalDate;
         ),
     }
 )
-public class Transaction extends AbstractEntity {
+public class Transaction extends AbstractEntity implements NameWithIdProvider {
     private String name;
     private long amount;
     private LocalDate date = LocalDate.now();
