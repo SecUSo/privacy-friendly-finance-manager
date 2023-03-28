@@ -84,7 +84,6 @@ public class CsvImporter  implements AutoCloseable {
             } catch (Exception ex) {
                 addError(ex.getMessage());
             }
-            System.out.println(line);
         }
         csvReader.close();
         return list;
