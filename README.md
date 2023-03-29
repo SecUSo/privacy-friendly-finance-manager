@@ -22,6 +22,10 @@ Nowadays there are many apps that require many or all permissions available in A
 
 Further development requires Android Studio, we recommend to use at least version 3.1.1
  
+## Making Backups
+
+You can create a backup of your privacy-friendly-finance-manager database and restore it later with [privacy-friendly-backup](https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/)
+
 ### API Reference
 
 Mininum SDK: 21<br />

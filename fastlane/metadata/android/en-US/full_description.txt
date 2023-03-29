@@ -8,6 +8,8 @@ You can create new expenses by clicking on the Plus-Button in the bottom right c
 In the main view you are able to see the total balance of your transactions, as well as a list with all transactions you entered. By long-clicking on the entry you can either edit or delete the transaction.
 - Categories
 Under the menu item “Categories” you can see all the categories you created and their total balances, depending on the transactions that are labelled with the respective category. By clicking on the Plus-Button in the bottom right corner you can create new Categories. By long-clicking on the entry you can either edit or delete the category.
+- Backups
+You can create a backup of your privacy-friendly-finance-manager database and restore it later with <a href="https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/">privacy-friendly-backup</a>.
 
 You can reach us via
 Twitter - @SECUSOResearch https://twitter.com/secusoresearch
