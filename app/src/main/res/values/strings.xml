@@ -184,4 +184,9 @@
     <!-- ### CSV Import / Export ### -->
     <string name="nav_title_export_as_csv">Export as CSV</string>
 
+    // parameter uri and exception messasage
+    <string name="err_cannot_read_import_file">Cannot import CSV from %s : %s</string>
+    <string name="err_cannot_save_to_db">Canot save %s to database \n\t %s</string>
+    <string name="info_import_success">Imported (%s/%s) transactions</string>
+
 </resources>

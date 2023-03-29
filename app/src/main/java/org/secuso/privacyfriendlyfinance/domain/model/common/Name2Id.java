@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, k3b
+ Copyright (C) 2023 MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -18,31 +18,34 @@
 
 package org.secuso.privacyfriendlyfinance.domain.model.common;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * minimal {@link NameWithIdProvider} implementation for use in unittests
+ * Provides translation from "String name" to "Long id"
+ * @param <T> where the data comes from
  */
-public class NameWithIdDto implements NameWithIdProvider {
-    private Long id;
-    private String name;
+public class Name2Id<T extends NameWithIdProvider>  {
+    protected final Map<String,Long> name2Id;
 
-    public NameWithIdDto(String name, Long id) {
-        this.name = name;
-        this.id = id;
+    public Name2Id(List<T> items) {
+        Map<String,Long> map = new HashMap<>();
+        for (T item : items) {
+            if (map.put(item.getName(),item.getId()) != null) {
+                throw new IllegalStateException("Duplicate key");
+            }
+        }
+        name2Id = map;
     }
 
-    public Long getId() {
-        return id;
+    /**
+     * Provides translation from "String name" to "Long id".
+     *
+     * @param name to be translated.
+     * @return name corresponding to id or null if not found
+     */
+    public Long get(String name) {
+        return name2Id.get(name);
     }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }

@@ -130,6 +130,24 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
         return sumExpensesForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());
     }
 
+    public List<Transaction> findSameTransaction(Transaction t) {
+        // String name, long amount, LocalDate date, long accountId, Long categoryId
+        String name = t.getName();
+        Long categoryId = t.getCategoryId();
+        if (name == null) name = "";
+        if (categoryId == null) categoryId = 0L;
+        return findSameTransaction(name, t.getAmount(), t.getDate(), t.getAccountId(), categoryId);
+    }
+
+    // note amount,accountId and date cannot be null
+    @Query("SELECT * FROM Tranzaction WHERE " +
+            "IFNULL(name,'') =:name " +
+            "AND amount =:amount " +
+            "AND date =:date " +
+            "AND accountId =:accountId " +
+            "AND IFNULL(categoryId,0) =:categoryId "
+    )
+    public abstract List<Transaction> findSameTransaction(String name, long amount, LocalDate date, long accountId, Long categoryId);
 
     @Query("SELECT * FROM Tranzaction WHERE accountId=:accountId AND name=:name AND date>=:from AND date<:before ORDER BY date DESC, id DESC LIMIT 1")
     public abstract LiveData<Transaction> getLatestByNameAndAccountFromBefore(long accountId, String name, String from, String before);

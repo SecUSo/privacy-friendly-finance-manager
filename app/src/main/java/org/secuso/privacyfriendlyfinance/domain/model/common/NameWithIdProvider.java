@@ -26,4 +26,6 @@ import org.secuso.privacyfriendlyfinance.activities.adapter.IdProvider;
 
 public interface NameWithIdProvider extends IdProvider {
     String getName();
+
+    void setName(String name);
 }

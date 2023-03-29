@@ -18,13 +18,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.CsvImportActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
 
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:mimeType="text/csv" /> <!-- https://www.rfc-editor.org/rfc/rfc7111 -->
+                 <data android:mimeType="text/comma-separated-values" /> <!-- non standard used by android filemanager -->
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -97,6 +116,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlyfinance.activities.TransactionsActivity" />
         </activity>
+
         <service
             android:name=".backup.PFABackupService"
             android:enabled="true"
@@ -104,10 +124,10 @@
             android:process=":backup"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action
-                    android:name="org.secuso.privacyfriendlybackup.api.pfa.PFAAuthService" />
+                <action android:name="org.secuso.privacyfriendlybackup.api.pfa.PFAAuthService" />
             </intent-filter>
         </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="org.secuso.privacyfriendlyfinance"
@@ -115,7 +135,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_paths"/>
+                android:resource="@xml/file_provider_paths" />
         </provider>
     </application>
 

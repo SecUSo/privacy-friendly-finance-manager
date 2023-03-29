@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 
 import java.util.List;
@@ -37,6 +38,9 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     @Override
     @Query("SELECT * FROM Category WHERE id=:id")
     public abstract LiveData<Category> get(long id);
+
+    @Query("SELECT * FROM Category WHERE rowid = :rowId")
+    public abstract Category getByRowId(long rowId);
 
     @Query("SELECT * FROM Category WHERE name LIKE :name")
     public abstract Category get(String name);

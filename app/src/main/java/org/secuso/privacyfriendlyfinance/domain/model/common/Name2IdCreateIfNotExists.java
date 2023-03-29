@@ -1,6 +1,6 @@
 /*
  Privacy Friendly Finance Manager is licensed under the GPLv3.
- Copyright (C) 2019-2023 Leonard Otto, Felix Hofmann, k3b
+ Copyright (C) 2023 MaxIsV, k3b
 
  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
  General Public License as published by the Free Software Foundation, either version 3 of the
@@ -18,31 +18,30 @@
 
 package org.secuso.privacyfriendlyfinance.domain.model.common;
 
-/**
- * minimal {@link NameWithIdProvider} implementation for use in unittests
- */
-public class NameWithIdDto implements NameWithIdProvider {
-    private Long id;
-    private String name;
+import java.util.List;
 
-    public NameWithIdDto(String name, Long id) {
-        this.name = name;
-        this.id = id;
+public abstract class Name2IdCreateIfNotExists<T extends NameWithIdProvider> extends Name2Id<T> {
+    public Name2IdCreateIfNotExists(List<T> items) {
+        super(items);
     }
 
-    public Long getId() {
+    @Override
+    public Long get(String name) {
+        Long id = super.get(name);
+        if (id == null) {
+            // not found: must create
+            T newItem = createItem();
+            newItem.setName(name);
+            newItem = save(newItem);
+            id = newItem.getId();
+            if (id != null) {
+                this.name2Id.put(name, id);
+            }
+        }
         return id;
     }
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    abstract protected T createItem();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    abstract protected T save(T newItem);
 }

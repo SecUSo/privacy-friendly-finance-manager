@@ -131,4 +131,17 @@ public class Transaction extends AbstractEntity implements NameWithIdProvider {
     public void setRepeatingId(Long repeatingId) {
         this.repeatingId = repeatingId;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Transaction{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", amount=").append(amount);
+        sb.append(", date=").append(date);
+        sb.append(", accountId=").append(accountId);
+        sb.append(", categoryId=").append(categoryId);
+        sb.append(", repeatingId=").append(repeatingId);
+        sb.append('}');
+        return sb.toString();
+    }
 }

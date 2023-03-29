@@ -64,7 +64,7 @@ dependencies {
 
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
 
-    // https://opencsv.sourceforge.net/
+    // https://opencsv.sourceforge.net/ License: Appache2 https://opencsv.sourceforge.net/licenses.html
     implementation 'com.opencsv:opencsv:5.7.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
