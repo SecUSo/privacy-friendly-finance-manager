@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -54,12 +55,24 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class CategoryDialog extends AppCompatDialogFragment {
-    public static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
+    private static final String EXTRA_CATEGORY_ID = "org.secuso.privacyfriendlyfinance.EXTRA_CATEGORY_ID";
 
     private CategoryDialogViewModel viewModel;
     private List<Category> allCategories = new ArrayList<>();
     private ColorPickerView colorPicker;
     private EditText editTextBudget;
+
+    public static void showCategoryDialog(Category category, FragmentManager fragmentManager) {
+        CategoryDialog categoryDialog = new CategoryDialog();
+
+        Bundle args = new Bundle();
+        if (category != null) {
+            args.putLong(EXTRA_CATEGORY_ID, category.getId());
+        }
+        categoryDialog.setArguments(args);
+
+        categoryDialog.show(fragmentManager, "CategoryDialog");
+    }
 
     @NonNull
     @Override

@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -135,13 +136,7 @@ public class CategoryActivity extends TransactionListActivity {
     }
 
     private void openCategoryDialog() {
-        CategoryDialog categoryDialog = new CategoryDialog();
-
-        Bundle args = new Bundle();
-        args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, viewModel.getCategory().getValue().getId());
-        categoryDialog.setArguments(args);
-
-        categoryDialog.show(getSupportFragmentManager(), "CategoryDialog");
+        CategoryDialog.showCategoryDialog(viewModel.getCategory().getValue(), getSupportFragmentManager());
     }
 
     @Override

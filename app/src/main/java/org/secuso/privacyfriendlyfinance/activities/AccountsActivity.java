@@ -38,7 +38,6 @@ import org.secuso.privacyfriendlyfinance.activities.adapter.AccountWrapper;
 import org.secuso.privacyfriendlyfinance.activities.adapter.AccountsAdapter;
 import org.secuso.privacyfriendlyfinance.activities.adapter.OnItemClickListener;
 import org.secuso.privacyfriendlyfinance.activities.dialog.AccountDialog;
-import org.secuso.privacyfriendlyfinance.activities.dialog.CategoryDialog;
 import org.secuso.privacyfriendlyfinance.activities.helper.SwipeController;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
@@ -72,7 +71,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         accountsAdapter.onItemClick(this);
 
         setContent(R.layout.content_recycler);
-        addFab(R.layout.fab_add, view -> openAccountDialog(null));
+        addFab(R.layout.fab_add, view -> openAccountDialog());
 
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
@@ -121,16 +120,8 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
         }
     }
 
-    private void openAccountDialog(Account account) {
-        Bundle args = new Bundle();
-        if (account != null) {
-            args.putLong(CategoryDialog.EXTRA_CATEGORY_ID, account.getId());
-        }
-
-        AccountDialog accountDialog = new AccountDialog();
-        accountDialog.setArguments(args);
-
-        accountDialog.show(getSupportFragmentManager(), "CategoryDialog");
+    private void openAccountDialog() {
+        AccountDialog.showAccountDialog(null, null, getSupportFragmentManager());
     }
 
     @Override
