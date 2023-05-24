@@ -19,6 +19,7 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -27,6 +28,7 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -36,6 +38,7 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionListViewModel extends BaseViewModel {
+    private Uri csv;
     protected final TransactionDao transactionDao = FinanceDatabase.getInstance(getApplication()).transactionDao();
     private LiveData<Long> balance;
     private LiveData<List<Transaction>> transactions;
@@ -88,4 +91,11 @@ public class TransactionListViewModel extends BaseViewModel {
         this.preselectedAccountId = preselectedAccountId;
     }
 
+    public void openCsv(Uri uri) {
+        csv = uri;
+    }
+
+    public Uri getCsv() {
+        return this.csv;
+    }
 }

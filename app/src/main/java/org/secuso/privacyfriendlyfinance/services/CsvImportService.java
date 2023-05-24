@@ -16,17 +16,21 @@
  License Version 2.0.
  */
 
-package org.secuso.privacyfriendlyfinance.activities;
+package org.secuso.privacyfriendlyfinance.services;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlyfinance.R;
+import org.secuso.privacyfriendlyfinance.activities.TransactionsActivity;
 import org.secuso.privacyfriendlyfinance.csv.Account2Id;
 import org.secuso.privacyfriendlyfinance.csv.Category2Id;
 import org.secuso.privacyfriendlyfinance.csv.CsvImporter;
@@ -40,31 +44,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class CsvImportActivity extends AppCompatActivity {
+public class CsvImportService extends IntentService {
+    private ResultReceiver resultReceiver;
 
-    private static final String TAG = CsvImportActivity.class.getSimpleName();
+    public CsvImportService() {
+        super(CsvImportService.class.getSimpleName());
+    }
+    private static final String TAG = CsvImportService.class.getSimpleName();
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Intent intentIn = getIntent();
-        if (intentIn != null) {
-            Uri uri = intentIn.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
+    protected void onHandleIntent(@Nullable Intent intent) {
+        Log.e("Service", "started");
+        if (intent != null) {
+            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
+            resultReceiver = intent.getParcelableExtra(Intent.EXTRA_RESULT_RECEIVER);
             if (uri == null) {
-                uri = intentIn.getData(); // used by sendTo and view
+                uri = intent.getData(); // used by sendTo and view
             }
 
             if (uri != null) {
                 final Uri finalUri = uri;
                 final FinanceDatabase database = FinanceDatabase.getInstance(getApplication());
 
-                new Thread(() -> ImportCsvInBackground(finalUri, database)).start();
+                doImportCsv(finalUri, database);
             }
         }
     }
 
-    private void ImportCsvInBackground(Uri uri, FinanceDatabase database) {
+    private void doImportCsv(Uri uri, FinanceDatabase database) {
         InputStream in = null;
         String messages = "";
         try {
@@ -74,15 +82,12 @@ public class CsvImportActivity extends AppCompatActivity {
         } catch (Exception ex) {
             Log.w(TAG,"Error in onCreate-startActivityForResult " + uri, ex);
             messages += getString(R.string.err_cannot_read_import_file, uri.toString(), ex.getMessage());
-            setResult(RESULT_CANCELED);
         } finally {
             final String finalMessages = messages;
-            runOnUiThread(() -> {
-                if (!finalMessages.isEmpty()) {
-                    Toast.makeText(this, finalMessages, Toast.LENGTH_LONG).show();
-                }
-                finish();
-            });
+            Bundle bundle = new Bundle();
+            bundle.putString(TransactionsActivity.CSV_RESULT_MESSAGE, finalMessages);
+            resultReceiver.send(1, bundle);
+            Log.e("Service", "finished");
             close(in, uri);
         }
     }

@@ -178,6 +178,8 @@
 
     <!-- ### CSV Import / Export ### -->
     <string name="nav_title_export_as_csv">Als CSV exportieren</string>
+    <string name="nav_title_import_csv">CSV Importieren</string>
+    <string name="activity_transactions_activity_file_chooser">Wähle eine CSV-Datei</string>
 
     <!-- parameter 1: specific text parameter 2 exception messasage -->
     <string name="err_cannot_read_import_file">Kann CSV-Datei nicht lesen aus %s : %s</string>

@@ -19,10 +19,13 @@
 package org.secuso.privacyfriendlyfinance.activities.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import org.secuso.privacyfriendlyfinance.R;
+
+import java.io.File;
 
 /**
  * View model for the transactions activity.

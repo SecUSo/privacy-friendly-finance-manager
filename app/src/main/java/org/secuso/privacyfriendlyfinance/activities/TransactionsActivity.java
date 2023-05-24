@@ -17,10 +17,23 @@
  */
 package org.secuso.privacyfriendlyfinance.activities;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.FileHelper;
@@ -32,6 +45,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import org.secuso.privacyfriendlyfinance.domain.model.common.Id2Name;
+import org.secuso.privacyfriendlyfinance.services.CsvImportService;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -44,6 +58,10 @@ import java.util.List;
  * @author Leonard Otto
  */
 public class TransactionsActivity extends TransactionListActivity {
+    private static final int PICK_CSV_INTENT = 0;
+    private static final int PERMISSION_READ_EXTERNAL_STORAGE_REQUEST = 1;
+    public final static String CSV_RESULT_MESSAGE = "CSV_RESULT_MESSAGE";
+
     @Override
     protected Class<? extends TransactionListViewModel> getViewModelClass() {
         return TransactionsViewModel.class;
@@ -53,6 +71,15 @@ public class TransactionsActivity extends TransactionListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        Log.e("intent", (intent != null) + "");
+        if (intent != null) {
+            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
+            if (uri != null) {
+                Log.e("uri", uri.toString());
+                importCsv(uri);
+            }
+        }
     }
 
     @Override
@@ -67,6 +94,9 @@ public class TransactionsActivity extends TransactionListActivity {
         switch (item.getItemId()) {
             case R.id.exportButton:
                 return onExportCsv();
+            case R.id.importCSV:
+                openFilePicker();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -100,5 +130,57 @@ public class TransactionsActivity extends TransactionListActivity {
         runOnUiThread(() -> {
             FileHelper.sendCsv(this, getString(R.string.nav_title_export_as_csv), file);
         });
+    }
+    private void openFilePicker() {
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("text/*");
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        pickIntent.setType("text/*");
+        Intent chooserIntent = Intent.createChooser(pickIntent, getString(R.string.activity_transactions_activity_file_chooser));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{getIntent});
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL_STORAGE_REQUEST);
+            } else {
+                startActivityForResult(chooserIntent, PICK_CSV_INTENT);
+            }
+        } else {
+            startActivityForResult(chooserIntent, PICK_CSV_INTENT);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_CSV_INTENT && resultCode == RESULT_OK && data.getData() != null) {
+            importCsv(data.getData());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void importCsv(Uri uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent csvImport = new Intent(this, CsvImportService.class);
+            ImportCsvResultReceiver resultReceiver = new ImportCsvResultReceiver(new Handler());
+            csvImport.putExtra(Intent.EXTRA_RESULT_RECEIVER, resultReceiver);
+            csvImport.putExtra(Intent.EXTRA_STREAM, uri);
+            startService(csvImport);
+        }
+    }
+
+    private class ImportCsvResultReceiver extends ResultReceiver {
+        public ImportCsvResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            String message = resultData.getString(CSV_RESULT_MESSAGE);
+            Log.e("Receiver", message);
+            if (message != null) {
+                Toast.makeText(TransactionsActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+            super.onReceiveResult(resultCode, resultData);
+        }
     }
 }
