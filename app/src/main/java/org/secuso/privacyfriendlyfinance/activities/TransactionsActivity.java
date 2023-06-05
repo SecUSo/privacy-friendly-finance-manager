@@ -135,21 +135,16 @@ public class TransactionsActivity extends TransactionListActivity {
         });
     }
     private void openFilePicker() {
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("text/*");
-        Intent pickIntent = new Intent(Intent.ACTION_PICK);
-        pickIntent.setType("text/*");
-        Intent chooserIntent = Intent.createChooser(pickIntent, getString(R.string.activity_transactions_activity_file_chooser));
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{getIntent});
-
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("file/*");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL_STORAGE_REQUEST);
             } else {
-                startActivityForResult(chooserIntent, PICK_CSV_INTENT);
+                startActivityForResult(intent, PICK_CSV_INTENT);
             }
         } else {
-            startActivityForResult(chooserIntent, PICK_CSV_INTENT);
+            startActivityForResult(intent, PICK_CSV_INTENT);
         }
     }
 
