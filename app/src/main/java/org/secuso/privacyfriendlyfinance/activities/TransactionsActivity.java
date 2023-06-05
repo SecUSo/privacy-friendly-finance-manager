@@ -75,6 +75,9 @@ public class TransactionsActivity extends TransactionListActivity {
         Log.e("intent", (intent != null) + "");
         if (intent != null) {
             Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
+            if (uri == null) {
+                uri = intent.getData();
+            }
             if (uri != null) {
                 Log.e("uri", uri.toString());
                 importCsv(uri);
