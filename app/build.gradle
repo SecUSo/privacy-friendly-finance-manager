@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlyfinancemanager'
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 6
-        versionName '2.2.0'
+        targetSdkVersion 33
+        versionCode 7
+        versionName '2.3.0'
     }
     buildFeatures {
         //noinspection DataBindingWithoutKapt
