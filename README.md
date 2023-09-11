@@ -12,6 +12,8 @@
      style="float: right; margin-right: 10px;" />
 # Privacy Friendly Finance Manager
 
+[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/packages/org.secuso.privacyfriendlyfinancemanager)<a href="https://play.google.com/store/apps/details?id=org.secuso.privacyfriendlyfinancemanager"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
+
 The Privacy Friendly Finance Manager can be used to monitor and manage personal financials. This app belongs to the group of Privacy Friendly Apps developed by the Karlsruher Institute for Technology (KIT). 
 
 ## Motivation
