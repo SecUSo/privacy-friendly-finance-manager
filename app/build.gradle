@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
@@ -15,8 +16,6 @@ android {
         dataBinding true
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
-
         // java-11 to allow to use java stream api
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -67,5 +66,12 @@ dependencies {
     // https://opencsv.sourceforge.net/ License: Appache2 https://opencsv.sourceforge.net/licenses.html
     implementation 'com.opencsv:opencsv:5.7.1'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }
