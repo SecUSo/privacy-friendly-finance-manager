@@ -58,7 +58,7 @@ The icons used in the nagivation drawer are licensed under the [CC BY 2.5](http:
 App-Icon: <br />
 Tatjana Albrandt<br />
 
-<a href="https://github.com/SecUSo/privacy-friendly-pain-diary/graphs/contributors">
+<a href="https://github.com/SecUSo/privacy-friendly-finance-manager/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=SecUSo/privacy-friendly-finance-manager&max=100&columns=20" />
 </a>
 
