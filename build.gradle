@@ -20,6 +20,9 @@ allprojects {
         mavenCentral()
         google()
         maven { url "https://jitpack.io" }
+
+        // Repo where the colorpicker is still available
+        maven { url "https://maven.scijava.org/content/groups/public" }
     }
 }
 

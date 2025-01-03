@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 33
+    compileSdk 34
 
-    namespace 'org.secuso.privacyfriendlyfinancemanager'
+    namespace 'org.secuso.privacyfriendlyfinance'
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlyfinancemanager'
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 7
         versionName '2.3.0'
     }
