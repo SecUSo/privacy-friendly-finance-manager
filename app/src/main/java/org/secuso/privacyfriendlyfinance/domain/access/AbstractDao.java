@@ -18,7 +18,6 @@
 
 package org.secuso.privacyfriendlyfinance.domain.access;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.room.Delete;
@@ -33,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.jvm.functions.Function1;
 
 /**
  * Data access base class used to access all entities in the database that inherit from
@@ -115,9 +115,9 @@ public abstract class AbstractDao<E extends AbstractEntity> {
     }
 
     public LiveData<Map<Long, E>> getAllMap() {
-        return Transformations.map(getAll(), new Function<List<E>, Map<Long, E>>() {
+        return Transformations.map(getAll(), new Function1<List<E>, Map<Long, E>>() {
             @Override
-            public Map<Long, E> apply(List<E> input) {
+            public Map<Long, E> invoke(List<E> input) {
                 Map<Long, E> map = new HashMap<>();
                 for (E entity : input) {
                     map.put(entity.getId(), entity);
