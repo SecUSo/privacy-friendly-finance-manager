@@ -43,6 +43,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.jvm.functions.Function1;
+
 /**
  * View model for the transaction dialog.
  *
@@ -80,7 +82,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         });
 
         accounts = accountDao.getAll();
-        Transformations.map(accounts, (Function<List<Account>, Void>) input -> {
+        Transformations.map(accounts, (Function1<List<Account>, Void>) input -> {
             notifyPropertyChanged(BR.accountIndex);
             return null;
         });

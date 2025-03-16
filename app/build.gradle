@@ -2,23 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
+    namespace 'org.secuso.privacyfriendlyfinance'
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlyfinancemanager'
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 7
         versionName '2.3.0'
     }
     buildFeatures {
         //noinspection DataBindingWithoutKapt
         dataBinding true
-    }
-    compileOptions {
-        // java-11 to allow to use java stream api
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        buildConfig true
     }
     buildTypes {
         release {
@@ -31,6 +28,27 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+    }
+    lint {
+        lintConfig = file("lint.xml")
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    kotlin {
+        jvmToolchain(17)
+    }
+    android.applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            def appName = "pfa-2048"
+            outputFileName = appName + "-${variant.name}-v${variant.versionName}.apk"
+        }
     }
 }
 
@@ -54,8 +72,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     implementation 'net.zetetic:android-database-sqlcipher:4.5.0'
-    implementation 'androidx.room:room-runtime:2.4.0'
-    annotationProcessor 'androidx.room:room-compiler:2.4.0'
+    implementation 'androidx.room:room-runtime:2.6.0'
+    annotationProcessor 'androidx.room:room-compiler:2.6.0'
 
     def work_version = '2.7.1'
     implementation "androidx.work:work-runtime:$work_version"

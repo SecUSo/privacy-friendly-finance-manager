@@ -46,7 +46,6 @@
         android:id="@+id/tv_categoryBalanceMonth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/tv_totalBalance"
         android:gravity="center"
         android:text="@string/activity_category_category_balance_month_label"
         android:textSize="16sp"

@@ -43,6 +43,8 @@ import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.jvm.functions.Function1;
+
 /**
  * View model for the repeating transaction dialog.
  *
@@ -77,7 +79,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         });
 
         accounts = accountDao.getAll();
-        Transformations.map(accounts, (Function<List<Account>, Void>) input -> {
+        Transformations.map(accounts, (Function1<List<Account>, Void>) input -> {
             notifyPropertyChanged(BR.accountIndex);
             return null;
         });
