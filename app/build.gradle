@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 8
-        versionName '2.3.0'
+        versionName '2.3.1'
     }
     buildFeatures {
         //noinspection DataBindingWithoutKapt
@@ -46,7 +46,7 @@ android {
     }
     android.applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
-            def appName = "pfa-2048"
+            def appName = "pfa-finance-manager"
             outputFileName = appName + "-${variant.name}-v${variant.versionName}.apk"
         }
     }
