@@ -35,6 +35,7 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.secuso.privacyfriendlyfinance.GoodbyeGoogleHelperKt;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.helper.FileHelper;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
@@ -83,6 +84,7 @@ public class TransactionsActivity extends TransactionListActivity {
                 importCsv(uri);
             }
         }
+        GoodbyeGoogleHelperKt.checkGoodbyeGoogle(this, getLayoutInflater());
     }
 
     @Override
