@@ -25,6 +25,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +41,8 @@ import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogAccountBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyConfigHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +60,7 @@ public class AccountDialog extends AppCompatDialogFragment {
 
     private AccountDialogViewModel viewModel;
     private List<Account> allAccounts = new ArrayList<>();
+    private final List<CurrencyConfigHelper.CurrencyOption> currencyOptions = new ArrayList<>();
 
     public static void showAccountDialog(Account account, Long monthBalance, FragmentManager fragmentManager) {
         AccountDialog accountDialog = new AccountDialog();
@@ -85,11 +90,43 @@ public class AccountDialog extends AppCompatDialogFragment {
 
         final DialogAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_account, null, false);
         View view = binding.getRoot();
+        Spinner currencySpinner = view.findViewById(R.id.spinner_account_currency);
+        currencyOptions.clear();
+        String currentCode = viewModel.getCurrencyCode();
+        if (currentCode == null) {
+            currentCode = SharedPreferencesManager.get(getContext()).getDefaultCurrencyCode();
+        }
+        currencyOptions.add(new CurrencyConfigHelper.CurrencyOption(null, getString(R.string.currency_keep_current, currentCode)));
+        currencyOptions.addAll(CurrencyConfigHelper.getCurrencyOptionsOrdered(SharedPreferencesManager.get(getContext()).getRecentCurrencyCodes()));
+        ArrayAdapter<CurrencyConfigHelper.CurrencyOption> currencyAdapter = new ArrayAdapter<>(
+                getContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                currencyOptions);
+        currencySpinner.setAdapter(currencyAdapter);
+        currencySpinner.setSelection(0);
+        currencySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                if (position <= 0) return;
+                viewModel.setCurrencyCode(currencyOptions.get(position).getCode());
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
+
         viewModel.setAccountId(getArguments().getLong(EXTRA_ACCOUNT_ID, -1L)).observe(this, new Observer<Account>() {
             @Override
             public void onChanged(@Nullable Account account) {
                 viewModel.setAccount(account);
                 binding.setViewModel(viewModel);
+                String activeCode = viewModel.getCurrencyCode();
+                if (activeCode != null) {
+                    currencyOptions.set(0, new CurrencyConfigHelper.CurrencyOption(null, getString(R.string.currency_keep_current, activeCode)));
+                    currencyAdapter.notifyDataSetChanged();
+                }
+                currencySpinner.setSelection(0);
             }
         });
 

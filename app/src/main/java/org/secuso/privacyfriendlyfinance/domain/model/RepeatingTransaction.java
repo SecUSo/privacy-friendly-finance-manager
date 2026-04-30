@@ -73,6 +73,7 @@ public class RepeatingTransaction extends AbstractEntity implements NameWithIdPr
         result.setAccountId(accountId);
         result.setCategoryId(categoryId);
         result.setAmount(amount);
+        result.setCategoryAmount(amount);
         result.setDate(LocalDate.now());
 
         return result;

@@ -33,6 +33,7 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * Account activity. Used to show detailed information about an account and all transactions that
@@ -44,6 +45,7 @@ import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
 public class AccountActivity extends TransactionListActivity {
     public static final String EXTRA_ACCOUNT_ID = "org.secuso.privacyfriendlyfinance.EXTRA_ACCOUNT_ID";
     protected AccountViewModel viewModel;
+    private String accountCurrencyCode;
 
     @Override
     protected AccountViewModel getViewModel() {
@@ -56,10 +58,14 @@ public class AccountActivity extends TransactionListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = (AccountViewModel) super.viewModel;
+        accountCurrencyCode = SharedPreferencesManager.get(this).getDefaultCurrencyCode();
         viewModel.getAccount().observe(this, new Observer<Account>() {
             @Override
             public void onChanged(Account account) {
-                viewModel.setTitle(account.getName());
+                if (account != null) {
+                    viewModel.setTitle(account.getName());
+                    accountCurrencyCode = SharedPreferencesManager.get(AccountActivity.this).getAccountCurrencyCode(account.getId());
+                }
             }
         });
     }
@@ -81,17 +87,25 @@ public class AccountActivity extends TransactionListActivity {
         final TextView tvTotalBalance = view.findViewById(R.id.tv_totalBalance);
         final TextView tvMonthBalance = view.findViewById(R.id.tv_monthBalance);
 
+        viewModel.getAccount().observe(this, account -> {
+            if (account != null) {
+                accountCurrencyCode = SharedPreferencesManager.get(AccountActivity.this).getAccountCurrencyCode(account.getId());
+                CurrencyHelper.setBalance(viewModel.getTotalBalance().getValue(), tvTotalBalance, accountCurrencyCode);
+                CurrencyHelper.setBalance(viewModel.getMonthBalance().getValue(), tvMonthBalance, accountCurrencyCode);
+            }
+        });
+
         viewModel.getTotalBalance().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long totalBalance) {
-                CurrencyHelper.setBalance(totalBalance, tvTotalBalance);
+                CurrencyHelper.setBalance(totalBalance, tvTotalBalance, accountCurrencyCode);
             }
         });
 
         viewModel.getMonthBalance().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long monthBalance) {
-                CurrencyHelper.setBalance(monthBalance, tvMonthBalance);
+                CurrencyHelper.setBalance(monthBalance, tvMonthBalance, accountCurrencyCode);
             }
         });
     }

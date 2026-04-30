@@ -58,7 +58,7 @@ import java.io.File;
 @Database(
         entities = {Account.class, Category.class, Transaction.class, RepeatingTransaction.class},
         exportSchema = false,
-        version = 10
+        version = 11
 )
 @TypeConverters({LocalDateConverter.class})
 public abstract class FinanceDatabase extends RoomDatabase {

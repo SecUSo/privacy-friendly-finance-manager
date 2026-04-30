@@ -34,6 +34,7 @@ import org.secuso.privacyfriendlyfinance.domain.access.AccountDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     private long initialMonthBalance = 0;
     private Long monthBalance;
     private String originalName;
+    private String currencyCode;
+    private String originalCurrencyCode;
 
     public AccountDialogViewModel(@NonNull Application application) {
         super(application);
@@ -77,8 +80,17 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
     }
 
     public void setAccount(Account account) {
+        if (account == null) {
+            account = new Account();
+        }
         this.account = account;
         originalName = account.getName();
+        if (account.getId() != null) {
+            currencyCode = SharedPreferencesManager.get(getApplication()).getAccountCurrencyCode(account.getId());
+        } else {
+            currencyCode = SharedPreferencesManager.get(getApplication()).getDefaultCurrencyCode();
+        }
+        originalCurrencyCode = currencyCode;
         notifyChange();
     }
 
@@ -122,8 +134,9 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
         accountDao.updateOrInsertAsync(account, new TaskListener() {
             @Override
             public void onDone(Object result, AsyncTask<?, ?, ?> task) {
+                final Long accountId = (Long) result;
+                SharedPreferencesManager.get(getApplication()).setAccountCurrencyCode(accountId, currencyCode);
                 if (initialMonthBalance != monthBalance) {
-                    final Long accountId = (Long) result;
                     transactionDao.getLatestByNameForAccountLastMonthAsync(accountId, compensationTitle, new TaskListener() {
                         @Override
                         public void onDone(Object result, AsyncTask<?, ?, ?> task) {
@@ -148,9 +161,21 @@ public class AccountDialogViewModel extends CurrencyInputBindableViewModel {
 
     public void cancel() {
         account.setName(originalName);
+        currencyCode = originalCurrencyCode;
     }
 
     public Account getAccount() {
         return account;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        if (currencyCode == null) {
+            currencyCode = SharedPreferencesManager.get(getApplication()).getDefaultCurrencyCode();
+        }
+        this.currencyCode = currencyCode;
     }
 }

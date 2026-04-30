@@ -34,6 +34,7 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.TransactionListViewModel;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * Activity that shows detailed information about a single category and all transactions that are
@@ -50,16 +51,23 @@ public class CategoryActivity extends TransactionListActivity {
     private TextView tvCategoryBudgetMonth;
     private Long budget = null;
     private Long balance = null;
+    private String categoryCurrencyCode;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = (CategoryViewModel) super.viewModel;
+        categoryCurrencyCode = SharedPreferencesManager.get(this).getDefaultCurrencyCode();
         viewModel.getCategory().observe(this, new Observer<Category>() {
             @Override
             public void onChanged(Category category) {
-                viewModel.setTitle(category.getName());
+                if (category != null) {
+                    viewModel.setTitle(category.getName());
+                    if (category.getCurrencyCode() != null && !category.getCurrencyCode().trim().isEmpty()) {
+                        categoryCurrencyCode = category.getCurrencyCode();
+                    }
+                }
             }
         });
     }
@@ -72,8 +80,8 @@ public class CategoryActivity extends TransactionListActivity {
         } else {
             if (balance == null) balance = 0L;
 
-            CurrencyHelper.setBalance(budget + balance, tvCategoryBudgetMonth);
-            tvCategoryBudget.setText("/ " + CurrencyHelper.convertToCurrencyString(budget));
+            CurrencyHelper.setBalance(budget + balance, tvCategoryBudgetMonth, categoryCurrencyCode);
+            tvCategoryBudget.setText("/ " + CurrencyHelper.convertToCurrencyString(this, budget, categoryCurrencyCode));
             tvCategoryBudgetLabel.setVisibility(View.VISIBLE);
             tvCategoryBudget.setVisibility(View.VISIBLE);
             tvCategoryBudgetMonth.setVisibility(View.VISIBLE);
@@ -107,15 +115,20 @@ public class CategoryActivity extends TransactionListActivity {
         viewModel.getCategory().observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
-                budget = category.getBudget();
-                updateBudgetMonth();
+                if (category != null) {
+                    budget = category.getBudget();
+                    if (category.getCurrencyCode() != null && !category.getCurrencyCode().trim().isEmpty()) {
+                        categoryCurrencyCode = category.getCurrencyCode();
+                    }
+                    updateBudgetMonth();
+                }
             }
         });
 
         viewModel.getCategoryBalanceMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long currencyBalance) {
-                CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance);
+                CurrencyHelper.setBalance(currencyBalance, tvCategoryBalance, categoryCurrencyCode);
                 balance = currencyBalance;
                 updateBudgetMonth();
 
@@ -124,13 +137,13 @@ public class CategoryActivity extends TransactionListActivity {
         viewModel.getCategoryIncomeMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long categoryIncome) {
-                CurrencyHelper.setBalance(categoryIncome, tvCategoryIncome);
+                CurrencyHelper.setBalance(categoryIncome, tvCategoryIncome, categoryCurrencyCode);
             }
         });
         viewModel.getCategoryExpensesMonth().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long categoryExpenses) {
-                CurrencyHelper.setBalance(categoryExpenses, tvCategoryExpenses);
+                CurrencyHelper.setBalance(categoryExpenses, tvCategoryExpenses, categoryCurrencyCode);
             }
         });
     }

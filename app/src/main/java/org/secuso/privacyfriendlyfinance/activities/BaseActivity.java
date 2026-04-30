@@ -108,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         Runnable periodicRunner = new Runnable() {
             @Override
             public void run() {
-                PeriodicDatabaseWorker.work(FinanceDatabase.getInstance(getApplicationContext()));
+                PeriodicDatabaseWorker.work(getApplicationContext(), FinanceDatabase.getInstance(getApplicationContext()));
                 periodicHandler.postDelayed(this, PeriodicDatabaseWorker.DURATION_BETWEEN_WORK);
             }
         };

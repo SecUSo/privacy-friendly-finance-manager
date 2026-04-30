@@ -43,6 +43,7 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.RepeatingTransactionsViewModel;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * This activity shows all repeating transactions. Provides the possibility to create new repeating
@@ -141,6 +142,11 @@ public class RepeatingTransactionsActivity extends BaseActivity implements OnIte
                 .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.repeat_delete_question, transaction.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
                     FinanceDatabase.getInstance(this).repeatingTransactionDao().deleteAsync(transaction);
+                    if (transaction.getId() != null) {
+                        SharedPreferencesManager preferences = SharedPreferencesManager.get(this);
+                        preferences.removeRepeatingMonthDay(transaction.getId());
+                        preferences.removeRepeatingWeekDay(transaction.getId());
+                    }
                     Toast.makeText(getBaseContext(), R.string.repeat_deleted_msg, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {})

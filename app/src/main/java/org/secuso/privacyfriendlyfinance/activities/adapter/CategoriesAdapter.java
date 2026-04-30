@@ -55,14 +55,15 @@ public class CategoriesAdapter extends EntityListAdapter<CategoryWrapper, Catego
     @Override
     public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int index) {
         super.onBindViewHolder(holder, index);
-        Category category = getItem(index).getCategory();
+        final CategoryWrapper wrapper = getItem(index);
+        Category category = wrapper.getCategory();
         holder.setCategoryName(category.getName());
         holder.setCategoryColor(category.getColor());
-        holder.setBudget(getItem(index).getCategory().getBudget());
-        getItem(index).getBalance().observe(context, new Observer<Long>() {
+        holder.setBudget(wrapper.getCategory().getBudget(), wrapper.getCurrencyCode());
+        wrapper.getBalance().observe(context, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long balance) {
-                holder.setBalance(balance);
+                holder.setBalance(balance, wrapper.getCurrencyCode());
             }
         });
     }

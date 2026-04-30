@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -222,7 +223,7 @@ public class TransactionDialog extends AppCompatDialogFragment {
                     edit.apply();
                 }
 
-                viewModel.submit();
+                maybeSubmitWithExchangeRatePrompt();
             }
         });
 
@@ -273,5 +274,46 @@ public class TransactionDialog extends AppCompatDialogFragment {
         LocalDate date = viewModel.getDate();
         new DatePickerDialog(getContext(), listener, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth()).show();
         dialog.show();
+    }
+
+    private void maybeSubmitWithExchangeRatePrompt() {
+        Category category = viewModel.getSelectedCategorySynchron();
+        if (category == null) {
+            viewModel.applyExchangeRate(null);
+            viewModel.submit();
+            return;
+        }
+
+        String accountCurrency = viewModel.getAccountCurrencyCode();
+        String categoryCurrency = viewModel.getCategoryCurrencyCode();
+        if (accountCurrency.equalsIgnoreCase(categoryCurrency)) {
+            viewModel.applyExchangeRate(1.0);
+            viewModel.submit();
+            return;
+        }
+
+        AlertDialog.Builder promptBuilder = new AlertDialog.Builder(getActivity());
+        promptBuilder.setTitle(R.string.dialog_exchange_rate_title);
+
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        input.setHint(getString(R.string.dialog_exchange_rate_hint, accountCurrency, categoryCurrency));
+        promptBuilder.setView(input);
+        promptBuilder.setMessage(getString(R.string.dialog_exchange_rate_message, accountCurrency, categoryCurrency));
+
+        promptBuilder.setNegativeButton(R.string.cancel, null);
+        promptBuilder.setPositiveButton(R.string.submit, (dialog, which) -> {
+            Double rate = null;
+            try {
+                rate = Double.parseDouble(input.getText().toString().replace(',', '.'));
+            } catch (NumberFormatException ignored) {
+            }
+            if (rate == null || rate <= 0) {
+                return;
+            }
+            viewModel.applyExchangeRate(rate);
+            viewModel.submit();
+        });
+        promptBuilder.show();
     }
 }

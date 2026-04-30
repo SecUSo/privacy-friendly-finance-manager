@@ -39,6 +39,7 @@ import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,8 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
 
     private final Application application;
     private boolean amountEdited = false;
+    private LocalDate executionDate = LocalDate.now();
+    private LocalDate originalExecutionDate = LocalDate.now();
 
     private long transactionId = -1;
 
@@ -149,6 +152,22 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         originalEnd = transaction.getEnd();
         originalWeelky = transaction.isWeekly();
         originalInterval = transaction.getInterval();
+        if (transaction.getLatestInsert() == null) {
+            transaction.setLatestInsert(LocalDate.now());
+        }
+        if (transaction.getId() != null) {
+            int dayOfMonth = SharedPreferencesManager.get(application).getRepeatingMonthDay(transaction.getId(), transaction.getLatestInsert().getDayOfMonth());
+            int dayOfWeek = SharedPreferencesManager.get(application).getRepeatingWeekDay(transaction.getId(), transaction.getLatestInsert().getDayOfWeek());
+            if (transaction.isWeekly()) {
+                executionDate = LocalDate.now().withDayOfWeek(dayOfWeek);
+            } else {
+                int maxDay = LocalDate.now().dayOfMonth().getMaximumValue();
+                executionDate = LocalDate.now().withDayOfMonth(Math.min(dayOfMonth, maxDay));
+            }
+        } else {
+            executionDate = LocalDate.now();
+        }
+        originalExecutionDate = executionDate;
         notifyChange();
     }
 
@@ -240,6 +259,7 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         try {
             long interval = Long.parseLong(str);
             if (transaction.getInterval() != interval) {
+                if (interval < 1) interval = 1;
                 transaction.setInterval(interval);
                 notifyPropertyChanged(BR.interval);
             }
@@ -268,8 +288,26 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
     }
 
     public void submit() {
-        transaction.setName(transaction.getName().trim());
-        repeatingTransactionDao.updateOrInsertAsync(transaction);
+        if (transaction.getName() == null) {
+            transaction.setName("");
+        } else {
+            transaction.setName(transaction.getName().trim());
+        }
+        if (transaction.getInterval() < 1) {
+            transaction.setInterval(1);
+        }
+        if (transaction.isWeekly()) {
+            transaction.setLatestInsert(executionDate.minusWeeks((int) transaction.getInterval()));
+        } else {
+            transaction.setLatestInsert(executionDate.minusMonths((int) transaction.getInterval()));
+        }
+
+        repeatingTransactionDao.updateOrInsertAsync(transaction, (result, task) -> {
+            Long repeatingId = (Long) result;
+            SharedPreferencesManager preferences = SharedPreferencesManager.get(application);
+            preferences.setRepeatingMonthDay(repeatingId, executionDate.getDayOfMonth());
+            preferences.setRepeatingWeekDay(repeatingId, executionDate.getDayOfWeek());
+        });
     }
 
     public void cancel() {
@@ -280,5 +318,25 @@ public class RepeatingTransactionDialogViewModel extends CurrencyInputBindableVi
         transaction.setEnd(originalEnd);
         transaction.setWeekly(originalWeelky);
         transaction.setInterval(originalInterval);
+        executionDate = originalExecutionDate;
+    }
+
+    @Bindable
+    public String getExecutionDateString() {
+        return executionDate.toString();
+    }
+
+    public LocalDate getExecutionDate() {
+        return executionDate;
+    }
+
+    public void setExecutionDate(LocalDate executionDate) {
+        if (executionDate == null) {
+            executionDate = LocalDate.now();
+        }
+        if (!this.executionDate.equals(executionDate)) {
+            this.executionDate = executionDate;
+            notifyPropertyChanged(BR.executionDateString);
+        }
     }
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/exportButton"
-        android:title="@string/nav_title_export_as_csv" />
-    <item
-        android:id="@+id/importCSV"
-        android:title="@string/nav_title_import_csv" />
+        android:id="@+id/openSettings"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:title="@string/settings"
+        app:showAsAction="always" />
 </menu>

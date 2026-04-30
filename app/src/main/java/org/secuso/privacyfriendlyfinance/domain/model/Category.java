@@ -39,6 +39,7 @@ public class Category extends AbstractEntity implements NameWithIdProvider {
     private String name;
     private Long budget;
     private Integer color;
+    private String currencyCode;
 
     public Category() {}
     @Ignore
@@ -66,6 +67,14 @@ public class Category extends AbstractEntity implements NameWithIdProvider {
     }
     public void setColor(Integer color) {
         this.color = color;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     @Override

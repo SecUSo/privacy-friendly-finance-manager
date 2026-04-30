@@ -48,6 +48,9 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT * FROM Tranzaction ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getAll();
 
+    @Query("SELECT * FROM Tranzaction ORDER BY date DESC, id DESC")
+    public abstract List<Transaction> getAllSynchron();
+
     @Query("SELECT * FROM Tranzaction WHERE name LIKE '%' || :filter || '%' ORDER BY date DESC, id DESC")
     public abstract LiveData<List<Transaction>> getAllFiltered(String filter);
 
@@ -85,10 +88,10 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     /*
      * S U M S
      */
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount>0")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND COALESCE(categoryAmount, amount)>0")
     public abstract LiveData<Long> sumIncomeForCategory(long categoryId);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount<0")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND COALESCE(categoryAmount, amount)<0")
     public abstract LiveData<Long> sumExpensesForCategory(long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId")
@@ -100,23 +103,26 @@ public abstract class TransactionDao extends AbstractDao<Transaction> {
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND date<:date")
     public abstract LiveData<Long> sumForAccountBefore(long accountId, String date);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId")
     public abstract LiveData<Long> sumForCategory(long categoryId);
 
     @Query("SELECT SUM(amount) FROM Tranzaction WHERE accountId=:accountId AND categoryId=:categoryId")
     public abstract LiveData<Long> sumForAccountAndCategory(long accountId, long categoryId);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:date")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:date")
     public abstract LiveData<Long> sumForCategoryFrom(long categoryId, String date);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:from and date<:before")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND date>=:from and date<:before")
     public abstract LiveData<Long> sumForCategoryFromBefore(long categoryId, String from, String before);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount > 0 AND date>=:from and date<:before")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND COALESCE(categoryAmount, amount) > 0 AND date>=:from and date<:before")
     public abstract LiveData<Long> sumIncomeForCategoryFromBefore(long categoryId, String from, String before);
 
-    @Query("SELECT SUM(amount) FROM Tranzaction WHERE categoryId=:categoryId AND amount < 0 AND date>=:from and date<:before")
+    @Query("SELECT SUM(COALESCE(categoryAmount, amount)) FROM Tranzaction WHERE categoryId=:categoryId AND COALESCE(categoryAmount, amount) < 0 AND date>=:from and date<:before")
     public abstract LiveData<Long> sumExpensesForCategoryFromBefore(long categoryId, String from, String before);
+
+    @Query("UPDATE Tranzaction SET defaultAmount = NULL")
+    public abstract void clearAllDefaultAmounts();
 
     public LiveData<Long> sumForCategoryThisMonth(long categoryId) {
         return sumForCategoryFromBefore(categoryId, LocalDate.now().withDayOfMonth(1).toString(), LocalDate.now().withDayOfMonth(1).plusMonths(1).toString());

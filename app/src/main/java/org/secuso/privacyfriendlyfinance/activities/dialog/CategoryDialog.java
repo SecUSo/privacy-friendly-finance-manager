@@ -25,7 +25,9 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,8 @@ import org.secuso.privacyfriendlyfinance.activities.helper.CurrencyInputFilter;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.CategoryDialogViewModel;
 import org.secuso.privacyfriendlyfinance.databinding.DialogCategoryBinding;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.helpers.CurrencyConfigHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,7 @@ public class CategoryDialog extends AppCompatDialogFragment {
     private List<Category> allCategories = new ArrayList<>();
     private ColorPickerView colorPicker;
     private EditText editTextBudget;
+    private final List<CurrencyConfigHelper.CurrencyOption> currencyOptions = new ArrayList<>();
 
     public static void showCategoryDialog(Category category, FragmentManager fragmentManager) {
         CategoryDialog categoryDialog = new CategoryDialog();
@@ -84,6 +89,29 @@ public class CategoryDialog extends AppCompatDialogFragment {
         final DialogCategoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_category, null, false);
         View view = binding.getRoot();
         colorPicker = view.findViewById(R.id.color_picker_view);
+        Spinner currencySpinner = view.findViewById(R.id.spinner_category_currency);
+        currencyOptions.clear();
+        String currentCurrency = SharedPreferencesManager.get(getContext()).getDefaultCurrencyCode();
+        currencyOptions.add(new CurrencyConfigHelper.CurrencyOption(null, getString(R.string.currency_keep_current, currentCurrency)));
+        currencyOptions.addAll(CurrencyConfigHelper.getCurrencyOptionsOrdered(SharedPreferencesManager.get(getContext()).getRecentCurrencyCodes()));
+        ArrayAdapter<CurrencyConfigHelper.CurrencyOption> currencyAdapter = new ArrayAdapter<>(
+                getContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                currencyOptions
+        );
+        currencySpinner.setAdapter(currencyAdapter);
+        currencySpinner.setSelection(0);
+        currencySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                if (position <= 0) return;
+                viewModel.setCurrencyCode(currencyOptions.get(position).getCode());
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
 
         viewModel.setCategoryId(getArguments().getLong(EXTRA_CATEGORY_ID, -1L)).observe(this, new Observer<Category>() {
             @Override
@@ -91,6 +119,12 @@ public class CategoryDialog extends AppCompatDialogFragment {
                 viewModel.setCategory(category);
                 if (viewModel.getColor() != null) colorPicker.setInitialColor(viewModel.getColor(), false);
                 binding.setViewModel(viewModel);
+                String currentCategoryCurrency = viewModel.getCurrencyCode();
+                if (currentCategoryCurrency != null) {
+                    currencyOptions.set(0, new CurrencyConfigHelper.CurrencyOption(null, getString(R.string.currency_keep_current, currentCategoryCurrency)));
+                    currencyAdapter.notifyDataSetChanged();
+                }
+                currencySpinner.setSelection(0);
             }
         });
 

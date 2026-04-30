@@ -48,10 +48,10 @@ public class AccountViewHolder extends AbstractRecyclerViewHolder {
     public void setAccountName(String name) {
         tvAccountName.setText(name);
     }
-    public void setBalance(Long balance) {
-        CurrencyHelper.setBalance(balance, tvAccountBalance);
+    public void setBalance(Long balance, String currencyCode) {
+        CurrencyHelper.setBalance(balance, tvAccountBalance, currencyCode);
     }
-    public void setBalanceMonthStart(Long balance) {
-        CurrencyHelper.setBalance(balance, tvAccountBalanceMonth);
+    public void setBalanceMonthStart(Long balance, String currencyCode) {
+        CurrencyHelper.setBalance(balance, tvAccountBalanceMonth, currencyCode);
     }
 }

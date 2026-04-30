@@ -18,7 +18,8 @@
 
 package org.secuso.privacyfriendlyfinance.domain;
 
-import org.joda.time.DateTimeConstants;
+import android.content.Context;
+
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.secuso.privacyfriendlyfinance.activities.helper.CommunicantAsyncTask;
@@ -26,6 +27,7 @@ import org.secuso.privacyfriendlyfinance.domain.access.RepeatingTransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.access.TransactionDao;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,8 +43,8 @@ public class PeriodicDatabaseWorker {
 
     private PeriodicDatabaseWorker() {}
 
-    public static void work(FinanceDatabase database) {
-        PeriodicDatabaseTask periodicDatabaseTask = new PeriodicDatabaseTask(database);
+    public static void work(Context context, FinanceDatabase database) {
+        PeriodicDatabaseTask periodicDatabaseTask = new PeriodicDatabaseTask(context, database);
         periodicDatabaseTask.execute();
     }
 
@@ -50,10 +52,12 @@ public class PeriodicDatabaseWorker {
 
         private final RepeatingTransactionDao repeatingTransactionDao;
         private final TransactionDao transactionDao;
+        private final SharedPreferencesManager sharedPreferencesManager;
 
-        public PeriodicDatabaseTask(FinanceDatabase database) {
+        public PeriodicDatabaseTask(Context context, FinanceDatabase database) {
             repeatingTransactionDao = database.repeatingTransactionDao();
             transactionDao = database.transactionDao();
+            sharedPreferencesManager = SharedPreferencesManager.get(context);
         }
 
         @Override
@@ -71,15 +75,40 @@ public class PeriodicDatabaseWorker {
 
         private boolean handleRepeatingTransaction(RepeatingTransaction repeatingTransaction) {
             // Calculate the local date for the next insert
+            if (repeatingTransaction.getLatestInsert() == null) {
+                repeatingTransaction.setLatestInsert(LocalDate.now());
+            }
+            long interval = repeatingTransaction.getInterval();
+            if (interval < 1) {
+                interval = 1;
+            }
             LocalDate nextInsert;
             if (repeatingTransaction.isWeekly()) {
-                Period weeks = Period.weeks((int) repeatingTransaction.getInterval());
-                LocalDate latestInsert = repeatingTransaction.getLatestInsert().withDayOfWeek(DateTimeConstants.MONDAY);
-                nextInsert = latestInsert.plus(weeks).withDayOfWeek(DateTimeConstants.MONDAY);
+                long repeatingId = repeatingTransaction.getId() == null ? -1L : repeatingTransaction.getId();
+                int dayOfWeek = sharedPreferencesManager.getRepeatingWeekDay(
+                        repeatingId,
+                        repeatingTransaction.getLatestInsert().getDayOfWeek());
+                Period weeks = Period.weeks((int) interval);
+                LocalDate latestInsert = repeatingTransaction.getLatestInsert();
+                nextInsert = latestInsert.plus(weeks).withDayOfWeek(dayOfWeek);
+                while (!nextInsert.isAfter(latestInsert)) {
+                    nextInsert = nextInsert.plus(weeks);
+                }
             } else {
-                Period months = Period.months((int) repeatingTransaction.getInterval());
-                LocalDate latestInsert = repeatingTransaction.getLatestInsert().withDayOfMonth(1);
-                nextInsert = latestInsert.plus(months).withDayOfMonth(1);
+                long repeatingId = repeatingTransaction.getId() == null ? -1L : repeatingTransaction.getId();
+                int dayOfMonth = sharedPreferencesManager.getRepeatingMonthDay(
+                        repeatingId,
+                        repeatingTransaction.getLatestInsert().getDayOfMonth());
+                Period months = Period.months((int) interval);
+                LocalDate latestInsert = repeatingTransaction.getLatestInsert();
+                LocalDate base = latestInsert.plus(months).withDayOfMonth(1);
+                int maxDayOfMonth = base.dayOfMonth().getMaximumValue();
+                nextInsert = base.withDayOfMonth(Math.min(dayOfMonth, maxDayOfMonth));
+                while (!nextInsert.isAfter(latestInsert)) {
+                    base = base.plus(months).withDayOfMonth(1);
+                    maxDayOfMonth = base.dayOfMonth().getMaximumValue();
+                    nextInsert = base.withDayOfMonth(Math.min(dayOfMonth, maxDayOfMonth));
+                }
             }
 
             // Does the repeating transaction have an end?

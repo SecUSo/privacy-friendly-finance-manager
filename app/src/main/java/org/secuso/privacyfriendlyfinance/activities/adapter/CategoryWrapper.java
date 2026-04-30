@@ -24,6 +24,7 @@ import androidx.lifecycle.LiveData;
 
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * Wrapper class for category.
@@ -34,10 +35,16 @@ import org.secuso.privacyfriendlyfinance.domain.model.Category;
 public class CategoryWrapper implements IdProvider {
     private Category category;
     private LiveData<Long> balance;
+    private String currencyCode;
 
     public CategoryWrapper(Category category, Context context) {
         this.category = category;
         balance = FinanceDatabase.getInstance(context).transactionDao().sumForCategoryThisMonth(category.getId());
+        if (category.getCurrencyCode() == null || category.getCurrencyCode().trim().isEmpty()) {
+            currencyCode = SharedPreferencesManager.get(context).getDefaultCurrencyCode();
+        } else {
+            currencyCode = category.getCurrencyCode();
+        }
     }
 
     public LiveData<Long> getBalance() {
@@ -51,5 +58,9 @@ public class CategoryWrapper implements IdProvider {
 
     public Category getCategory() {
         return category;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 }

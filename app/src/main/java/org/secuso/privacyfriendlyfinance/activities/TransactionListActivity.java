@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,8 @@ public abstract class TransactionListActivity extends BaseActivity implements On
     private TextView emptyView;
     protected TransactionListViewModel viewModel;
     private TransactionsAdapter adapter;
+    private LinearLayout selectionSummaryLayout;
+    private TextView selectionSummaryText;
 
     protected abstract Class<? extends TransactionListViewModel> getViewModelClass();
 
@@ -79,7 +82,17 @@ public abstract class TransactionListActivity extends BaseActivity implements On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new TransactionsAdapter(this, viewModel.getTransactions());
-        adapter.onItemClick(this);
+        adapter.setListener(new TransactionsAdapter.TransactionUiListener() {
+            @Override
+            public void onOpen(Transaction transaction) {
+                onItemClick(transaction);
+            }
+
+            @Override
+            public void onSelectionChanged(int selectedCount, String groupedSummary) {
+                updateSelectionSummary(selectedCount, groupedSummary);
+            }
+        });
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -114,6 +127,12 @@ public abstract class TransactionListActivity extends BaseActivity implements On
 
         emptyView = findViewById(R.id.empty_view);
         emptyView.setText(getString(R.string.activity_transactions_empty_list_label));
+        selectionSummaryLayout = findViewById(R.id.layout_selection_summary);
+        selectionSummaryText = findViewById(R.id.text_selected_summary);
+        Button clearSelectionButton = findViewById(R.id.button_clear_selection);
+        Button deleteSelectedButton = findViewById(R.id.button_delete_selected);
+        clearSelectionButton.setOnClickListener(v -> adapter.clearSelection());
+        deleteSelectedButton.setOnClickListener(v -> deleteSelectedTransactions());
 
         SwipeController.SwipeControllerAction deleteAction = new SwipeController.SwipeControllerAction() {
             @Override
@@ -172,6 +191,32 @@ public abstract class TransactionListActivity extends BaseActivity implements On
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void deleteSelectedTransactions() {
+        if (!adapter.isSelectionMode()) return;
+        final java.util.List<Transaction> selectedTransactions = adapter.getSelectedTransactions();
+        if (selectedTransactions.isEmpty()) return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.dialog_delete_transactions_title, selectedTransactions.size()))
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
+                    for (Transaction transaction : selectedTransactions) {
+                        FinanceDatabase.getInstance(this).transactionDao().deleteAsync(transaction);
+                    }
+                    adapter.clearSelection();
+                    Toast.makeText(TransactionListActivity.this, R.string.activity_transaction_deleted_msg, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .create().show();
+    }
+
+    private void updateSelectionSummary(int selectedCount, String groupedSummary) {
+        if (selectedCount <= 0) {
+            selectionSummaryLayout.setVisibility(View.GONE);
+            return;
+        }
+        selectionSummaryLayout.setVisibility(View.VISIBLE);
+        selectionSummaryText.setText(getString(R.string.selected_transactions_summary, selectedCount, groupedSummary));
     }
 
     @Override

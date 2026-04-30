@@ -43,6 +43,7 @@ import org.secuso.privacyfriendlyfinance.activities.viewmodel.AccountsViewModel;
 import org.secuso.privacyfriendlyfinance.activities.viewmodel.BaseViewModel;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * The accounts activity shows all accounts and provides the possibility to create new accounts.
@@ -111,6 +112,7 @@ public class AccountsActivity extends BaseActivity implements OnItemClickListene
                     .setMessage(HtmlCompat.fromHtml(getResources().getString(R.string.account_delete_question, account.getName()), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
                         FinanceDatabase.getInstance(this).accountDao().deleteAsync(account);
+                        SharedPreferencesManager.get(this).removeAccountCurrencyCode(account.getId());
                         Toast.makeText(getBaseContext(), R.string.account_deleted_msg, Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> {})

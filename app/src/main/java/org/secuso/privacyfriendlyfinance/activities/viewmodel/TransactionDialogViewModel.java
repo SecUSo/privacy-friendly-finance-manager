@@ -39,6 +39,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.domain.model.Transaction;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,7 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         amountEdited = true;
         if (amount == null) amount = 0L;
         transaction.setAmount(amount);
+        transaction.setCategoryAmount(amount);
     }
 
     public LiveData<List<Category>> getAllCategories() {
@@ -138,6 +140,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
     private Long originalAccountId;
     private Long originalCategoryId;
     private Long originalAmount;
+    private Long originalCategoryAmount;
+    private Long originalDefaultAmount;
     private LocalDate originalDate;
     public Transaction getTransaction() {
         return transaction;
@@ -148,6 +152,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         originalAccountId = transaction.getAccountId();
         originalCategoryId = transaction.getCategoryId();
         originalAmount = transaction.getAmount();
+        originalCategoryAmount = transaction.getCategoryAmount();
+        originalDefaultAmount = transaction.getDefaultAmount();
         originalDate = transaction.getDate();
 
         if (transaction.getRepeatingId() != null) {
@@ -237,7 +243,77 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         if (transaction.getName() != null) {
             transaction.setName(transaction.getName().trim());
         }
+        if (transaction.getCategoryAmount() == null) {
+            transaction.setCategoryAmount(transaction.getAmount());
+        }
+        updateDefaultAmount();
         transactionDao.updateOrInsertAsync(transaction);
+    }
+
+    private void updateDefaultAmount() {
+        String defaultCurrency = SharedPreferencesManager.get(application).getDefaultCurrencyCode();
+        String accountCurrency = getAccountCurrencyCode();
+        String categoryCurrency = getCategoryCurrencyCode();
+
+        if (defaultCurrency.equalsIgnoreCase(accountCurrency)) {
+            transaction.setDefaultAmount(transaction.getAmount());
+            return;
+        }
+
+        if (defaultCurrency.equalsIgnoreCase(categoryCurrency) && transaction.getCategoryAmount() != null) {
+            transaction.setDefaultAmount(transaction.getCategoryAmount());
+            return;
+        }
+
+        // Keep previously stored defaultAmount if conversion cannot be determined now.
+    }
+
+    public Account getSelectedAccountSynchron() {
+        List<Account> accountList = accounts.getValue();
+        if (accountList == null) return null;
+        for (Account account : accountList) {
+            if (account != null && account.getId() != null && account.getId() == transaction.getAccountId()) {
+                return account;
+            }
+        }
+        return null;
+    }
+
+    public Category getSelectedCategorySynchron() {
+        if (transaction.getCategoryId() == null) return null;
+        List<Category> categoryList = categories.getValue();
+        if (categoryList == null) return null;
+        for (Category category : categoryList) {
+            if (category != null && category.getId() != null && category.getId().equals(transaction.getCategoryId())) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    public String getAccountCurrencyCode() {
+        Account account = getSelectedAccountSynchron();
+        if (account == null) {
+            return SharedPreferencesManager.get(application).getDefaultCurrencyCode();
+        }
+        return SharedPreferencesManager.get(application).getAccountCurrencyCode(account.getId());
+    }
+
+    public String getCategoryCurrencyCode() {
+        Category category = getSelectedCategorySynchron();
+        if (category == null || category.getCurrencyCode() == null || category.getCurrencyCode().trim().isEmpty()) {
+            return SharedPreferencesManager.get(application).getDefaultCurrencyCode();
+        }
+        return category.getCurrencyCode();
+    }
+
+    public void applyExchangeRate(Double exchangeRate) {
+        if (exchangeRate == null || exchangeRate <= 0) {
+            transaction.setCategoryAmount(transaction.getAmount());
+            return;
+        }
+        long categoryAmount = Math.round(transaction.getAmount() * exchangeRate);
+        transaction.setCategoryAmount(categoryAmount);
     }
 
     public void cancel() {
@@ -245,6 +321,8 @@ public class TransactionDialogViewModel extends CurrencyInputBindableViewModel {
         transaction.setAccountId(originalAccountId);
         transaction.setCategoryId(originalCategoryId);
         transaction.setAmount(originalAmount);
+        transaction.setCategoryAmount(originalCategoryAmount);
+        transaction.setDefaultAmount(originalDefaultAmount);
         transaction.setDate(originalDate);
     }
 }

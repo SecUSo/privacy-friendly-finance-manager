@@ -41,6 +41,9 @@ public abstract class AccountDao extends AbstractDao<Account> {
     @Query("SELECT * FROM Account WHERE id=:id")
     public abstract LiveData<Account> get(long id);
 
+    @Query("SELECT * FROM Account WHERE id=:id")
+    public abstract Account getSynchron(long id);
+
     @Query("SELECT * FROM Account WHERE rowid = :rowId")
     public abstract Account getByRowId(long rowId);
 

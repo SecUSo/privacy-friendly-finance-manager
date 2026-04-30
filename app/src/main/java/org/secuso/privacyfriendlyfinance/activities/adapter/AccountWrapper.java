@@ -25,6 +25,7 @@ import androidx.lifecycle.LiveData;
 import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.model.Account;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 /**
  * Wrapper class for accounts.
@@ -36,11 +37,13 @@ public class AccountWrapper implements IdProvider {
     private Account account;
     private LiveData<Long> currentBalance;
     private LiveData<Long> startOfMonthBalance;
+    private String currencyCode;
 
     public AccountWrapper(Account account, Context context) {
         this.account = account;
         currentBalance = FinanceDatabase.getInstance(context).transactionDao().sumForAccount(account.getId());
         startOfMonthBalance = FinanceDatabase.getInstance(context).transactionDao().sumForAccountBefore(account.getId(), LocalDate.now().withDayOfMonth(1).toString());
+        currencyCode = SharedPreferencesManager.get(context).getAccountCurrencyCode(account.getId());
     }
 
     public LiveData<Long> getCurrentBalance() {
@@ -57,6 +60,10 @@ public class AccountWrapper implements IdProvider {
 
     public Account getAccount() {
         return account;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
 }

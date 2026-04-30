@@ -69,6 +69,8 @@ public class Transaction extends AbstractEntity implements NameWithIdProvider {
 
     private long accountId;
     private Long categoryId;
+    private Long categoryAmount;
+    private Long defaultAmount;
 
     private Long repeatingId;
 
@@ -124,6 +126,22 @@ public class Transaction extends AbstractEntity implements NameWithIdProvider {
         if (this.categoryId == null || this.categoryId < 0) this.categoryId = null;
     }
 
+    public Long getCategoryAmount() {
+        return categoryAmount;
+    }
+
+    public void setCategoryAmount(Long categoryAmount) {
+        this.categoryAmount = categoryAmount;
+    }
+
+    public Long getDefaultAmount() {
+        return defaultAmount;
+    }
+
+    public void setDefaultAmount(Long defaultAmount) {
+        this.defaultAmount = defaultAmount;
+    }
+
     public Long getRepeatingId() {
         return repeatingId;
     }
@@ -140,6 +158,8 @@ public class Transaction extends AbstractEntity implements NameWithIdProvider {
         sb.append(", date=").append(date);
         sb.append(", accountId=").append(accountId);
         sb.append(", categoryId=").append(categoryId);
+        sb.append(", categoryAmount=").append(categoryAmount);
+        sb.append(", defaultAmount=").append(defaultAmount);
         sb.append(", repeatingId=").append(repeatingId);
         sb.append('}');
         return sb.toString();

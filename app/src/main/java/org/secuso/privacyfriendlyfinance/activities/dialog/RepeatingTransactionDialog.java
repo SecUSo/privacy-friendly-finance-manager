@@ -67,6 +67,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
     private AlertDialog dialog;
     private View view;
     private EditText editTextAmount;
+    private TextView editTextExecutionDate;
     private TextView editTextDate;
     private Spinner categorySpinner;
     private Spinner accountSpinner;
@@ -85,6 +86,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         builder.setView(view);
 
         editTextAmount = view.findViewById(R.id.dialog_transaction_amount);
+        editTextExecutionDate = view.findViewById(R.id.dialog_transaction_execution_date);
         editTextDate = view.findViewById(R.id.dialog_transaction_date);
         categorySpinner = view.findViewById(R.id.category_spinner);
         accountSpinner = view.findViewById(R.id.account_spinner);
@@ -152,7 +154,13 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDatePicker();
+                openEndDatePicker();
+            }
+        });
+        editTextExecutionDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openExecutionDatePicker();
             }
         });
 
@@ -161,7 +169,7 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void openDatePicker() {
+    private void openEndDatePicker() {
         LocalDate date = viewModel.getEnd();
 
         if (date == null) date = LocalDate.now();
@@ -174,6 +182,20 @@ public class RepeatingTransactionDialog extends AppCompatDialogFragment {
             }
         }, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
         datePicker.getDatePicker().setMinDate(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+        datePicker.show();
+    }
+
+    private void openExecutionDatePicker() {
+        LocalDate date = viewModel.getExecutionDate();
+
+        if (date == null) date = LocalDate.now();
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                viewModel.setExecutionDate(new LocalDate(year, month + 1, dayOfMonth));
+            }
+        }, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePicker.show();
     }
 }

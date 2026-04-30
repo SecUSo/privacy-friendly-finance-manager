@@ -39,6 +39,9 @@ public abstract class CategoryDao extends AbstractDao<Category> {
     @Query("SELECT * FROM Category WHERE id=:id ORDER BY name")
     public abstract LiveData<Category> get(long id);
 
+    @Query("SELECT * FROM Category WHERE id=:id")
+    public abstract Category getSynchron(long id);
+
     @Query("SELECT * FROM Category WHERE rowid = :rowId")
     public abstract Category getByRowId(long rowId);
 

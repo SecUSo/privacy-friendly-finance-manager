@@ -30,6 +30,7 @@ import org.secuso.privacyfriendlyfinance.domain.FinanceDatabase;
 import org.secuso.privacyfriendlyfinance.domain.access.CategoryDao;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.helpers.CurrencyHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class CategoryDialogViewModel extends BindableViewModel {
     private String originalName;
     private Integer originalColor;
     private Long originalBudget;
+    private String currencyCode;
+    private String originalCurrencyCode;
 
     public CategoryDialogViewModel(@NonNull Application application) {
         super(application);
@@ -75,10 +78,18 @@ public class CategoryDialogViewModel extends BindableViewModel {
     }
 
     public void setCategory(Category category) {
+        if (category == null) {
+            category = new Category();
+        }
         this.category = category;
+        if (this.category.getCurrencyCode() == null || this.category.getCurrencyCode().trim().isEmpty()) {
+            this.category.setCurrencyCode(SharedPreferencesManager.get(getApplication()).getDefaultCurrencyCode());
+        }
         originalName = category.getName();
         originalColor = category.getColor();
         originalBudget = category.getBudget();
+        originalCurrencyCode = category.getCurrencyCode();
+        currencyCode = category.getCurrencyCode();
         notifyChange();
     }
 
@@ -123,6 +134,8 @@ public class CategoryDialogViewModel extends BindableViewModel {
     }
 
     public void submit() {
+        category.setCurrencyCode(currencyCode);
+        SharedPreferencesManager.get(getApplication()).addRecentCurrencyCode(currencyCode);
         categoryDao.updateOrInsertAsync(category);
     }
 
@@ -130,10 +143,22 @@ public class CategoryDialogViewModel extends BindableViewModel {
         category.setName(originalName);
         category.setColor(originalColor);
         category.setBudget(originalBudget);
+        category.setCurrencyCode(originalCurrencyCode);
     }
 
     public Category getCategory() {
         return category;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        if (currencyCode == null) {
+            currencyCode = SharedPreferencesManager.get(getApplication()).getDefaultCurrencyCode();
+        }
+        this.currencyCode = currencyCode;
     }
 
 }

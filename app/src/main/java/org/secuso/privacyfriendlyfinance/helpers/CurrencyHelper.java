@@ -26,6 +26,7 @@ import org.secuso.privacyfriendlyfinance.R;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
 
 /**
@@ -38,11 +39,25 @@ public final class CurrencyHelper {
     public static final DecimalFormat format = new DecimalFormat("#0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
     private CurrencyHelper() {}
 
-    public static void setBalance(Long balance, TextView textView, boolean setColor) {
+    private static NumberFormat getFormatter(Context context, String currencyCode) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        String effectiveCode = currencyCode;
+        if (effectiveCode == null || effectiveCode.trim().isEmpty()) {
+            effectiveCode = SharedPreferencesManager.get(context).getDefaultCurrencyCode();
+        }
+        try {
+            numberFormat.setCurrency(Currency.getInstance(effectiveCode));
+        } catch (IllegalArgumentException ignored) {
+            numberFormat.setCurrency(Currency.getInstance(SharedPreferencesManager.get(context).getDefaultCurrencyCode()));
+        }
+        return numberFormat;
+    }
+
+    public static void setBalance(Long balance, TextView textView, String currencyCode, boolean setColor) {
         Context context = textView.getContext();
         if (balance == null)  balance = 0L;
         String prefix = setColor && balance > 0 ? "+" : "";
-        textView.setText(prefix + NumberFormat.getCurrencyInstance().format(balance.doubleValue() / 100.0));
+        textView.setText(prefix + getFormatter(context, currencyCode).format(balance.doubleValue() / 100.0));
         if (setColor) {
             if (balance < 0) {
                 textView.setTextColor(context.getResources().getColor(R.color.red));
@@ -52,6 +67,14 @@ public final class CurrencyHelper {
                 textView.setTextColor(context.getResources().getColor(android.R.color.tab_indicator_text));
             }
         }
+    }
+
+    public static void setBalance(Long balance, TextView textView, String currencyCode) {
+        setBalance(balance, textView, currencyCode, true);
+    }
+
+    public static void setBalance(Long balance, TextView textView, boolean setColor) {
+        setBalance(balance, textView, SharedPreferencesManager.get(textView.getContext()).getDefaultCurrencyCode(), setColor);
     }
 
     public static void setBalance(Long balance, TextView textView) {
@@ -85,7 +108,12 @@ public final class CurrencyHelper {
         }
     }
 
-    public static String convertToCurrencyString(Long amount) {
-        return NumberFormat.getCurrencyInstance().format(amount.doubleValue() / 100.0);
+    public static String convertToCurrencyString(Context context, Long amount, String currencyCode) {
+        if (amount == null) amount = 0L;
+        return getFormatter(context, currencyCode).format(amount.doubleValue() / 100.0);
+    }
+
+    public static String convertToCurrencyString(Context context, Long amount) {
+        return convertToCurrencyString(context, amount, SharedPreferencesManager.get(context).getDefaultCurrencyCode());
     }
 }

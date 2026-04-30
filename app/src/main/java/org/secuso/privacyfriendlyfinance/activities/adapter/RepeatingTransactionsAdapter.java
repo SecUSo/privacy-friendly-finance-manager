@@ -32,6 +32,7 @@ import org.secuso.privacyfriendlyfinance.domain.model.Account;
 import org.secuso.privacyfriendlyfinance.domain.model.Category;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
 import org.secuso.privacyfriendlyfinance.helpers.RepeatingHelper;
+import org.secuso.privacyfriendlyfinance.helpers.SharedPreferencesManager;
 
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,13 @@ public class RepeatingTransactionsAdapter extends EntityListAdapter<RepeatingTra
         holder.setTransactionName(rt.getName());
         holder.setRepeatingText(RepeatingHelper.forgeRepeatingText(context, rt));
 
-        accounts.observe(context, map -> holder.setAccountName(map.get(rt.getAccountId()).getName()));
+        accounts.observe(context, map -> {
+            Account account = map.get(rt.getAccountId());
+            if (account != null) {
+                holder.setAccountName(account.getName());
+                holder.setAmount(rt.getAmount(), SharedPreferencesManager.get(context).getAccountCurrencyCode(account.getId()));
+            }
+        });
         categories.observe(context, map -> {
             if (rt.getCategoryId() != null) {
                 Category category = map.get(rt.getCategoryId());

@@ -60,14 +60,14 @@ public class AccountsAdapter extends EntityListAdapter<AccountWrapper, AccountVi
         wrapper.getCurrentBalance().observe(context, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long balance) {
-                holder.setBalance(balance);
+                holder.setBalance(balance, wrapper.getCurrencyCode());
             }
         });
 
         wrapper.getStartOfMonthBalance().observe(context, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long balance) {
-                holder.setBalanceMonthStart(balance);
+                holder.setBalanceMonthStart(balance, wrapper.getCurrencyCode());
             }
         });
     }

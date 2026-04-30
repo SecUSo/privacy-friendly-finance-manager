@@ -57,17 +57,17 @@ public class CategoryViewHolder extends AbstractRecyclerViewHolder {
         textViewName.setText(name);
     }
 
-    public void setBalance(Long balance) {
-        CurrencyHelper.setBalance(balance, textViewBalance);
+    public void setBalance(Long balance, String currencyCode) {
+        CurrencyHelper.setBalance(balance, textViewBalance, currencyCode);
         if (budget != null && balance != null) {
-            CurrencyHelper.setBalance(budget + balance, textViewBudgetLeft);
+            CurrencyHelper.setBalance(budget + balance, textViewBudgetLeft, currencyCode);
             textViewBudgetLeft.setVisibility(View.VISIBLE);
         } else {
             textViewBudgetLeft.setVisibility(View.INVISIBLE);
         }
     }
 
-    public void setBudget(Long budget) {
+    public void setBudget(Long budget, String currencyCode) {
         this.budget = budget;
         if (budget == null) {
             textViewBudget.setVisibility(View.INVISIBLE);
@@ -78,7 +78,7 @@ public class CategoryViewHolder extends AbstractRecyclerViewHolder {
             textViewBudgetLabel.setVisibility(View.VISIBLE);
 
         }
-        CurrencyHelper.setBalance(budget, textViewBudget, false);
+        CurrencyHelper.setBalance(budget, textViewBudget, currencyCode, false);
     }
 
     public void setCategoryColor(Integer color) {

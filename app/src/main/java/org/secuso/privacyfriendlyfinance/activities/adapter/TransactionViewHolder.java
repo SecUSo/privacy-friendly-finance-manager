@@ -19,6 +19,7 @@
 package org.secuso.privacyfriendlyfinance.activities.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
     private ImageView ivRepeating;
     private TextView tvMonth;
     private TextView tvDay;
+    private View root;
 
 
     public TransactionViewHolder(@NonNull View itemView, Context context) {
@@ -60,11 +62,16 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
         ivRepeating = itemView.findViewById(R.id.imageView_repeating);
         tvMonth = itemView.findViewById(R.id.textView_month);
         tvDay = itemView.findViewById(R.id.textView_day_of_month);
+        root = itemView.findViewById(R.id.constraintLayout);
         setCategoryName(null);
     }
 
     public void setTransactionName(String name) {
         tvName.setText(name);
+    }
+
+    public void setAmount(Long amount, String currencyCode) {
+        CurrencyHelper.setBalance(amount, tvAmount, currencyCode);
     }
 
     public void setAmount(Long amount) {
@@ -110,5 +117,9 @@ public class TransactionViewHolder extends AbstractRecyclerViewHolder {
     public void setDate(LocalDate date) {
         tvMonth.setText(date.toString("MMM", Locale.getDefault()));
         tvDay.setText(date.toString("dd"));
+    }
+
+    public void setSelectedState(boolean selected) {
+        root.setBackgroundColor(selected ? Color.parseColor("#DCEBFF") : Color.WHITE);
     }
 }

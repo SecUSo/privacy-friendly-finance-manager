@@ -20,8 +20,11 @@ package org.secuso.privacyfriendlyfinance.helpers;
 
 import android.content.Context;
 
+import org.joda.time.LocalDate;
 import org.secuso.privacyfriendlyfinance.R;
 import org.secuso.privacyfriendlyfinance.domain.model.RepeatingTransaction;
+
+import java.util.Locale;
 
 /**
  * Helper class that forges string representations of repeating intervals for repeating transactions.
@@ -51,6 +54,12 @@ public final class RepeatingHelper {
                 week = week.replace("%N%", String.valueOf(repeatingTransaction.getInterval()) + ".");
                 template = template.replace("%UNIT%", week);
             }
+            long id = repeatingTransaction.getId() == null ? -1L : repeatingTransaction.getId();
+            int weekDay = id >= 0
+                    ? SharedPreferencesManager.get(context).getRepeatingWeekDay(id, repeatingTransaction.getLatestInsert().getDayOfWeek())
+                    : repeatingTransaction.getLatestInsert().getDayOfWeek();
+            String weekDayName = LocalDate.now().withDayOfWeek(weekDay).toString("EEEE", Locale.getDefault());
+            template = template + " " + context.getString(R.string.repeat_on_weekday, weekDayName);
         } else {
             if (repeatingTransaction.getInterval() == 1) {
                 template = template.replace("%UNIT%", context.getString(R.string.repeat_unit_every_first_month));
@@ -59,6 +68,11 @@ public final class RepeatingHelper {
                 month = month.replace("%N%", String.valueOf(repeatingTransaction.getInterval()) + ".");
                 template = template.replace("%UNIT%", month);
             }
+            long id = repeatingTransaction.getId() == null ? -1L : repeatingTransaction.getId();
+            int dayOfMonth = id >= 0
+                    ? SharedPreferencesManager.get(context).getRepeatingMonthDay(id, repeatingTransaction.getLatestInsert().getDayOfMonth())
+                    : repeatingTransaction.getLatestInsert().getDayOfMonth();
+            template = template + " " + context.getString(R.string.repeat_on_month_day, dayOfMonth);
         }
 
         return template;
