@@ -1,5 +1,18 @@
 # Changelog
 
+<a id="v2.3.2"></a>
+## [Finance Manager (Privacy Friendly) v2.3.2](https://github.com/SecUSo/privacy-friendly-finance-manager/releases/tag/v2.3.2) - 2025-07-16
+
+## What's Changed
+* Updates changelog and adds ci workflow by [@coderPaddyS](https://github.com/coderPaddyS) in [#83](https://github.com/SecUSo/privacy-friendly-finance-manager/pull/83)
+* Change versionCode to differentiate from last Google Play version by [@coderPaddyS](https://github.com/coderPaddyS) in [#85](https://github.com/SecUSo/privacy-friendly-finance-manager/pull/85)
+
+
+**Full Changelog**: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.3.1...v2.3.2
+
+[Changes][v2.3.2]
+
+
 <a id="v2.3.0"></a>
 ## [Finance Manager (Privacy Friendly) v2.3.0](https://github.com/SecUSo/privacy-friendly-finance-manager/releases/tag/v2.3.0) - 2023-09-26
 
@@ -90,6 +103,7 @@
 [Changes][v1.0]
 
 
+[v2.3.2]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.3.0...v2.3.2
 [v2.3.0]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.2.0...v2.3.0
 [v2.2.0]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/SecUSo/privacy-friendly-finance-manager/compare/v2.0.2...v2.1.0
