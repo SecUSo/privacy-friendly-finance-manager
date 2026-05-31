@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ### D A T E _ A N D _ T I M E _ M A N A G E M E N T ### -->
     <string name="time_format_string">"dd/MM/yyyy HH:mm:ss"</string>
-
     <!-- ### G E N E R A L ### -->
     <string name="balance">Guthaben</string>
     <string name="delete">Löschen</string>
@@ -22,15 +22,13 @@
     <string name="until">bis</string>
     <string name="forever">für immer</string>
     <string name="never">niemals</string>
-
     <!-- ### S T A R T _ U P ###-->
-    <string name="activity_startup_init_key_store_msg">Initialisiere Keystore&#8230;</string>
-    <string name="activity_startup_create_passphrase_msg">Generiere Passphrase&#8230;</string>
-    <string name="activity_startup_decrypt_phassphrase_msg">Entschlüssele Passphrase&#8230;</string>
-    <string name="activity_startup_open_database_msg">Öffne Datenbank&#8230;</string>
-    <string name="activity_startup_create_and_open_database_msg">Erstelle und öffne Datenbank&#8230;</string>
-    <string name="activity_startup_migrate_database_msg">Migriere Datenbank&#8230;</string>
-
+    <string name="activity_startup_init_key_store_msg">Initialisiere Keystore…</string>
+    <string name="activity_startup_create_passphrase_msg">Generiere Passphrase…</string>
+    <string name="activity_startup_decrypt_phassphrase_msg">Entschlüssele Passphrase…</string>
+    <string name="activity_startup_open_database_msg">Öffne Datenbank…</string>
+    <string name="activity_startup_create_and_open_database_msg">Erstelle und öffne Datenbank…</string>
+    <string name="activity_startup_migrate_database_msg">Migriere Datenbank…</string>
     <!-- ### N A V _ B A R ###-->
     <string name="nav_help_action">Hilfe</string>
     <string name="nav_about_action">Über</string>
@@ -39,8 +37,6 @@
     <string name="nav_category_action">Kategorien</string>
     <string name="nav_drawer_toggle_open_desc">Navigationsleiste öffnen</string>
     <string name="nav_drawer_toggle_close_desc">Navigationsleiste schließen</string>
-
-
     <!--### H E L P ###-->
     <string-array name="activity_help_questions">
         <item>Was ist der Privacy Friendly Finanzen Manager?</item>
@@ -60,7 +56,6 @@
         <item>Jeder Eintrag in dieser App, sei es eine Transaktion, eine wiederholende Transaktion, ein Konto oder eine Kategorie, kann gelöscht werden, indem der jeweilige Eintrag nach links oder rechts gewischt wird und dann auf den roten Mülleimer-Knopf geklickt wird.</item>
         <item>Konten können verwendet werden um die Übersicht über das Geld auf einem real existierenden Bankkonto zu behalten. Es ist möglich, die Bilanz, die ein Konto zum Beginn des Monats hatte zu ändern. Auf diese Weise ist man nicht gezwungen alle Transaktionen von Hand einzutragen. In der Kontoansicht erhält man einen Überblick über alle Transaktionen, die man dem jeweiligen Konto zugeordnet hat.</item>
     </string-array>
-
     <!--### A B O U T ###-->
     <string name="activity_about_title">Über</string>
     <string name="activity_about_version">Version v%s</string>
@@ -71,7 +66,6 @@
     <string name="activity_about_belongs">Diese Applikation gehört zur Gruppe der Privacy Friendly Apps und wurde am Karlsruher Institut für Technologie (KIT) entwickelt. Der Quellcode ist unter der GPLv3-Lizenz lizenziert. Bilder sind urheberrechtlich geschützt (KIT und Goolge Inc.)</string>
     <string name="activity_about_github_link" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-finance-manager">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
-
     <!-- R E P E A T I N G _ T R A N S A C T I O N S-->
     <string name="activity_repeating_transactions_title">Wiederkehrende Transaktionen</string>
     <string name="repeat_text_unit_template">Wird %UNIT% wiederholt</string>
@@ -84,9 +78,8 @@
     <string name="dialog_repeating_transaction_edit_title">Wiederkehrende Transaktion bearbeiten</string>
     <string name="repeat_ends_at">Endet am</string>
     <string name="repeat_delete_action">Wiederkehrende Transaktion löschen</string>
-    <string name="repeat_delete_question">Die zugehörigen erstellten Transaktionen werden nicht gelöscht, verlieren allerdings ihre Referenz auf diese wiederkehrende Transaktion.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie die wiederkehrende Transaktion &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="repeat_delete_question">Die zugehörigen erstellten Transaktionen werden nicht gelöscht, verlieren allerdings ihre Referenz auf diese wiederkehrende Transaktion.&lt;br /&gt;Das kann &lt;i&gt;nicht&lt;/i&gt; rückgängig gemacht werden.&lt;br /&gt;&lt;br /&gt;Sind sie sicher, dass Sie die wiederkehrende Transaktion &lt;b&gt;%1$s&lt;/b&gt; löschen möchten?</string>
     <string name="repeat_deleted_msg">Wiederkehrende Transaktion gelöscht</string>
-
     <!-- ### C A T E G O R Y ###-->
     <string name="category">Kategorie</string>
     <string name="category_plural">Kategorien</string>
@@ -102,7 +95,6 @@
     <string name="category_saved_msg">Kategorie gespeichert</string>
     <string name="dialog_category_name_taken_msg">Eine Kategorie mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.</string>
     <string name="activity_categories_empty_list_label">Keine Kategorien gefunden</string>
-
     <!--### T R A N S A C T I O N ###-->
     <string name="activity_transaction_saved_msg">Transaktion gespeichert</string>
     <string name="activity_transaction_deleted_msg">Transaktion gelöscht</string>
@@ -118,10 +110,9 @@
     <string name="dialog_transaction_date_hint">Datum der Transaktion</string>
     <string name="dialog_delete_transaction_title">Wollen Sie diese Transaktion löschen?</string>
     <string name="activity_transactions_empty_list_label">Keine Transaktionen gefunden</string>
-
     <!--### A C C O U N T ###-->
     <string name="account">Konto</string>
-    <string name="account_delete_question">Alle zugewiesenen Transaktionen werden ebenfalls gelöscht.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie den Account &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="account_delete_question">Alle zugewiesenen Transaktionen werden ebenfalls gelöscht.&lt;br /&gt;Das kann &lt;i&gt;nicht&lt;/i&gt; rückgängig gemacht werden.&lt;br /&gt;&lt;br /&gt;Sind sie sicher, dass Sie den Account &lt;b&gt;%1$s&lt;/b&gt; löschen möchten?</string>
     <string name="activity_account_beginning_month_suffix">zu Beginn dieses Monats</string>
     <string name="activity_account_beginning_month_prefix">Beginn des Monats:</string>
     <string name="nav_action_account">Konto</string>
@@ -140,14 +131,13 @@
     <string name="compensation_transaction_default_name">Ausgleichstransaktion</string>
     <string name="dialog_account_positive_label">Positiv</string>
     <string name="dialog_account_negative_label">Negativ</string>
-
     <!-- ### T U T O R I A L ### -->
     <string name="activity_tutorial_slide1_title">Willkommen!</string>
     <string name="activity_tutorial_slide1_msg">Willkommen bei Ihrem Privacy Friendly Finance Manager. Diese App benötigt keinerlei Berechtigungen, um zu funktionieren.</string>
     <string name="activity_tutorial_slide2_title">Finance Manager</string>
     <string name="activity_tutorial_slide2_msg">Sie können Ihre Finanzen verwalten, indem Sie Ihre Ein- und Ausgaben überwachen.</string>
     <string name="activity_tutorial_slide3_title">Transaktionen erstellen</string>
-    <string name="activity_tutorial_slide3_msg">Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt.</string>
+    <string name="activity_tutorial_slide3_msg">"Neue Transaktionen können Sie erstellen, indem Sie in der Transaktionsübersicht auf den Plus-Knopf drücken. Es öffnet sich ein Dialog, in dem Sie Betrag, Name, Datum, Kategorie und Konto der zu erstellenden Transaktion festlegen können. Des weiteren können Sie einstellen, ob es sich um eine Einnahme oder eine Ausgabe handelt. "</string>
     <string name="activity_tutorial_slide4_title">Transaktionsübersicht</string>
     <string name="activity_tutorial_slide4_msg">In der Transaktionsübersicht können Sie die Gesamtbilanz Ihrer Transaktionen, sowie eine Liste dieser Transaktionen sehen.</string>
     <string name="activity_tutorial_slide5_title">Kategorien</string>
@@ -156,12 +146,11 @@
     <string name="activity_tutorial_slide6_msg">In der Konten-Ansicht können Sie alle Konten und deren jeweilige Bilanzen sehen. Jede Transaktion ist einem Konto zugewiesen und beeinflusst die Bilanz dieses Kontos. Neue Konten können Sie erstellen, indem Sie auf den Plus-Knopf drücken. Da es schwierig sein kann, alle Transaktionen auf einem real existierenden Konto mit denen des virtuellen Gegenstücks in dieser App synchron zu halten, gibt es die Möglichkeit den Kontostand zu Beginn jedes Monats einzustellen.</string>
     <string name="activity_tutorial_slide7_title">Wiederholende Transaktionen</string>
     <string name="activity_tutorial_slide7_msg">Wiederholende Transaktionen sind Transaktionen die von der App automatisch wiederholt werden. Zusätzlich zu den Informationen, die für eine normale Transaktion eingestellt werden können, können bei einer wiederholenden Transaktion das Enddatum und das Wiederholungsintervall (Wochen oder Monate) festgelegt werden. Die wiederholten Transaktionen werden von der App zu Beginn des jeweiligen Monats oder der jeweiligen Woche eingefügt.</string>
-
     <string name="category_delete_dialog_title">Kategorie löschen</string>
     <string name="category_deleted">Kategorie gelöscht</string>
     <string name="account_delete_action">Konto löschen</string>
     <string name="account_deleted_msg">Konto gelöscht</string>
-    <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br />Das kann &lt;i>nicht&lt;/i> rückgängig gemacht werden.&lt;br />&lt;br />Sind sie sicher, dass Sie die Kategorie &lt;b>%1$s&lt;/b> löschen möchten?</string>
+    <string name="category_delete_question">Alle zugewiesenen Transaktionen werden hiernach in keiner Kategorie mehr sein.&lt;br /&gt;Das kann &lt;i&gt;nicht&lt;/i&gt; rückgängig gemacht werden.&lt;br /&gt;&lt;br /&gt;Sind sie sicher, dass Sie die Kategorie &lt;b&gt;%1$s&lt;/b&gt; löschen möchten?</string>
     <string name="none">Keine</string>
     <string name="not_found">Nicht gefunden</string>
     <string name="not_found_error">Fehler: Nicht gefunden</string>
@@ -175,15 +164,12 @@
     <string name="activity_category_budget_month_left">Budget Bilanz diesen Monat:</string>
     <string name="account_last_not_deleteable">Sie können Ihren letzten Account nicht löschen.</string>
     <string name="activity_startup_default_account_name">Standard Konto</string>
-
     <!-- ### CSV Import / Export ### -->
     <string name="nav_title_export_as_csv">Als CSV exportieren</string>
     <string name="nav_title_import_csv">CSV Importieren</string>
     <string name="activity_transactions_activity_file_chooser">Wähle eine CSV-Datei</string>
-
     <!-- parameter 1: specific text parameter 2 exception messasage -->
     <string name="err_cannot_read_import_file">Kann CSV-Datei nicht lesen aus %s : %s</string>
     <string name="err_cannot_save_to_db">Kann %s nicht in Datenbank speichern\n\t %s</string>
     <string name="info_import_success">Ergebnis: (%s/%s) Transaktionen importiert</string>
-
 </resources>

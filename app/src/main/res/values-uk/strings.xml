@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="balance">Баланс</string>
+    <string name="delete">Видалити</string>
+    <string name="edit">Відредагувати</string>
+    <string name="amount">Сума</string>
+    <string name="date">Дата</string>
+    <string name="help">Допомога</string>
+    <string name="cancel">Скасувати</string>
+    <string name="until">до</string>
+    <string name="forever">назавжди</string>
+    <string name="never">ніколи</string>
+    <string name="activity_startup_init_key_store_msg">Ініціалізація сховища ключів…</string>
+    <string name="nav_help_action">Допомога</string>
+    <string name="nav_about_action">Про програму</string>
+    <string name="nav_main_action">Огляд транзакції</string>
+    <string name="nav_category_action">Категорії</string>
+    <string name="activity_about_title">Про програму</string>
+    <string name="activity_about_authors">Автори:</string>
+    <string name="activity_about_authors_contributors">та учасники.</string>
+    <string name="activity_about_belongs">Цей застосунок належить до групи Privacy Friendly Apps, розроблена у Технологічному інституті Карлсруе (KIT). Вихідний код поширюється за ліцензією GPLv3. Авторські права на зображення належать KIT та Google Inc.</string>
+    <string name="category">Категорія</string>
+    <string name="category_plural">Категорії</string>
+    <string name="category_delete_dialog_title">Видалити категорію</string>
+    <string name="category_deleted">Категорію видалено</string>
+    <string name="dialog_category_name_hint">Введіть назву категорії</string>
+    <string name="dialog_category_create_title">Нова категорія</string>
+    <string name="dialog_category_edit_title">Редагувати категорію</string>
+    <string name="category_default_category_name">За замовчуванням</string>
+    <string name="category_saved_msg">Категорію збережено</string>
+    <string name="dialog_transaction_value_hint">Введіть суму</string>
+    <string name="dialog_transaction_radio_button_income_action">Дохід</string>
+    <string name="dialog_transaction_radio_button_expense_action">Витрати</string>
+    <string name="dialog_transaction_date_hint">Введіть дату</string>
+    <string name="account">Рахунок</string>
+    <string name="account_delete_action">Видалити рахунок</string>
+    <string name="account_deleted_msg">Рахунок видалено</string>
+    <string name="dialog_account_create_title">Новий рахунок</string>
+    <string name="dialog_account_edit_title">Редагувати рахунок</string>
+    <string name="nav_title_import_csv">Імпорт CSV</string>
+    <string name="activity_tutorial_slide6_title">Рахунки</string>
+    <string name="account_plural">Рахунки</string>
+    <string name="category_budget">Бюджет</string>
+</resources>

@@ -1,0 +1,27 @@
+Správce financí, který je šetrný k soukromí, vám pomůže sledovat vaše příjmy a výdaje.
+
+Aplikace nabízí následující funkce:
+
+- Nové transakce
+
+Nové výdaje můžete vytvořit kliknutím na tlačítko Plus v pravém dolním rohu hlavního zobrazení. Nyní můžete zadat částku, název, datum a kategorii. Dále můžete určit, zda se jedná o výdaj nebo příjem.
+
+- Přehled transakcí
+
+V hlavním zobrazení vidíte celkový zůstatek vašich transakcí a také seznam všech zadaných transakcí. Dlouhým kliknutím na položku můžete transakci upravit nebo smazat.
+
+- Kategorie
+
+V položce nabídky „Kategorie“ vidíte všechny vytvořené kategorie a jejich celkové zůstatky v závislosti na transakcích, které jsou označeny příslušnou kategorií. Kliknutím na tlačítko Plus v pravém dolním rohu můžete vytvořit nové kategorie. Dlouhým kliknutím na položku můžete kategorii upravit nebo smazat.
+
+- Zálohy
+
+Můžete si vytvořit zálohu databáze finančního manažera s ohledem na soukromí a později ji obnovit pomocí <a href="https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/">privacy-friendly-backup</a>.
+
+Můžete nás kontaktovat prostřednictvím
+
+Bluesky - @secusoresearch.bsky.social https://bsky.app/profile/secusoresearch.bsky.social
+
+Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
+
+Volná pracovní místa - https://secuso.aifb.kit.edu/english/Job_Offers.php

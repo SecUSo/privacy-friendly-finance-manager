@@ -1,0 +1,20 @@
+O Gerenciador Financeiro que respeita a privacidade ajuda você a controlar suas receitas e despesas.
+
+O aplicativo oferece os seguintes recursos:
+
+- Novas transações
+Você pode criar novas despesas clicando no botão de mais (+) no canto inferior direito da tela principal. Agora você pode inserir o valor, um título, uma data e uma categoria. Além disso, você pode especificar se a transação é uma despesa ou uma receita.
+
+- Visão geral das transações
+Na tela principal, você pode ver o saldo total de suas transações, bem como uma lista com todas as transações que você inseriu. Pressionando e segurando a entrada, você pode editar ou excluir a transação.
+
+- Categorias
+No menu "Categorias", você pode ver todas as categorias que criou e seus saldos totais, dependendo das transações associadas a cada categoria. Clicando no botão de mais (+) no canto inferior direito, você pode criar novas categorias. Pressionando e segurando a entrada, você pode editar ou excluir a categoria.
+
+- Cópias de segurança
+Você pode criar uma cópia do seu banco de dados do Gerenciador Financeiro que respeita a privacidade e restaurá-lo posteriormente com <a href="https://f-droid.org/en/packages/org.secuso.privacyfriendlybackup/">privacy-friendly-backup</a>.
+
+Você pode nos contactar via
+Bluesky - @secusoresearch.bsky.social https://bsky.app/profile/secusoresearch.bsky.social
+Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
+Vagas de emprego - https://secuso.aifb.kit.edu/english/Job_Offers.php
